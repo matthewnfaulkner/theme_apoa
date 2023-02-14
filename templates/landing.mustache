@@ -1,0 +1,644 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_boost/drawers
+
+    Boost drawer template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * courseindexopen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "courseindexopen": true,
+        "navdraweropen": false,
+        "blockdraweropen": true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false,
+        "addblockbutton": ""
+    }
+}}
+{{> theme_boost/head }}
+<link href='http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css' rel='stylesheet' type='text/css'>
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+<div id="page-wrapper" class="d-print-block">
+
+    {{{ output.standard_top_of_body_html }}}
+    
+    {{> theme_boost/navbar }}
+    <div id="page" data-region="mainpage" data-usertour="scroller" class="drag-container">
+        <div id="topofscroll" class="main-inner">
+            {{#jumbo}}
+                {{> theme_apoa/landing/landing-jumbo}}
+            {{/jumbo}}
+            <div class="container main-page-container my-0">
+                <div class="row py-3 mx-0 main-page-section-top-border">
+                    <div class="col-md-6 col-lg-3 pb-3 px-0 px-lg-2">
+                        <h4 class="text-center main-page-section-title pt-2 px-0 main-page-link">Section Highlights</h4>
+                        <ul class="list-group" style="border-style: none;">
+                            <li class="list-group-item pb-3 p-0 main-page-sub-list-group-item">
+                                <div class="card"><img class="card-img w-100 d-block main-page-sub-card-img no-border-radius" src="assets/img/arthritis-hands-universal-832x469.jpg"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-img-overlay text-white no-border-radius">
+                                        <h4 class="main-page-link">The 11th Hand &amp; Upper Limb Webinar</h4>
+                                        <div>
+                                            <p><span class="main-page-link">Various Treatment of Degenerative Arthritis in Upper Extremity</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Hand &amp; Upper Limb</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <h5 class="text-muted card-subtitle mb-2 main-page-link">APOA WAVES Essay Contest</h5>
+                                        <div>
+                                            <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Crack the code: Innovation for a gender equal future</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Waves</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <h5 class="text-muted card-subtitle mb-2 main-page-link">Subtitle</h5>
+                                        <div>
+                                            <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Description</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">topic</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card p-0" style="border-style: none;">
+                                    <div class="card-body pb-0 pt-2">
+                                        <p class="mb-1 main-page-link main-page-more-link">more section highlights...</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-lg-3 pb-3 px-0 px-lg-2">
+                        <h4 class="text-center main-page-section-title pt-2 px-0 main-page-link">Newsletter</h4>
+                        <ul class="list-group" style="border-style: none;">
+                            <li class="list-group-item pb-3 p-0 main-page-sub-list-group-item">
+                                <div class="card"><img class="card-img w-100 d-block main-page-sub-card-img no-border-radius" src="assets/img/memoriam.jpg"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-img-overlay text-white no-border-radius">
+                                        <h4 class="main-page-link">In Memoriam</h4>
+                                        <div>
+                                            <p><span class="main-page-link">Prof. Ponnampalam Balasubramaniam</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">rememberance</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <h5 class="text-muted card-subtitle mb-2 main-page-link">The Lady Resident</h5>
+                                        <div>
+                                            <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Kiyana Mirza</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">general</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <h5 class="text-muted card-subtitle mb-2 main-page-link">An Ongoing Journey</h5>
+                                        <div>
+                                            <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Rajiv Shah</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Foot &amp; Ankle</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card p-0" style="border-style: none;">
+                                    <div class="card-body pb-0 pt-2">
+                                        <p class="mb-1 main-page-link main-page-more-link">more newsletter highlights...</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-md-12 pb-3 px-0 px-lg-2">
+                        <h4 class="text-center main-page-section-title pt-2 px-0 main-page-link">Journal Articles</h4>
+                        <div id="accordion-2" role="tablist">
+                            <div class="card main-page-sub-list-group-item pb-3">
+                                <div class="card-header p-0 border-0" role="tab"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card no-border-radius journal-card"><img class="card-img w-100 d-block main-page-sub-card-img no-border-radius" src="assets/img/images_large_10.1177_10225536221151131-fig4.jpeg">
+                                        <div class="card-img-overlay justify-content-end align-items-start align-content-end text-white flex-column d-flex">
+                                            <h5 class="journal-card-title main-page-link"><br>Surgically adjust tibial tunnel in anatomical anterior cruciate ligament single-bundle reconstruction: A time-zero biomechanical study in vitro<br><br></h5>
+                                            <div class="w-100">
+                                                <p><span class="main-page-link" style="font-size: 14px;">Hong Wang, Yuanjun Teng, Bo Peng, Gengxin Jia, Hua Han, Yayi Xia</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Knee</small></p>
+                                                <h6 class="text-right main-page-link-sub float-right" href="#accordion-2 .item-1" data-toggle="collapse" aria-expanded="true" aria-controls="#accordion-2 .item-1">Show Abstract</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="collapse show item-1" role="tabpanel" data-parent="#accordion-2" style="border-style: none;">
+                                    <div class="card-body">
+                                        <p class="card-text">he anatomical positioning of the graft during anterior cruciate ligament reconstruction (ACLR) is of great significance for restoring normal knee kinematics and preventing early joint degeneration. Therefore, the adjustment of the mispositioned guide pin becomes extremely important. Our research aims to test the time-zero biomechanical properties in adjusting inaccurate guide pins to the center of the tibial footprint in anatomical anterior cruciate ligament single-bundle reconstruction.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card main-page-sub-list-group-item">
+                                <div class="card-header p-0 border-0" role="tab">
+                                    <div class="card main-page-card"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                        <div class="card-body pb-0">
+                                            <h5 class="text-muted card-subtitle mb-2 journal-sub-card-title main-page-link main-page-sub-card-text">The exeter cemented stem provides outstanding long-term fixation and bone load at 15 years follow-up: A systematic review and meta-analysis</h5>
+                                            <div class="journal-sub-card-text-cont">
+                                                <p class="mb-2 journal-card-text"><span class="journal-sub-card-authors main-page-link main-page-sub-card-text main-page-sub-card-text">Fabio Mancino,&nbsp;Haley Tornberg,&nbsp;Christopher W,&nbsp;Thomas A Bucher,&nbsp;Michael-Alexander Malahias</span><span>&nbsp;|&nbsp;<small class="text-muted main-page-link-sub">Hip</small></span></p><span class="float-right main-page-link-sub" href="#accordion-2 .item-2" data-toggle="collapse" aria-controls="#accordion-2 .item-2" aria-expanded="true">Show Abstract</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="collapse item-2" role="tabpanel" data-parent="#accordion-2">
+                                    <div class="card-body">
+                                        <p class="card-text">Since its introduction in 1988, the double-tapered polished Exeter cemented stem has been widely adopted in primary total hip arthroplasty (THA). Despite the results coming from the arthroplasty registries have proven great survivorship, the aim of this study was to dig deeper and describe the modes of failure of the Exeter stem at 15 years follow-up while reporting the clinical and radiographic outcomes.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card main-page-sub-list-group-item">
+                                <div class="card-header p-0 border-0" role="tab">
+                                    <div class="card main-page-card"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                        <div class="card-body pb-0">
+                                            <h5 class="text-muted card-subtitle mb-2 journal-sub-card-title main-page-link main-page-sub-card-text">Paracetamol versus paracetamol/tramadol in postoperative intertrochanteric fracture: A noninferiority, randomized, controlled, double-blind study</h5>
+                                            <div class="journal-sub-card-text-cont">
+                                                <p class="mb-2 journal-card-text"><span class="journal-sub-card-authors main-page-link main-page-sub-card-text">Todsaporn Sirithiantong,&nbsp;Sittha Chuekitkumchorn</span><span>&nbsp;|&nbsp;<small class="text-muted main-page-link-sub">Hip</small></span></p><span class="float-right main-page-link-sub" href="#accordion-2 .item-3" data-toggle="collapse" aria-controls="#accordion-2 .item-3" aria-expanded="true">Show Abstract</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="collapse item-3" role="tabpanel" data-parent="#accordion-2">
+                                    <div class="card-body">
+                                        <p class="card-text">One of the most common osteoporotic fractures among the elderly is hip fracture with tramadol frequently being prescribed for these patients. To decrease the risk of falling from tramadol, this study aimed to ascertain the effectiveness of paracetamol compared to paracetamol/tramadol for pain control following hip fixation surgery.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-0 main-page-sub-list-group-item">
+                                <div class="card p-0" style="border-style: none;">
+                                    <div class="card-body pb-0 pt-2">
+                                        <p class="mb-1 main-page-link main-page-more-link">visit the journal...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container main-page-container my-0">
+                <div class="row py-3 mx-0 main-page-section-top-border">
+                    <div class="col-md-6 col-lg-6 pb-3 px-0 px-lg-2">
+                        <h4 class="text-center main-page-section-title pt-2 px-0 main-page-link">Recent Activity</h4>
+                        <ul class="list-group" style="border-style: none;">
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <div class="row">
+                                            <div class="col col-8">
+                                                <h5 class="text-muted mb-2 main-page-link">APOA WAVES Essay Contest</h5>
+                                                <div>
+                                                    <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Crack the code: Innovation for a gender equal future</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Waves</small></p>
+                                                </div>
+                                            </div>
+                                            <div class="col col-4">
+                                                <h4 class="text-muted mb-2 main-page-link text-right">26 Jun</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <div class="row">
+                                            <div class="col col-8">
+                                                <h5 class="text-muted mb-2 main-page-link">APOA WAVES Essay Contest</h5>
+                                                <div>
+                                                    <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Crack the code: Innovation for a gender equal future</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Waves</small></p>
+                                                </div>
+                                            </div>
+                                            <div class="col col-4">
+                                                <h4 class="text-muted mb-2 main-page-link text-right">26 Jun</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <div class="row">
+                                            <div class="col col-8">
+                                                <h5 class="text-muted mb-2 main-page-link">APOA WAVES Essay Contest</h5>
+                                                <div>
+                                                    <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Crack the code: Innovation for a gender equal future</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Waves</small></p>
+                                                </div>
+                                            </div>
+                                            <div class="col col-4">
+                                                <h4 class="text-muted mb-2 main-page-link text-right">26 Jun</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card p-0" style="border-style: none;">
+                                    <div class="card-body pb-0 pt-2">
+                                        <p class="mb-1 main-page-link main-page-more-link">see older activity...</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-lg-6 pb-3 px-0 px-lg-2">
+                        <h4 class="text-center main-page-section-title pt-2 px-0 main-page-link">Upcoming Events</h4>
+                        <ul class="list-group" style="border-style: none;">
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <div class="row">
+                                            <div class="col col-8">
+                                                <h5 class="text-muted mb-2 main-page-link">APOA WAVES Essay Contest</h5>
+                                                <div>
+                                                    <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Crack the code: Innovation for a gender equal future</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Waves</small></p>
+                                                </div>
+                                            </div>
+                                            <div class="col col-4">
+                                                <h4 class="text-muted mb-2 main-page-link text-right">26 Jun</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <div class="row">
+                                            <div class="col col-8">
+                                                <h5 class="text-muted mb-2 main-page-link">APOA WAVES Essay Contest</h5>
+                                                <div>
+                                                    <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Crack the code: Innovation for a gender equal future</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Waves</small></p>
+                                                </div>
+                                            </div>
+                                            <div class="col col-4">
+                                                <h4 class="text-muted mb-2 main-page-link text-right">26 Jun</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                                    <div class="card-body pb-0">
+                                        <div class="row">
+                                            <div class="col col-8">
+                                                <h5 class="text-muted mb-2 main-page-link">APOA WAVES Essay Contest</h5>
+                                                <div>
+                                                    <p class="mb-2 main-page-sub-card-text"><span class="main-page-link main-page-sub-card-text">Crack the code: Innovation for a gender equal future</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Waves</small></p>
+                                                </div>
+                                            </div>
+                                            <div class="col col-4">
+                                                <h4 class="text-muted mb-2 main-page-link text-right">26 Jun</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-0 main-page-sub-list-group-item">
+                                <div class="card p-0" style="border-style: none;">
+                                    <div class="card-body pb-0 pt-2">
+                                        <p class="mb-1 main-page-link main-page-more-link">more upcoming events...</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="container py-4 py-xl-5 main-page-container bg-primary" style="background: var(--primary)!important;">
+                <h4 class="text-center" style="color: var(--white);">Course Highlights</h4>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-md-3 mx-0">
+                    <div class="col mb-4"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card"><img class="card-img-top w-100 d-block fit-cover main-page-course-card-img" src="assets/img/low-back-pelvic-gridle-pain-banner1.jpg">
+                            <div class="card-body p-4">
+                                <div class="row">
+                                    <div class="col col-6 col-md-12 p-2">
+                                        <p class="text-primary mb-0 main-page-link-sub">Article</p>
+                                        <h5 class="text-primary font-weight-bold course-card-title main-page-link">Lorem libero donec aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h5>
+                                        <div>
+                                            <p class="text-primary font-weight-bold mb-0 main-page-link">John Smith</p>
+                                        </div>
+                                    </div>
+                                    <div class="col col-6 course-card-secondary-img-cont p-2"><img class="course-card-secondary-img" src="assets/img/pune-knee-course-banner.jpg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card"><img class="card-img-top w-100 d-block fit-cover main-page-course-card-img" src="assets/img/low-back-pelvic-gridle-pain-banner1.jpg">
+                            <div class="card-body p-4">
+                                <div class="row">
+                                    <div class="col col-6 col-md-12 p-2">
+                                        <p class="text-primary mb-0 main-page-link-sub">Article</p>
+                                        <h5 class="text-primary font-weight-bold course-card-title main-page-link">Lorem libero donec aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h5>
+                                        <div>
+                                            <p class="text-primary font-weight-bold mb-0 main-page-link">John Smith</p>
+                                        </div>
+                                    </div>
+                                    <div class="col col-6 course-card-secondary-img-cont p-2"><img class="course-card-secondary-img" src="assets/img/pune-knee-course-banner.jpg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card"><img class="card-img-top w-100 d-block fit-cover main-page-course-card-img" src="assets/img/low-back-pelvic-gridle-pain-banner1.jpg">
+                            <div class="card-body p-4">
+                                <div class="row">
+                                    <div class="col col-6 col-md-12 p-2">
+                                        <p class="text-primary mb-0 main-page-link-sub">Article</p>
+                                        <h5 class="text-primary font-weight-bold course-card-title main-page-link">Lorem libero donec aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h5>
+                                        <div>
+                                            <p class="text-primary font-weight-bold mb-0 main-page-link">John Smith</p>
+                                        </div>
+                                    </div>
+                                    <div class="col col-6 course-card-secondary-img-cont p-2"><img class="course-card-secondary-img" src="assets/img/pune-knee-course-banner.jpg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-toggles d-flex">
+                {{#courseindex}}
+                    <div class="drawer-toggler drawer-left-toggle open-nav d-print-none">
+                        <button
+                            class="btn icon-no-margin"
+                            data-toggler="drawers"
+                            data-action="toggle"
+                            data-target="theme_boost-drawers-courseindex"
+                            data-toggle="tooltip"
+                            data-placement="right"
+                            title="{{#str}}opendrawerindex, core{{/str}}"
+                        >
+                            <span class="sr-only">{{#str}}opendrawerindex, core{{/str}}</span>
+                            {{#pix}} t/index_drawer, moodle {{/pix}}
+                        </button>
+                    </div>
+                {{/courseindex}}
+                {{#hasblocks}}
+                    <div class="drawer-toggler drawer-right-toggle ml-auto d-print-none">
+                        <button
+                            class="btn icon-no-margin"
+                            data-toggler="drawers"
+                            data-action="toggle"
+                            data-target="theme_boost-drawers-blocks"
+                            data-toggle="tooltip"
+                            data-placement="right"
+                            title="{{#str}}opendrawerblocks, core{{/str}}"
+                        >
+                            <span class="sr-only">{{#str}}opendrawerblocks, core{{/str}}</span>
+                            <span class="dir-rtl-hide">{{#pix}}t/blocks_drawer, core{{/pix}}</span>
+                            <span class="dir-ltr-hide">{{#pix}}t/blocks_drawer_rtl, core{{/pix}}</span>
+                        </button>
+                    </div>
+                {{/hasblocks}}
+            </div>
+             <div class="text-primary container py-4 py-xl-5 main-page-container px-5">
+                <div class="row">
+                    <div class="col pb-2">
+                        <h4 class="text-center">Explore our Sections</h4>
+                    </div>
+                </div>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xl-6 row-cols-md-3 row-cols-lg-4" id="accordion-3" role="tablist">
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/ankle.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 middle main-page-subsection-title main-page-link">Foot &amp; Ankle</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/hand.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Hand &amp; Upperlimb</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/hip.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Hip: APHS</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/infection.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Infection Section</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/knee.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Knee: APKS</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/research.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Orthopedic Research</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/apoffs-logo.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Osteoperosis</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/paediatrics.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Paediactrics: APPOS</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/spine.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Spine: APSS</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/sports.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Sports Section</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/trauma.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Trauma: APTS</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card main-page-sub-list-group-item mb-2"><img class="card-img-top w-100 d-block main-page-section-icon mb-2" src="assets/img/Logos/womens.png">
+                            <div class="card-body py-0">
+                                <h5 class="card-title journal-card-sub-title mb-1 main-page-subsection-title main-page-link">Women's Advocacy</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="py-4 py-xl-5" style="background-color: var(--primary);">
+                <div class="container h-100">
+                    <div class="text-white bg-primary border rounded border-primary p-4 py-5 no-border-radius" style="background-color: var(--primary)!important;border-style: none!important;">
+                        <div class="row h-100">
+                            <div class="col-md-10 col-xl-8 text-center d-flex d-sm-flex d-md-flex justify-content-center align-items-center mx-auto justify-content-md-start align-items-md-center justify-content-xl-center">
+                                <div>
+                                    <h1 class="font-weight-bold mb-3">Membership</h1>
+                                    <p class="mb-4">The Asia Pacific Orthopaedic Association is the largest of its kind in the world. Representing 24 Member chapters, more than 65,000 members from over 40 countries.&nbsp;<br>Become a member and join an active and diverse community of Orthopaedic surgeons and enjoy access to wealth of resources.</p><a class="btn btn-light btn-lg main-page-members-button" role="button" href="#">Find out more</a><a class="btn btn-light btn-lg py-2 px-4 main-page-members-button" role="button" href="#">Already a member?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="container py-4 py-xl-5 main-page-container flex-column d-flex justify-content-center align-items-center px-sm-5">
+                <h4 class="text-center">Popular Resources</h4>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-sm-2 row-cols-md-4 mx-0 mb-2 row-cols-2 row-cols-xl-4 main-page-resources-cont p-2 m-0">
+                    <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card text-white h-100 w-100"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius h-100 w-100" src="assets/img/download.png">
+                            <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
+                                <h4 class="main-page-link mb-0 text-center">Forum</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="assets/img/jumbo-big.jpg">
+                            <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
+                                <h4 class="main-page-link mb-0 text-center">Past Events</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="assets/img/jumbo-big.jpg">
+                            <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
+                                <h4 class="main-page-link mb-0 text-center">Member's Gallery</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="assets/img/jumbo-big.jpg">
+                            <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
+                                <h4 class="main-page-link mb-0 text-center">Educational Videos</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="assets/img/jumbo-big.jpg">
+                            <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
+                                <h4 class="main-page-link mb-0 text-center">Upcoming Events</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="assets/img/jumbo-big.jpg">
+                            <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
+                                <h4 class="main-page-link mb-0 text-center">Journal</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="assets/img/jumbo-big.jpg">
+                            <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
+                                <h4 class="main-page-link mb-0 text-center">Contact Us</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+                        <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="assets/img/jumbo-big.jpg">
+                            <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
+                                <h4 class="main-page-link mb-0 text-center">Archive</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="page-content" class="pb-3 d-print-block">
+                <div id="region-main-box">
+                    {{#hasregionmainsettingsmenu}}
+                    <div id="region-main-settings-menu" class="d-print-none">
+                        <div> {{{ regionmainsettingsmenu }}} </div>
+                    </div>
+                    {{/hasregionmainsettingsmenu}}
+                    <section id="region-main" aria-label="{{#str}}content{{/str}}">
+
+                        {{#hasregionmainsettingsmenu}}
+                            <div class="region_main_settings_menu_proxy"></div>
+                        {{/hasregionmainsettingsmenu}}
+                        {{#overflow}}
+                            <div class="container-fluid tertiary-navigation">
+                                <div class="navitem">
+                                    {{> core/url_select}}
+                                </div>
+                            </div>
+                        {{/overflow}}
+                        {{{ output.main_content }}}
+
+                    </section>
+                </div>
+                
+            </div>
+            
+        </div>
+        {{> theme_apoa/footer }}
+    </div>
+    {{{ output.standard_after_main_region_html }}}
+</div>
+
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
+    Drawer.init();
+    M.util.js_complete('theme_boost/loader');
+});
+{{/js}}
