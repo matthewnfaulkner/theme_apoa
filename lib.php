@@ -54,3 +54,30 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
         send_file_not_found();
     }
 }
+
+function theme_apoa_extend_navigation_category_settings(navigation_node $parentnode, context_coursecat $context) {
+    global $USER;
+    if(!is_siteadmin($USER->id)) {
+        $parentnode->children = new navigation_node_collection;
+    }
+
+    $home = $parentnode->add(
+        get_string('home'),
+        new \moodle_url('/course/index.php', ['categoryid' => $context->instanceid]),
+        navigation_node::TYPE_CUSTOM,
+        get_string('home'),
+        get_string('home')
+    );
+    $home = $parentnode->add(
+        get_string('leadership'),
+        new \moodle_url('/course/index.php', ['categoryid' => $context->instanceid])
+    );
+    $home = $parentnode->add(
+        get_string('about'),
+        new \moodle_url('/course/index.php', ['categoryid' => $context->instanceid])
+    );
+    $home = $parentnode->add(
+        get_string('forum'),
+        new \moodle_url('/course/index.php', ['categoryid' => $context->instanceid])
+    );
+}   

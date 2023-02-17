@@ -1,0 +1,24 @@
+<div class="container main-page-container my-0" style="border-top-width: 3px;border-top-style: none;border-bottom-style: none;">
+    <div class="row py-3 mx-0" style="border-top-style: solid;border-top-color: rgba(51,102,103,0.36);border-bottom-color: #31cdd0;">
+        {{#Announcements}}
+        <div class="col-md-6 col-lg-3 pb-3 px-0 px-lg-2">
+            <h4 class="p-1 pt-2 m-0 main-page-section-title main-page-link">{{name}}</h4>
+            <div class="main-page-announcements-cont">
+                {{#courses}}
+                    {{> theme_apoa/section-course-list-item}}
+                {{/courses}}
+            </div>
+        </div>
+        {{/Announcements}}
+        {{#Events}}
+        <div class="col-md-6 col-lg-3 pb-3 px-0 px-lg-2">
+            <h4 class="p-1 pt-2 m-0 main-page-section-title main-page-link">{{name}}</h4>
+            <div class="main-page-announcements-cont">
+                {{#courses}}
+                    {{> theme_apoa/section-course-list-item}}
+                {{/courses}}
+            </div>
+        </div>
+        {{/Events}}
+    </div>
+</div>

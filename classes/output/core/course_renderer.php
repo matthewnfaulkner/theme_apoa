@@ -16,6 +16,9 @@
 
 namespace theme_apoa\output\core;
 
+require_once($CFG->dirroot . '/theme/apoa/classes/output/core/course_category.php');
+
+
 use moodle_url;
 use html_writer;
 use get_string;
@@ -23,6 +26,7 @@ use get_string;
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/course/renderer.php');
+
 
 use \coursecat_helper as coursecat_helper;
 use \lang_string as lang_string;
@@ -135,7 +139,9 @@ class course_renderer extends \core_course_renderer {
      * @param int|stdClass|core_course_category $category
      */
     public function course_category($category) {
-        global $CFG;
+        global $CFG, $USER;
+
+        
         $usertop = core_course_category::user_top();
         if (empty($category)) {
             $coursecat = $usertop;
@@ -144,9 +150,16 @@ class course_renderer extends \core_course_renderer {
         } else {
             $coursecat = core_course_category::get(is_object($category) ? $category->id : $category);
         }
+
+        $parent = $coursecat->get_parent_coursecat();
+
+        if (!$parent->depth == core_course_category::top()->depth && !is_siteadmin($USER)){
+            redirect(new moodle_url('/course/index.php?categoryid=' . $parent->id));
+        }
         $site = get_site();
-        $actionbar = new \core_course\output\category_action_bar($this->page, $coursecat);
-        $output = $this->render_from_template('core_course/category_actionbar', $actionbar->export_for_template($this));
+        //$actionbar = new \core_course\output\category_action_bar($this->page, $coursecat);
+        //$output = $this->render_from_template('core_course/category_actionbar', $actionbar->export_for_template($this));
+        $output = "";
         if (core_course_category::is_simple_site()) {
             // There is only one category in the system, do not display link to it.
             $strfulllistofcourses = get_string('fulllistofcourses');
@@ -168,7 +181,7 @@ class course_renderer extends \core_course_renderer {
         // Prepare parameters for courses and categories lists in the tree
         $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_AUTO)
                 ->set_attributes(array('class' => 'category-browse category-browse-'.$coursecat->id));
-
+        
         $coursedisplayoptions = array();
         $catdisplayoptions = array();
         $browse = optional_param('browse', null, PARAM_ALPHA);
@@ -203,10 +216,18 @@ class course_renderer extends \core_course_renderer {
         $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
 
         // Display course category tree.
+        $courses = $coursecat->get_courses();
+        $output .= $this->render_course_cat($chelper, $coursecat);
         $output .= $this->coursecat_tree($chelper, $coursecat);
 
         return $output;
     }
 
+    protected function render_course_cat(coursecat_helper $chelper, core_course_category $coursecat){
+
+        $renderer = new theme_apoa_course_category($coursecat);
+        $output = $this->render_from_template('theme_apoa/section-landing', $renderer->export_for_template($this));
+        return $output;
+    }
 }
 
