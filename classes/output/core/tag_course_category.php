@@ -1,19 +1,23 @@
 <?php
 
+
 namespace theme_apoa\output\core;
 
 defined('MOODLE_INTERNAL') || die;
 
+use core_course_category;
 
-
-class theme_apoa_course_category implements \templatable {
+class theme_apoa_tag_course_category implements \templatable {
 
 
     protected \core_course_category $coursecat;
 
+    protected array $coursesbytags;
 
-    public function __construct(\core_course_category $coursecat) {
+
+    public function __construct(\core_course_category $coursecat, $coursesbytags) {
         $this->coursecat = $coursecat;
+        $this->coursesbytags = $coursesbytags;
     }
     
         
@@ -22,14 +26,14 @@ class theme_apoa_course_category implements \templatable {
 
         global $CFG;
         
+        $template = [];
         $subcategories = $this->coursecat->get_children();
         $subcat = [];
 
-        foreach($subcategories as $subcategory) {
-            $courselist = $subcategory->get_courses();
+        foreach($this->coursesbytags as $key=>$coursesbytag) {
             $subcatcourses = [];
 
-            foreach ($courselist as $course) {
+            foreach ($coursesbytag as $course) {
                 foreach ($course->get_course_overviewfiles() as $file) {
                     $isimage = $file->is_valid_image();
                     $img = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
@@ -39,17 +43,21 @@ class theme_apoa_course_category implements \templatable {
                         break;
                     }
                 }
+                $cat = core_course_category::get($course->category);
+                $caturl = $cat->get_view_link();
                 $url = course_get_url($course);
                 array_push($subcatcourses, array(
                     'name' => $course->get_formatted_shortname(),
                     'url' => $url,
-                    'img' => $img
+                    'img' => $img,
+                    'caturl' => $caturl,
+                    'cat' => $cat->name
                 ));
 
             }
-            $subcat[$subcategory->name] = [];
-            array_push($subcat[$subcategory->name], array(
-                'name' => $subcategory->name,
+            $subcat[$key] = [];
+            array_push($subcat[$key], array(
+                'name' => $key,
                 'courses' => $subcatcourses
             ));
 

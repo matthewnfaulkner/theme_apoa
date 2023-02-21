@@ -1,0 +1,78 @@
+<?php
+
+namespace theme_apoa\output\core;
+
+defined('MOODLE_INTERNAL') || die;
+
+use core_course_category;
+use stdClass;
+
+class theme_apoa_page_list implements \templatable {
+
+
+    
+
+    protected stdClass $course;
+
+    protected array $courses;
+
+    protected \core_course_category $coursecat;
+
+    public function __construct(stdClass $COURSE) {
+        $this->course = $COURSE;
+
+        $this->coursecat = \core_course_category::get($this->course->category);
+        $parent = \core_course_category::get($this->coursecat->parent);
+
+        $categoryids = $parent->get_all_children_ids();
+
+        $subquery = '';
+        foreach ($categoryids as $categoryid) {
+            $params['coursecat' . $categoryid] = $categoryid;
+            $subquery .= ':coursecat' . $categoryid .',';
+        }
+        $subquery = rtrim($subquery, ',');
+
+        $rawcourses = \theme_apoa_tag_tag::get_all_courses_with_same_tags($this->course->id, 'core', 'course', '1', '3', 'it.category IN ('. $subquery .')', 'timecreated DESC', $params);
+        
+        foreach ($rawcourses as $rawcourse){
+            $this->courses[$rawcourse->id] = new \core_course_list_element($rawcourse);
+        }
+
+    }
+    
+        
+    
+    public function export_for_template(\renderer_base $output) {
+
+        global $CFG;
+        
+        $template = [];
+
+
+        foreach ($this->courses as $course){
+            foreach ($course->get_course_overviewfiles() as $file) {
+                $isimage = $file->is_valid_image();
+                $img = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
+                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
+                    $file->get_filearea() . $file->get_filepath() . $file->get_filename(), !$isimage);
+                if ($isimage) {
+                    break;
+                }
+            }
+            $url = course_get_url($course);
+            array_push($template, array(
+                'name' => $course->get_formatted_shortname(),
+                'url' => $url,
+                'img' => $img
+            ));
+        }
+        
+ 
+        return $template;
+    }
+
+
+
+    
+}
