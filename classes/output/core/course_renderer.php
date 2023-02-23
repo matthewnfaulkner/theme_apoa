@@ -271,7 +271,7 @@ class course_renderer extends \core_course_renderer {
             //$courses = $coursecat->get_courses();
             $output .= $this->render_course_tag_and_cat($coursecat, $courses, $chelper);
             //$output .= $this->render_course_cat($chelper, $coursecat);
-            $output .= $this->coursecat_tree($chelper, $coursecat);
+            //$output .= $this->coursecat_tree($chelper, $coursecat);
 
             return $output;
         }

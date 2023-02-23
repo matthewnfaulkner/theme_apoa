@@ -20,7 +20,7 @@ class theme_apoa_page_list implements \templatable {
 
     public function __construct(stdClass $COURSE) {
         $this->course = $COURSE;
-
+        $this->courses = array();
         $this->coursecat = \core_course_category::get($this->course->category);
         $parent = \core_course_category::get($this->coursecat->parent);
 

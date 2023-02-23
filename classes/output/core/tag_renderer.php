@@ -1,12 +1,10 @@
 <?php
 
-defined('MOODLE_INTERNAL') || die;
-
 
 namespace theme_apoa\output\core;
 
 
-
+defined('MOODLE_INTERNAL') || die;
 
 use moodle_url;
 use html_writer;
