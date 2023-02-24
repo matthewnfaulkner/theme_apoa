@@ -20,6 +20,7 @@ use moodle_url;
 use html_writer;
 use get_string;
 
+
 defined('MOODLE_INTERNAL') || die;
 
 /**
@@ -30,6 +31,7 @@ defined('MOODLE_INTERNAL') || die;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class core_renderer extends \core_renderer {
+
 
     /**
      * Returns HTML to display a "Turn editing on/off" button in a form.
@@ -269,6 +271,23 @@ class core_renderer extends \core_renderer {
             }
         }
         return $firstview;
+    }
+
+
+
+     /**
+     * See if this is the first view of the current cm in the session if it has fake blocks.
+     *
+     * (We track up to 100 cms so as not to overflow the session.)
+     * This is done for drawer regions containing fake blocks so we can show blocks automatically.
+     *
+     * @return string true if the page has fakeblocks and this is the first visit.
+     */
+    public function main_page_content() {
+        
+        $output =  new \theme_apoa\output\core\mainpage\mainpage;
+        $template = $output->export_for_template($this);
+        return $this->render_from_template('theme_apoa/mainpage/mainpage', $template);
     }
 }
 

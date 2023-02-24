@@ -50,46 +50,15 @@
     }
 }}
 {{> theme_boost/head }}
-
+<link href='http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css' rel='stylesheet' type='text/css'>
 <body {{{ bodyattributes }}}>
 {{> core/local/toast/wrapper}}
 <div id="page-wrapper" class="d-print-block">
 
     {{{ output.standard_top_of_body_html }}}
-
+    
     {{> theme_boost/navbar }}
-    {{#courseindex}}
-        {{< theme_boost/drawer }}
-            {{$id}}theme_boost-drawers-courseindex{{/id}}
-            {{$drawerclasses}}drawer drawer-left {{#courseindexopen}}show{{/courseindexopen}}{{/drawerclasses}}
-            {{$drawercontent}}
-                {{{courseindex}}}
-            {{/drawercontent}}
-            {{$drawerpreferencename}}drawer-open-index{{/drawerpreferencename}}
-            {{$drawerstate}}show-drawer-left{{/drawerstate}}
-            {{$tooltipplacement}}right{{/tooltipplacement}}
-            {{$closebuttontext}}{{#str}}closecourseindex, core{{/str}}{{/closebuttontext}}
-        {{/ theme_boost/drawer}}
-    {{/courseindex}}
-    {{#hasblocks}}
-        {{< theme_boost/drawer }}
-            {{$id}}theme_boost-drawers-blocks{{/id}}
-            {{$drawerclasses}}drawer drawer-right{{#blockdraweropen}} show{{/blockdraweropen}}{{/drawerclasses}}
-            {{$drawercontent}}
-                <section class="d-print-none" aria-label="{{#str}}blocks{{/str}}">
-                    {{{ addblockbutton }}}
-                    {{{ sidepreblocks }}}
-                </section>
-            {{/drawercontent}}
-            {{$drawerpreferencename}}drawer-open-block{{/drawerpreferencename}}
-            {{$forceopen}}{{#forceblockdraweropen}}1{{/forceblockdraweropen}}{{/forceopen}}
-            {{$drawerstate}}show-drawer-right{{/drawerstate}}
-            {{$tooltipplacement}}left{{/tooltipplacement}}
-            {{$drawercloseonresize}}1{{/drawercloseonresize}}
-            {{$closebuttontext}}{{#str}}closeblockdrawer, core{{/str}}{{/closebuttontext}}
-        {{/ theme_boost/drawer}}
-    {{/hasblocks}}
-    <div id="page" data-region="mainpage" data-usertour="scroller" class="drawers {{#courseindexopen}}show-drawer-left{{/courseindexopen}} {{#blockdraweropen}}show-drawer-right{{/blockdraweropen}} drag-container">
+    <div id="page" data-region="mainpage" data-usertour="scroller" class="drag-container">
         <div id="topofscroll" class="main-inner">
             <div class="drawer-toggles d-flex">
                 {{#courseindex}}
@@ -126,12 +95,6 @@
                     </div>
                 {{/hasblocks}}
             </div>
-            {{{ output.full_header }}}
-            {{#secondarymoremenu}}
-                <div class="secondary-navigation d-print-none">
-                    {{> core/moremenu}}
-                </div>
-            {{/secondarymoremenu}}
             <div id="page-content" class="pb-3 d-print-block">
                 <div id="region-main-box">
                     {{#hasregionmainsettingsmenu}}
@@ -144,10 +107,6 @@
                         {{#hasregionmainsettingsmenu}}
                             <div class="region_main_settings_menu_proxy"></div>
                         {{/hasregionmainsettingsmenu}}
-                        {{{ output.course_content_header }}}
-                        {{#headercontent}}
-                            {{> core/activity_header }}
-                        {{/headercontent}}
                         {{#overflow}}
                             <div class="container-fluid tertiary-navigation">
                                 <div class="navitem">
@@ -155,26 +114,15 @@
                                 </div>
                             </div>
                         {{/overflow}}
-                        <div class="container main-page-container">
-                            <div class="row">
-                                <div class="col col-12 col-md-9">
-                                    {{{ output.main_content }}}
-                                </div>
-                                <div class="col col-12 col-md-3">
-                                    {{#sidebar}}
-                                        {{> theme_apoa/lists/listitems/page-list}}
-                                    {{/sidebar}}
-                                </div>
-                            </div>
-                        </div>
-                            {{{ output.activity_navigation }}}
-                            {{{ output.course_content_footer }}}
-
+                        {{{ output.main_content }}}
+                        {{{ output.main_page_content }}}
                     </section>
                 </div>
+                
             </div>
+            
         </div>
-        {{> theme_boost/footer }}
+        {{> theme_apoa/footer }}
     </div>
     {{{ output.standard_after_main_region_html }}}
 </div>

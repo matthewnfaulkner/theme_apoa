@@ -21,7 +21,7 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->dirroot . '/theme/apoa/classes/output/core/course_category.php');
 require_once($CFG->dirroot . '/theme/apoa/classes/output/core/tag_course_category.php');
 require_once($CFG->dirroot . '/theme/apoa/classes/output/core/tag.php');
-require_once($CFG->dirroot . '/theme/apoa/classes/output/core/page_list.php');
+require_once($CFG->dirroot . '/theme/apoa/classes/output/core/lists/pagelist.php');
 
 
 use moodle_url;

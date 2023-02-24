@@ -1,13 +1,13 @@
 <?php
 
-namespace theme_apoa\output\core;
+namespace theme_apoa\output\core\lists;
 
 defined('MOODLE_INTERNAL') || die;
 
 use core_course_category;
 use stdClass;
 
-class theme_apoa_page_list implements \templatable {
+class theme_apoa_pagelist implements \templatable {
 
 
     
