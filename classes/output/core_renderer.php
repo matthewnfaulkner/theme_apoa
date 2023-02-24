@@ -289,7 +289,9 @@ class core_renderer extends \core_renderer {
         $template = $output->export_for_template($this);
         return $this->render_from_template('theme_apoa/mainpage/mainpage', $template);
     }
+
 }
+    
 
 
 

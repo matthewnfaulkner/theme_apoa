@@ -75,5 +75,58 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);                                                                                                           
                                                                                                                                     
-    $settings->add($page);                                                                                                          
+    $settings->add($page); 
+    
+    // Advanced settings.                                                                                                           
+    $page = new admin_settingpage('theme_apoa_mainpage', get_string('mainpagesettings', 'theme_apoa'));                           
+                                                                                                                                    
+    // Raw SCSS to include before the content.                                                                                      
+    $setting = new admin_setting_configtext('theme_apoa/jumbotitle',                                                              
+        get_string('jumbotitle', 'theme_apoa'), get_string('jumbotitle_desc', 'theme_apoa'), '', PARAM_RAW);                      
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);                                                                                                           
+                                                                                                                                    
+    // Raw SCSS to include after the content.                                                                                       
+    $setting = new admin_setting_configtextarea('theme_apoa/jumbodescription', get_string('jumbodescription', 'theme_apoa'),                           
+        get_string('jumbodescription_desc', 'theme_apoa'), '', PARAM_RAW);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);
+    
+    $setting = new admin_setting_configtext('theme_apoa/jumbotag', get_string('jumbotag', 'theme_apoa'),                           
+        get_string('jumbotag_desc', 'theme_apoa'), '', PARAM_RAW);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configtext('theme_apoa/jumboid', get_string('jumboid', 'theme_apoa'),                           
+        get_string('jumboid_desc', 'theme_apoa'), '', PARAM_INT);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configcheckbox('theme_apoa/jumbovideoflag', get_string('jumbovideoflag', 'theme_apoa'),
+        get_string('jumboflag_desc', 'theme_apoa'), '');
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/jumbovideo', get_string('jumbovideo', 'theme_apoa'),
+        get_string('jumbovideo_desc', 'theme_apoa'), 'jumbovideo', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.mp4')));
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/jumbobanner', get_string('jumbobanner', 'theme_apoa'),
+        get_string('jumbobanner_desc', 'theme_apoa'), 'jumbobanner', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png', '.mp4', '.webm')));
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/jumbobannerlogo', get_string('jumbobannerlogo', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), 'jumbobannerlogo', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting); 
+
+
+
+
+    $settings->add($page);       
 }

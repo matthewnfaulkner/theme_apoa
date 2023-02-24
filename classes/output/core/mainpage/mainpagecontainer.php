@@ -30,6 +30,7 @@ class mainpagecontainer implements \templatable , \renderable {
         $item = new $this->itemclass();
         $template = $item->export_for_template($output);
         return $output->render_from_template($item->get_template_name($output), $template);
+
     }
 
 

@@ -83,7 +83,7 @@
   }
   
   .main-page-main-image {
-    filter: brightness(0.8);
+    filter: brightness(0.7);
   }
   
   .main-page-container {
@@ -661,6 +661,12 @@
     }
   }
   
+  @media (min-width: 1400px) {
+    .main-page-jumbo-logo {
+      width: 350px;
+    }
+  }
+
   .main-page-section-top-border {
     border-top-style: solid;
     border-top-color: rgba(51,102,103,0.36);
@@ -721,8 +727,24 @@
   
   .main-page-jumbo-title {
     color: white;
+    line-height: 35px;
+  }
+
+  @media (min-width: 576px){
+    .main-page-jumbo-title-cont {
+      justify-content: space-between!important;
+    }
   }
   
   .main-page-jumbo-text {
     color: white;
   }
+
+  .br {
+    display: block;
+    margin-bottom: 0em;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  
+  

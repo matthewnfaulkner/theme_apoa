@@ -17,7 +17,6 @@ class mainpage implements \templatable , \renderable {
     }
     
         
-    
     public function export_for_template(\renderer_base $output) {
 
         $sections = ['jumbo', 'subjumbo', 'events', 'courses', 'sections', 'membership', 'resources'];

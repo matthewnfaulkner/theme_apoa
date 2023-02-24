@@ -11,19 +11,21 @@ class subjumbo implements \templatable , \renderable {
 
     use mainpage_named_templatable;
 
-
-
-    public function __construct() {
-
-
-    }
     
+    public function __construct() {
+    }
         
     
     public function export_for_template(\renderer_base $output) {
 
-        
-        return;
+        $template = $this->get_content();
+
+        return $template;
+
+    }
+
+    protected function get_content() {
+
     }
     
 }

@@ -13,17 +13,25 @@ class sections implements \templatable , \renderable {
 
 
 
-    public function __construct() {
-
-
-    }
     
+
+
+    protected string $contentgenerator;
+
+    public function __construct() {
+    }
         
     
     public function export_for_template(\renderer_base $output) {
 
-        
-        return;
+        $template = $this->get_content();
+
+        return $template;
+
+    }
+
+    protected function get_content() {
+
     }
     
 }
