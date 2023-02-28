@@ -126,12 +126,7 @@
                     </div>
                 {{/hasblocks}}
             </div>
-            {{{ output.full_header }}}
-            {{#secondarymoremenu}}
-                <div class="secondary-navigation d-print-none">
-                    {{> core/moremenu}}
-                </div>
-            {{/secondarymoremenu}}
+            {{> theme_apoa/secondarynav}}
             <div id="page-content" class="pb-3 d-print-block">
                 <div id="region-main-box">
                     {{#hasregionmainsettingsmenu}}
@@ -161,6 +156,7 @@
                                     {{{ output.main_content }}}
                                 </div>
                                 <div class="col col-12 col-md-3">
+                                    <h4 class="text-center main-page-section-title pt-2 px-0">Related Content</h4>
                                     {{#sidebar}}
                                         {{> theme_apoa/lists/listitems/pagelist}}
                                     {{/sidebar}}

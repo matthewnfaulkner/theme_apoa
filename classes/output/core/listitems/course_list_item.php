@@ -8,7 +8,7 @@ defined('MOODLE_INTERNAL') || die;
 
 
 
-class jumboside_list_item implements \templatable , \renderable {
+class course_list_item implements \templatable , \renderable {
 
 
     use \theme_apoa\output\core\mainpage\mainpage_named_templatable;
@@ -17,12 +17,10 @@ class jumboside_list_item implements \templatable , \renderable {
 
     protected \core_course_list_element $course;
 
-    protected \core_tag_tag $tag;
 
-    public function __construct(\core_course_list_element $course, $tag) {
+    public function __construct(\core_course_list_element $course) {
 
         $this->course = $course;
-        $this->tag = $tag;
 
         
     }
@@ -33,7 +31,7 @@ class jumboside_list_item implements \templatable , \renderable {
         global $CFG;
 
         $coursecat = \core_course_category::get($this->course->category);
-        $rootcat = $coursecat->get_parent_coursecat();
+        $rootcat = $coursecat;
         
         while ($rootcat->get_parent_coursecat() != \core_course_category::top()){
             $rootcat = $rootcat->get_parent_coursecat();
@@ -44,6 +42,8 @@ class jumboside_list_item implements \templatable , \renderable {
         $itemurl = $wwwroot . "/course/view.php?id=" . $this->course->id;
         $caturl  = $coursecat->get_view_link();
         $rooturl  = $rootcat->get_view_link();
+
+        $itemdesc = $this->course->description;
 
         foreach ($this->course->get_course_overviewfiles() as $file) {
             $isimage = $file->is_valid_image();
@@ -57,6 +57,7 @@ class jumboside_list_item implements \templatable , \renderable {
 
         $template = ["itemtitle" => $this->course->shortname,
             "itemcat" => $coursecat->name,
+            "itemdescription" => $itemdesc,
             "itemroot" => $rootcat->name,
             "itemurl" => $itemurl,
             "itemcaturl" => $caturl,

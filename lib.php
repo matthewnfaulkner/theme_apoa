@@ -50,7 +50,8 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
             $options['cacheability'] = 'public';
         }
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
-    }else if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'jumbobanner' || $filearea === 'jumbobannerlogo') {
+    }else if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'jumbobanner' || $filearea === 'jumbobannerlogo' || 
+    $filearea === 'sectionlogo') {
         $theme = theme_config::load('apoa');
         // By default, theme files must be cache-able by both browsers and proxies.
         if (!array_key_exists('cacheability', $options)) {
@@ -67,27 +68,85 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
     if(!is_siteadmin($USER->id)) {
         $parentnode->children = new navigation_node_collection;
     }
+    $category = core_course_category::get($context->instanceid);
+    $subcategories = $category->get_children();
 
-    $home = $parentnode->add(
-        get_string('home'),
-        new \moodle_url('/course/index.php', ['categoryid' => $context->instanceid]),
-        navigation_node::TYPE_CUSTOM,
-        get_string('home'),
-        get_string('home')
-    );
-    $home = $parentnode->add(
-        get_string('leadership'),
-        new \moodle_url('/course/index.php', ['categoryid' => $context->instanceid])
-    );
-    $home = $parentnode->add(
-        get_string('about'),
-        new \moodle_url('/course/index.php', ['categoryid' => $context->instanceid])
-    );
-    $home = $parentnode->add(
-        get_string('forum'),
-        new \moodle_url('/course/index.php', ['categoryid' => $context->instanceid])
-    );
-}   
+    foreach ($subcategories as $subcategory) {
+        if ($subcategory->name == 'Committee') {
+            if ($subcategory->get_courses_count() <= 1){
+                if($courses = $subcategory->get_courses($limit = 1)) {
+                    $course = reset($courses);
+                    $parentnode->add(
+                        get_string($subcategory->name),
+                        new \moodle_url('/course/view.php', ['id' => $course->id]),
+                        navigation_node::TYPE_CUSTOM,
+                        get_string($subcategory->name),
+                        get_string($subcategory->name)
+                    );
+                }
+                
+            }else {
+                $parentnode->add(
+                    get_string($subcategory->name),
+                    new \moodle_url('/course/index.php', ['categoryid' => $subcategory->id]),
+                    navigation_node::TYPE_CUSTOM,
+                    get_string($subcategory->name),
+                    get_string($subcategory->name)
+                );
+            }
+        }
+        $parentnode->add(
+            get_string($subcategory->name),
+            new \moodle_url('/course/index.php', ['categoryid' => $subcategory->id]),
+            navigation_node::TYPE_CUSTOM,
+            get_string($subcategory->name),
+            get_string($subcategory->name)
+        );
+    }
+}
+
+function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
+    global $USER;
+    if(!is_siteadmin($USER->id)) {
+        $parentnode->children = new navigation_node_collection;
+    }
+    $category = core_course_category::get($course->category);
+    $rootcat = get_subroot_category($category);
+    $subcategories = $rootcat->get_children();
+
+    foreach ($subcategories as $subcategory) {
+        if ($subcategory->name == 'Committee') {
+            if ($subcategory->get_courses_count() <= 1){
+                if($courses = $subcategory->get_courses($limit = 1)) {
+                    $course = reset($courses);
+                    $parentnode->add(
+                        get_string($subcategory->name),
+                        new \moodle_url('/course/view.php', ['id' => $course->id]),
+                        navigation_node::TYPE_CUSTOM,
+                        get_string($subcategory->name),
+                        get_string($subcategory->name)
+                    );
+                }
+                
+            }else {
+                $parentnode->add(
+                    get_string($subcategory->name),
+                    new \moodle_url('/course/index.php', ['categoryid' => $subcategory->id]),
+                    navigation_node::TYPE_CUSTOM,
+                    get_string($subcategory->name),
+                    get_string($subcategory->name)
+                );
+            }
+        }
+        $parentnode->add(
+            get_string($subcategory->name),
+            new \moodle_url('/course/index.php', ['categoryid' => $subcategory->id]),
+            navigation_node::TYPE_CUSTOM,
+            get_string($subcategory->name),
+            get_string($subcategory->name)
+        );
+    }
+}
 
 function theme_apoa_get_file_from_setting($settingname) {
 
@@ -121,3 +180,39 @@ function is_valid_video(\stored_file $file) {
         // ok, GD likes this image
     return true;
 }
+
+
+
+function get_courses_for_course_list(string $criteria) {
+    $tags = \theme_apoa_tag_tag::guess_by_name($criteria);
+    $courses = [];
+    if ($tags) {
+        $tag = reset($tags);
+        $rawcourses = $tag->get_tagged_items('core', 'course', '0', '3', '', 'timecreated DESC');
+        foreach ($rawcourses as $rawcourse){
+            $courses[$rawcourse->id] = new \core_course_list_element($rawcourse);
+        }
+    }
+    return $courses;
+}
+
+function get_courses_for_newsletter() {
+    
+}
+
+function get_courses_for_elibrary() {
+    
+}
+
+function get_subroot_category(\core_course_category $category) {
+
+    if ($category->depth <= 1) {
+        return $category;
+    }
+    else {
+        $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
+        $rootcategory = \core_course_category::get(reset($parents));
+        return $rootcategory;
+    }
+}
+

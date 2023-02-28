@@ -1,0 +1,18 @@
+<div class="card main-page-sub-list-group-item pb-3">
+    <div class="card-header p-0 border-0" role="tab"><a class="stretched-link main-page-link-wrapper" href="#"></a>
+        <div class="card no-border-radius journal-card"><img class="card-img w-100 d-block main-page-sub-card-img no-border-radius" src="{{itemimg}}">
+            <div class="card-img-overlay justify-content-end align-items-start align-content-end text-white flex-column d-flex">
+                <h5 class="journal-card-title main-page-link"><br>{{itemname}}<br><br></h5>
+                <div class="w-100">
+                    <p><span class="main-page-link" style="font-size: 14px;">{{itemauthors}}</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">{{itemcat}}</small></p>
+                    <h6 class="text-right main-page-link-sub float-right" href="#accordion-2 .item-1" data-toggle="collapse" aria-expanded="true" aria-controls="#accordion-2 .item-1">Show Abstract</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="collapse show item-1" role="tabpanel" data-parent="#accordion-2" style="border-style: none;">
+        <div class="card-body">
+            <p class="card-text">{{itemabstract}}</p>
+        </div>
+    </div>
+</div>

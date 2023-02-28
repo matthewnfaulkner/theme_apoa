@@ -747,4 +747,14 @@
     line-height: 20px;
   }
   
+  .secondary-banner-logo {
+    display: none!important;
+  }
+  
+  @media (min-width: 768px) {
+    .secondary-banner-logo {
+      display: block!important;
+    }
+  }
+  
   

@@ -40,7 +40,7 @@ class mainpagecontainer implements \templatable , \renderable {
             case 'jumbo':
                 return 'main-page-container container-fluid';
             case 'subjumbo':
-                return 'main-page-container container-fluid';
+                return 'container main-page-container my-0';
             case 'events':
                 return 'main-page-container container-fluid';
             case 'courses':

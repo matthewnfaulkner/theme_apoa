@@ -16,6 +16,7 @@
 
 namespace theme_apoa\output;
 
+use core_course_category;
 use moodle_url;
 use html_writer;
 use get_string;
@@ -81,6 +82,22 @@ class core_renderer extends \core_renderer {
         $imagedata = null;
         $subheader = null;
         $userbuttons = null;
+
+
+        if ($context->contextlevel != CONTEXT_USER && $context->contextlevel != CONTEXT_SYSTEM ){
+            $id = $context->instanceid;
+            if ($context->contextlevel == CONTEXT_COURSECAT) {
+                $category = core_course_category::get($id);
+            }
+            else if ($context->contextlevel == CONTEXT_COURSE || $context->contextlevel == CONTEXT_MODULE ){
+                $category = core_course_category::get($this->page->course->category);
+            }
+            if($rootcategory = get_subroot_category($category)) {
+                $headerinfo['heading'] = $rootcategory->name;
+
+                //$imagedata = html_writer::img(theme_apoa_get_file_from_setting('sectionlogo'), "", array('height'=>'100px'));
+            };   
+        }
 
         // Make sure to use the heading if it has been set.
         if (isset($headerinfo['heading'])) {
@@ -158,7 +175,7 @@ class core_renderer extends \core_renderer {
         }
 
         $prefix = null;
-        if ($context->contextlevel == CONTEXT_MODULE) {
+        /*if ($context->contextlevel == CONTEXT_MODULE) {
             if ($this->page->course->format === 'singleactivity') {
                 $heading = $this->page->course->fullname;
             } else {
@@ -171,7 +188,7 @@ class core_renderer extends \core_renderer {
                 $imagedata = html_writer::tag('div', $imagedata, ['class' => $purposeclass]);
                 $prefix = get_string('modulename', $this->page->activityname);
             }
-        }
+        }*/
 
 
         $contextheader = new \context_header($heading, $headinglevel, $imagedata, $userbuttons, $prefix);
@@ -289,6 +306,7 @@ class core_renderer extends \core_renderer {
         $template = $output->export_for_template($this);
         return $this->render_from_template('theme_apoa/mainpage/mainpage', $template);
     }
+    
 
 }
     

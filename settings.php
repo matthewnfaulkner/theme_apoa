@@ -125,6 +125,17 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting); 
 
+    $settings->add($page);       
+
+    // Advanced settings.                                                                                                           
+    $page = new admin_settingpage('theme_apoa_sections', get_string('sectionssettings', 'theme_apoa'));                           
+                                                                                                                                                                                                       
+    $setting = new admin_setting_configstoredfile('theme_apoa/sectionlogo', get_string('sectionlogo', 'theme_apoa'),
+        get_string('sectionlogo_desc', 'theme_apoa'), 'sectionlogo', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);                                                                                                                               
+
 
 
 
