@@ -1,19 +1,14 @@
-<div class="row">
-    <div class="col col-3 flex-column d-flex align-items-end secondary-banner-logo"><img src="assets/img/Logos/hip.png" style="position: relative;height: 100px;"></div>
-    <div class="col">
-        <div class="row">
-            <div class="col">
-                {{{ output.full_header }}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                {{#secondarymoremenu}}
-                <div class="secondary-navigation d-print-none">
+<div class="container p-0 m-0 w-100" style="max-width: 100%!important;">
+    <div class="row justify-content-start py-2 w-100 mx-0" style="height: 80px;color: var(--primary);background: var(--light);">
+        {{{output.context_header}}}
+    </div>
+    <div class="row justify-content-start secondary-nav-cont px-0 w-100 mx-0" style="background: var(--primary);">
+        <div class="col-xl-4 col-xl-12 px-0">
+            {{#secondarymoremenu}}
+                <div class="secondary-navigation d-print-none apoa-nav">
                     {{> core/moremenu}}
                 </div>
                 {{/secondarymoremenu}}
-            </div>
         </div>
     </div>
 </div>

@@ -51,7 +51,7 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
         }
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
     }else if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'jumbobanner' || $filearea === 'jumbobannerlogo' || 
-    $filearea === 'sectionlogo') {
+    preg_replace('/[0-9]+/', '', $filearea) === 'sectionlogo') {
         $theme = theme_config::load('apoa');
         // By default, theme files must be cache-able by both browsers and proxies.
         if (!array_key_exists('cacheability', $options)) {
@@ -159,10 +159,10 @@ function theme_apoa_get_file_from_setting($settingname) {
     
     foreach ($files as $file){
         if (is_valid_video($file)){
-            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), 0,
+            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
             $file->get_filepath(), $file->get_filename(), false);
         }else if ($file->is_valid_image()) {
-            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), 0,
+            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
             $file->get_filepath(), $file->get_filename(), false);
         }
     }
