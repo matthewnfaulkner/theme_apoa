@@ -22,9 +22,8 @@ class theme_apoa_pagelist implements \templatable {
         $this->course = $COURSE;
         $this->courses = array();
         $this->coursecat = \core_course_category::get($this->course->category);
-        $parent = \core_course_category::get($this->coursecat->parent);
-
-        $categoryids = $parent->get_all_children_ids();
+        $subroot = get_subroot_category($this->coursecat);
+        $categoryids = $subroot->get_all_children_ids();
 
         $subquery = '';
         foreach ($categoryids as $categoryid) {
@@ -33,7 +32,7 @@ class theme_apoa_pagelist implements \templatable {
         }
         $subquery = rtrim($subquery, ',');
 
-        $rawcourses = \theme_apoa_tag_tag::get_all_courses_with_same_tags($this->course->id, 'core', 'course', '1', '3', 'it.category IN ('. $subquery .')', 'timecreated DESC', $params);
+        $rawcourses = \theme_apoa_tag_tag::get_all_courses_with_same_tags($this->course->id, 'core', 'course', '1', '3', 'it.id != ' . $this->course->id .  ' AND it.category IN ('. $subquery .')', 'timecreated DESC', $params);
         
         foreach ($rawcourses as $rawcourse){
             $this->courses[$rawcourse->id] = new \core_course_list_element($rawcourse);

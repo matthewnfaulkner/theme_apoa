@@ -127,6 +127,7 @@
                 {{/hasblocks}}
             </div>
             {{> theme_apoa/secondarynav}}
+            {{{ output.full_header }}}
             <div id="page-content" class="pb-3 d-print-block">
                 <div id="region-main-box">
                     {{#hasregionmainsettingsmenu}}
@@ -150,6 +151,7 @@
                                 </div>
                             </div>
                         {{/overflow}}
+                        {{#sidebar}}
                         <div class="container main-page-container">
                             <div class="row">
                                 <div class="col col-12 col-md-9">
@@ -157,12 +159,16 @@
                                 </div>
                                 <div class="col col-12 col-md-3">
                                     <h4 class="text-center main-page-section-title pt-2 px-0">Related Content</h4>
-                                    {{#sidebar}}
                                         {{> theme_apoa/lists/listitems/pagelist}}
-                                    {{/sidebar}}
                                 </div>
                             </div>
                         </div>
+                        {{/sidebar}}
+                        {{^sidebar}}
+                        <div class="container main-page-container">
+                                {{{ output.main_content }}}
+                        </div>
+                        {{/sidebar}}
                             {{{ output.activity_navigation }}}
                             {{{ output.course_content_footer }}}
 

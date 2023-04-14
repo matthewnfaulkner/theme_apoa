@@ -202,7 +202,7 @@ class course_renderer extends \core_course_renderer {
 
         $parent = $coursecat->get_parent_coursecat();
 
-        if (!$parent->depth == core_course_category::top()->depth && !is_siteadmin($USER)){
+        if (!$parent->depth == core_course_category::top()->depth && !is_siteadmin($USER) && False){
             redirect(new moodle_url('/course/index.php?categoryid=' . $parent->id));
         }
         else{
@@ -225,10 +225,7 @@ class course_renderer extends \core_course_renderer {
 
             // Print current category description
             $chelper = new coursecat_helper();
-            if ($description = $chelper->get_category_formatted_description($coursecat)) {
-                $output .= $this->box($description, array('class' => 'generalbox info'));
-            }
-
+            
             // Prepare parameters for courses and categories lists in the tree
             $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_AUTO)
                     ->set_attributes(array('class' => 'category-browse category-browse-'.$coursecat->id));
@@ -267,11 +264,36 @@ class course_renderer extends \core_course_renderer {
             $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
 
             // Display course category tree.
-            $courses = $this->get_courses_by_cat_and_tag($coursecat, $chelper);
-            //$courses = $coursecat->get_courses();
-            $output .= $this->render_course_tag_and_cat($coursecat, $courses, $chelper);
-            //$output .= $this->render_course_cat($chelper, $coursecat);
+            if ($coursecat->depth == 1) {
+                if ($description = $chelper->get_category_formatted_description($coursecat)) {
+                    $output .= $this->box($description, array('class' => 'container main-page-container'));
+                }
+                if ($coursecat->name == 'E-Library') {
+                    $output .= $this->render_subcategory_list($chelper, $coursecat);
+                }
+                else if ($coursecat->name == 'Newsletter') {
+                    $output .= $this->render_subcategory_list($chelper, $coursecat);
+                }
+                else {
+                    $output .= $this->render_subcategory_list($chelper, $coursecat);
+                    //$courses = $this->get_courses_by_cat_and_tag($coursecat, $chelper);
+                    //$output .= $this->render_course_tag_and_cat($coursecat, $courses, $chelper);
+                }
+            }
+            else if ($coursecat->has_courses()) {
+                //$courses = $coursecat->get_courses($options = array('limit' => 5));
+                $output .= $this->render_course_cat($chelper, $coursecat);
+            }
+            else if ($coursecat->has_children()) {
+                $sort = array('sortorder' => 1);
+                $limit = 1;
+                $options = array('sort' => $sort, 'limit' => $limit);
+                $subcat = reset($coursecat->get_children($options));
+                $output .= $this->render_course_cat($chelper, $subcat);
+                //$courses = $subcat->get_courses($options = array('limit' => 5));
+            }
             //$output .= $this->coursecat_tree($chelper, $coursecat);
+
 
             return $output;
         }
@@ -279,8 +301,8 @@ class course_renderer extends \core_course_renderer {
 
     protected function render_course_cat(coursecat_helper $chelper, core_course_category $coursecat){
 
-        $renderer = new theme_apoa_course_category($coursecat);
-        $output = $this->render_from_template('theme_apoa/section-landing', $renderer->export_for_template($this));
+        $renderer = new theme_apoa_course_category([$coursecat], 5);
+        $output = $this->render_from_template('theme_apoa/categorycourselist', $renderer->export_for_template($this));
         return $output;
     }
 
@@ -288,6 +310,13 @@ class course_renderer extends \core_course_renderer {
 
         $renderer = new theme_apoa_tag_course_category($coursecat, $courses);
         $output = $this->render_from_template('theme_apoa/section-landing', $renderer->export_for_template($this));
+        return $output;
+    }
+
+    protected function render_subcategory_list(coursecat_helper $chelper, core_course_category $coursecat) {
+        $subcategories = $coursecat->get_children();
+        $renderer = new theme_apoa_course_category($subcategories, 1);
+        $output = $this->render_from_template('theme_apoa/categorycourselist', $renderer->export_for_template($this));
         return $output;
     }
 }

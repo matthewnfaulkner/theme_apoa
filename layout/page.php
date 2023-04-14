@@ -89,11 +89,8 @@ if (is_siteadmin($USER->id)) {
 }
 
 
-$coursecat = \core_course_category::get($COURSE->category);
+//$coursecat = \core_course_category::get($COURSE->category);
 
-if ($COURSE->format == 'apoapage') {
-    $sidebar = new \theme_apoa\output\core\lists\theme_apoa_pagelist($COURSE);
-}
 
 
 

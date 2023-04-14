@@ -17,11 +17,12 @@ class course_list_item implements \templatable , \renderable {
 
     protected \core_course_list_element $course;
 
+    protected int $index;
 
-    public function __construct(\core_course_list_element $course) {
+    public function __construct(\core_course_list_element $course, $index) {
 
         $this->course = $course;
-
+        $this->index = $index;
         
     }
         
@@ -32,10 +33,17 @@ class course_list_item implements \templatable , \renderable {
 
         $coursecat = \core_course_category::get($this->course->category);
         $rootcat = $coursecat;
-        
-        while ($rootcat->get_parent_coursecat() != \core_course_category::top()){
-            $rootcat = $rootcat->get_parent_coursecat();
+
+        if($tag = reset(\theme_apoa_tag_tag::get_item_tags('core', 'course', $this->course->id))) {
+            $tagurl = $tag->get_view_url();
+            $tagname = $tag->get_display_name();
         }
+        else{
+            $tagurl = '';
+            $tagname = '';
+        }
+
+        $rootcat = get_subroot_category($coursecat);
 
         $wwwroot = $CFG->wwwroot;
 
@@ -44,7 +52,8 @@ class course_list_item implements \templatable , \renderable {
         $rooturl  = $rootcat->get_view_link();
 
         $itemdesc = $this->course->description;
-
+        $itemsummary = $this->course->summary;
+        
         foreach ($this->course->get_course_overviewfiles() as $file) {
             $isimage = $file->is_valid_image();
             $img = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
@@ -58,11 +67,15 @@ class course_list_item implements \templatable , \renderable {
         $template = ["itemtitle" => $this->course->shortname,
             "itemcat" => $coursecat->name,
             "itemdescription" => $itemdesc,
+            "itemsummary" => $itemsummary,
             "itemroot" => $rootcat->name,
             "itemurl" => $itemurl,
             "itemcaturl" => $caturl,
             "itemrooturl" => $rooturl,
-            "itemimg" => $img
+            "itemimg" => $img,
+            'itemtag' => $tagname,
+            'itemtagurl' => $tagurl,
+            'itemindex' => $this->index
         ];
 
         return $template;

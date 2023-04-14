@@ -24,13 +24,25 @@ class sections implements \templatable , \renderable {
     
     public function export_for_template(\renderer_base $output) {
 
-        $template = $this->get_content();
+        global $CFG;
+
+        $top = \core_course_category::top();
+        $categories = $top->get_children();
+        $template = ['sections' => []];
+        foreach ($categories as $category){
+        $elibraryid = get_config('theme_apoa', 'elibraryid');
+        $newsletterid = get_config('theme_apoa', 'newsletterid');
+        if ($category->id != $elibraryid && $category->id != $newsletterid) {
+            $sectionname = $category->name;
+            $img = theme_apoa_get_file_from_setting('sectionlogo' . $category->id);
+            $url = new \moodle_url($CFG->wwwroot . "/course/index.php?categoryid=" . $category->id);
+            array_push($template['sections'], array('sectionname' => $sectionname,
+            'sectionimg' => $img,
+            'sectionurl' => $url));
+            }
+        }
 
         return $template;
-
-    }
-
-    protected function get_content() {
 
     }
     

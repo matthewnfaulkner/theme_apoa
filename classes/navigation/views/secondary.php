@@ -439,11 +439,19 @@ class secondary extends \core\navigation\views\secondary {
         // Add the respective first node, provided there are other nodes included.
         if (!empty($nodekeys = $rootnode->children->get_key_list())) {
             $category = core_course_category::get($course->category);
-            $rootcat = get_subroot_category($category);
+            $categorypath = get_category_path($category);
+            $rootcatid = array_shift($categorypath);
+            $secondarycatid = array_shift($categorypath);
             $rootnode->add_node(
-                navigation_node::create('Home', new \moodle_url('/course/index.php', ['categoryid' => $rootcat->id]),
+                navigation_node::create('Home', new \moodle_url('/course/index.php', ['categoryid' => $rootcatid]),
                     self::TYPE_CATEGORY, null, 'coursehome'), reset($nodekeys)
             );
+            if ($secondarycatid) {
+                $this->page->set_secondary_active_tab($secondarycatid);
+            }
+            else {
+                $this->page->set_secondary_active_tab('coursehome');
+            }
         }
     }
 
@@ -740,9 +748,14 @@ class secondary extends \core\navigation\views\secondary {
         $settingsnav = $this->page->settingsnav;
         $mainnode = $settingsnav->find('categorysettings', self::TYPE_CONTAINER);
         $nodes = $this->get_default_category_mapping();
-
+        $category = core_course_category::get($this->context->instanceid);
+        $categories = get_category_path($category);
+        $rootcatid = array_shift($categories);
+        $secondarycatid = array_shift($categories);
+        //$rootcat = get_subroot_category($category);
+           
         if ($mainnode) {
-            $url = new \moodle_url('/course/index.php', ['categoryid' => $this->context->instanceid]);
+            $url = new \moodle_url('/course/index.php', ['categoryid' => $rootcatid]);
             $this->add(get_string('home'), $url, self::TYPE_CONTAINER, null, 'categorymain');
 
             // Add the initial nodes.
@@ -752,6 +765,13 @@ class secondary extends \core\navigation\views\secondary {
             // We have finished inserting the initial structure.
             // Populate the menu with the rest of the nodes available.
             $this->load_remaining_nodes($mainnode, $nodes);
+
+            if ($secondarycatid) {
+                $this->page->set_secondary_active_tab($secondarycatid);
+            }
+            else{
+                $this->page->set_secondary_active_tab('categorymain');
+            }
         }
     }
 

@@ -63,18 +63,19 @@ class core_renderer extends \core_renderer {
      * @return string the HTML for the navbar.
      */
     public function navbar(): string {
-        $newnav = new \theme_boost\boostnavbar($this->page);
+        $newnav = new \theme_apoa\apoanavbar($this->page);
         return $this->render_from_template('core/navbar', $newnav);
     }
 
-    /**
+
+    /**s
      * Renders the context header for the page.
      *
      * @param array $headerinfo Heading information.
      * @param int $headinglevel What 'h' level to make the heading.
      * @return string A rendered context header.
      */
-    public function context_header($headerinfo = null, $headinglevel = 1): string {
+    public function context_header_cat($headerinfo = null, $headinglevel = 1): string {
         global $DB, $USER, $CFG, $SITE;
         require_once($CFG->dirroot . '/user/lib.php');
         $context = $this->page->context;
@@ -196,6 +197,99 @@ class core_renderer extends \core_renderer {
         return $this->render_context_header($contextheader);
     }
 
+    public function context_header($headerinfo = null, $headinglevel = 1) {
+        global $DB, $USER, $CFG, $SITE;
+        require_once($CFG->dirroot . '/user/lib.php');
+        $context = $this->page->context;
+        $heading = null;
+        $imagedata = null;
+        $subheader = null;
+        $userbuttons = null;
+
+        // Make sure to use the heading if it has been set.
+        if (isset($headerinfo['heading'])) {
+            $heading = $headerinfo['heading'];
+        } else {
+            $heading = $this->page->heading;
+        }
+
+        if ($context->contextlevel == CONTEXT_COURSECAT){
+            if($context->depth <= 2) {
+                $heading = '';
+            }
+        }
+
+        // The user context currently has images and buttons. Other contexts may follow.
+        if ((isset($headerinfo['user']) || $context->contextlevel == CONTEXT_USER) && $this->page->pagetype !== 'my-index') {
+            if (isset($headerinfo['user'])) {
+                $user = $headerinfo['user'];
+            } else {
+                // Look up the user information if it is not supplied.
+                $user = $DB->get_record('user', array('id' => $context->instanceid));
+            }
+
+            // If the user context is set, then use that for capability checks.
+            if (isset($headerinfo['usercontext'])) {
+                $context = $headerinfo['usercontext'];
+            }
+
+            // Only provide user information if the user is the current user, or a user which the current user can view.
+            // When checking user_can_view_profile(), either:
+            // If the page context is course, check the course context (from the page object) or;
+            // If page context is NOT course, then check across all courses.
+            $course = ($this->page->context->contextlevel == CONTEXT_COURSE) ? $this->page->course : null;
+
+            if (user_can_view_profile($user, $course)) {
+                // Use the user's full name if the heading isn't set.
+                if (empty($heading)) {
+                    $heading = fullname($user);
+                }
+
+                $imagedata = $this->user_picture($user, array('size' => 100));
+
+                // Check to see if we should be displaying a message button.
+                if (!empty($CFG->messaging) && has_capability('moodle/site:sendmessage', $context)) {
+                    $userbuttons = array(
+                        'messages' => array(
+                            'buttontype' => 'message',
+                            'title' => get_string('message', 'message'),
+                            'url' => new moodle_url('/message/index.php', array('id' => $user->id)),
+                            'image' => 'message',
+                            'linkattributes' => \core_message\helper::messageuser_link_params($user->id),
+                            'page' => $this->page
+                        )
+                    );
+
+                    if ($USER->id != $user->id) {
+                        $iscontact = \core_message\api::is_contact($USER->id, $user->id);
+                        $contacttitle = $iscontact ? 'removefromyourcontacts' : 'addtoyourcontacts';
+                        $contacturlaction = $iscontact ? 'removecontact' : 'addcontact';
+                        $contactimage = $iscontact ? 'removecontact' : 'addcontact';
+                        $userbuttons['togglecontact'] = array(
+                                'buttontype' => 'togglecontact',
+                                'title' => get_string($contacttitle, 'message'),
+                                'url' => new moodle_url('/message/index.php', array(
+                                        'user1' => $USER->id,
+                                        'user2' => $user->id,
+                                        $contacturlaction => $user->id,
+                                        'sesskey' => sesskey())
+                                ),
+                                'image' => $contactimage,
+                                'linkattributes' => \core_message\helper::togglecontact_link_params($user, $iscontact),
+                                'page' => $this->page
+                            );
+                    }
+                }
+            } else {
+                $heading = null;
+            }
+        }
+
+
+        $contextheader = new \context_header($heading, $headinglevel, $imagedata, $userbuttons);
+        return $this->render_context_header($contextheader);
+    }
+
      /**
       * Renders the header bar.
       *
@@ -308,7 +402,106 @@ class core_renderer extends \core_renderer {
         return $this->render_from_template('theme_apoa/mainpage/mainpage', $template);
     }
     
+    /**
+     * This is an optional menu that can be added to a layout by a theme. It contains the
+     * menu for the course administration, only on the course main page.
+     *
+     * @return string
+     */
+    public function context_header_settings_menu() {
+        $context = $this->page->context;
+        $menu = new \action_menu();
 
+        $items = $this->page->navbar->get_items();
+        $currentnode = end($items);
+
+        $showcoursemenu = false;
+        $showfrontpagemenu = false;
+        $showusermenu = false;
+
+        // We are on the course home page.
+        if (($context->contextlevel == CONTEXT_COURSE) &&
+                !empty($currentnode) &&
+                ($currentnode->type == \navigation_node::TYPE_COURSE || $currentnode->type == \navigation_node::TYPE_SECTION)) {
+            $showcoursemenu = true;
+        }
+
+        $courseformat = course_get_format($this->page->course);
+        // This is a single activity course format, always show the course menu on the activity main page.
+        if ($context->contextlevel == CONTEXT_COURSE &&
+                !$courseformat->has_view_page()) {
+            
+            $course = $this->page->course;
+            $this->page->navigation->initialise();
+            $activenode = $this->page->navigation->find_active_node();
+            $showcoursemenu = true;
+            // If the settings menu has been forced then show the menu.
+            if ($this->page->is_settings_menu_forced()) {
+                $showcoursemenu = true;
+            } else if (!empty($activenode) && ($activenode->type == \navigation_node::TYPE_ACTIVITY ||
+                            $activenode->type == \navigation_node::TYPE_RESOURCE)) {
+
+                // We only want to show the menu on the first page of the activity. This means
+                // the breadcrumb has no additional nodes.
+                if ($currentnode && ($currentnode->key == $activenode->key && $currentnode->type == $activenode->type)) {
+                    $showcoursemenu = true;
+                }
+            }
+        }
+
+        // This is the site front page.
+        if ($context->contextlevel == CONTEXT_COURSE &&
+                !empty($currentnode) &&
+                $currentnode->key === 'home') {
+            $showfrontpagemenu = true;
+        }
+
+        // This is the user profile page.
+        if ($context->contextlevel == CONTEXT_USER &&
+                !empty($currentnode) &&
+                ($currentnode->key === 'myprofile')) {
+            $showusermenu = true;
+        }
+
+        if ($showfrontpagemenu) {
+            $settingsnode = $this->page->settingsnav->find('frontpage', \navigation_node::TYPE_SETTING);
+            if ($settingsnode) {
+                // Build an action menu based on the visible nodes from this navigation tree.
+                $skipped = $this->build_action_menu_from_navigation($menu, $settingsnode, false, true);
+
+                // We only add a list to the full settings menu if we didn't include every node in the short menu.
+                if ($skipped) {
+                    $text = get_string('morenavigationlinks');
+                    $url = new moodle_url('/course/admin.php', array('courseid' => $this->page->course->id));
+                    $link = new \action_link($url, $text, null, null, new \pix_icon('t/edit', $text));
+                    $menu->add_secondary_action($link);
+                }
+            }
+        } else if ($showcoursemenu) {
+            $settingsnode = $this->page->settingsnav->find('courseadmin', \navigation_node::TYPE_COURSE);
+            if ($settingsnode) {
+                // Build an action menu based on the visible nodes from this navigation tree.
+                $skipped = $this->build_action_menu_from_navigation($menu, $settingsnode, false, true);
+
+                // We only add a list to the full settings menu if we didn't include every node in the short menu.
+                if ($skipped) {
+                    $text = get_string('morenavigationlinks');
+                    $url = new moodle_url('/course/admin.php', array('courseid' => $this->page->course->id));
+                    $link = new \action_link($url, $text, null, null, new \pix_icon('t/edit', $text));
+                    $menu->add_secondary_action($link);
+                }
+            }
+        } else if ($showusermenu) {
+            // Get the course admin node from the settings navigation.
+            $settingsnode = $this->page->settingsnav->find('useraccount', \navigation_node::TYPE_CONTAINER);
+            if ($settingsnode) {
+                // Build an action menu based on the visible nodes from this navigation tree.
+                $this->build_action_menu_from_navigation($menu, $settingsnode);
+            }
+        }
+
+        return $this->render($menu);
+    }
 }
     
 

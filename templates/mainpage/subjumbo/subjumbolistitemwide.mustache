@@ -4,14 +4,18 @@
             <div class="card-body pb-0">
                 <h5 class="text-muted card-subtitle mb-2 journal-sub-card-title main-page-link main-page-sub-card-text">{{itemtitle}}</h5>
                 <div class="journal-sub-card-text-cont">
-                    <p class="mb-2 journal-card-text"><span class="journal-sub-card-authors main-page-link main-page-sub-card-text main-page-sub-card-text">{{itemauthors}}</span><span>&nbsp;|&nbsp;<small class="text-muted main-page-link-sub">{{itemcat}}</small></span></p><span class="float-right main-page-link-sub" href="#accordion-2 .item-2" data-toggle="collapse" aria-controls="#accordion-2 .item-2" aria-expanded="true">Show Abstract</span>
+                    <p class="mb-2 journal-card-text">
+                    <span class="journal-sub-card-authors main-page-link main-page-sub-card-text main-page-sub-card-text">{{itemauthors}}</span>
+                    <span>&nbsp;|&nbsp;<small class="text-muted main-page-link-sub">{{itemcat}}</small></span>
+                    </p>
+                    <span class="float-right main-page-link-sub" href="#accordion-2 .item-{{itemindex}}" data-toggle="collapse" aria-controls="#accordion-2 .item-{{itemindex}}" aria-expanded="true">Show Abstract</span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="collapse item-2" role="tabpanel" data-parent="#accordion-2">
+    <div class="collapse item-{{itemindex}}" role="tabpanel" data-parent="#accordion-2">
         <div class="card-body">
-            <p class="card-text">{{itemabstract}}</p>
+            <p class="card-text">{{{itemsummary}}}</p>
         </div>
     </div>
 </div>

@@ -41,7 +41,7 @@ class jumbo implements \templatable , \renderable {
             'jumbobannerlogo' => theme_apoa_get_file_from_setting('jumbobannerlogo'),
             'jumbourl' => $url
         ];
-        $jumboside = new \theme_apoa\output\core\lists\course_list('course_list', 'Mainpage');
+        $jumboside = new \theme_apoa\output\core\lists\course_list('course_list', 'sidejumbo');
 
         $template = ['jumbomain' => $jumbomain,
             'jumboside' => $jumboside->export_for_template($output)];

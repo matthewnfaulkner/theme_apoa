@@ -142,6 +142,20 @@ if ($ADMIN->fulltree) {
 
     }
 
+    $settings->add($page);
+
+    // Advanced settings.                                                                                                           
+    $page = new admin_settingpage('theme_apoa_categories', get_string('categorysettings', 'theme_apoa'));
+
+    $setting = new admin_setting_configtext('theme_apoa/elibraryid', get_string('elibraryid', 'theme_apoa'),                           
+        get_string('elibraryid_desc', 'theme_apoa'), '', PARAM_INT);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configtext('theme_apoa/newsletterid', get_string('elibraryid', 'theme_apoa'),                           
+        get_string('elibraryid_desc', 'theme_apoa'), '', PARAM_INT);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
 
     $settings->add($page);       
 }

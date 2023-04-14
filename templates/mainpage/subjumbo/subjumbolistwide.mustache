@@ -1,64 +1,22 @@
-<div class="{{width}}">
-    <h4 class="text-center main-page-section-title pt-2 px-0 main-page-link">Journal Articles</h4>
-            <div id="accordion-2" role="tablist">
-                <div class="card main-page-sub-list-group-item pb-3">
-                    <div class="card-header p-0 border-0" role="tab"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-                        <div class="card no-border-radius journal-card"><img class="card-img w-100 d-block main-page-sub-card-img no-border-radius" src="assets/img/images_large_10.1177_10225536221151131-fig4.jpeg">
-                            <div class="card-img-overlay justify-content-end align-items-start align-content-end text-white flex-column d-flex">
-                                <h5 class="journal-card-title main-page-link"><br>Surgically adjust tibial tunnel in anatomical anterior cruciate ligament single-bundle reconstruction: A time-zero biomechanical study in vitro<br><br></h5>
-                                <div class="w-100">
-                                    <p><span class="main-page-link" style="font-size: 14px;">Hong Wang, Yuanjun Teng, Bo Peng, Gengxin Jia, Hua Han, Yayi Xia</span><span>&nbsp;|&nbsp;</span><small class="main-page-link-sub">Knee</small></p>
-                                    <h6 class="text-right main-page-link-sub float-right" href="#accordion-2 .item-1" data-toggle="collapse" aria-expanded="true" aria-controls="#accordion-2 .item-1">Show Abstract</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="collapse show item-1" role="tabpanel" data-parent="#accordion-2" style="border-style: none;">
-                        <div class="card-body">
-                            <p class="card-text">he anatomical positioning of the graft during anterior cruciate ligament reconstruction (ACLR) is of great significance for restoring normal knee kinematics and preventing early joint degeneration. Therefore, the adjustment of the mispositioned guide pin becomes extremely important. Our research aims to test the time-zero biomechanical properties in adjusting inaccurate guide pins to the center of the tibial footprint in anatomical anterior cruciate ligament single-bundle reconstruction.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card main-page-sub-list-group-item">
-                    <div class="card-header p-0 border-0" role="tab">
-                        <div class="card main-page-card"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-                            <div class="card-body pb-0">
-                                <h5 class="text-muted card-subtitle mb-2 journal-sub-card-title main-page-link main-page-sub-card-text">The exeter cemented stem provides outstanding long-term fixation and bone load at 15 years follow-up: A systematic review and meta-analysis</h5>
-                                <div class="journal-sub-card-text-cont">
-                                    <p class="mb-2 journal-card-text"><span class="journal-sub-card-authors main-page-link main-page-sub-card-text main-page-sub-card-text">Fabio Mancino,&nbsp;Haley Tornberg,&nbsp;Christopher W,&nbsp;Thomas A Bucher,&nbsp;Michael-Alexander Malahias</span><span>&nbsp;|&nbsp;<small class="text-muted main-page-link-sub">Hip</small></span></p><span class="float-right main-page-link-sub" href="#accordion-2 .item-2" data-toggle="collapse" aria-controls="#accordion-2 .item-2" aria-expanded="true">Show Abstract</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="collapse item-2" role="tabpanel" data-parent="#accordion-2">
-                        <div class="card-body">
-                            <p class="card-text">Since its introduction in 1988, the double-tapered polished Exeter cemented stem has been widely adopted in primary total hip arthroplasty (THA). Despite the results coming from the arthroplasty registries have proven great survivorship, the aim of this study was to dig deeper and describe the modes of failure of the Exeter stem at 15 years follow-up while reporting the clinical and radiographic outcomes.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card main-page-sub-list-group-item">
-                    <div class="card-header p-0 border-0" role="tab">
-                        <div class="card main-page-card"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-                            <div class="card-body pb-0">
-                                <h5 class="text-muted card-subtitle mb-2 journal-sub-card-title main-page-link main-page-sub-card-text">Paracetamol versus paracetamol/tramadol in postoperative intertrochanteric fracture: A noninferiority, randomized, controlled, double-blind study</h5>
-                                <div class="journal-sub-card-text-cont">
-                                    <p class="mb-2 journal-card-text"><span class="journal-sub-card-authors main-page-link main-page-sub-card-text">Todsaporn Sirithiantong,&nbsp;Sittha Chuekitkumchorn</span><span>&nbsp;|&nbsp;<small class="text-muted main-page-link-sub">Hip</small></span></p><span class="float-right main-page-link-sub" href="#accordion-2 .item-3" data-toggle="collapse" aria-controls="#accordion-2 .item-3" aria-expanded="true">Show Abstract</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="collapse item-3" role="tabpanel" data-parent="#accordion-2">
-                        <div class="card-body">
-                            <p class="card-text">One of the most common osteoporotic fractures among the elderly is hip fracture with tramadol frequently being prescribed for these patients. To decrease the risk of falling from tramadol, this study aimed to ascertain the effectiveness of paracetamol compared to paracetamol/tramadol for pain control following hip fixation surgery.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-0 main-page-sub-list-group-item">
-                    <div class="card p-0" style="border-style: none;">
-                        <div class="card-body pb-0 pt-2">
-                            <p class="mb-1 main-page-link main-page-more-link">visit the journal...</p>
-                        </div>
-                    </div>
-                </div>
+<h4 class="text-center main-page-section-title pt-2 px-0">
+    <a class="section_title main-page-link" href="{{sectionurl}}">{{sectiontitle}}</a>
+</h4>
+<div id="accordion-2" role="tablist">
+    {{#content}}
+        {{#first}}
+            {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidetop}}
+        {{/first}}
+        {{^first}}
+            {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwide}}
+        {{/first}}
+    {{/content}}
+    <div class="p-0 main-page-sub-list-group-item">
+        <div class="card p-0" style="border-style: none;">
+            <div class="card-body pb-0 pt-2">
+                <p class="mb-1">
+                <a class="main-page-link main-page-more-link" href="{{{sectionurl}}}">Visit the E-Library...</a>
+                </p>
             </div>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,13 @@
+
+<div class="row mx-0" style="">
+    <div class="col-12 pb-3 px-0 px-lg-2">
+        <div>
+            {{#category}}
+            <h4 class="p-1 pt-2 m-0 main-page-section-title main-page-link w-100"><a class="main-page-section-title main-page-link" href="{{ url }}">{{name}}</a></h4>
+                {{#courses}}
+                    {{> theme_apoa/lists/listitems/categorycourselistitem}}
+                {{/courses}}
+            {{/category}}
+        </div>
+    </div>
+</div>

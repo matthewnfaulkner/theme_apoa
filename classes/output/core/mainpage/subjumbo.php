@@ -18,7 +18,7 @@ class subjumbo implements \templatable , \renderable {
 
     public function __construct() {
 
-        $this->sections = ['Mainpage' => 'course_list', 'Newsletter' => 'course_list', 'E-library' => 'course_list'];
+        $this->sections = ['Section Highlights' => 'course_list', 'Newsletter' => 'newsletter', 'E-library' => 'elibrary'];
     }
         
     
@@ -35,12 +35,15 @@ class subjumbo implements \templatable , \renderable {
 
         $template = [];
         foreach ($this->sections as $key => $type) {
-            $this->itemclass = "theme_apoa\\output\\core\\lists\\" . $type;
+            $this->itemclass = "theme_apoa\\output\\core\\lists\\course_list";
             $subjumboclass = new $this->itemclass($type, $key);
             $subjumbolist = $subjumboclass->export_for_template($output);
-            $template[$key] = ['content' => $subjumbolist,
+            
+            $onlyalpha = preg_replace("/[^a-zA-Z0-9]+/", "", $key);
+            $template[$onlyalpha] = ['content' => $subjumbolist,
                     'sectiontitle' => $key,
-                    'sectionmore' => "more " . $key];
+                    'sectionmore' => "more " . $key,
+                    'sectionurl' => $subjumboclass->redirecturl];
             
         }
 

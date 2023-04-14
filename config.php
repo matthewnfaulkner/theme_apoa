@@ -51,15 +51,40 @@ $THEME->layouts = [
         'file' => 'page.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
-        'options' => array('nonavbar' => true,)
+        'options' => array('nonavbar' => false,)
     ),
     'course' => array(
         'file' => 'page.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
-        'options' => array('nonavbar' => true,)
+        'options' => array('nonavbar' => false,)
     )
-];                                                              
+];   
+
+$topchildren = core_course_category::top()->get_children();
+if (empty($topchildren)) {
+    throw new moodle_exception('cannotviewcategory', 'error');
+}
+$category = reset($topchildren);
+$about ="About\n";
+$elibrary = "";
+$newsletter = "";
+$sections = "Sections|/course/index\n";
+foreach ($topchildren as $category) {
+    $id = $category->id;
+    $name = $category->name;
+    if ($id == get_config('theme_apoa', 'elibraryid')) {
+        $elibrary .= "{$name}|/course/index.php?categoryid={$id}\n";
+    }
+    else if ($id == get_config('theme_apoa', 'newsletterid')) {
+        $elibrary .= "{$name}|/course/index.php?categoryid={$id}\n";
+    }
+    else{
+        $sections .= "-{$name}|/course/index.php?categoryid={$id}\n";
+    }
+}
+$CFG->custommenuitems = $about .$sections . $newsletter . $elibrary;
+
 $THEME->editor_sheets = [];                                                                                                                                                                              
 $THEME->parents = ['boost'];                                                                                                                        
 $THEME->enable_dock = false;                                                                                                                          
@@ -70,7 +95,7 @@ $THEME->addblockposition = BLOCK_ADDBLOCK_POSITION_FLATNAV;
 $THEME->precsscallback = 'theme_apoa_get_pre_scss';
 //$THEME->removedprimarynavitems = ['courses'];
 
-
+$THEME->elibrary = '1';
 $THEME->scss = function($theme) {
     return theme_apoa_get_main_scss_content($theme);
 };
