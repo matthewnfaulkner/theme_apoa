@@ -32,6 +32,12 @@ class resources implements \templatable , \renderable {
 
     protected function get_content() {
 
+        global $CFG;
+
+        $img = theme_apoa_get_file_from_setting('resources');
+        
+        return array('resourceimg' => $img);
+
     }
     
 }

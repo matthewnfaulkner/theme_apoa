@@ -6,13 +6,6 @@ div.main-page-banner-logo{
 
 
 
-body{
-    font-family: 'Karla', sans-serif !important;
-    font-weight: 400!important;
-    --primary: #336667!important;
-    --secondary: #D4D29E!important;
-}
-
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
     font-weight: 500;
 }
@@ -35,3 +28,15 @@ img.committeeicon{
 .navbar.fixed-top{
     position: absolute!important;
 }
+
+.site-name{
+    padding-left: 10px;
+    word-wrap: break-word;
+    white-space: normal;
+    margin-top: 0.5rem;
+    color: --var($primary);
+}
+
+table.discussion-list tr td:nth-child(3), table.discussion-list tr td:nth-child(4)  { display: none; }
+
+table.discussion-list tr th:nth-child(3), table.discussion-list tr th:nth-child(4)  { display: none; }

@@ -41,6 +41,10 @@ $THEME->layouts = [
     // Most backwards compatible layout without the blocks.
 
     // The site home page.
+    'base' => array(
+        'file' => 'page.php',
+        'regions' => array(),
+    ),
     'frontpage' => array(
         'file' => 'mainpage.php',
         'regions' => array('side-pre'),
@@ -52,6 +56,12 @@ $THEME->layouts = [
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,)
+    ),
+    'incourse' => array(
+        'file' => 'page.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => false),
     ),
     'course' => array(
         'file' => 'page.php',

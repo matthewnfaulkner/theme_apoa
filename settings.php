@@ -56,7 +56,8 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configcolourpicker($name, $title, $description, '');                                               
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);                                                                                                           
-                                                                                                                                    
+                         
+
     // Must add the page after definiting all the settings!                                                                         
     $settings->add($page);                                                                                                          
                                                                                                                                     
@@ -123,6 +124,13 @@ if ($ADMIN->fulltree) {
         get_string('jumbobannerlogo_desc', 'theme_apoa'), 'jumbobannerlogo', 0,
             array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/resources', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                         
     $page->add($setting); 
 
     $settings->add($page);       

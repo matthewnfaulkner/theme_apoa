@@ -38,12 +38,21 @@ class subjumbo implements \templatable , \renderable {
             $this->itemclass = "theme_apoa\\output\\core\\lists\\course_list";
             $subjumboclass = new $this->itemclass($type, $key);
             $subjumbolist = $subjumboclass->export_for_template($output);
-            
+
+            if (isset($subjumboclass->subcategories)){
+                $elibrarysubs = [];
+                foreach ($subjumboclass->subcategories as $subcategory) {
+                    array_push($elibrarysubs, array('categorytitle' => $subcategory->name,
+                    'categoryurl' => $subcategory->get_view_link()));
+                }
+            }
+
             $onlyalpha = preg_replace("/[^a-zA-Z0-9]+/", "", $key);
             $template[$onlyalpha] = ['content' => $subjumbolist,
                     'sectiontitle' => $key,
                     'sectionmore' => "more " . $key,
-                    'sectionurl' => $subjumboclass->redirecturl];
+                    'sectionurl' => $subjumboclass->redirecturl,
+                    'subcategories' => $elibrarysubs];
             
         }
 

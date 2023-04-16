@@ -1,6 +1,13 @@
-<h4 class="text-center main-page-section-title pt-2 px-0">
+<h4 class="text-center main-page-section-title pt-2 p-1 px-0">
     <a class="section_title main-page-link" href="{{sectionurl}}">{{sectiontitle}}</a>
 </h4>
+<div class="row">
+    {{#subcategories}}
+            <div class="col-4">
+                {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidecats}}
+            </div>
+    {{/subcategories}}
+</div>
 <div id="accordion-2" role="tablist">
     {{#content}}
         {{#first}}

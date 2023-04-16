@@ -32,7 +32,6 @@ class course_list_item implements \templatable , \renderable {
         global $CFG;
 
         $coursecat = \core_course_category::get($this->course->category);
-        $rootcat = $coursecat;
 
         if($tag = reset(\theme_apoa_tag_tag::get_item_tags('core', 'course', $this->course->id))) {
             $tagurl = $tag->get_view_url();

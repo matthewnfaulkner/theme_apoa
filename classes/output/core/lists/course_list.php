@@ -27,6 +27,8 @@ class course_list implements \templatable , \renderable {
 
     protected \core_course_category $category;
 
+    public array $subcategories;
+
     public \moodle_url $redirecturl;
 
 
@@ -97,6 +99,7 @@ class course_list implements \templatable , \renderable {
         $settingname = 'newsletterid';
         $categoryid = get_config('theme_apoa', $settingname);
         $this->category =   \core_course_category::get($categoryid);
+
     }
     
     protected function set_url_for_newsletter() {
@@ -134,6 +137,8 @@ class course_list implements \templatable , \renderable {
         $settingname = 'elibraryid';
         $categoryid = get_config('theme_apoa', $settingname);
         $this->category = \core_course_category::get($categoryid);
+        $this->subcategories = $this->category->get_children();
+        
     }
     
     protected function set_url_for_elibrary() {

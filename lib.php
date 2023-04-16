@@ -51,7 +51,7 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
         }
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
     }else if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'jumbobanner' || $filearea === 'jumbobannerlogo' || 
-    preg_replace('/[0-9]+/', '', $filearea) === 'sectionlogo') {
+    preg_replace('/[0-9]+/', '', $filearea) === 'sectionlogo' || $filearea === 'resources'){
         $theme = theme_config::load('apoa');
         // By default, theme files must be cache-able by both browsers and proxies.
         if (!array_key_exists('cacheability', $options)) {
@@ -243,7 +243,7 @@ function get_subroot_category(\core_course_category $category) {
     }
     else {
         $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
-        $rootcategory = \core_course_category::get(reset($parents));
+        $rootcategory = \core_course_category::get($category->depth - 2 <= 0 ? reset($parents) : $parents[$category->depth - 2]);
         return $rootcategory;
     }
 }
