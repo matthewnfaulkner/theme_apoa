@@ -37,6 +37,7 @@ class jumbo implements \templatable , \renderable {
             'jumbovideoflag' => get_config($component, 'jumbovideoflag'),
             'jumbotag' => get_config($component, 'jumbotag'),
             'jumbobanner' => theme_apoa_get_file_from_setting('jumbobanner'),
+            'jumbobannerposter' => theme_apoa_get_file_from_setting('jumbobannerposter'),
             'jumbovideo' => theme_apoa_get_file_from_setting('jumbovideo'),
             'jumbobannerlogo' => theme_apoa_get_file_from_setting('jumbobannerlogo'),
             'jumbourl' => $url

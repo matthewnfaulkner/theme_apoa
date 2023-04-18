@@ -70,7 +70,6 @@ $THEME->layouts = [
         'options' => array('nonavbar' => false,)
     )
 ];   
-
 $topchildren = core_course_category::top()->get_children();
 if (empty($topchildren)) {
     throw new moodle_exception('cannotviewcategory', 'error');

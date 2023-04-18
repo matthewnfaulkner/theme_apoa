@@ -53,11 +53,11 @@ class apoanavbar implements \renderable {
      * Prepares the navigation nodes for use with apoa.
      */
     protected function prepare_nodes_for_apoa(): void {
-        global $PAGE;
+        global $PAGE, $USER;
 
         // Remove the navbar nodes that already exist in the primary navigation menu.
         $this->remove_items_that_exist_in_navigation($PAGE->primarynav);
-
+        
         // Defines whether section items with an action should be removed by default.
         $removesections = true;
 
