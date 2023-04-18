@@ -120,6 +120,12 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting); 
 
+    $setting = new admin_setting_configstoredfile('theme_apoa/jumbobannerposter', get_string('jumbobannerposter', 'theme_apoa'),
+        get_string('jumbobannerposter_desc', 'theme_apoa'), 'jumbobannerposter', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting); 
+
     $setting = new admin_setting_configstoredfile('theme_apoa/jumbobannerlogo', get_string('jumbobannerlogo', 'theme_apoa'),
         get_string('jumbobannerlogo_desc', 'theme_apoa'), 'jumbobannerlogo', 0,
             array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));

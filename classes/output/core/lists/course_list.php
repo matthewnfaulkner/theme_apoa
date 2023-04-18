@@ -147,7 +147,7 @@ class course_list implements \templatable , \renderable {
 
     protected function set_courses_for_elibrary() {
 
-        $options = array('recursive' => 1, 'limit' => 3, 'summary' => 1);
+        $options = array('recursive' => 1, 'limit' => 3, 'summary' => 1, 'sort' => array('startdate' => 1));
         $this->courses = $this->category->get_courses($options);
     }
 }

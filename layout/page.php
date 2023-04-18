@@ -95,6 +95,7 @@ if (is_siteadmin($USER->id)) {
 
 
 $primary = new core\navigation\output\primary($PAGE);
+
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
 
