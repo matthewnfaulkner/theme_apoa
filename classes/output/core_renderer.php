@@ -219,6 +219,7 @@ class core_renderer extends \core_renderer {
             }
         }
 
+
         // The user context currently has images and buttons. Other contexts may follow.
         if ((isset($headerinfo['user']) || $context->contextlevel == CONTEXT_USER) && $this->page->pagetype !== 'my-index') {
             if (isset($headerinfo['user'])) {
@@ -349,7 +350,7 @@ class core_renderer extends \core_renderer {
             $html .= html_writer::end_div();
         }
         $html .= html_writer::end_div();
-
+        
         return $html;
     }
 

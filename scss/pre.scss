@@ -1,7 +1,10 @@
 $primary: #336667 !default;
 $secondary: #D4D29E !default;
+$accent: #cb1e6fbd !default;
 $course-content-maxwidth: 90%!important;
-
+$theme-colors: (
+  "accent": #cb1e6fbd
+);
 
 
 @font-face {

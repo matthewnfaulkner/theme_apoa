@@ -1,0 +1,13 @@
+
+{{< theme_apoa/favourite/discussion_favourite_toggle }}
+    {{$classes}}btn btn-link{{/classes}}
+    {{$role}}button{{/role}}
+    {{$favouritecontent}}
+        {{#favourited}}
+            {{#pix}}t/star, mod_forum, {{#str}}removefromfavourites, mod_forum{{/str}}{{/pix}}
+        {{/favourited}}
+        {{^favourited}}
+            {{#pix}}t/emptystar, core, {{#str}}addtofavourites, mod_forum{{/str}}{{/pix}}
+        {{/favourited}}
+    {{/favouritecontent}}
+{{/ theme_apoa/favourite/discussion_favourite_toggle }}

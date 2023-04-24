@@ -266,7 +266,7 @@ class course_renderer extends \core_course_renderer {
             // Display course category tree.
             if ($coursecat->depth == 1) {
                 if ($description = $chelper->get_category_formatted_description($coursecat)) {
-                    $output .= $this->box($description, array('class' => 'container main-page-container'));
+                    $output .= $this->box($description, array('class' => 'px-2 container main-page-container category-description'));
                 }
                 if ($coursecat->name == 'E-Library') {
                     $output .= $this->render_subcategory_list($chelper, $coursecat);

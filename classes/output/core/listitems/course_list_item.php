@@ -43,7 +43,7 @@ class course_list_item implements \templatable , \renderable {
         }
 
         $rootcat = get_subroot_category($coursecat);
-
+        $rootcat = get_parent_category_by_generation($coursecat, 2);
         $wwwroot = $CFG->wwwroot;
 
         $itemurl = $wwwroot . "/course/view.php?id=" . $this->course->id;
@@ -68,6 +68,7 @@ class course_list_item implements \templatable , \renderable {
             "itemdescription" => $itemdesc,
             "itemsummary" => $itemsummary,
             "itemroot" => $rootcat->name,
+            "itemrootid" => $rootcat->id,
             "itemurl" => $itemurl,
             "itemcaturl" => $caturl,
             "itemrooturl" => $rooturl,

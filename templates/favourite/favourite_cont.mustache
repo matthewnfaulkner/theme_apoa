@@ -1,0 +1,25 @@
+<div id="mytest">
+    {{> theme_apoa/favourite/favourite_toggle}}
+</div>
+{{#js}}
+require(
+[
+    'jquery',
+    'core/templates',
+    'theme_apoa/favourite_toggle',
+],
+function(
+    $,
+    Templates,
+    FavouriteToggle,
+) {
+    var root = $("#mytest");
+    console.log(root);
+    FavouriteToggle.init(root, true, function(toggleElement, context) {
+        return Templates.render('theme_apoa/favourite/favourite_toggle', context)
+            .then(function(html, js) {
+                return Templates.replaceNode(toggleElement, html, js);
+            });
+    });
+});
+{{/js}}
