@@ -69,7 +69,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
     foreach ($subcategories as $subcategory) {
         
         $nospacename = str_replace(' ', '' , $subcategory->name);
-        $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
+        $name  = $subcategory->name;
         if ($subcategory->get_courses_count() == 1){
             if($courses = $subcategory->get_courses($limit = 1)) {
                 $course = reset($courses);
