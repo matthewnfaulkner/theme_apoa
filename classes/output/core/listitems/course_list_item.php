@@ -68,6 +68,7 @@ class course_list_item implements \templatable , \renderable {
             "itemdescription" => $itemdesc,
             "itemsummary" => $itemsummary,
             "itemroot" => $rootcat->name,
+            "itemrootid" => $rootcat->id,
             "itemurl" => $itemurl,
             "itemcaturl" => $caturl,
             "itemrooturl" => $rooturl,

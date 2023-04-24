@@ -103,7 +103,7 @@ $THEME->requiredblocks = '';
 $THEME->addblockposition = BLOCK_ADDBLOCK_POSITION_FLATNAV;
 $THEME->precsscallback = 'theme_apoa_get_pre_scss';
 //$THEME->removedprimarynavitems = ['courses'];
-
+$THEME->removedprimarynavitems = ['courses', 'myhome'];
 $THEME->elibrary = '1';
 $THEME->scss = function($theme) {
     return theme_apoa_get_main_scss_content($theme);

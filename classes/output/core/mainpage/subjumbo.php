@@ -41,9 +41,16 @@ class subjumbo implements \templatable , \renderable {
 
             if (isset($subjumboclass->subcategories)){
                 $elibrarysubs = [];
+                $first = true;
                 foreach ($subjumboclass->subcategories as $subcategory) {
-                    array_push($elibrarysubs, array('categorytitle' => $subcategory->name,
-                    'categoryurl' => $subcategory->get_view_link()));
+                    $subsubjumboclass = new $this->itemclass($type, $key, $subcategory);
+                    $subsubjumbolist = $subsubjumboclass->export_for_template($output);
+                    array_push($elibrarysubs, array('firsttab' => $first, 'categoryid' => $subcategory->id, 'categorytitle' => $subcategory->name,
+                    'categoryurl' => $subcategory->get_view_link(), 'categorycontent' => $subsubjumbolist));
+
+                    if ($first) {
+                        $first = null;
+                    }
                 }
             }
 

@@ -32,7 +32,7 @@ class course_list implements \templatable , \renderable {
     public \moodle_url $redirecturl;
 
 
-    public function __construct(string $listtype, string $criteria) {
+    public function __construct(string $listtype, string $criteria, \core_course_category $category = null) {
  
         global $CFG;
 
@@ -43,8 +43,12 @@ class course_list implements \templatable , \renderable {
 
         $this->set_tag_from_criteria($this->criteria);
 
-        $setcategory = 'set_category_for_' . $this->listtype;
-        $this->$setcategory();
+        if (!$category) {
+            $setcategory = 'set_category_for_' . $this->listtype;
+            $this->$setcategory();
+        }else {
+            $this->category = $category;
+        }
 
         $setcourses = 'set_courses_for_' . $this->listtype;
         $this->$setcourses($this->criteria);
@@ -65,10 +69,12 @@ class course_list implements \templatable , \renderable {
                 array_push($template, $jumbosidelistitem->export_for_template($output));
                 $index += 1;
             }
-        }        
-        reset($template);
-        $firstkey = array_key_first($template);
-        $template[$firstkey]['first'] = true;
+        }
+        if($template){
+            reset($template);
+            $firstkey = array_key_first($template);
+            $template[$firstkey]['first'] = true;
+        }
         return $template;
 
     }
@@ -146,6 +152,24 @@ class course_list implements \templatable , \renderable {
     }
 
     protected function set_courses_for_elibrary() {
+
+        $options = array('recursive' => 1, 'limit' => 3, 'summary' => 1, 'sort' => array('startdate' => 1));
+        $this->courses = $this->category->get_courses($options);
+    }
+
+    protected function set_category_for_category() {
+        $settingname = 'elibraryid';
+        $categoryid = get_config('theme_apoa', $settingname);
+        $this->category = \core_course_category::get($categoryid);
+        $this->subcategories = $this->category->get_children();
+        
+    }
+    
+    protected function set_url_for_category() {
+        $this->redirecturl = $this->category->get_view_link();
+    }
+
+    protected function set_courses_for_category() {
 
         $options = array('recursive' => 1, 'limit' => 3, 'summary' => 1, 'sort' => array('startdate' => 1));
         $this->courses = $this->category->get_courses($options);
