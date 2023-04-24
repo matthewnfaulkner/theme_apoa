@@ -75,7 +75,7 @@ class course_list implements \templatable , \renderable {
             $firstkey = array_key_first($template);
             $template[$firstkey]['first'] = true;
         }
-        return $template;
+        return  $template;
 
     }
 
