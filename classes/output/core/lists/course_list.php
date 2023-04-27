@@ -27,11 +27,13 @@ class course_list implements \templatable , \renderable {
 
     protected \core_course_category $category;
 
+    protected bool $iselibrary = false;
+
     public array $subcategories;
 
     public \moodle_url $redirecturl;
 
-
+    
     public function __construct(string $listtype, string $criteria, \core_course_category $category = null) {
  
         global $CFG;
@@ -48,6 +50,7 @@ class course_list implements \templatable , \renderable {
             $this->$setcategory();
         }else {
             $this->category = $category;
+            $this->iselibrary = true;
         }
 
         $setcourses = 'set_courses_for_' . $this->listtype;
@@ -56,6 +59,7 @@ class course_list implements \templatable , \renderable {
         $setredirecturl = 'set_url_for_' . $this->listtype;
         $this->$setredirecturl();
 
+    
     }
         
     
@@ -65,7 +69,7 @@ class course_list implements \templatable , \renderable {
         if(isset($this->courses)) {
             $index = 1;
             foreach ($this->courses as $course){
-                $jumbosidelistitem = new \theme_apoa\output\core\listitems\course_list_item($course, $index);
+                $jumbosidelistitem = new \theme_apoa\output\core\listitems\course_list_item($course, $index, $this->iselibrary);
                 array_push($template, $jumbosidelistitem->export_for_template($output));
                 $index += 1;
             }
@@ -162,7 +166,6 @@ class course_list implements \templatable , \renderable {
         $categoryid = get_config('theme_apoa', $settingname);
         $this->category = \core_course_category::get($categoryid);
         $this->subcategories = $this->category->get_children();
-        
     }
     
     protected function set_url_for_category() {

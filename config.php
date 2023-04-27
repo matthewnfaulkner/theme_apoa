@@ -75,6 +75,7 @@ if (empty($topchildren)) {
     throw new moodle_exception('cannotviewcategory', 'error');
 }
 $category = reset($topchildren);
+
 $about ="About\n";
 $elibrary = "";
 $newsletter = "";
@@ -92,7 +93,7 @@ foreach ($topchildren as $category) {
         $sections .= "-{$name}|/course/index.php?categoryid={$id}\n";
     }
 }
-$CFG->custommenuitems = $about .$sections . $newsletter . $elibrary;
+$CFG->custommenuitems = $about . $management . $sections . $newsletter . $elibrary;
 
 $THEME->editor_sheets = [];                                                                                                                                                                              
 $THEME->parents = ['boost'];                                                                                                                        

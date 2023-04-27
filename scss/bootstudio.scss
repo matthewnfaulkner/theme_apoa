@@ -920,3 +920,11 @@
     padding-left: 0.2rem;
     padding-right: 0.2rem;
   }
+
+  .primary-navigation .navigation .nav-link{
+    color: $primary;
+  }
+
+  .primary-navigation .navigation .nav-link.active{
+    color: $primary;
+  }

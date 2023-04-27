@@ -62,7 +62,7 @@
         <span class="sr-only">{{#str}}sidepanel, core{{/str}}</span>
     </button>
 
-    <a href="{{{ config.homeurl }}}" class="navbar-brand d-none d-sm-flex align-items-center m-0 mr-4 p-0 aabtn">
+    <a href="{{{ config.homeurl }}}" class="navbar-brand d-none d-sm-flex align-items-center m-0 mr-2 p-0 aabtn">
 
         {{# output.should_display_navbar_logo }}
             <img src="{{output.get_compact_logo_url}}" class="logo mr-1" alt="{{sitename}}">
@@ -71,8 +71,9 @@
             {{{ sitename }}}
         {{/ output.should_display_navbar_logo }}
     </a>
-    <a href="{{{ config.homeurl }}}" class="navbar-brand d-flex d-sm-none align-items-center m-0 mr-4 p-0 aabtn">
-           <h6 class=site-name> {{{ sitename }}} </h6>
+    <a href="{{{ config.homeurl }}}" class="navbar-brand d-flex align-items-center m-0 mr-2 p-0 aabtn text-primary">
+           <h6 class="site-name short"> {{{ sitename }}} </h6>
+           <h6 class="site-name long d-sm-none"> {{{ sitenamefull }}} </h6>
     </a>
     {{#primarymoremenu}}
         <div class="primary-navigation">

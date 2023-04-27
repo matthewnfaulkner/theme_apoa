@@ -2,6 +2,7 @@
 
 namespace theme_apoa\output\core\listitems;
 
+use moodle_url;
 use stdClass;
 
 defined('MOODLE_INTERNAL') || die;
@@ -15,21 +16,27 @@ class course_list_item implements \templatable , \renderable {
 
 
 
-    protected \core_course_list_element $course;
+    protected \stdclass $course;
+
+    protected \core_course_list_element $courselistelement;
 
     protected int $index;
 
-    public function __construct(\core_course_list_element $course, $index) {
+    protected bool $iselibrary;
 
-        $this->course = $course;
+    public function __construct(\core_course_list_element $course, $index, $iselibrary) {
+
+        $this->course = get_course($course->id);
+        $this->courselistelement = $course;
         $this->index = $index;
-        
+        $this->iselibrary = $iselibrary;
+
     }
         
     
     public function export_for_template(\renderer_base $output) {
 
-        global $CFG;
+        global $CFG, $USER, $PAGE;
 
         $coursecat = \core_course_category::get($this->course->category);
 
@@ -42,8 +49,23 @@ class course_list_item implements \templatable , \renderable {
             $tagname = '';
         }
 
-        $rootcat = get_subroot_category($coursecat);
         $rootcat = get_parent_category_by_generation($coursecat, 2);
+
+        if ($this->iselibrary) {
+            $forum = forum_get_course_forum($this->course->id, 'social');
+            if ($forum) {
+                $coursemodule = get_coursemodule_from_instance('forum', $forum->id);
+                $modcontext = \context_module::instance($coursemodule->id);
+                $entityfactory = \mod_forum\local\container::get_entity_factory();
+                $forumentity = $entityfactory->get_forum_from_stdclass($forum, $modcontext, $coursemodule, $this->course);
+                $discussionsummaries = mod_forum_get_discussion_summaries($forumentity, $USER, null, 0, 0, 0);
+                $discussionsummariesrendererable = new \format_apoapage\output\discussiontopics($PAGE, $discussionsummaries);
+                $discussionsummariesrender = $discussionsummariesrendererable->export_for_template(($output));
+                $discussionsummary = $discussionsummariesrender['discussionlist'];
+                $topdiscussionsummary = reset($discussionsummary);
+                $topdiscussionsummary['forumurl'] = \mod_forum\local\factories\url::get_forum_view_url_from_course_module_id($coursemodule->id);
+            }
+        }
         $wwwroot = $CFG->wwwroot;
 
         $itemurl = $wwwroot . "/course/view.php?id=" . $this->course->id;
@@ -53,7 +75,7 @@ class course_list_item implements \templatable , \renderable {
         $itemdesc = $this->course->description;
         $itemsummary = $this->course->summary;
         
-        foreach ($this->course->get_course_overviewfiles() as $file) {
+        foreach ($this->courselistelement->get_course_overviewfiles() as $file) {
             $isimage = $file->is_valid_image();
             $img = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
                 '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
@@ -75,7 +97,8 @@ class course_list_item implements \templatable , \renderable {
             "itemimg" => $img,
             'itemtag' => $tagname,
             'itemtagurl' => $tagurl,
-            'itemindex' => $this->index
+            'itemindex' => $this->index,
+            'forumposts' => $topdiscussionsummary
         ];
 
         return $template;

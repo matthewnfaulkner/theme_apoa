@@ -54,7 +54,7 @@ class core_renderer extends \core_renderer {
             $editstring = get_string('turneditingon');
         }
         $button = new \single_button($url, $editstring, $method, ['class' => 'btn btn-primary']);
-        return $this->render_single_button($button);
+        //return $this->render_single_button($button);
     }
 
     /**
@@ -67,6 +67,46 @@ class core_renderer extends \core_renderer {
         return $this->render_from_template('core/navbar', $newnav);
     }
 
+    /**
+     * Wrapper for header elements.
+     *
+     * @return string HTML to display the main header.
+     */
+    public function full_header() {
+        $pagetype = $this->page->pagetype;
+        $homepage = get_home_page();
+        $homepagetype = null;
+        // Add a special case since /my/courses is a part of the /my subsystem.
+        if ($homepage == HOMEPAGE_MY || $homepage == HOMEPAGE_MYCOURSES) {
+            $homepagetype = 'my-index';
+        } else if ($homepage == HOMEPAGE_SITE) {
+            $homepagetype = 'site-index';
+        }
+        if ($this->page->include_region_main_settings_in_header_actions() &&
+                !$this->page->blocks->is_block_present('settings')) {
+            // Only include the region main settings if the page has requested it and it doesn't already have
+            // the settings block on it. The region main settings are included in the settings block and
+            // duplicating the content causes behat failures.
+            $this->page->add_header_action(html_writer::div(
+                $this->region_main_settings_menu(),
+                'd-print-none',
+                ['id' => 'region-main-settings-menu']
+            ));
+        }
+
+        $header = new \stdClass();
+        $header->settingsmenu = $this->context_header_settings_menu();
+        $header->contextheader = $this->context_header();
+        $header->hasnavbar = empty($this->page->layout_options['nonavbar']);
+        $header->navbar = $this->navbar();
+        $header->pageheadingbutton = $this->page_heading_button();
+        $header->courseheader = $this->course_header();
+        $header->headeractions = $this->page->get_header_actions();
+        if (!empty($pagetype) && !empty($homepagetype) && $pagetype == $homepagetype) {
+            $header->welcomemessage = \core_user::welcome_message();
+        }
+        return $this->render_from_template('theme_apoa/full_header', $header);
+    }
 
     /**s
      * Renders the context header for the page.
@@ -350,7 +390,7 @@ class core_renderer extends \core_renderer {
             $html .= html_writer::end_div();
         }
         $html .= html_writer::end_div();
-        
+
         return $html;
     }
 

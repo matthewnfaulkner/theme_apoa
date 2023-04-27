@@ -1,8 +1,8 @@
 <h4 class="text-center main-page-section-title pt-2 p-1 px-0">
     <a class="section_title main-page-link" href="{{sectionurl}}">{{sectiontitle}}</a>
 </h4>
-<div class="row">
-    <div class ="col col-4 pr-0">
+<div class="row w-100 m-0">
+    <div class ="col col-4 px-0">
         <div class="nav flex-column nav-pills p-0" id="elibrary-tab" role="tablist" aria-orientation="vertical">
             {{#subcategories}}
                 {{#firsttab}}
@@ -14,7 +14,7 @@
             {{/subcategories}}
         </div>
     </div>
-    <div class ="col col-8 pl-0">
+    <div class ="col col-8 px-0">
         <div class="tab-content" id="elibrary-tabContent">
             {{#subcategories}}
                 {{#firsttab}}
@@ -33,7 +33,7 @@
                             <div class="card p-0" style="border-style: none;">
                                 <div class="card-body pb-0 pt-2">
                                     <p class="mb-1">
-                                    <a class="main-page-link main-page-more-link" href="{{{sectionurl}}}">Visit the {{categorytitle}}...</a>
+                                    <a class="main-page-link main-page-more-link" href="{{{categoryurl}}}">Visit the {{categorytitle}}...</a>
                                     </p>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="card p-0" style="border-style: none;">
                                 <div class="card-body pb-0 pt-2">
                                     <p class="mb-1">
-                                    <a class="main-page-link main-page-more-link" href="{{{sectionurl}}}">Visit the {{categorytitle}}...</a>
+                                    <a class="main-page-link main-page-more-link" href="{{{categoryurl}}}">Visit the {{categorytitle}}...</a>
                                     </p>
                                 </div>
                             </div>
