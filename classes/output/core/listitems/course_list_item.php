@@ -63,7 +63,9 @@ class course_list_item implements \templatable , \renderable {
                 $discussionsummariesrender = $discussionsummariesrendererable->export_for_template(($output));
                 $discussionsummary = $discussionsummariesrender['discussionlist'];
                 $topdiscussionsummary = reset($discussionsummary);
-                $topdiscussionsummary['forumurl'] = \mod_forum\local\factories\url::get_forum_view_url_from_course_module_id($coursemodule->id);
+                $topdiscussionsummary['forumurl'] = new moodle_url('/mod/forum/view.php', [
+                    'id' => $coursemodule->id,
+                ]);
             }
         }
         $wwwroot = $CFG->wwwroot;

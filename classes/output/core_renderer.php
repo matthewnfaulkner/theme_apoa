@@ -105,6 +105,7 @@ class core_renderer extends \core_renderer {
         if (!empty($pagetype) && !empty($homepagetype) && $pagetype == $homepagetype) {
             $header->welcomemessage = \core_user::welcome_message();
         }
+        
         return $this->render_from_template('theme_apoa/full_header', $header);
     }
 
