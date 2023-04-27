@@ -62,7 +62,8 @@ class course_list_item implements \templatable , \renderable {
                 $discussionsummariesrendererable = new \format_apoapage\output\discussiontopics($PAGE, $discussionsummaries);
                 $discussionsummariesrender = $discussionsummariesrendererable->export_for_template(($output));
                 $discussionsummary = $discussionsummariesrender['discussionlist'];
-                $topdiscussionsummary = reset($discussionsummary);
+                $topdiscussionsummary['forumpost'] = reset($discussionsummary);
+                
                 $topdiscussionsummary['forumurl'] = new moodle_url('/mod/forum/view.php', [
                     'id' => $coursemodule->id,
                 ]);
@@ -100,7 +101,7 @@ class course_list_item implements \templatable , \renderable {
             'itemtag' => $tagname,
             'itemtagurl' => $tagurl,
             'itemindex' => $this->index,
-            'forumposts' => $topdiscussionsummary
+            'forum' => $topdiscussionsummary
         ];
 
         return $template;

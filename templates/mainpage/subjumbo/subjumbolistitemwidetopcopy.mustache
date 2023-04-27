@@ -13,14 +13,19 @@
     </div>
     <div class="collapse item-1" role="tabpanel" data-parent="#accordion-{{itemrootid}}" style="border-style: none;">
         <div class="card-body">
-            {{#forumposts}}
+            {{#forum}}
             <div>
-                <h5 class="card-title">{{name}}</h5>
-                <h6 class="text-muted card-subtitle mb-2">{{author}}</h6>
-                <p class="card-text">{{{message}}}</p>
+                {{#forumpost}}
+                    <h5 class="card-title">{{name}}</h5>
+                    <h6 class="text-muted card-subtitle mb-2">{{author}}</h6>
+                    <p class="card-text">{{{message}}}</p>
+                {{/forumpost}}
+                {{^forumpost}}
+                    <h6 class="text-muted card-subtitle mb-2">No topics yet.</h6>
+                {{/forumpost}}
                 <a class="card-link main-page-link-sub" href="{{forumurl}}">Go to discussion</a>
             </div>
-            {{/forumposts}}
+            {{/forum}}
         </div>
     </div>
 </div>

@@ -115,8 +115,9 @@ class apoanavbar implements \renderable {
         if ($this->page->context->contextlevel == CONTEXT_MODULE) {
             $this->remove('mycourses');
             $this->remove('courses');
+            $this->remove('course');
             // Remove the course category breadcrumb node.
-            $this->remove($this->page->course->category, \breadcrumb_navigation_node::TYPE_CATEGORY);
+            //$this->remove($this->page->course->category, \breadcrumb_navigation_node::TYPE_CATEGORY);
             $courseformat = course_get_format($this->page->course)->get_course();
             // Section items can be only removed if a course layout (coursedisplay) is not explicitly set in the
             // given course format or the set course layout is not 'One section per page'.

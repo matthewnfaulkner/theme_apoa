@@ -266,8 +266,10 @@ class secondary extends \core\navigation\views\secondary {
                 if ($this->page->course->format === 'singleactivity') {
                     $this->load_single_activity_course_navigation();
                 } else {
-                    $this->load_module_navigation($this->page->settingsnav);
-                    $defaultmoremenunodes = $this->get_default_module_more_menu_nodes();
+                    $this->load_course_navigation();
+                    $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
+                    //$this->load_module_navigation($this->page->settingsnav);
+                    //$defaultmoremenunodes = $this->get_default_module_more_menu_nodes();
                 }
                 break;
             case CONTEXT_COURSECAT:
