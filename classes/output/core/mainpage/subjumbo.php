@@ -39,7 +39,8 @@ class subjumbo implements \templatable , \renderable {
             $subjumboclass = new $this->itemclass($type, $key);
             $subjumbolist = $subjumboclass->export_for_template($output);
 
-            if (isset($subjumboclass->subcategories)){
+            
+            /*if (isset($subjumboclass->subcategories)){
                 $elibrarysubs = [];
                 $first = true;
                 foreach ($subjumboclass->subcategories as $subcategory) {
@@ -52,14 +53,13 @@ class subjumbo implements \templatable , \renderable {
                         $first = null;
                     }
                 }
-            }
+            }*/
 
             $onlyalpha = preg_replace("/[^a-zA-Z0-9]+/", "", $key);
             $template[$onlyalpha] = ['content' => $subjumbolist,
                     'sectiontitle' => $key,
                     'sectionmore' => "more " . $key,
-                    'sectionurl' => $subjumboclass->redirecturl,
-                    'subcategories' => $elibrarysubs];
+                    'sectionurl' => $subjumboclass->redirecturl];
             
         }
 

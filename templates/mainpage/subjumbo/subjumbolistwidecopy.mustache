@@ -4,30 +4,30 @@
 <div class="row w-100 m-0">
     <div class ="col col-4 px-0">
         <div class="nav flex-column nav-pills p-0" id="elibrary-tab" role="tablist" aria-orientation="vertical">
-            {{#subcategories}}
+            {{#content}}
                 {{#firsttab}}
                     <a id="tab-{{categoryid}}" class="nav-link main-page-pill active" href="#panel-{{categoryid}}" data-toggle="pill" role="tab" aria-controls="panel-{{categoryid}}" aria-selected="true">{{categorytitle}}</a>
                 {{/firsttab}}
                 {{^firsttab}}
                     <a id="tab-{{categoryid}}" class="nav-link main-page-pill" href="#panel-{{categoryid}}" data-toggle="pill" role="tab" aria-controls="panel-{{categoryid}}" aria-selected="false">{{categorytitle}}</a>
                 {{/firsttab}}
-            {{/subcategories}}
+            {{/content}}
         </div>
     </div>
     <div class ="col col-8 px-0">
         <div class="tab-content" id="elibrary-tabContent">
-            {{#subcategories}}
+            {{#content}}
                 {{#firsttab}}
                     <div class="tab-pane fade show active" id="panel-{{categoryid}}" role="tabpanel" aria-labelledby="tab-{{categoryid}}">
                         <div id="accordion-{{categoryid}}" role="tablist">
-                            {{#categorycontent}}
-                                {{#first}}
-                                    {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidetopcopy}}
-                                {{/first}}
-                                {{^first}}
-                                    {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidecopy}}
-                                {{/first}}
-                            {{/categorycontent}}
+                            {{#subcategorycourses}}
+                                    {{#first}}
+                                        {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidetopcopy}}
+                                    {{/first}}
+                                    {{^first}}
+                                        {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidecopy}}
+                                    {{/first}}
+                            {{/subcategorycourses}}
                         </div>
                         <div class="p-0 main-page-sub-list-group-item">
                             <div class="card p-0" style="border-style: none;">
@@ -43,19 +43,19 @@
                 {{^firsttab}}
                     <div class="tab-pane fade" id="panel-{{categoryid}}" role="tabpanel" aria-labelledby="tab-{{categoryid}}">
                         <div id="accordion-{{categoryid}}" role="tablist">
-                            {{#categorycontent}}
+                            {{#subcategorycourses}}
                                 {{#first}}
                                     {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidetopcopy}}
                                 {{/first}}
                                 {{^first}}
                                     {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidecopy}}
                                 {{/first}}
-                            {{/categorycontent}}
-                            {{^categorycontent}}
+                            {{/subcategorycourses}}
+                            {{^subcategorycourses}}
                                 <p class="mb-1">
                                     <a class="main-page-link main-page-more-link" href="">There is no content</a>
                                 </p>
-                            {{/categorycontent}}
+                            {{/subcategorycourses}}
                         </div>
                         <div class="p-0 main-page-sub-list-group-item">
                             <div class="card p-0" style="border-style: none;">
@@ -70,7 +70,7 @@
                     
                 {{/firsttab}}
             
-            {{/subcategories}}
+            {{/content}}
         </div>
     </div>
 </div>

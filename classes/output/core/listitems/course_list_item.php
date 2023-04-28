@@ -24,10 +24,10 @@ class course_list_item implements \templatable , \renderable {
 
     protected bool $iselibrary;
 
-    public function __construct(\core_course_list_element $course, $index, $iselibrary) {
-
-        $this->course = get_course($course->id);
-        $this->courselistelement = $course;
+    public function __construct(\stdClass $course, $index, $iselibrary) {
+        
+        $this->course = $course;
+        $this->courselistelement = new \core_course_list_element($course);
         $this->index = $index;
         $this->iselibrary = $iselibrary;
 
@@ -101,7 +101,9 @@ class course_list_item implements \templatable , \renderable {
             'itemtag' => $tagname,
             'itemtagurl' => $tagurl,
             'itemindex' => $this->index,
-            'forum' => $topdiscussionsummary
+            'first' => !$this->index,
+            'forum' => $topdiscussionsummary,
+            'count' => $this->course->count
         ];
 
         return $template;

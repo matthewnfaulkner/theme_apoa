@@ -93,7 +93,7 @@ foreach ($topchildren as $category) {
         $sections .= "-{$name}|/course/index.php?categoryid={$id}\n";
     }
 }
-$CFG->custommenuitems = $about . $management . $sections . $newsletter . $elibrary;
+$CFG->custommenuitems = $about . $sections . $newsletter . $elibrary;
 
 $THEME->editor_sheets = [];                                                                                                                                                                              
 $THEME->parents = ['boost'];                                                                                                                        

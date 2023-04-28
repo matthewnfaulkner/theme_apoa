@@ -72,7 +72,7 @@ class apoa_page extends moodle_page{
                 $class = "mod_{$this->activityname}\\local\\views\\primary";
             }
 
-            $this->_primarynav = new $class($this);
+            $this->_primarynav = new theme_apoa\navigation\views\primary($this);
             $this->_primarynav->initialise();
         }
         return $this->_primarynav;
