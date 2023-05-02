@@ -201,7 +201,7 @@ class course_list implements \templatable , \renderable {
                 ORDER BY count DESC
                 ) AS top
                 ON c.id = top.itemid)";
-
+        $record = $DB->get_records_sql($favquery);       
         foreach ($this->subcategories as $subcategory) {
             $id = $subcategory->id;
             $children = $subcategory->get_all_children_ids();

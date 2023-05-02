@@ -928,3 +928,66 @@
   .primary-navigation .navigation .nav-link.active{
     color: $primary;
   }
+
+  .boost-label input {
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+  
+  input:checked + .boost-span:before {
+    content: "Boosted";
+    background-color: transparent;
+  }
+
+  input:checked + .boost-span {
+    background-position: left;
+  }
+  
+  .boost-label {
+    width: 110px;
+    font-size: 0;
+    color: var(--primary);
+    background: var(--primary);
+    display: inline-block;
+    border-radius: 10px;
+    height: 40px;
+  }
+  
+  .boost-span:before {
+    color: white!important;
+    position: relative;
+    height: 26px;
+    content: "Boost";
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    width: 110px;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .boost-span {
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    top: 0;
+    border-radius: 10px;
+    left: 0;
+    height: 40px;
+    color: white!important;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    background: linear-gradient(to left, var(--primary) 50%, var(--pink) 50%) right;
+    background-size: 200% 100%;
+  }
+  
+  
+  
+  
+  
+  
