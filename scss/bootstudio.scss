@@ -938,12 +938,13 @@
   input:checked + .boost-span:before {
     content: "Boosted";
     background-color: transparent;
+    background-position: left;
   }
 
   input:checked + .boost-span {
     background-position: left;
   }
-  
+
   .boost-label {
     width: 110px;
     font-size: 0;
@@ -986,6 +987,10 @@
     background-size: 200% 100%;
   }
   
+  .boost-span:hover{
+    background: rgba(0.5);
+  }
+
   
   
   
