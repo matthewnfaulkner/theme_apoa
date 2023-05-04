@@ -88,6 +88,8 @@ if (is_siteadmin($USER->id)) {
 
 }
 
+$PAGE->requires->css('/mod/lightboxgallery/assets/skins/sam/gallery-lightbox-skin.css');
+$PAGE->requires->yui_module('moodle-mod_lightboxgallery-lightbox', 'M.mod_lightboxgallery.init');
 
 //$coursecat = \core_course_category::get($COURSE->category);
 

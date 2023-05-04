@@ -266,7 +266,6 @@ class course_renderer extends \core_course_renderer {
             // Display course category tree.
             if ($coursecat->depth == 1) {
                 if ($description = $chelper->get_category_formatted_description($coursecat)) {
-                    $output .= $this->box($description, array('class' => 'px-2 container main-page-container category-description'));
                 }
                 if ($coursecat->name == 'E-Library') {
                     $output .= $this->render_subcategory_list($chelper, $coursecat);
@@ -275,7 +274,7 @@ class course_renderer extends \core_course_renderer {
                     $output .= $this->render_subcategory_list($chelper, $coursecat);
                 }
                 else {
-                    $output .= $this->render_subcategory_list($chelper, $coursecat);
+                    $output .= $this->render_root_cat($chelper, $coursecat);
                     //$courses = $this->get_courses_by_cat_and_tag($coursecat, $chelper);
                     //$output .= $this->render_course_tag_and_cat($coursecat, $courses, $chelper);
                 }
@@ -306,6 +305,58 @@ class course_renderer extends \core_course_renderer {
 
         $renderer = new theme_apoa_course_category([$coursecat], 5);
         $output = $this->render_from_template('theme_apoa/categorycourselist', $renderer->export_for_template($this));
+        return $output;
+    }
+
+    protected function render_root_cat(coursecat_helper $chelper, core_course_category $coursecat){
+        
+        $render['description'] = $chelper->get_category_formatted_description($coursecat);
+        $render['sectiontitle'] = $coursecat->name;
+        $courselist = new \theme_apoa\output\core\lists\course_list('category', $coursecat->name, $coursecat);
+
+        $featuredrender = [];
+        $taggedrender = [];
+        $children = $coursecat->get_all_children_ids();
+        $conditions = join(',', $children);
+        if($featuredtag = reset(\theme_apoa_tag_tag::guess_by_name('Featured'))){
+            $subquery = 'it.category IN (' . $conditions . ')';
+            if($featuredcourses = $featuredtag->get_tagged_items('core', 'course', 0, 1, $subquery, 'startdate')){
+                $featuredcourse = reset($featuredcourses);
+                $courselist->delete_course_from_courselist($featuredcourse->id);
+                $featuredcourselistitem = new \theme_apoa\output\core\listitems\course_list_item($featuredcourse, 0, false);
+                $featuredrender['subcategorycourses'] = $featuredcourselistitem->export_for_template($this);
+                $featuredrender['categorytitle'] = 'Featured';
+                $featuredrender['Featured'] = 'Featured';
+            }
+        };
+        if($featuredtag = reset(\theme_apoa_tag_tag::guess_by_name($coursecat->name))){
+            $settingname = 'elibraryid';
+            if($elibrary = core_course_category::get(get_config('theme_apoa', $settingname))){
+                $children = $elibrary->get_all_children_ids();
+                $conditions = join(',', $children);
+                $subquery = 'it.category IN (' . $conditions . ')';
+                if($taggedcourses = $featuredtag->get_tagged_items('core', 'course', 0, 3, $subquery, 'startdate')){
+                    $counter = 0;
+                    $taggedrender['subcategorycourses'] = [];
+                    foreach ($taggedcourses as $taggedcourse){
+                        $taggedcourselistitem = new \theme_apoa\output\core\listitems\course_list_item($taggedcourse, $counter, true);
+                        $taggedcourserender = $taggedcourselistitem->export_for_template($this);
+                        array_push($taggedrender['subcategorycourses'], $taggedcourserender);
+                        $counter += 1;
+                    }
+                    $taggedrender['categorytitle'] = 'Related Papers';
+                    $taggedrender['Elibrary'] = 'Elibrary';
+                    $taggedrender['categoryid'] = $elibrary->id;
+                }
+                
+            };
+            
+        };
+        
+        $render['categorylist'] = $courselist->export_for_template($this);
+        array_push($render['categorylist'], $featuredrender);
+        array_push($render['categorylist'], $taggedrender);
+        $output = $this->render_from_template('theme_apoa/sectionlanding',$render);
         return $output;
     }
 

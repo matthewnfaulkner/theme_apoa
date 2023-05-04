@@ -27,12 +27,11 @@ class course_list implements \templatable , \renderable {
 
     protected \core_course_category $category;
 
-    protected bool $iselibrary = false;
-
     public array $subcategories;
 
     public \moodle_url $redirecturl;
 
+    protected bool $iselibrary = false;
     
     public function __construct(string $listtype, string $criteria, \core_course_category $category = null) {
  
@@ -50,7 +49,15 @@ class course_list implements \templatable , \renderable {
             $this->$setcategory();
         }else {
             $this->category = $category;
-            $this->iselibrary = true;
+            $this->subcategories = $category->get_children();
+        }
+
+        
+        if (isset($this->category)) {
+            $settingname = 'elibraryid';
+            if($this->category->id == get_config('theme_apoa', $settingname)){
+                $this->iselibrary = True;
+            };
         }
 
         $setcourses = 'set_courses_for_' . $this->listtype;
@@ -69,13 +76,15 @@ class course_list implements \templatable , \renderable {
         $store = array();
         $loopcounter = 0;
         if(isset($this->subcategories)){
-            $store['toppages'] = array('subcategorycourses' => [], 'firsttab' => true, 
-                                'categoryid' => "0", 'categorytitle' => "Most popular papers",
-                                'categoryurl' => "");
+            if($this->iselibrary){
+                $store['toppages'] = array('subcategorycourses' => [], 'firsttab' => true, 
+                                    'categoryid' => "0", 'categorytitle' => "Most popular papers",
+                                    'categoryurl' => "");
+            }
             foreach ($this->subcategories as $subcategory) {
                 $store[$subcategory->id] = array('subcategorycourses' => [], 'firsttab' => false, 
                                 'categoryid' => $subcategory->id, 'categorytitle' => $subcategory->name,
-                                'categoryurl' => $subcategory->get_view_link());
+                                'categoryurl' => $subcategory->get_view_link(), $subcategory->name => $subcategory->name);
                 $loopcounter += 1;
             }
         }
@@ -85,10 +94,10 @@ class course_list implements \templatable , \renderable {
             foreach ($this->courses as $course){
                 if (isset($course->root)) {
                     $index = count($store[$course->root]['subcategorycourses']);
-                    $jumbosidelistitem = new \theme_apoa\output\core\listitems\course_list_item($course, $index, true);
+                    $jumbosidelistitem = new \theme_apoa\output\core\listitems\course_list_item($course, $index, $this->iselibrary);
                     $render = $jumbosidelistitem->export_for_template($output);
                     array_push($store[$course->root]['subcategorycourses'], $render);
-                    if($firstthree < 3){
+                    if($firstthree < 3 && $this->iselibrary){
                         $render['first'] = !$firstthree;
                         $render['itemrootid'] = 0;
                         $render['itemindex'] = $firstthree+2;
@@ -98,7 +107,7 @@ class course_list implements \templatable , \renderable {
                     
                 } else {
                     $index = count($store);
-                    $jumbosidelistitem = new \theme_apoa\output\core\listitems\course_list_item($course, $index, false);
+                    $jumbosidelistitem = new \theme_apoa\output\core\listitems\course_list_item($course, $index, $this->iselibrary);
                     array_push($store, $jumbosidelistitem->export_for_template($output));
                 }
             }
@@ -233,8 +242,35 @@ class course_list implements \templatable , \renderable {
     }
 
     protected function set_courses_for_category() {
+        global $DB;
+        $sql = [];
+    
+        foreach ($this->subcategories as $subcategory) {
+            $id = $subcategory->id;
+            $conditions = $id;
+            if($children = $subcategory->get_all_children_ids()){
+                $conditions = join(', ', $children);
+            };
+            $query = "(SELECT c.*, ". $id ." AS root 
+                    FROM {course} AS c 
+                    WHERE c.category IN (". $conditions .")
+                    LIMIT 3)";
+            array_push($sql, $query);   
+            $record = $DB->get_records_sql($query);
+        }
+        
+        $union = join(' UNION ', $sql);
+        $massivequery = "SELECT a.* FROM (" . $union . ") a ORDER BY a.startdate DESC";
+        $limit = count($sql) * 3 + 1;
+        $records = $DB->get_records_sql($massivequery, null, 0, $limit);
+        $this->courses = $records;
+    }
 
-        $options = array('recursive' => 1, 'limit' => 3, 'summary' => 1, 'sort' => array('startdate' => 1));
-        $this->courses = $this->category->get_courses($options);
+    public function delete_course_from_courselist($courseid) {
+        if(array_key_exists($courseid, $this->courses)){
+            unset($this->courses[$courseid]);
+            return true;
+        }
+        return false;
     }
 }

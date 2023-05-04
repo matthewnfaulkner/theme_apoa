@@ -1,0 +1,17 @@
+<div class="row py-3 mx-0 main-page-section-top-border">
+    {{#PreviousEvents}}
+            <div class="col-md-4 pb-3 px-0 px-lg-2">
+                {{> theme_apoa/lists/mainpageeventslist}}
+            </div>
+    {{/PreviousEvents}}
+    {{#OngoingEvents}}
+            <div class="col-md-4 pb-3 px-0 px-lg-2 order-first order-md-0">
+                {{> theme_apoa/lists/mainpageeventslist}}
+            </div>
+    {{/OngoingEvents}}
+    {{#FutureEvents}}
+            <div class="col-md-4 pb-3 px-0 px-lg-2">
+                {{> theme_apoa/lists/mainpageeventslist}}
+            </div>
+    {{/FutureEvents}}
+</div>

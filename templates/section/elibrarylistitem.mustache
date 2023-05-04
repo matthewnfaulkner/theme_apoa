@@ -6,14 +6,14 @@
                 <div class="journal-sub-card-text-cont">
                     <p class="mb-2 journal-card-text">
                     <span class="journal-sub-card-authors main-page-link main-page-sub-card-text main-page-sub-card-text">{{itemauthors}}</span>
-                    <span>&nbsp;|&nbsp;<small class="text-muted main-page-link-sub"><a class="main-page-link-sub" href="{{{itemtagurl}}}">{{itemtag}}</a></small></span>
+                    <span>&nbsp;|&nbsp;<small class="text-muted main-page-link-sub"><a class="main-page-link-sub" href="{{{itemrooturl}}}">{{itemroot}}</a></small></span>
                     </p>
-                    <span class="float-right main-page-link-sub text-primary" href="#accordion-{{itemrootid}} .item-{{itemindex}}" data-toggle="collapse" aria-controls="#accordion-{{itemrootid}} .item-{{itemindex}}" aria-expanded="true">Show Discussion</span>
+                    <span class="float-right main-page-link-sub text-primary" href="#accordion .item-{{itemindex}}" data-toggle="collapse" aria-controls="#accordion .item-{{itemindex}}" aria-expanded="true">Show Discussion</span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="collapse item-{{itemindex}}" role="tabpanel" data-parent="#accordion-{{itemrootid}}">
+    <div class="collapse item-{{itemindex}}" role="tabpanel" data-parent="#accordion">
         <div class="card-body">
             {{#forum}}
             <div>

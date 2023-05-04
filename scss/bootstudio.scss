@@ -182,6 +182,22 @@
     object-fit: cover;
     filter: brightness(0.7);
   }
+
+  .section-page-sub-card-img{
+    object-fit: cover;
+    filter: brightness(0.7);
+    height: 100%;
+  }
+
+  .section-page-sub-card{
+
+    height: 90%;
+  }
+
+  .section-page-top-cont{
+    max-height: 350px;
+    overflow: hidden;
+  }
   
   @media (min-width: 1200px) {
     .main-page-sub-card-img {
@@ -868,6 +884,7 @@
   
 
   .secondary-nav-logo-img{
+    z-index:10;
     height: 110px;
   }
 

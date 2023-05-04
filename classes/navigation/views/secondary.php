@@ -805,7 +805,7 @@ class secondary extends \core\navigation\views\secondary {
            
         if ($mainnode) {
             $url = new \moodle_url('/course/index.php', ['categoryid' => $rootcatid]);
-            $this->add(get_string('home'), $url, self::TYPE_CONTAINER, null, 'categorymain');
+            //$this->add('Section Home', $url, self::TYPE_CONTAINER, null, 'categorymain');
 
             // Add the initial nodes.
             $nodesordered = $this->get_leaf_nodes($mainnode, $nodes);

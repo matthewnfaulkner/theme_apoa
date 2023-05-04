@@ -1,0 +1,16 @@
+
+<h4 class="text-center main-page-section-title pt-2 p-1 px-0">
+    <a class="section_title main-page-link" href="{{sectionurl}}">{{sectiontitle}}</a>
+</h4>
+<ul class="list-group" style="border-style: none;">
+    {{#content}}
+        {{> theme_apoa/lists/listitems/mainpageeventslistitem}}
+    {{/content}}
+    <li class="list-group-item p-0 main-page-sub-list-group-item">
+            <div class="card p-0" style="border-style: none;">
+                <div class="card-body pb-0 pt-2">
+                    <a class="mb-1 main-page-link main-page-more-link" href="{{sectionurl}}">more {{sectiontitle}}</a>
+                </div>
+            </div>
+    </li>
+</ul>

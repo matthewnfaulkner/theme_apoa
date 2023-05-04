@@ -14,7 +14,7 @@ class subjumbo implements \templatable , \renderable {
     protected array $sections;
     
      /** @var string the item output class name */
-     protected string $itemclass;
+    protected string $itemclass;
 
     public function __construct() {
 
@@ -38,23 +38,6 @@ class subjumbo implements \templatable , \renderable {
             $this->itemclass = "theme_apoa\\output\\core\\lists\\course_list";
             $subjumboclass = new $this->itemclass($type, $key);
             $subjumbolist = $subjumboclass->export_for_template($output);
-
-            
-            /*if (isset($subjumboclass->subcategories)){
-                $elibrarysubs = [];
-                $first = true;
-                foreach ($subjumboclass->subcategories as $subcategory) {
-                    $subsubjumboclass = new $this->itemclass($type, $key, $subcategory);
-                    $subsubjumbolist = $subsubjumboclass->export_for_template($output);
-                    array_push($elibrarysubs, array('firsttab' => $first, 'categoryid' => $subcategory->id, 'categorytitle' => $subcategory->name,
-                    'categoryurl' => $subcategory->get_view_link(), 'categorycontent' => $subsubjumbolist));
-
-                    if ($first) {
-                        $first = null;
-                    }
-                }
-            }*/
-
             $onlyalpha = preg_replace("/[^a-zA-Z0-9]+/", "", $key);
             $template[$onlyalpha] = ['content' => $subjumbolist,
                     'sectiontitle' => $key,

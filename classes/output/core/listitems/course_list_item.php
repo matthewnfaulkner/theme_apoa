@@ -52,6 +52,8 @@ class course_list_item implements \templatable , \renderable {
         $rootcat = get_parent_category_by_generation($coursecat, 2);
 
         if ($this->iselibrary) {
+            //require($CFG->dirroot . 'mod/forum/lib.php');
+            require_once($CFG->dirroot.'/mod/forum/lib.php');
             $forum = forum_get_course_forum($this->course->id, 'social');
             if ($forum) {
                 $coursemodule = get_coursemodule_from_instance('forum', $forum->id);
@@ -75,7 +77,7 @@ class course_list_item implements \templatable , \renderable {
         $caturl  = $coursecat->get_view_link();
         $rooturl  = $rootcat->get_view_link();
 
-        $itemdesc = $this->course->description;
+        $itemdesc = $this->course->summary;
         $itemsummary = $this->course->summary;
         
         foreach ($this->courselistelement->get_course_overviewfiles() as $file) {
@@ -103,7 +105,9 @@ class course_list_item implements \templatable , \renderable {
             'itemindex' => $this->index,
             'first' => !$this->index,
             'forum' => $topdiscussionsummary,
-            'count' => $this->course->count
+            'count' => $this->course->count,
+            'itemstartdate' => $this->course->startdate,
+            'itemenddate' => $this->course->enddate
         ];
 
         return $template;
