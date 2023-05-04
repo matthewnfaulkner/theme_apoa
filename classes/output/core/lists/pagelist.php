@@ -63,7 +63,8 @@ class theme_apoa_pagelist implements \templatable {
             array_push($template, array(
                 'name' => $course->get_formatted_shortname(),
                 'url' => $url,
-                'img' => $img
+                'img' => $img,
+                'cat' => $this->coursecat->name
             ));
         }
         
