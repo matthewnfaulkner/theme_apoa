@@ -78,3 +78,30 @@ $string['Trauma'] = 'Asia Pacific Trauma Society';
 $string['WAVES'] = "Asia Pacific Women's Advocacy";
 $string['E-Library'] = "E-Library";
 $string['Newsletter'] = "Newsletter";
+
+$string['mainpagesettings'] = "Home Page Settings";
+$string['jumbotitle'] = "Jumbotron title";
+$string['jumbotitle_desc'] = "The main heading for the home page jumbo tron";
+$string['jumbodescription'] = "Jumbotron subtext";
+$string['jumbodescription_desc'] = "Smaller subtext displayed just below the main heading";
+$string['jumbotag'] = "Jumbotron tag";
+$string['jumbotag_desc'] = "tag for the content displayed in the jumbotron, usually 'Events'";
+$string['jumbovideo'] = "Jumbotron video";
+$string['jumbovideo_desc'] = "video to be displayed within the jumbotron as a picture in picture";
+$string['jumbobanner'] = "Jumbotron Banner";
+$string['jumbobanner_desc'] = "Video or image to be dispalyed prominently as background of the jumbotron";
+$string['jumboposter'] = "Jumbotron Poster";
+$string['jumboposter_desc'] = "Alternative image to be displayed in jumbotron if jumbo banner fails to load";
+$string['jumbobannerlogo'] = "APOA Logo";
+$string['jumbobannerlogo_desc'] = "APOA logo to be displayed on the right hand side of jumbotron";
+$string['resources_desc'] = "Placeholder image for resources tiles";
+$string['resources'] = "Resources tiles image";
+
+$string['sectionsettings'] = "Section Settings";
+$string['sectionlogo_desc'] = "The logo for this section of the APOA";
+
+$string['categorysettings'] = "Category Settings";
+$string['elibraryid'] = "Elibrary ID";
+$string['elibraryid_desc'] = "Category ID for the Elibrary Category, can be found in the URL of the Elibrary landing page";
+$string['newsletter'] = "Newsletter ID";
+$string['newsletter_desc'] = "Category ID for the Newsletter Category, can be found in the URL of the Newsletter landing page";
