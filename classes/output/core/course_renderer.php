@@ -301,14 +301,11 @@ class course_renderer extends \core_course_renderer {
                 $output .= $this->render_course_cat($chelper, $coursecat);
             }
             else if ($coursecat->has_children()) {
-                if ($description = $chelper->get_category_formatted_description($coursecat)) {
-                    $output .= $this->box($description, array('class' => 'container main-page-container'));
-                }
                 $sort = array('sortorder' => 1);
                 $limit = 1;
                 $options = array('sort' => $sort, 'limit' => $limit);
                 $subcat = reset($coursecat->get_children($options));
-                $output .= $this->render_course_cat($chelper, $subcat);
+                $output .= $this->render_subcategory($chelper, $coursecat);
                 //$courses = $subcat->get_courses($options = array('limit' => 5));
             }
             //$output .= $this->coursecat_tree($chelper, $coursecat);

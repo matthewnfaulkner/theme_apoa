@@ -245,7 +245,12 @@ class course_list implements \templatable , \renderable {
     protected function set_courses_for_category() {
         global $DB;
         $sql = [];
-    
+
+        if (!$this->subcategories) {
+            $this->courses = $DB->get_records('course', array('category' => $this->category->id), 'sortorder ASC');
+            return;
+        }
+
         foreach ($this->subcategories as $subcategory) {
             $id = $subcategory->id;
             $conditions = $id;
