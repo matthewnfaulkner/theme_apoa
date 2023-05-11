@@ -128,7 +128,6 @@ foreach ($topchildren as $category) {
     $CFG->custommenuitems .= $rootlink;
 }
 
-//unset_all_config_for_plugin('theme_apoa');
 $THEME->editor_sheets = [];                                                                                                                                                                              
 $THEME->parents = ['boost'];                                                                                                                        
 $THEME->enable_dock = false;                                                                                                                          

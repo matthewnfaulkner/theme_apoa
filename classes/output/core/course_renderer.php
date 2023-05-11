@@ -267,9 +267,6 @@ class course_renderer extends \core_course_renderer {
             if ($coursecat->depth <= 2) {
                 if ($description = $chelper->get_category_formatted_description($coursecat)) {
                 }
-                if ($coursecat->name == 'Sections') {
-                    $output .= $this->render_root_cat($chelper, $coursecat);
-                }
                 if ($coursecat->name == 'E-Library') {
                     $output .= $this->render_subcategory($chelper, $coursecat);
                 }

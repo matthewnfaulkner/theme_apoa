@@ -801,10 +801,10 @@ class secondary extends \core\navigation\views\secondary {
         $categories = get_category_path($category);
         $rootcatid = array_shift($categories);
         $secondarycatid = array_shift($categories);
-        //$rootcat = get_subroot_category($category);
+        $rootcat = get_subroot_category($category);
            
         if ($mainnode) {
-            $url = new \moodle_url('/course/index.php', ['categoryid' => $rootcatid]);
+            $url = new \moodle_url('/course/index.php', ['categoryid' => $rootcat->id]);
             //$this->add('Section Home', $url, self::TYPE_CONTAINER, null, 'categorymain');
 
             // Add the initial nodes.
@@ -816,7 +816,7 @@ class secondary extends \core\navigation\views\secondary {
             $this->load_remaining_nodes($mainnode, $nodes);
 
             if ($secondarycatid) {
-                $this->page->set_secondary_active_tab($secondarycatid);
+                $this->page->set_secondary_active_tab($rootcat->id);
             }
             else{
                 $this->page->set_secondary_active_tab('categorymain');

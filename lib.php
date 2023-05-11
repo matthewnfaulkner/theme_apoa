@@ -105,7 +105,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
     $subcategories = $subrootcategory->get_children();
     $component = 'theme_apoa';
 
-    //theme_apoa_get_secondary_nav_items($parentnode, $subcategories, $component);
+    theme_apoa_get_secondary_nav_items($parentnode, $subcategories, $component);
 }
 
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
@@ -118,7 +118,7 @@ function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdCla
     $subcategories = $rootcat->get_children();
     $component = 'theme_apoa';
 
-    //theme_apoa_get_secondary_nav_items($parentnode, $subcategories, $component);
+    theme_apoa_get_secondary_nav_items($parentnode, $subcategories, $component);
     
 }
 
