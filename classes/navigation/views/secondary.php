@@ -491,10 +491,10 @@ class secondary extends \core\navigation\views\secondary {
             $categorypath = get_category_path($category);
             $rootcatid = array_shift($categorypath);
             $secondarycatid = array_shift($categorypath);
-            $rootnode->add_node(
-                navigation_node::create('Home', new \moodle_url('/course/index.php', ['categoryid' => $rootcatid]),
+            /*$rootnode->add_node(
+                navigation_node::create('Home', new \moodle_url('/course/index.php', ['categoryid' => $secondarycatid]),
                     self::TYPE_CATEGORY, null, 'coursehome'), reset($nodekeys)
-            );
+            );*/
             if ($secondarycatid) {
                 $this->page->set_secondary_active_tab($secondarycatid);
             }

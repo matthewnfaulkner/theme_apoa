@@ -77,12 +77,13 @@ class course_list implements \templatable , \renderable {
         $loopcounter = 0;
         if(isset($this->subcategories)){
             if($this->iselibrary){
-                $store['toppages'] = array('subcategorycourses' => [], 'firsttab' => true, 
+                $store['toppages'] = array('subcategorycourses' => [], 'firsttab' => $this->iselibrary, 
                                     'categoryid' => "0", 'categorytitle' => "Most popular papers",
                                     'categoryurl' => "");
+                $loopcounter += 1;
             }
             foreach ($this->subcategories as $subcategory) {
-                $store[$subcategory->id] = array('subcategorycourses' => [], 'firsttab' => false, 
+                $store[$subcategory->id] = array('subcategorycourses' => [], 'firsttab' => !$loopcounter, 
                                 'categoryid' => $subcategory->id, 'categorytitle' => $subcategory->name,
                                 'categoryurl' => $subcategory->get_view_link(), $subcategory->name => $subcategory->name);
                 $loopcounter += 1;

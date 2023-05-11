@@ -245,6 +245,25 @@
     overflow: hidden;
   }
 
+  .categorylist-image{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .categorylist-text{
+    text-align: left;
+    max-height: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: normal;
+    display: -webkit-box!important;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
   .related-image {
     object-fit: cover;
     /*object-position: right;*/
@@ -701,11 +720,18 @@
   .main-page-link.main-page-more-link {
     font-size: 14px;
   }
-  
+
+  @media (min-width: 1200px) {
+    .navbar.fixed-top {
+      padding-left: calc(10% + 10em)!important;
+      padding-right: calc(10% + 10em)!important;
+    }
+  }
+
   @media (min-width: 1200px) {
     .main-page-container {
-      min-width: 1200px;
-      max-width: 100%;
+      min-width: 80%;
+      max-width: 80%;
       padding-left: 10em !important;
       padding-right: 10em !important;
     }
@@ -962,6 +988,7 @@
   
   input:checked + .boost-span:before {
     content: "Boosted";
+    color: white;
     background-color: transparent;
     background-position: left;
   }
@@ -974,49 +1001,58 @@
     width: 110px;
     font-size: 0;
     color: var(--primary);
-    background: var(--primary);
+    background: white;
     display: inline-block;
-    border-radius: 10px;
-    height: 40px;
+    height: 100%;
   }
   
   .boost-span:before {
-    color: white!important;
+    color: white;
     position: relative;
-    height: 26px;
     content: "Boost";
     align-items: center;
     display: flex;
     justify-content: center;
-    height: 40px;
     width: 110px;
     -webkit-transition: .4s;
     transition: .4s;
+    border: 1px solid transparent;
+    border-left: none;
+    color: #336667;
+    border-color: #336667;
   }
   
   .boost-span {
     font-size: 14px;
     position: relative;
     cursor: pointer;
+    height: 100%;
     top: 0;
-    border-radius: 10px;
     left: 0;
-    height: 40px;
     color: white!important;
     right: 0;
     bottom: 0;
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
-    background: linear-gradient(to left, var(--primary) 50%, var(--pink) 50%) right;
+    background: linear-gradient(to left, white 50%, var(--pink) 50%) right;
     background-size: 200% 100%;
   }
   
   .boost-span:hover{
-    background: rgba(0.5);
+    background-position: left;
+    color: white!important;
   }
 
-  
+  .boost-span:hover:before{
+    color: white!important;
+  }
+
+  #resourceobject {
+    width: 100% !important;
+    height: 1000px;
+    border-style: none !important;
+  }
   
   
   

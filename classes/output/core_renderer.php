@@ -256,7 +256,7 @@ class core_renderer extends \core_renderer {
         }
 
         if ($context->contextlevel == CONTEXT_COURSECAT){
-            if($context->depth <= 2) {
+            if($context->depth <= 3) {
                 $heading = '';
             }
         }
@@ -345,7 +345,7 @@ class core_renderer extends \core_renderer {
         if (!isset($contextheader->heading)) {
             $heading = $this->heading($this->page->heading, $contextheader->headinglevel, 'h2');
         } else {
-            $heading = $this->heading($contextheader->heading, $contextheader->headinglevel, 'h2');
+            $heading = $this->heading($contextheader->heading, $contextheader->headinglevel, 'h2 mb-0');
         }
 
         // All the html stuff goes here.
@@ -544,6 +544,27 @@ class core_renderer extends \core_renderer {
         }
 
         return $this->render($menu);
+    }
+
+    public function footer_contact_info() {
+
+        $formatoptions = new \stdClass;
+        $formatoptions->noclean = true;
+        $formatoptions->overflowdiv = true;
+        $content = format_text(get_config('theme_apoa', 'footercontact'), FORMAT_PLAIN, $formatoptions);
+        return $content;
+    }
+
+    public function footer_quick_links() {
+        $setting = get_config('theme_apoa', 'footerquicklinks');
+        $lines = explode("\n", $setting);
+        $template = [];
+        foreach ($lines as $line) {
+            list($label, $rawlink) = explode('|', $line);
+            $link = new moodle_url($rawlink);
+            array_push($template, array('quickname' => $label, 'quicklink' => $link));
+        }
+        return $template;
     }
 }
     

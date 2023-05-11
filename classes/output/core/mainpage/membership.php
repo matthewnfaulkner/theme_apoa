@@ -2,6 +2,8 @@
 
 namespace theme_apoa\output\core\mainpage;
 
+use moodle_url;
+
 defined('MOODLE_INTERNAL') || die;
 
 
@@ -31,7 +33,7 @@ class membership implements \templatable , \renderable {
     }
 
     protected function get_content() {
-
+        return array('url' => new moodle_url('login/index.php'));
     }
     
 }

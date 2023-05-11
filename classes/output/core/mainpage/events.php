@@ -40,12 +40,14 @@ class events implements \templatable , \renderable {
         foreach ($this->sections as $key => $type) {
             $this->itemclass = "theme_apoa\\output\\core\\lists\\event_list";
             $subjumboclass = new $this->itemclass($type, $key);
-            $subjumbolist = $subjumboclass->export_for_template($output);
-            $onlyalpha = preg_replace("/[^a-zA-Z0-9]+/", "", $key);
-            $template[$onlyalpha] = ['content' => $subjumbolist,
-                    'sectiontitle' => $key,
-                    'sectionmore' => "more " . $key,
-                    'sectionurl' => $subjumboclass->redirecturl];
+            if ($subjumbolist = $subjumboclass->export_for_template($output)) {;
+                
+                $onlyalpha = preg_replace("/[^a-zA-Z0-9]+/", "", $key);
+                $template[$onlyalpha] = ['content' => $subjumbolist,
+                        'sectiontitle' => $key,
+                        'sectionmore' => "more " . $key,
+                        'sectionurl' => $subjumboclass->redirecturl];
+            }
             
         }
 

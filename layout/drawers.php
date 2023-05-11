@@ -89,6 +89,8 @@ if (is_siteadmin($USER->id)) {
 }
 
 $primary = new core\navigation\output\primary($PAGE);
+
+
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
 $buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions() && !$PAGE->has_secondary_navigation();
@@ -121,4 +123,4 @@ $templatecontext = [
     'addblockbutton' => $addblockbutton
 ];
 
-echo $OUTPUT->render_from_template('theme_boost/drawers', $templatecontext);
+echo $OUTPUT->render_from_template('theme_apoa/drawers', $templatecontext);

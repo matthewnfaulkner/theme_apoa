@@ -1,59 +1,13 @@
-<h4 class="text-center">Popular Resources</h4>
+<h4 class="text-center text-primary">Popular Resources</h4>
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-sm-2 row-cols-md-4 mx-0 mb-2 row-cols-2 row-cols-xl-4 main-page-resources-cont p-2 m-0">
-        <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-            <div class="card main-page-card text-white"><img class="card-img d-block main-page-resource-card-img no-border-radius" src="{{resourceimg}}">
-                <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
-                    <h4 class="main-page-link mb-0 text-center">Forum</h4>
+        {{#resources}}
+            <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="{{resourcelink}}"></a>
+                <div class="card main-page-card text-white"><img class="card-img d-block main-page-resource-card-img no-border-radius" src="{{resourceimg}}">
+                    <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
+                        <h4 class="main-page-link mb-0 text-center">{{resourcename}}</h4>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-            <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="{{resourceimg}}">
-                <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
-                    <h4 class="main-page-link mb-0 text-center">Past Events</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-            <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="{{resourceimg}}">
-                <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
-                    <h4 class="main-page-link mb-0 text-center">Member's Gallery</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-            <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="{{resourceimg}}">
-                <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
-                    <h4 class="main-page-link mb-0 text-center">Educational Videos</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-            <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="{{resourceimg}}">
-                <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
-                    <h4 class="main-page-link mb-0 text-center">Upcoming Events</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-            <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="{{resourceimg}}">
-                <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
-                    <h4 class="main-page-link mb-0 text-center">Journal</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-            <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="{{resourceimg}}">
-                <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
-                    <h4 class="main-page-link mb-0 text-center">Contact Us</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col flex-column d-flex justify-content-center align-items-center py-2 px-2"><a class="stretched-link main-page-link-wrapper" href="#"></a>
-            <div class="card main-page-card text-white"><img class="card-img w-100 d-block main-page-resource-card-img no-border-radius" src="{{resourceimg}}">
-                <div class="card-img-overlay flex-column d-flex justify-content-center align-items-center">
-                    <h4 class="main-page-link mb-0 text-center">Archive</h4>
-                </div>
-            </div>
-        </div>
+        {{/resources}}
     </div>
+</div>

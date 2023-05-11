@@ -30,7 +30,7 @@
     }
 }}
 <header id="page-header" class="d-print-none px-2 px-sm-0">
-    <div class="container main-page-container my-0 py-0">
+    <div class="container main-page-container my-0 pt-0">
         <div class="d-flex flex-wrap">
             {{#hasnavbar}}
             <div id="page-navbar">
@@ -44,10 +44,10 @@
                 {{{courseheader}}}
             </div>
         </div>
-        <div class="d-flex align-items-center justify-content-center flex-column">
+        <div class="d-flex align-items-center">
             {{^welcomemessage}}
                 {{#contextheader}}
-                    <div class="text-primary px-2">
+                    <div class="mr-auto">
                         {{{contextheader}}}
                     </div>
                 {{/contextheader}}

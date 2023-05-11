@@ -29,6 +29,7 @@ class event_list implements \templatable {
 
     protected int $now;
 
+    
 
     public function __construct(string $listtype, string $tense, \core_course_category $category = null) {
         global $CFG;
@@ -48,8 +49,6 @@ class event_list implements \templatable {
         $setcourses = 'set_courses_for_' . $this->listtype;
         $this->$setcourses();
 
-        //$setredirecturl = 'set_url_for_' . $this->listtype;
-        //$this->$setredirecturl();
     }
     
     protected function set_tag_from_criteria(string $criteria) {
