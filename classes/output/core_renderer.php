@@ -289,7 +289,7 @@ class core_renderer extends \core_renderer {
                 }
 
                 $imagedata = $this->user_picture($user, array('size' => 100));
-
+                
                 // Check to see if we should be displaying a message button.
                 if (!empty($CFG->messaging) && has_capability('moodle/site:sendmessage', $context)) {
                     $userbuttons = array(

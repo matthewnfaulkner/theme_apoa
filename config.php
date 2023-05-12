@@ -76,27 +76,18 @@ if (empty($topchildren)) {
 }
 $category = reset($topchildren);
 
-$CFG->custommenuitems = "";
-foreach ($topchildren as $category) {
-    $subcats = $category->get_children();
-    $rootlink = "";
-    $sublinks = "";
-    $name = $category->name;
-    switch($name) {
-        case "APOA":
-            foreach ($subcats as $subcat) {
-                switch($subcat->name) {
-                    case "About":
-                        $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
-                        if($subcat->has_children()) {
-                            $subsubcats = $subcat->get_children();
-                            foreach ($subsubcats as $subsubcat){
-                                $name = $subsubcat->name;
-                                $sublinks .= "-{$name}|/course/index.php?categoryid={$subsubcat->id}\n";
-                            }
-                        }
-                        break;
-                    case "Committees":
+if (!$CFG->custommenuitems) {
+    $CFG->custommenuitems = "";
+    foreach ($topchildren as $category) {
+        $subcats = $category->get_children();
+        $rootlink = "";
+        $sublinks = "";
+        $name = $category->name;
+        switch($name) {
+            case "APOA":
+                foreach ($subcats as $subcat) {
+                    switch($subcat->name) {
+                        case "About":
                             $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
                             if($subcat->has_children()) {
                                 $subsubcats = $subcat->get_children();
@@ -106,28 +97,38 @@ foreach ($topchildren as $category) {
                                 }
                             }
                             break;
-                    case "E-Library":
-                        $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
-                        break;
-                    case "Newsletter":
-                        $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
-                        break;
-                    default:
-                        break;
+                        case "Committees":
+                                $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
+                                if($subcat->has_children()) {
+                                    $subsubcats = $subcat->get_children();
+                                    foreach ($subsubcats as $subsubcat){
+                                        $name = $subsubcat->name;
+                                        $sublinks .= "-{$name}|/course/index.php?categoryid={$subsubcat->id}\n";
+                                    }
+                                }
+                                break;
+                        case "E-Library":
+                            $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
+                            break;
+                        case "Newsletter":
+                            $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            }
-            $rootlink .= $sublinks;
-            break;
-        case "Sections":
-            foreach ($subcats as $subcat) {
-                $sublinks .= "-{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
-            }
-            $rootlink = "Sections|/course/index\n" . $sublinks;
-            break;
+                $rootlink .= $sublinks;
+                break;
+            case "Sections":
+                foreach ($subcats as $subcat) {
+                    $sublinks .= "-{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
+                }
+                $rootlink = "Sections|/course/index\n" . $sublinks;
+                break;
+        }
+        $CFG->custommenuitems .= $rootlink;
     }
-    $CFG->custommenuitems .= $rootlink;
 }
-
 $THEME->editor_sheets = [];                                                                                                                                                                              
 $THEME->parents = ['boost'];                                                                                                                        
 $THEME->enable_dock = false;                                                                                                                          
