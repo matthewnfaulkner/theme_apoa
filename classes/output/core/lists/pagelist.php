@@ -46,7 +46,7 @@ class theme_apoa_pagelist implements \templatable {
 
         global $CFG;
         
-        $template = [];
+        $template['sidebaritems'] = [];
 
 
         foreach ($this->courses as $course){
@@ -60,7 +60,7 @@ class theme_apoa_pagelist implements \templatable {
                 }
             }
             $url = course_get_url($course);
-            array_push($template, array(
+            array_push($template['sidebaritems'], array(
                 'name' => $course->get_formatted_shortname(),
                 'url' => $url,
                 'img' => $img,
