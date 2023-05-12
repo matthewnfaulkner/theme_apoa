@@ -68,8 +68,10 @@ class theme_apoa_pagelist implements \templatable {
             ));
         }
         
- 
-        return $template;
+        if($template['sidebaritems']) {
+            return $template;
+        }
+        return null;
     }
 
 
