@@ -6,16 +6,18 @@
                 <div class="journal-sub-card-text-cont">
                     <p class="mb-2 journal-card-text">
                     <span class="journal-sub-card-authors main-page-link main-page-sub-card-text">{{itemauthors}}</span>
-                    <span>&nbsp;|&nbsp;<small class="text-muted main-page-link-sub"><a class="main-page-link-sub" href="{{{itemtagurl}}}">{{itemtag}}</a></small></span>
+                    <span>{{#itemtag}}&nbsp;|&nbsp;{{/itemtag}}<small class="text-muted main-page-link-sub"><a class="main-page-link-sub" href="{{{itemtagurl}}}">{{itemtag}}</a></small></span>
                     </p>
-                    <span class="float-right main-page-link-sub text-primary" href="#accordion-{{itemrootid}} .item-{{itemindex}}" data-toggle="collapse" aria-controls="#accordion-{{itemrootid}} .item-{{itemindex}}" aria-expanded="true">Show Discussion</span>
+                    {{#forum}}
+                        <span class="float-right main-page-link-sub text-primary" href="#accordion-{{itemrootid}} .item-{{itemindex}}" data-toggle="collapse" aria-controls="#accordion-{{itemrootid}} .item-{{itemindex}}" aria-expanded="true">Show Discussion</span>
+                    {{/forum}}
                 </div>
             </div>
         </div>
     </div>
+    {{#forum}}
     <div class="collapse item-{{itemindex}}" role="tabpanel" data-parent="#accordion-{{itemrootid}}">
         <div class="card-body">
-            {{#forum}}
             <div>
                 {{#forumpost}}
                     <h5 class="card-title">{{name}}</h5>
@@ -27,7 +29,7 @@
                 {{/forumpost}}
                 <a class="card-link main-page-link-sub" href="{{forumurl}}">Go to discussion</a>
             </div>
-            {{/forum}}
         </div>
     </div>
+    {{/forum}}
 </div>

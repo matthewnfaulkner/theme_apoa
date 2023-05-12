@@ -5,15 +5,17 @@
                 <h5 class="journal-card-title main-page-link card-text-over-picture"><br>{{itemtitle}}<br><br></h5>
                 <div class="w-100">
                     <p><span class="main-page-link" style="font-size: 14px;">{{itemauthors}}</span>
-                    <span>&nbsp;|&nbsp;</span><small><a class="main-page-link-sub text-white" href="{{{itemtagurl}}}">{{itemtag}}</a></small></p>
+                    <span>{{#itemtag}}&nbsp;|{{/itemtag}}&nbsp;</span><small><a class="main-page-link-sub text-white" href="{{{itemtagurl}}}">{{itemtag}}</a></small></p>
+                    {{#forum}}
                     <h6 class="text-right main-page-link-sub float-right" href="#accordion-{{itemrootid}} .item-{{itemindex}}" data-toggle="collapse" aria-expanded="true" aria-controls="#accordion-{{itemrootid}} .item-1">Show Discussion</h6>
+                    {{/forum}}
                 </div>
             </div>
         </div>
     </div>
+    {{#forum}}
     <div class="collapse item-{{itemindex}}" role="tabpanel" data-parent="#accordion-{{itemrootid}}" style="border-style: none;">
         <div class="card-body">
-            {{#forum}}
             <div>
                 {{#forumpost}}
                     <h5 class="card-title">{{name}}</h5>
@@ -25,7 +27,7 @@
                 {{/forumpost}}
                 <a class="card-link main-page-link-sub" href="{{forumurl}}">Go to discussion</a>
             </div>
-            {{/forum}}
         </div>
     </div>
+    {{/forum}}
 </div>
