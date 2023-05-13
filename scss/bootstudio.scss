@@ -723,15 +723,17 @@
 
   @media (min-width: 1200px) {
     .navbar.fixed-top {
-      padding-left: calc(10% + 10em)!important;
-      padding-right: calc(10% + 10em)!important;
+      padding-left: calc(10em)!important;
+      padding-right: calc(10em)!important;
+      max-width:1600px;
+      margin:auto
     }
   }
 
   @media (min-width: 1200px) {
     .main-page-container {
       min-width: 80%;
-      max-width: 80%;
+      max-width:1600px;
       padding-left: 10em !important;
       padding-right: 10em !important;
     }
