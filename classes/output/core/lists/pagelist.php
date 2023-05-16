@@ -54,7 +54,7 @@ class theme_apoa_pagelist implements \templatable {
 
                 $parents = preg_split('@/@', $rawcourse->categorypath, -1, PREG_SPLIT_NO_EMPTY);
 
-                $category  = \core_course_category::get($parents[0]);
+                $category  = \core_course_category::get($parents[1]);
 
 
                 foreach ($course->get_course_overviewfiles() as $file) {
