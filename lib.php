@@ -71,7 +71,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
     
         $nospacename = preg_replace("/[^a-zA-Z0-9]+/", "", $subcategory->name);
         $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
-        if ($subcategory->get_courses_count() == 1){
+        if ($coursecount = $subcategory->get_courses_count() == 1){
             if($courses = $subcategory->get_courses($limit = 1)) {
                 $course = reset($courses);
                 $parentnode->add(
@@ -84,7 +84,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
             }
             
         }else {
-            $parentnode->add(
+            $newnode = $parentnode->add(
                 $name ,
                 new \moodle_url('/course/index.php', ['categoryid' => $subcategory->id]),
                 navigation_node::TYPE_CUSTOM,

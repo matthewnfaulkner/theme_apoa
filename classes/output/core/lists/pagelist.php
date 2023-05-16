@@ -6,6 +6,7 @@ defined('MOODLE_INTERNAL') || die;
 
 use core_course_category;
 use stdClass;
+use theme_apoa_tag_tag;
 
 class theme_apoa_pagelist implements \templatable {
 
@@ -32,10 +33,7 @@ class theme_apoa_pagelist implements \templatable {
         }
         $subquery = rtrim($subquery, ',');
         if ($subquery) {
-            $rawcourses = \theme_apoa_tag_tag::get_all_courses_with_same_tags($this->course->id, 'core', 'course', '1', '3', 'it.id != ' . $this->course->id, 'timecreated DESC', $params);
-        }
-        foreach ($rawcourses as $rawcourse){
-            $this->courses[$rawcourse->id] = new \core_course_list_element($rawcourse);
+            $this->courses = \theme_apoa_tag_tag::get_all_courses_with_same_tags($this->course->id, 'core', 'course', '1', '3', 'it.id != ' . $this->course->id, 'timecreated DESC', $params);
         }
 
     }
@@ -49,23 +47,36 @@ class theme_apoa_pagelist implements \templatable {
         $template['sidebaritems'] = [];
 
 
-        foreach ($this->courses as $course){
-            foreach ($course->get_course_overviewfiles() as $file) {
-                $isimage = $file->is_valid_image();
-                $img = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
-                    '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
-                    $file->get_filearea() . $file->get_filepath() . $file->get_filename(), !$isimage);
-                if ($isimage) {
-                    break;
+        foreach ($this->courses as $rawcourse){
+            if($rawcourse->tagid && $rawcourse->tagname != "featured") {
+                $tagurl = \theme_apoa_tag_tag::make_url($rawcourse->tagcollid, $rawcourse->rawname);
+                $course = new \core_course_list_element($rawcourse);
+
+                $parents = preg_split('@/@', $rawcourse->categorypath, -1, PREG_SPLIT_NO_EMPTY);
+
+                $category  = \core_course_category::get($parents[0]);
+
+
+                foreach ($course->get_course_overviewfiles() as $file) {
+                    $isimage = $file->is_valid_image();
+                    $img = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
+                        '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
+                        $file->get_filearea() . $file->get_filepath() . $file->get_filename(), !$isimage);
+                    if ($isimage) {
+                        break;  
+                    }
                 }
+                $url = course_get_url($course);
+                array_push($template['sidebaritems'], array(
+                    'name' => $course->get_formatted_shortname(),
+                    'url' => $url,
+                    'img' => $img,
+                    'cat' => $category->name,
+                    'caturl' => $category->get_view_link(),
+                    'tag' => $rawcourse->rawname,
+                    'tagurl' => $tagurl
+                ));
             }
-            $url = course_get_url($course);
-            array_push($template['sidebaritems'], array(
-                'name' => $course->get_formatted_shortname(),
-                'url' => $url,
-                'img' => $img,
-                'cat' => $this->coursecat->name
-            ));
         }
         
         if($template['sidebaritems']) {

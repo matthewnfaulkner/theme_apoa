@@ -187,12 +187,11 @@ class theme_apoa_tag_tag extends \core_tag_tag {
         $params['itemtype'] = $itemtype;
         $params['courseid'] = $courseid;
 
-        $query = "SELECT tt.tagid FROM {".$itemtype."} it INNER JOIN {tag_instance} tt ON tt.itemid = it.id
-        WHERE it.id = :courseid";
 
-        $x = $DB->get_records_sql($query, $params, $limitfrom, $limitnum);
-        $query = "SELECT it.*
-        FROM {".$itemtype."} it INNER JOIN {tag_instance} tt ON it.id = tt.itemid
+        $query = "SELECT it.*, t.name as tagname, t.id as tagid, t.tagcollid, t.rawname, cc.id as categoryid, cc.name as categoryname,
+        cc.path as categorypath
+        FROM {".$itemtype."} it INNER JOIN {tag_instance} tt ON it.id = tt.itemid INNER JOIN {tag} t ON t.id = tt.tagid 
+                INNER JOIN {course_categories} cc ON cc.id = it.category
                 WHERE tt.itemtype = :itemtype AND tt.tagid IN
                 (SELECT tt.tagid FROM {".$itemtype."} it INNER JOIN {tag_instance} tt ON tt.itemid = it.id
                 WHERE it.id = :courseid)";

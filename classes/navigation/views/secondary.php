@@ -264,7 +264,9 @@ class secondary extends \core\navigation\views\secondary {
             case CONTEXT_MODULE:
                 $this->headertitle = get_string('activityheader');
                 if ($this->page->course->format === 'singleactivity') {
-                    $this->load_single_activity_course_navigation();
+                    $this->load_course_navigation();
+                    $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
+                    //$this->load_single_activity_course_navigation();
                 } else {
                     $this->load_course_navigation();
                     $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
