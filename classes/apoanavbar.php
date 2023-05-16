@@ -60,7 +60,7 @@ class apoanavbar implements \renderable {
         
         // Defines whether section items with an action should be removed by default.
         $removesections = true;
-
+    
         if ($this->page->context->contextlevel == CONTEXT_COURSECAT) {
             
             // Remove the 'Permissions' navbar node in the Check permissions page.
@@ -83,14 +83,14 @@ class apoanavbar implements \renderable {
             // Remove 'My courses' and 'Courses' if we are in the course context.
             $this->remove('mycourses');
             $this->remove('courses');
-            $this->remove($this->page->course->id);
+            //$this->remove($this->page->course->id);
             $this->get_category_breadcrumb_for_course();
             // Remove the course category breadcrumb node.
             //$this->remove($this->page->course->category, \breadcrumb_navigation_node::TYPE_CATEGORY);
             // Remove the course breadcrumb node.
-            //$this->remove($this->page->course->id, \breadcrumb_navigation_node::TYPE_COURSE);
+            $this->remove($this->page->course->id, \breadcrumb_navigation_node::TYPE_COURSE);
             // Remove the navbar nodes that already exist in the secondary navigation menu.
-            //$this->remove_items_that_exist_in_navigation($PAGE->secondarynav);
+            $this->remove_items_that_exist_in_navigation($PAGE->secondarynav);
 
             switch ($this->page->pagetype) {
                 case 'group-groupings':
@@ -115,8 +115,9 @@ class apoanavbar implements \renderable {
         if ($this->page->context->contextlevel == CONTEXT_MODULE) {
             $this->remove('mycourses');
             $this->remove('courses');
+            $this->remove('course');
             // Remove the course category breadcrumb node.
-            $this->remove($this->page->course->category, \breadcrumb_navigation_node::TYPE_CATEGORY);
+            //$this->remove($this->page->course->category, \breadcrumb_navigation_node::TYPE_CATEGORY);
             $courseformat = course_get_format($this->page->course)->get_course();
             // Section items can be only removed if a course layout (coursedisplay) is not explicitly set in the
             // given course format or the set course layout is not 'One section per page'.
@@ -143,7 +144,10 @@ class apoanavbar implements \renderable {
             $mycoursesnode->action = $url;
             $mycoursesnode->text = get_string('mycourses');
         }
-
+        $apoakey = get_config('theme_apoa', 'APOAid');
+        $sectionskey = get_config('theme_apoa', 'Sectionsid');
+        $this->remove( $apoakey);
+        $this->remove($sectionskey);
         $this->remove_no_link_items($removesections);
 
         // Don't display the navbar if there is only one item. Apparently this is bad UX design.

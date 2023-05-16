@@ -51,7 +51,8 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
         }
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
     }else if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'jumbobanner' || $filearea === 'jumbobannerlogo' || 
-    preg_replace('/[0-9]+/', '', $filearea) === 'sectionlogo' || $filearea === 'resources' || $filearea === 'jumbobannerposter'){
+    preg_replace('/[0-9]+/', '', $filearea) === 'sectionlogo' || $filearea === 'resources' || $filearea === 'jumbobannerposter' ||
+    $filearea === 'about'){
         $theme = theme_config::load('apoa');
         // By default, theme files must be cache-able by both browsers and proxies.
         if (!array_key_exists('cacheability', $options)) {
@@ -67,8 +68,8 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
 function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $subcategories, string $component) {
 
     foreach ($subcategories as $subcategory) {
-        
-        $nospacename = str_replace(' ', '' , $subcategory->name);
+    
+        $nospacename = preg_replace("/[^a-zA-Z0-9]+/", "", $subcategory->name);
         $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
         if ($subcategory->get_courses_count() == 1){
             if($courses = $subcategory->get_courses($limit = 1)) {
@@ -134,7 +135,7 @@ function theme_apoa_extend_navigation(global_navigation $nav) {
         $name = $category->name;
         $myurl .= "-{$name}|/course/index?categoryid={$id}\n";
     }
-    $CFG->custommenuitems = $myurl;
+    $CFG->custommenuitems = "";
 };
 
 
@@ -238,12 +239,13 @@ function get_courses_for_elibrary() {
 
 function get_subroot_category(\core_course_category $category) {
 
+    $generation = 1;
     if ($category->depth <= 1) {
         return $category;
     }
     else {
         $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
-        $rootcategory = \core_course_category::get(reset($parents));
+        $rootcategory = \core_course_category::get($category->depth - $generation <= 0 ? reset($parents) : $parents[1]);
         return $rootcategory;
     }
 }

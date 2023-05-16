@@ -1,4 +1,9 @@
-<div class="row py-3 mx-0 main-page-section-top-border">
+<div class="row pt-3 mx-0 main-page-section-top-border">
+    <div class="col-md-6 col-lg-6 col-md-12 pb-3 px-0 px-lg-2">
+        {{#Elibrary}}
+            {{> theme_apoa/mainpage/subjumbo/subjumbolistwide}}
+        {{/Elibrary}}
+    </div>
     <div class="col-md-6 col-lg-3 pb-3 px-0 px-lg-2">
         {{#SectionHighlights}}
             {{> theme_apoa/mainpage/subjumbo/subjumbolist}}
@@ -8,12 +13,5 @@
         {{#Newsletter}}
             {{> theme_apoa/mainpage/subjumbo/subjumbolist}}
         {{/Newsletter}}
-    </div>
-    <div class="col-md-6 col-lg-6 col-md-12 pb-3 px-0 px-lg-2">
-        {{#Elibrary}}
-            {{> theme_apoa/mainpage/subjumbo/subjumbolistwide}}
-        {{/Elibrary}}
-        
-        </div>
     </div>
 </div>

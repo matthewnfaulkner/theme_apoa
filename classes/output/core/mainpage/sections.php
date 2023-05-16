@@ -26,7 +26,8 @@ class sections implements \templatable , \renderable {
 
         global $CFG;
 
-        $top = \core_course_category::top();
+        $sectionid = get_config('theme_apoa', 'Sectionsid');
+        $top = \core_course_category::get($sectionid);
         $categories = $top->get_children();
         $template = ['sections' => []];
         foreach ($categories as $category){

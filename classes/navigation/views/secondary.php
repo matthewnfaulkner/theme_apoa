@@ -82,6 +82,47 @@ class secondary extends \core\navigation\views\secondary {
                 'contextlocking' => 13,
             ],
         ];
+
+        return $nodes;
+    }
+
+    /**
+     * Defines the default structure for the secondary nav in a course context.
+     *
+     * In a course context, we are curating nodes from the settingsnav and navigation objects.
+     * The following mapping construct specifies which object we are fetching it from, the type of the node, the key
+     * and in what order we want the node - defined as per the mockups.
+     *
+     * @return array
+     */
+    protected function get_default_course_mapping_for_admin(): array {
+        $nodes = [];
+        $nodes['settings'] = [
+            self::TYPE_CONTAINER => [
+                'coursereports' => 3,
+                'questionbank' => 4,
+            ],
+            self::TYPE_SETTING => [
+                'editsettings' => 0,
+                'review' => 1.1,
+                'manageinstances' => 1.2,
+                'groups' => 1.3,
+                'override' => 1.4,
+                'roles' => 1.5,
+                'permissions' => 1.6,
+                'otherusers' => 1.7,
+                'gradebooksetup' => 2.1,
+                'outcomes' => 2.2,
+                'coursecompletion' => 6,
+                'coursebadges' => 7.1,
+                'newbadge' => 7.2,
+                'filtermanagement' => 9,
+                'unenrolself' => 10,
+                'coursetags' => 11,
+                'download' => 12,
+                'contextlocking' => 13,
+            ],
+        ];
         $nodes['navigation'] = [
             self::TYPE_CONTAINER => [
                 'participants' => 1,
@@ -131,6 +172,8 @@ class secondary extends \core\navigation\views\secondary {
         ];
     }
 
+    
+
     /**
      * Defines the default structure for the secondary nav in a category context.
      *
@@ -165,7 +208,7 @@ class secondary extends \core\navigation\views\secondary {
      * @return array
      */
     protected function get_default_course_more_menu_nodes(): array {
-        return [];
+        return ['grades'];
     }
 
     /**
@@ -223,8 +266,10 @@ class secondary extends \core\navigation\views\secondary {
                 if ($this->page->course->format === 'singleactivity') {
                     $this->load_single_activity_course_navigation();
                 } else {
-                    $this->load_module_navigation($this->page->settingsnav);
-                    $defaultmoremenunodes = $this->get_default_module_more_menu_nodes();
+                    $this->load_course_navigation();
+                    $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
+                    //$this->load_module_navigation($this->page->settingsnav);
+                    //$defaultmoremenunodes = $this->get_default_module_more_menu_nodes();
                 }
                 break;
             case CONTEXT_COURSECAT:
@@ -385,7 +430,7 @@ class secondary extends \core\navigation\views\secondary {
      *                                       node by default.
      */
     protected function load_course_navigation(?navigation_node $rootnode = null): void {
-        global $SITE;
+        global $SITE, $USER;
 
         $rootnode = $rootnode ?? $this;
         $course = $this->page->course;
@@ -405,7 +450,11 @@ class secondary extends \core\navigation\views\secondary {
         }
 
         // Add the known nodes from settings and navigation.
-        $nodes = $this->get_default_course_mapping();
+        if (is_siteadmin($USER)) {
+            $nodes = $this->get_default_course_mapping_for_admin();
+        }else{
+            $nodes = $this->get_default_course_mapping();
+        }
         $nodesordered = $this->get_leaf_nodes($settingsnav, $nodes['settings'] ?? []);
         $nodesordered += $this->get_leaf_nodes($navigation, $nodes['navigation'] ?? []);
         $this->add_ordered_nodes($nodesordered, $rootnode);
@@ -442,10 +491,10 @@ class secondary extends \core\navigation\views\secondary {
             $categorypath = get_category_path($category);
             $rootcatid = array_shift($categorypath);
             $secondarycatid = array_shift($categorypath);
-            $rootnode->add_node(
-                navigation_node::create('Home', new \moodle_url('/course/index.php', ['categoryid' => $rootcatid]),
+            /*$rootnode->add_node(
+                navigation_node::create('Home', new \moodle_url('/course/index.php', ['categoryid' => $secondarycatid]),
                     self::TYPE_CATEGORY, null, 'coursehome'), reset($nodekeys)
-            );
+            );*/
             if ($secondarycatid) {
                 $this->page->set_secondary_active_tab($secondarycatid);
             }
@@ -752,11 +801,11 @@ class secondary extends \core\navigation\views\secondary {
         $categories = get_category_path($category);
         $rootcatid = array_shift($categories);
         $secondarycatid = array_shift($categories);
-        //$rootcat = get_subroot_category($category);
+        $rootcat = get_subroot_category($category);
            
         if ($mainnode) {
-            $url = new \moodle_url('/course/index.php', ['categoryid' => $rootcatid]);
-            $this->add(get_string('home'), $url, self::TYPE_CONTAINER, null, 'categorymain');
+            $url = new \moodle_url('/course/index.php', ['categoryid' => $rootcat->id]);
+            //$this->add('Section Home', $url, self::TYPE_CONTAINER, null, 'categorymain');
 
             // Add the initial nodes.
             $nodesordered = $this->get_leaf_nodes($mainnode, $nodes);
@@ -767,7 +816,7 @@ class secondary extends \core\navigation\views\secondary {
             $this->load_remaining_nodes($mainnode, $nodes);
 
             if ($secondarycatid) {
-                $this->page->set_secondary_active_tab($secondarycatid);
+                $this->page->set_secondary_active_tab($rootcat->id);
             }
             else{
                 $this->page->set_secondary_active_tab('categorymain');

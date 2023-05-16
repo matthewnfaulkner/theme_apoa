@@ -16,10 +16,12 @@
 
 namespace theme_apoa\output\core;
 
+use core_course_category;
 use renderable;
 use renderer_base;
 use templatable;
 use custom_menu;
+use moodle_url;
 
 /**
  * more menu navigation renderable
@@ -36,6 +38,7 @@ class header implements renderable, templatable {
     protected $haschildren;
     protected $istablist;
     protected $imgurl;
+    protected moodle_url $url;
     /**
      * Constructor for this class.
      *
@@ -45,9 +48,10 @@ class header implements renderable, templatable {
      * @param bool $istablist When true, the more menu should be rendered and behave with a tablist ARIA role.
      *                        If false, it's rendered with a menubar ARIA role. Defaults to false.
      */
-    public function __construct(string $title, string $category, bool $haschildren = true, bool $istablist = false) {
+    public function __construct(string $title, string $category, moodle_url $url, $haschildren = true, bool $istablist = false) {
         $this->title = $title;
         $this->category = $category;
+        $this->url = $url;
         $this->imgurl = theme_apoa_get_file_from_setting('sectionlogo' . $category);
         $this->haschildren = $haschildren;
         $this->istablist = $istablist;
@@ -60,9 +64,11 @@ class header implements renderable, templatable {
      * @return array Data for rendering a template
      */
     public function export_for_template(renderer_base $output): array {
+        $title = str_replace(' ', '', $this->title);
         $data = [
-            'title' => $this->title,
+            'title' => get_string($title, 'theme_apoa'),
             'imgurl' => $this->imgurl,
+            'linkurl' => $this->url,
         ];
 
         return $data;

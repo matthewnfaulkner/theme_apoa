@@ -264,35 +264,48 @@ class course_renderer extends \core_course_renderer {
             $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
 
             // Display course category tree.
-            if ($coursecat->depth == 1) {
+            if ($coursecat->depth <= 2) {
                 if ($description = $chelper->get_category_formatted_description($coursecat)) {
-                    $output .= $this->box($description, array('class' => 'container main-page-container'));
                 }
                 if ($coursecat->name == 'E-Library') {
-                    $output .= $this->render_subcategory_list($chelper, $coursecat);
+                    $output .= $this->render_subcategory($chelper, $coursecat);
                 }
                 else if ($coursecat->name == 'Newsletter') {
-                    $output .= $this->render_subcategory_list($chelper, $coursecat);
+                    $output .= $this->render_subcategory($chelper, $coursecat);
+                }
+                else if ($coursecat->name == 'About') {
+                    $output .= $this->render_subcategory($chelper, $coursecat);
+                }
+                else if ($coursecat->name == 'Forum') {
+                    $course = reset($coursecat->get_courses(array('limit' => 1)));
+                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
+                }
+                else if ($coursecat->name == 'Gallery') {
+                    $course = reset($coursecat->get_courses(array('limit' => 1)));
+                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
+                }
+                else if ($coursecat->name == 'Meetings') {
+                    $course = reset($coursecat->get_courses(array('limit' => 1)));
+                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
                 }
                 else {
-                    $output .= $this->render_subcategory_list($chelper, $coursecat);
-                    //$courses = $this->get_courses_by_cat_and_tag($coursecat, $chelper);
-                    //$output .= $this->render_course_tag_and_cat($coursecat, $courses, $chelper);
+                    $output .= $this->render_root_cat($chelper, $coursecat);
                 }
             }
             else if ($coursecat->has_courses()) {
                 //$courses = $coursecat->get_courses($options = array('limit' => 5));
+                if($coursecat->get_courses_count() == 1){
+                    $course = reset($coursecat->get_courses());
+                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
+                };
                 $output .= $this->render_course_cat($chelper, $coursecat);
             }
             else if ($coursecat->has_children()) {
-                if ($description = $chelper->get_category_formatted_description($coursecat)) {
-                    $output .= $this->box($description, array('class' => 'container main-page-container'));
-                }
                 $sort = array('sortorder' => 1);
                 $limit = 1;
                 $options = array('sort' => $sort, 'limit' => $limit);
                 $subcat = reset($coursecat->get_children($options));
-                $output .= $this->render_course_cat($chelper, $subcat);
+                $output .= $this->render_subcategory($chelper, $coursecat);
                 //$courses = $subcat->get_courses($options = array('limit' => 5));
             }
             //$output .= $this->coursecat_tree($chelper, $coursecat);
@@ -309,6 +322,62 @@ class course_renderer extends \core_course_renderer {
         return $output;
     }
 
+    protected function render_root_cat(coursecat_helper $chelper, core_course_category $coursecat){
+        
+        $render['description'] = $chelper->get_category_formatted_description($coursecat);
+        $render['sectiontitle'] = $coursecat->name;
+        $courselist = new \theme_apoa\output\core\lists\course_list('category', $coursecat->name, $coursecat);
+
+        $featuredrender = [];
+        $taggedrender = [];
+        $children = $coursecat->get_all_children_ids();
+        $conditions = join(',', $children);
+        if($featuredtag = reset(\theme_apoa_tag_tag::guess_by_name('Featured'))){
+            $subquery = 'it.category IN (' . $conditions . ')';
+            if($featuredcourses = $featuredtag->get_tagged_items('core', 'course', 0, 1, $subquery, 'startdate')){
+                $featuredcourse = reset($featuredcourses);
+                $courselist->delete_course_from_courselist($featuredcourse->id);
+                $featuredcourselistitem = new \theme_apoa\output\core\listitems\course_list_item($featuredcourse, 0, false);
+                $featuredrender['subcategorycourses'] = $featuredcourselistitem->export_for_template($this);
+                $featuredrender['categorytitle'] = 'Featured';
+                $featuredrender['Featured'] = 'Featured';
+            }
+        };
+        if($featuredtag = reset(\theme_apoa_tag_tag::guess_by_name($coursecat->name))){
+            $settingname = 'elibraryid';
+            if($elibrary = core_course_category::get(get_config('theme_apoa', $settingname))){
+                $children = $elibrary->get_all_children_ids();
+                $conditions = join(',', $children);
+                $subquery = 'it.category IN (' . $conditions . ')';
+                if($taggedcourses = $featuredtag->get_tagged_items('core', 'course', 0, 3, $subquery, 'startdate')){
+                    $counter = 0;
+                    $taggedrender['subcategorycourses'] = [];
+                    foreach ($taggedcourses as $taggedcourse){
+                        $taggedcourselistitem = new \theme_apoa\output\core\listitems\course_list_item($taggedcourse, $counter, true);
+                        $taggedcourserender = $taggedcourselistitem->export_for_template($this);
+                        array_push($taggedrender['subcategorycourses'], $taggedcourserender);
+                        $counter += 1;
+                    }
+                    $taggedrender['categorytitle'] = 'Related Papers';
+                    $taggedrender['Elibrary'] = 'Elibrary';
+                    $taggedrender['categoryid'] = $elibrary->id;
+                }
+                
+            };
+            
+        };
+        
+        $render['categorylist'] = $courselist->export_for_template($this);
+        if($featuredrender){
+            array_push($render['categorylist'], $featuredrender);
+        }
+        if ($taggedrender) {
+            array_push($render['categorylist'], $taggedrender);
+        }
+        $output = $this->render_from_template('theme_apoa/sectionlanding',$render);
+        return $output;
+    }
+
     protected function render_course_tag_and_cat(core_course_category $coursecat, $courses, coursecat_helper $chelper){
 
         $renderer = new theme_apoa_tag_course_category($coursecat, $courses);
@@ -319,8 +388,20 @@ class course_renderer extends \core_course_renderer {
     protected function render_subcategory_list(coursecat_helper $chelper, core_course_category $coursecat) {
         $subcategories = $coursecat->get_children();
         $renderer = new theme_apoa_course_category($subcategories, 1);
-        $output = $this->render_from_template('theme_apoa/categorycourselist', $renderer->export_for_template($this));
+        $output = $this->render_from_template('theme_apoa/category', $renderer->export_for_template($this));
         return $output;
     }
+
+    protected function render_subcategory(coursecat_helper $chelper, core_course_category $coursecat) {
+
+        $render['description'] = $chelper->get_category_formatted_description($coursecat);
+        $render['sectiontitle'] = $coursecat->name;
+        $courselist = new \theme_apoa\output\core\lists\course_list('category', $coursecat->name, $coursecat);
+        
+        $render['categorylist'] = $courselist->export_for_template($this);
+        $output = $this->render_from_template('theme_apoa/category',$render);
+        return $output;
+    }
+
 }
 

@@ -31,9 +31,9 @@ class theme_apoa_pagelist implements \templatable {
             $subquery .= ':coursecat' . $categoryid .',';
         }
         $subquery = rtrim($subquery, ',');
-
-        $rawcourses = \theme_apoa_tag_tag::get_all_courses_with_same_tags($this->course->id, 'core', 'course', '1', '3', 'it.id != ' . $this->course->id .  ' AND it.category IN ('. $subquery .')', 'timecreated DESC', $params);
-        
+        if ($subquery) {
+            $rawcourses = \theme_apoa_tag_tag::get_all_courses_with_same_tags($this->course->id, 'core', 'course', '1', '3', 'it.id != ' . $this->course->id, 'timecreated DESC', $params);
+        }
         foreach ($rawcourses as $rawcourse){
             $this->courses[$rawcourse->id] = new \core_course_list_element($rawcourse);
         }
@@ -46,7 +46,7 @@ class theme_apoa_pagelist implements \templatable {
 
         global $CFG;
         
-        $template = [];
+        $template['sidebaritems'] = [];
 
 
         foreach ($this->courses as $course){
@@ -60,15 +60,18 @@ class theme_apoa_pagelist implements \templatable {
                 }
             }
             $url = course_get_url($course);
-            array_push($template, array(
+            array_push($template['sidebaritems'], array(
                 'name' => $course->get_formatted_shortname(),
                 'url' => $url,
-                'img' => $img
+                'img' => $img,
+                'cat' => $this->coursecat->name
             ));
         }
         
- 
-        return $template;
+        if($template['sidebaritems']) {
+            return $template;
+        }
+        return null;
     }
 
 

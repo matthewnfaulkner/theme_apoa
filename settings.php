@@ -132,8 +132,36 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting); 
 
-    $setting = new admin_setting_configstoredfile('theme_apoa/resources', get_string('resources', 'theme_apoa'),
+    $setting = new admin_setting_configstoredfile('theme_apoa/resourcesforum', get_string('resources', 'theme_apoa'),
         get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/resourcesgallery', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/resourcescontact', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/resourcesmeetings', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/about', get_string('about', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), 'about', 0,
             array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
     $setting->set_updatedcallback('theme_reset_all_caches');   
                                                                          
@@ -142,34 +170,65 @@ if ($ADMIN->fulltree) {
     $settings->add($page);       
 
     // Advanced settings.                                                                                                           
-    $page = new admin_settingpage('theme_apoa_sections', get_string('sectionssettings', 'theme_apoa'));
+    $page = new admin_settingpage('theme_apoa_sections', get_string('sectionsettings', 'theme_apoa'));
 
-    $top = core_course_category::top();
-    $onebelowcategories = $top->get_children();
+    if($sectionsid = get_config('theme_apoa', 'Sectionsid')) {
+        $sectioncat = core_course_category::get($sectionsid);
+        $onebelowcategories = $sectioncat->get_children();
+        
+        foreach ($onebelowcategories as $category) {
+            $setting = new admin_setting_configstoredfile('theme_apoa/sectionlogo' . $category->id, $category->name,
+                get_string('sectionlogo_desc', 'theme_apoa'), 'sectionlogo' . $category->id, 0,
+                    array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+            $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+            $page->add($setting);                                                                                                                               
 
-    foreach ($onebelowcategories as $category) {
-        $setting = new admin_setting_configstoredfile('theme_apoa/sectionlogo' . $category->id, $category->name,
-            get_string('sectionlogo_desc', 'theme_apoa'), 'sectionlogo' . $category->id, 0,
-                array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
-        $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
-        $page->add($setting);                                                                                                                               
-
+        }
     }
-
     $settings->add($page);
 
     // Advanced settings.                                                                                                           
     $page = new admin_settingpage('theme_apoa_categories', get_string('categorysettings', 'theme_apoa'));
-
-    $setting = new admin_setting_configtext('theme_apoa/elibraryid', get_string('elibraryid', 'theme_apoa'),                           
-        get_string('elibraryid_desc', 'theme_apoa'), '', PARAM_INT);                                                                  
+    
+    $setting = new admin_setting_configtext('theme_apoa/APOAid', get_string('APOAid', 'theme_apoa'),                           
+        get_string('APOAid_desc', 'theme_apoa'), '', PARAM_INT);                                                                  
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);  
 
-    $setting = new admin_setting_configtext('theme_apoa/newsletterid', get_string('elibraryid', 'theme_apoa'),                           
-        get_string('elibraryid_desc', 'theme_apoa'), '', PARAM_INT);                                                                  
+    $setting = new admin_setting_configtext('theme_apoa/Sectionsid', get_string('Sectionsid', 'theme_apoa'),                           
+        get_string('Sectionsid_desc', 'theme_apoa'), '', PARAM_INT);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting); 
+
+    if ($apoaid = get_config('theme_apoa', 'APOAid')) {
+
+        $apoacat = core_course_category::get($apoaid);
+        $onebelowcategories = $apoacat->get_children();
+
+        foreach ($onebelowcategories as $category) {
+            $nospacename = strtolower(preg_replace("/[^a-zA-Z0-9]+/", "", $category->name));
+            
+            $setting = new admin_setting_configtext('theme_apoa/'. $nospacename .'id', $category->name,
+                '', $category->id, PARAM_INT);
+
+            $page->add($setting);                                                                                                                               
+
+        }
+    }
+    $settings->add($page); 
+
+    // Advanced settings.                                                                                                           
+    $page = new admin_settingpage('theme_apoa_footer', get_string('footersettings', 'theme_apoa'));
+
+    $setting = new admin_setting_configtextarea('theme_apoa/footercontact', get_string('footercontact', 'theme_apoa'),                           
+        get_string('footercontact_desc', 'theme_apoa'), '', PARAM_TEXT);                                                                  
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);  
 
-    $settings->add($page);       
+    $setting = new admin_setting_configtextarea('theme_apoa/footerquicklinks', get_string('footercontact', 'theme_apoa'),                           
+        get_string('footercontact_desc', 'theme_apoa'), '', PARAM_TEXT);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $settings->add($page); 
 }

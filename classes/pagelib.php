@@ -57,4 +57,25 @@ class apoa_page extends moodle_page{
         return $this->_secondarynav;
     }
 
+    protected function magic_get_primarynav() {
+        if ($this->_primarynav === null) {
+            $class = 'theme_apoa\navigation\views\primary';
+            // Try and load a custom class first.
+            if (class_exists("mod_{$this->activityname}\\navigation\\views\\primary")) {
+                $class = "mod_{$this->activityname}\\navigation\\views\\primary";
+            } else if (class_exists("mod_{$this->activityname}\\local\\views\\primary")) {
+                // For backwards compatibility, support the old location for this class (it was in a
+                // 'local' namespace which shouldn't be used for core APIs).
+                debugging("The class mod_{$this->activityname}}\\local\\views\\primary uses a deprecated " .
+                        "namespace. Please move it to mod_{$this->activityname}\\navigation\\views\\primary.",
+                        DEBUG_DEVELOPER);
+                $class = "mod_{$this->activityname}\\local\\views\\primary";
+            }
+
+            $this->_primarynav = new theme_apoa\navigation\views\primary($this);
+            $this->_primarynav->initialise();
+        }
+        return $this->_primarynav;
+    }
+
 }

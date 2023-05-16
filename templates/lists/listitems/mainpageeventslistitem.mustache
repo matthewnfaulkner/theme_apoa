@@ -1,0 +1,19 @@
+<li class="list-group-item p-0 main-page-sub-list-group-item">
+    <div class="card" style="border-style: none;"><a class="stretched-link main-page-link-wrapper" href="{{itemurl}}"></a>
+        <div class="card-body pb-0">
+            <div class="row w-100">
+                <div class="col col-8">
+                    <h5 class="text-muted mb-2 main-page-link">{{itemtitle}}</h5>
+                    <div>
+                        <p class="mb-2 main-page-sub-card-text"><span> | </span>
+                        <a class="main-page-link-sub"href="{{itemrooturl}}"><small class="main-page-link-sub">{{itemroot}}</small></a></p>
+                    </div>
+                </div>
+                <div class="col col-4">
+                    <p class="text-muted mb-2  text-right main-page-sub-card-text">{{#userdate}}{{itemstartdate}}, {{#str}} strftimedate, core_langconfig {{/str}}{{/userdate}}</p>
+                    <p class="text-muted mb-2 text-right main-page-sub-card-text"> {{#userdate}}{{itemenddate}}, {{#str}} strftimedate, core_langconfig {{/str}}{{/userdate}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

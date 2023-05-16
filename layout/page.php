@@ -88,16 +88,20 @@ if (is_siteadmin($USER->id)) {
 
 }
 
+$PAGE->requires->css('/mod/lightboxgallery/assets/skins/sam/gallery-lightbox-skin.css');
+$PAGE->requires->yui_module('moodle-mod_lightboxgallery-lightbox', 'M.mod_lightboxgallery.init');
 
-//$coursecat = \core_course_category::get($COURSE->category);
+
 
 
 
 
 $primary = new core\navigation\output\primary($PAGE);
 
+
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
+
 
 if ($COURSE->format == 'apoapage') {
     $sidebar = new \theme_apoa\output\core\lists\theme_apoa_pagelist($COURSE);
@@ -117,6 +121,7 @@ $headercontent = $header->export_for_template($renderer);
 
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
+    'sitenamefull' => format_string($SITE->fullname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
     'sidepreblocks' => $blockshtml,
     'hasblocks' => $hasblocks,
