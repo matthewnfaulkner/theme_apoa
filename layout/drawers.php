@@ -88,7 +88,7 @@ if (is_siteadmin($USER->id)) {
 
 }
 
-$primary = new \core\navigation\output\primary($PAGE);
+$primary = new \theme_apoa\navigation\output\primary($PAGE);
 
 
 $renderer = $PAGE->get_renderer('core');
