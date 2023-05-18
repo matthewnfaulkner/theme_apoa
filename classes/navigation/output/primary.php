@@ -100,6 +100,7 @@ class primary extends \core\navigation\output\primary {
             $nodeObject->children = $childnodes;
             $nodeObject->haschildren = $childnodes ? true : false;
             $nodeObject->showchildreninsubmenu = $node->showchildreninsubmenu;
+            $nodeObject->moremenuid = uniqid();
 
             $nodes[] = $nodeObject;
 
