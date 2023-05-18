@@ -70,7 +70,8 @@ if (is_siteadmin($USER->id)) {
         $tablistnav = $PAGE->has_tablist_secondary_navigation();
         $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
         $secondarynavigation = $moremenu->export_for_template($OUTPUT);
-        $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+        //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+        $overflowdata =null;
         if (!is_null($overflowdata)) {
             $overflow = $overflowdata->export_for_template($OUTPUT);
         }
@@ -80,7 +81,8 @@ if (is_siteadmin($USER->id)) {
         $tablistnav = $PAGE->has_tablist_secondary_navigation();
         $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
         $secondarynavigation = $moremenu->export_for_template($OUTPUT);
-        $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+        //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+        $overflowdata=null;
         if (!is_null($overflowdata)) {
             $overflow = $overflowdata->export_for_template($OUTPUT);
         }
