@@ -96,7 +96,7 @@ $PAGE->requires->yui_module('moodle-mod_lightboxgallery-lightbox', 'M.mod_lightb
 
 
 
-$primary = new theme_apoa\navigation\output\primary($PAGE);
+$primary = new \core\navigation\output\primary($PAGE);
 
 
 $renderer = $PAGE->get_renderer('core');
