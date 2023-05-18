@@ -255,7 +255,7 @@ class course_list implements \templatable , \renderable {
             $id = $subcategory->id;
             $conditions = $id;
             if($children = $subcategory->get_all_children_ids()){
-                $conditions = join(', ', $children);
+                $conditions .= ',' . join(', ', $children);
             };
             $query = "(SELECT c.*, ". $id ." AS root 
                     FROM {course} AS c 
