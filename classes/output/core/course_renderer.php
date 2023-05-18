@@ -188,10 +188,11 @@ class course_renderer extends \core_course_renderer {
      * @param int|stdClass|core_course_category $category
      */
     public function course_category($category) {
-        global $CFG, $USER;
+        global $CFG, $USER, $PAGE;
 
         
         $usertop = core_course_category::user_top();
+
         if (empty($category)) {
             $coursecat = $usertop;
         } else if (is_object($category) && $category instanceof core_course_category) {
@@ -201,6 +202,7 @@ class course_renderer extends \core_course_renderer {
         }
 
         $parent = $coursecat->get_parent_coursecat();
+
 
         if (!$parent->depth == core_course_category::top()->depth && !is_siteadmin($USER) && False){
             redirect(new moodle_url('/course/index.php?categoryid=' . $parent->id));

@@ -117,7 +117,7 @@ class core_renderer extends \core_renderer {
      * @return string A rendered context header.
      */
     public function context_header_cat($headerinfo = null, $headinglevel = 1): string {
-        global $DB, $USER, $CFG, $SITE;
+        global $DB, $USER, $CFG, $SITE, $PAGE;
         require_once($CFG->dirroot . '/user/lib.php');
         $context = $this->page->context;
         $heading = null;
@@ -130,11 +130,13 @@ class core_renderer extends \core_renderer {
             $id = $context->instanceid;
             if ($context->contextlevel == CONTEXT_COURSECAT) {
                 $category = core_course_category::get($id);
+                
             }
             else if ($context->contextlevel == CONTEXT_COURSE || $context->contextlevel == CONTEXT_MODULE ){
                 $category = core_course_category::get($this->page->course->category);
             }
             if($rootcategory = get_subroot_category($category)) {
+                $PAGE->set_primary_active_tab($rootcategory->name . $rootcategory->id );
                 $headerinfo['heading'] = $rootcategory->name;
                 $url = $rootcategory->get_view_link();
                 $header = new \theme_apoa\output\core\header($rootcategory->name, $rootcategory->id, $url);

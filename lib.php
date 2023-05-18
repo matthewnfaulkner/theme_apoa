@@ -7,6 +7,9 @@ defined('MOODLE_INTERNAL') || die();
 
 // We will add callbacks here as we add features to our theme.
 
+define('PRIMARY_CATEGORY_DEPTH', 1);
+define('SECONDARY_CATEGORY_DEPTH', 2);
+
 
 function theme_apoa_get_main_scss_content($theme) {                                                                                
     global $CFG;                                                                                                                    
@@ -71,15 +74,15 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
     
         $nospacename = preg_replace("/[^a-zA-Z0-9]+/", "", $subcategory->name);
         $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
-        if ($coursecount = $subcategory->get_courses_count() == 1){
+        if ($coursecount = $subcategory->get_courses_count() == 1 && $subcategory->get_children_count() == 0){
             if($courses = $subcategory->get_courses($limit = 1)) {
                 $course = reset($courses);
                 $parentnode->add(
                     $name ,
                     new \moodle_url('/course/view.php', ['id' => $course->id]),
-                    navigation_node::TYPE_CUSTOM,
+                    navigation_node::TYPE_COURSE,
                     $name ,
-                    $subcategory->id 
+                    'c' . $course->id 
                 );
             }
             
@@ -89,32 +92,58 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
                 new \moodle_url('/course/index.php', ['categoryid' => $subcategory->id]),
                 navigation_node::TYPE_CUSTOM,
                 $name,
-                $subcategory->id 
+                'cc' . $subcategory->id 
             );
+            $courses = $subcategory->get_courses();
+            foreach ($courses as $course){
+                $newnode->add(
+                    $course->shortname,
+                    new \moodle_url('/course/view.php', ['id' => $course->id]),
+                    navigation_node::TYPE_CATEGORY,
+                    $course->names,
+                    'c' . $course->shortname 
+                );
+            }
+            if(count($courses) > 1){
+                $newnode->showchildreninsubmenu = true;
+            }
         }
     }
 }
 
 function theme_apoa_extend_navigation_category_settings(navigation_node $parentnode, context_coursecat $context) {
-    global $USER;
+    global $USER, $PAGE;
     if(!is_siteadmin($USER->id)) {
         $parentnode->children = new navigation_node_collection;
     }
     $category = core_course_category::get($context->instanceid);
-    $subrootcategory = get_subroot_category($category);
+
+    $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
+
+    $subrootcategory = core_course_category::get($parents[1]);
     $subcategories = $subrootcategory->get_children();
+
+    
+    $PAGE->set_primary_active_tab('cc'. $subrootcategory->id);
+    $PAGE->set_secondary_active_tab('cc'. $parents[2]);
     $component = 'theme_apoa';
 
     theme_apoa_get_secondary_nav_items($parentnode, $subcategories, $component);
 }
 
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
-    global $USER;
+    global $USER, $PAGE;
+    
     if(!is_siteadmin($USER->id)) {
         $parentnode->children = new navigation_node_collection;
     }
     $category = core_course_category::get($course->category);
     $rootcat = get_subroot_category($category);
+
+    $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
+
+    $PAGE->set_primary_active_tab('cc'. $rootcat->id);
+    $category->depth > 3 ? $PAGE->set_secondary_active_tab('cc'. $parents[2]) : $PAGE->set_secondary_active_tab('c'. $course->id);
     $subcategories = $rootcat->get_children();
     $component = 'theme_apoa';
 
