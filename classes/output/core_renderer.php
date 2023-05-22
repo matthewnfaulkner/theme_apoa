@@ -445,6 +445,7 @@ class core_renderer extends \core_renderer {
         $output =  new \theme_apoa\output\core\mainpage\mainpage;
         $template = $output->export_for_template($this);
         return $this->render_from_template('theme_apoa/mainpage/mainpage', $template);
+        
     }
     
     /**

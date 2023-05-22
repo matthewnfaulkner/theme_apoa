@@ -36,11 +36,15 @@ class primary extends \core\navigation\output\primary {
     /** @var moodle_page $page the moodle page that the navigation belongs to */
     private $page = null;
 
+    private \cache $cache ;
     /**
      * primary constructor.
      * @param \moodle_page $page
      */
+
+    
     public function __construct($page) {
+
         $this->page = $page;
     }
 

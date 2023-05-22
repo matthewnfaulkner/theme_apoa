@@ -395,9 +395,13 @@ class course_renderer extends \core_course_renderer {
     }
 
     protected function render_subcategory(coursecat_helper $chelper, core_course_category $coursecat) {
-
+        if ($coursecat->id == get_config('theme_apoa', 'elibraryid')){
+            $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
+            $searchbaroutput = $searchbar->export_for_template($this);
+        }
         $render['description'] = $chelper->get_category_formatted_description($coursecat);
         $render['sectiontitle'] = $coursecat->name;
+
         $courselist = new \theme_apoa\output\core\lists\course_list('category', $coursecat->name, $coursecat);
         
         $render['categorylist'] = $courselist->export_for_template($this);
