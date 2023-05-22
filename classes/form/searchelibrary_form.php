@@ -33,6 +33,13 @@ class searchelibrary_form extends \moodleform {
             $options[$journal->id] = $journal->name;
         }
 
+        $mform->addElement('radio', 'radio', 'By URL', 'By URL', 1);
+        $mform->addElement('radio', 'radio', 'By Title', 'By Title', 2);
+        $mform->setType('radio', PARAM_INT);
+        $mform->setDefault('radio', 1);
+
+        
+
         $mform->addElement('select', 'journal_select', 'Journal:', $options);
         $mform->setType('journal_select', PARAM_INT);
         $mform->addRule('title', 'Please enter a valid Journal.', 'required', null, 'client');
@@ -45,11 +52,11 @@ class searchelibrary_form extends \moodleform {
         $mform->setType('url_search', PARAM_URL);
         $mform->addRule('url_search', 'Please enter a valid URL.', 'required', null, 'client');
 
-        $mform->addElement('hidden', 'id', 0);
-        $mform->setType('id', PARAM_INT);
-        $mform->setDefault('id', $categoryid);
+        $mform->addElement('hidden', 'categoryid', 0);
+        $mform->setType('categoryid', PARAM_INT);
+        $mform->setDefault('categoryid', $categoryid);
 
-        $this->add_action_buttons(true, $strsubmit);
+        $this->add_action_buttons(false, $strsubmit);
 
     }
 
@@ -76,10 +83,32 @@ class searchelibrary_form extends \moodleform {
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             $errors['url'] = 'Please enter a valid URL.';
         }
-
         // Additional validation for the path fiel
         // Perform any necessary validation for the path field
 
         return $errors;
+    }
+
+    public function renderf(){
+        $elements = $this->_form->_elements;
+        $elementsArray = array();
+
+        foreach ($elements as $element) {
+            $elementArray = array(
+                'name' => $element->getName(),
+                'label' => $element->getLabel(),
+                'value' => $element->getValue(),
+                'type' => $element->getType(),
+                'html' => $element->toHtml(),
+            );
+            if (isset($elementsArray[$element->getName()])){
+                $elementsArray[$element->getName()][] = $elementArray;
+            }
+            else{
+                $elementsArray[$element->getName()][] = $elementArray;
+            }
+        }
+
+        return $elementsArray;
     }
 }
