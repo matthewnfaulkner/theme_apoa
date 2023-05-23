@@ -1,33 +1,50 @@
-<form style="max-width: 1200px;margin: auto;min-width: 75%;">
-    <div class="form-group row px-4 mform" action="http://localhost/course/index.php?categoryid=21" method="post">
-        {{#elementsarray}}
+{{#elementsarray}}
+
+<form style="max-width: 1200px;margin: auto;min-width: 75%;" id="{{id}}" autocomplete="{{autocomplete}}" action="{{action}}">
+    <div class="form-group row px-4 mform">
+        <div style="display: none">
+            {{#hiddeninputs}}
+                {{> theme_apoa/form/input}}
+            {{/hiddeninputs}}
+        </div>
         <div class="col-6 col-md-3 px-0 mb-3 form-check-inline mr-0 justify-content-center justify-content-sm-end">
-            {{#radio}}
-                <div class="form-check px-1 align-content-center d-flex align-items-end form-check-inline">{{{html}}}</div>
-            {{/radio}}
+        {{^groups.id}}
+            {{#groups}}
+                {{#inputs}}
+                    {{#radio}}
+                        <div class="form-check px-1 align-content-center d-flex align-items-end form-check-inline">
+                            {{> theme_apoa/form/input}}
+                        </div>
+                    {{/radio}}
+                {{/inputs}}
+
+            {{/groups}}
+        {{/groups.id}}
         </div>
         <div class="col-12 col-md-6 order-last order-md-0 px-0">
-            <div id="url" class="form-group">
-                {{#url_search}}
-                    {{{html}}}
-                {{/url_search}}
-            </div>
-            <div id="journal" class="form-group" style="display: none;">
-                <div class="form-row">
-                    <div class="col col-12 col-sm-4">
-                        {{#journal_select}}
-                            {{{html}}}
-                        {{/journal_select}}
-                    </div>
-                    <div class="col col-12 col-sm-8">
-                        {{#title}}
-                            {{{html}}}
-                        {{/title}}
-                    </div>
-                </div>
-            </div>
+        {{#groups}}
+            {{#id}}
+                    {{#fitem_id_url_search}}
+                        {{#inputs}}
+                            {{#url_search}}
+                                <div id="{{id}}" class="form-group">
+                                        {{>theme_apoa/form/input}}
+                                </div>
+                            {{/url_search}}
+                        {{/inputs}}
+                    {{/fitem_id_url_search}}
+                        {{#inputs}}
+                            <div id="{{id}}" class="form-group">
+                                <div class="form-row">
+                                    <div class="col col-12 col-sm-4">
+                                            {{>theme_apoa/form/input}}
+                                    </div>
+                                </div>
+                            </div>
+                        {{/inputs}}
+            {{/id}}
+        {{/groups}}
         </div>
-       
         <div class="col-6 col-md-2 justify-content-md-start d-flex mb-3 align-items-center">
             {{#submitbutton}}
                 {{{html}}}
@@ -36,6 +53,7 @@
         {{#categoryid}}
             {{{html}}}
         {{/categoryid}}
-        {{/elementsarray}}
+
     </div>
 </form>
+{{/elementsarray}}

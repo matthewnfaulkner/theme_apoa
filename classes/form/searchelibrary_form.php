@@ -11,46 +11,61 @@ class searchelibrary_form extends \moodleform {
         $mform = $this->_form;
         $categoryid = $this->_customdata['categoryid'];
 
-        $search_options = array(
-            'url' => 'Search by URL',
-            'Journal and title' => 'Search by Journal and title',
-        );
-        $mform->addElement('select', 'search_option', 'Search Option:', $search_options);
-        $mform->setType('search_option', PARAM_ALPHA);
-        $mform->addRule('search_option', 'Please select a valid search option.', 'required');
 
         // Get list of categories to use as parents, with site as the first one.
         if ($categoryid) {
             // Editing an existing category
-            $strsubmit = get_string('savechanges');
+            $strsubmit = get_string('Search for paper');
         }
 
         $elibraryid = get_config('theme_apoa' ,'elibraryid');
         $elibrary = \core_course_category::get($elibraryid);
 
-        $options = array(0 => 'All');
+        $options = array(0 => 'All Journals');
         foreach($elibrary->get_children() as $journal){
             $options[$journal->id] = $journal->name;
         }
 
-        $mform->addElement('radio', 'radio', 'By URL', 'By URL', 1);
-        $mform->addElement('radio', 'radio', 'By Title', 'By Title', 2);
+        
+        $myarray = array();
+        $myarray[] = $mform->createElement('radio', 'yesno', null, 'By URL', 1);
+        $myarray[] = $mform->createElement('radio', 'yesno', null, 'By Title', 2);
+        //$myarray[] = $mform->createElement('submit', 'submitbutton', 'search');
+        $mform->addGroup($myarray, 'radioar', '', array(' '), false);
+        $mform->setDefault('yesno', 1);
+        /*$mform->addElement('radio', 'radio', null, 'By URL', 1);
+        $mform->addElement('radio', 'radio', null, 'By Title', 2);
         $mform->setType('radio', PARAM_INT);
-        $mform->setDefault('radio', 1);
+        $mform->setDefault('radio', 1);*/
+        
+
+        $url_search = $mform->addElement('text', 'url_search', 'URL:', array('placeholder' => "Search by URL"));
+        $mform->setType('url_search', PARAM_URL);
+        //$mform->addRule('url_search', 'Please enter a valid URL.', 'required', null);
+        
+        $mform->addGroup([$url_search], 'url_search');
+
+        $mform->hideif('url_search', 'yesno', 'eq', 2);
 
         
 
-        $mform->addElement('select', 'journal_select', 'Journal:', $options);
+
+        $journal_select = $mform->createElement('select', 'journal_select', 'Journal:', $options, array('placeholder' => "Select Journal"));
+
+
+        
         $mform->setType('journal_select', PARAM_INT);
         $mform->addRule('title', 'Please enter a valid Journal.', 'required', null, 'client');
 
-        $mform->addElement('text', 'title', 'Title:');
+
+        $title = $mform->createElement('text', 'title', 'Title:', array('placeholder' => "Search by title"));
+
         $mform->setType('title', PARAM_TEXT);
         $mform->addRule('title', 'Please enter a valid URL.', 'required', null, 'client');
 
-        $mform->addElement('text', 'url_search', 'URL:');
-        $mform->setType('url_search', PARAM_URL);
-        $mform->addRule('url_search', 'Please enter a valid URL.', 'required', null, 'client');
+        $mform->addGroup([$journal_select, $title], 'title_search');
+
+        $mform->hideIf('title_search', 'yesno', 'eq', 1);
 
         $mform->addElement('hidden', 'categoryid', 0);
         $mform->setType('categoryid', PARAM_INT);
@@ -67,12 +82,12 @@ class searchelibrary_form extends \moodleform {
         $search_option = $mform->getElementValue('search_option');
 
         // Hide or display fields based on the search option
-        if ($search_option == 'url') {
+        /*if ($search_option == 'url') {
             $mform->removeElement('journal_select');
             $mform->removeElement('title');
         } else {
             $mform->removeElement('url_search');
-        }
+        }*/
     }
 
     public function validation($data, $files) {
@@ -83,6 +98,13 @@ class searchelibrary_form extends \moodleform {
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             $errors['url'] = 'Please enter a valid URL.';
         }
+
+        // Perform additional custom validation
+        if ($data['radio'] == '1' && empty($data['url_search'])) {
+            $errors['url_search'] = 'Please enter a value.';
+        }
+
+        return $errors;
         // Additional validation for the path fiel
         // Perform any necessary validation for the path field
 
