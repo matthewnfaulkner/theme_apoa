@@ -395,13 +395,20 @@ class course_renderer extends \core_course_renderer {
     }
 
     protected function render_subcategory(coursecat_helper $chelper, core_course_category $coursecat) {
-
+        $output = '';
+        if ($coursecat->id == get_config('theme_apoa', 'elibraryid')){
+            $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
+            $searchbarout['elementsarray'] = $searchbar->export_for_template($this);
+            //$output .= $searchbarout['elementsarray'];
+            $render['elibrarysearch'] = $searchbarout['elementsarray'];
+        }
         $render['description'] = $chelper->get_category_formatted_description($coursecat);
         $render['sectiontitle'] = $coursecat->name;
+
         $courselist = new \theme_apoa\output\core\lists\course_list('category', $coursecat->name, $coursecat);
         
         $render['categorylist'] = $courselist->export_for_template($this);
-        $output = $this->render_from_template('theme_apoa/category',$render);
+        $output .= $this->render_from_template('theme_apoa/category',$render);
         return $output;
     }
 

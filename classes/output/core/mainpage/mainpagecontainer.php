@@ -27,12 +27,28 @@ class mainpagecontainer implements \templatable , \renderable {
     public function export_for_template(\renderer_base $output) {
 
         global $CFG;
+        $mainpage_cache = \cache::make('theme_apoa', 'main_page_cache');
+        $key = $this->sectionname;
         $item = new $this->itemclass();
-        $template = $item->export_for_template($output);
+
+        $data = $mainpage_cache->get($key);
+
+        if ($data){
+            $template = $data;
+        }
+        else{
+            $template = $item->export_for_template($output);
+        }
         return $output->render_from_template($item->get_template_name($output), $template);
 
     }
 
+    public function get_child_class(\renderer_base $output){
+
+        $item = new $this->itemclass();
+        $template = $item->export_for_template($output);
+        return $template;
+    }
 
     public function get_extra_classes() {
         

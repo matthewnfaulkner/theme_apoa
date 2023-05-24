@@ -1,0 +1,25 @@
+{{#label}}
+<label class="form-check-label">
+    <input 
+        type="{{type}}"
+        class="{{classes}}"
+        id="{{id}}"
+        name="{{name}}"
+        autocomplete="{{autocomplete}}"
+        placeholder="{{placeholder}}"
+        value="{{value}}"
+        {{data-initial-value}}>
+        {{label}}
+</label>
+{{/label}}
+{{^label}}
+    <input 
+        type="{{type}}"
+        class="{{classes}}"
+        id="{{id}}"
+        name="{{name}}"
+        autocomplete="{{autocomplete}}"
+        placeholder="{{placeholder}}"
+        value="{{value}}"
+        {{data-initial-value}}>
+{{/label}}

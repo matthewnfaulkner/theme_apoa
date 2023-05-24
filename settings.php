@@ -216,6 +216,7 @@ if ($ADMIN->fulltree) {
         }
     }
     $settings->add($page); 
+ 
 
     // Advanced settings.                                                                                                           
     $page = new admin_settingpage('theme_apoa_footer', get_string('footersettings', 'theme_apoa'));
