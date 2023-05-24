@@ -33,7 +33,7 @@ class search_elibrary_bar implements \templatable {
         $request = $_POST['request'];
 
         $params = array(
-            'noresult' => 1,
+
             'categoryid' => $this->coursecat->id,
             'url_search_group' => array(
                 'url_search' => $url_search,
@@ -136,7 +136,7 @@ class search_elibrary_bar implements \templatable {
             }
 
 
-            $radio = $xpath->query("//input[@name='urlortitle']", $formElement)->item(0);
+            $radio = $xpath->query("//input[@name='urlortitle' and @checked='checked']", $formElement)->item(0);
             $urlortitle = $radio->getAttribute('value');
             $url_search = $xpath->query('.//div[@id = "fgroup_id_url_search_group"]', $formElement)->item(0);
             $title_search = $xpath->query('.//div[@id = "fgroup_id_title_search_group"]', $formElement)->item(0);

@@ -11,10 +11,16 @@ class searchelibrary_form extends \moodleform {
 
     protected stdClass $journal;
 
+    protected \context_coursecat $context;
+
     public function definition() {
         $mform = $this->_form;
+        
+
         $categoryid = $this->_customdata['categoryid'];
         $noresult = $this->_customdata['noresult'];
+
+        
 
         if(isset($this->_customdata['journal'])){
             $this->journal = $this->_customdata['journal'];
@@ -77,15 +83,15 @@ class searchelibrary_form extends \moodleform {
 
     public function definition_after_data(){
         $mform = $this->_form;
+        $mform->addElement('hidden', 'noresult');
+        $mform->setType('noresult', PARAM_INT);
+        $mform->setDefault('noresult', 0);
         if($this->is_submitted()){
-            $mform->_submitValues['noresult'] = 1;
-            $mform->addElement('hidden', 'noresult', 1);
-            $mform->setType('noresult', PARAM_INT);
-            $mform->setDefault('noresult', 1);
-        }else{
-            $mform->addElement('hidden', 'noresult', 0);
-            $mform->setType('noresult', PARAM_INT);
-            $mform->setDefault('noresult', 0);
+            $this->context = \context_coursecat::instance($this->_customdata['categoryid']);
+            if(has_capability('moodle/course:request', $this->context)){
+                $mform->_submitValues['noresult'] = 1;
+                $mform->setDefault('noresult', 1);
+            }
         }
     }
 
@@ -110,8 +116,15 @@ class searchelibrary_form extends \moodleform {
 
 
     public function no_result(){
-        $this->_form->_errors['url_search_group'] = "We don't currently have that paper, if you'd like you can submit a request for it.";
-        $this->_form->_errors['title_search_group'] = "We don't currently have that paper, if you'd like you can submit a request for it.";
+        $this->_form->_errors['url_search_group'] = "We don't currently have that paper.";
+        $this->_form->_errors['title_search_group'] = "We don't currently have that paper.";
+        if(isset($this->context)){
+            if(has_capability('moodle/course:request', $this->context)){
+                $this->_form->_errors['url_search_group'] .= "If you'd like you can submit a request for it.";
+                $this->_form->_errors['title_search_group'] .= "If you'd like you can submit a request for it.";
+            }
+
+        }
     }
 
     public function validation($data, $files) {
