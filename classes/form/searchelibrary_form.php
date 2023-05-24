@@ -20,11 +20,7 @@ class searchelibrary_form extends \moodleform {
             $this->journal = $this->_customdata['journal'];
         }   
         
-        // Get list of categories to use as parents, with site as the first one.
-        if ($categoryid) {
-            // Editing an existing category
-            $strsubmit = get_string('Search for paper');
-        }
+
 
         $elibraryid = get_config('theme_apoa' ,'elibraryid');
         $elibrary = \core_course_category::get($elibraryid);
