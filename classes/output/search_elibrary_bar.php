@@ -135,7 +135,7 @@ class search_elibrary_bar implements \templatable {
     protected function search_for_paper_by_url($data){
         global $DB;
 
-        $url = $data->url_search;
+        $url = $data->url_search_group['url_search'];
 
 
         return  $DB->get_record('elibrary', array('linkurl' => $url));
