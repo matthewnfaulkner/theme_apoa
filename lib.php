@@ -127,10 +127,10 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
         $elibraryid = get_config('theme_apoa', 'elibraryid');
         if ($subrootcategory->id == $elibraryid && $category->depth == 3){
             $parentnode->add(
-                'hello' ,
+                'Journal Settings' ,
                 new \moodle_url('/theme/apoa/editelibrary.php', ['id' => $category->id]),
                 navigation_node::TYPE_COURSE,
-                'hello' ,
+                'Journal Settings' ,
                 navigation_node::TYPE_COURSE . 0 
             );
         }
@@ -315,3 +315,12 @@ function get_category_path(\core_course_category $category) {
     }
 }
     
+function get_journal_link($categoryid){
+    global $DB;
+
+    if($journalhostandpath =  $DB->get_record('theme_apoa_journals', array('category' => $categoryid))){
+        $journallink = $journalhostandpath->url . $journalhostandpath->path;     
+        return $journallink;     
+    }
+    return false;
+}

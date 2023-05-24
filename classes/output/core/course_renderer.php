@@ -396,11 +396,17 @@ class course_renderer extends \core_course_renderer {
 
     protected function render_subcategory(coursecat_helper $chelper, core_course_category $coursecat) {
         $output = '';
-        if ($coursecat->id == get_config('theme_apoa', 'elibraryid')){
+        $elibrary = core_course_category::get(get_config('theme_apoa', 'elibraryid'));
+        if ($coursecat->id == $elibrary->id){
             $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
             $searchbarout['elementsarray'] = $searchbar->export_for_template($this);
             //$output .= $searchbarout['elementsarray'];
             $render['elibrarysearch'] = $searchbarout['elementsarray'];
+        }
+        $directParent = end($coursecat->get_parents());
+        if($directParent == $elibrary->id){
+            $journallink = get_journal_link($coursecat->id);
+            $render['journallinkbutton'] = $journallink;
         }
         $render['description'] = $chelper->get_category_formatted_description($coursecat);
         $render['sectiontitle'] = $coursecat->name;
