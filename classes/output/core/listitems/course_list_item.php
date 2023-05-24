@@ -93,11 +93,11 @@ class course_list_item implements \templatable , \renderable {
             if ($isimage) {
                 break;
             }
-        }
+        }/*
         if($file){
             $filecontents = file_get_contents($imgurl);
             $imgurl  = 'data:image/jpeg;base64,' . base64_encode($filecontents);
-        }
+        }*/
 
 
 

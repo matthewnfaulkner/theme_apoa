@@ -38,9 +38,8 @@ class update_mainpage extends \core\task\scheduled_task {
         $this->cache->delete('mainpagecontent');
         $this->log_finish("Finished deleting old main page cache records");
 
-        $this->log_start("Generating new navigation records");
+
         $this->populate_cache();
-        $this->log_finish("Finished generating new main_page records");
     }
 
     private function populate_cache(){
