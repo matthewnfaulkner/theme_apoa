@@ -26,18 +26,21 @@ class search_elibrary_bar implements \templatable {
         $urlortitle = $_POST['urlortitle'];
         $courscatid = $_POST['categoryid'];
         $radio = $_POST['radio'];
-        $url_search = $_POST['url_search'];
-        $journaltitle = $_POST['title_search']->journal_select;
-        $title = $_POST['title_search']->title;
+        $url_search = $_POST['url_search_group']->url_search;
+        $journaltitle = $_POST['title_search_group']->journal_select;
+        $title = $_POST['title_search_group']->title;
         $search = $_POST['submitbutton'];
         $request = $_POST['request'];
 
         $params = array(
             'noresult' => 1,
             'categoryid' => $this->coursecat->id,
-            'urlortitle' => $urlortitle,
+            'url_search_group' => array(
+                'url_search' => $url_search,
+            ),
+                'urlortitle' => $urlortitle,
             'url_search' => $url_search,
-            'title_search' => array(
+            'title_search_group' => array(
                 'journal_select' => $journaltitle,
                 'title' => $title
             ),
@@ -66,7 +69,7 @@ class search_elibrary_bar implements \templatable {
             }
             if($request){
                 $requestdata = new \stdClass();
-                $requestdata->fullname = !$urlortitle ? $data->url_search :  $data->title_search['title'];
+                $requestdata->fullname = !$urlortitle ? $data->url_search_group['url_search'] :  $data->title_search_group['title'];
                 $requestdata->shortname = substr($requestdata->fullname, 0, 50);
                 $requestdata->category = $data->categoryid;
                 $requestdata->summary_editor['text'] ='';
@@ -124,6 +127,29 @@ class search_elibrary_bar implements \templatable {
                 $newClass = str_replace('col-md-9', 'col-12', $oldClass);
                 $element->setAttribute('class', $newClass);
             }
+
+            $noresult = $xpath->query("//input[@name='noresult']", $formElement)->item(0);
+            if(!$noresult->getAttribute('value')){
+                $request = $xpath->query("//input[@name='request']", $formElement)->item(0);
+                $requestgroup = $request->parentNode->parentNode;
+                $requestgroup->setAttribute('style', 'display: none');
+            }
+
+
+            $radio = $xpath->query("//input[@name='urlortitle']", $formElement)->item(0);
+            $urlortitle = $radio->getAttribute('value');
+            $url_search = $xpath->query('.//div[@id = "fgroup_id_url_search_group"]', $formElement)->item(0);
+            $title_search = $xpath->query('.//div[@id = "fgroup_id_title_search_group"]', $formElement)->item(0);
+            if($urlortitle){
+                $url_search->setAttribute('style', 'display: none');
+                $title_search->setAttribute('style', 'display: block');
+                $title_search->removeAttribute('hidden');
+            }else{
+                $title_search->setAttribute('style', 'display: none');
+                $url_search->setAttribute('style', 'display: block');
+                $url_search->removeAttribute('hidden');
+            }
+
         }
     
         // Get the modified HTML string
@@ -146,8 +172,8 @@ class search_elibrary_bar implements \templatable {
     protected function search_for_paper_by_title($data){
         global $DB;
 
-        $journalid = $data->title_search['journal_select'];
-        $title = $data->title_search['title'];
+        $journalid = $data->title_search_group['journal_select'];
+        $title = $data->title_search_group['title'];
 
         $journal = core_course_category::get($journalid);
         $children = $journal->get_all_children_ids();

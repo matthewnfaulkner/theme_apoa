@@ -59,10 +59,10 @@ class searchelibrary_form extends \moodleform {
         $title = $mform->createElement('text', 'title', 'Title:', array('placeholder' => "Search by title"));
 
 
-        $mform->addGroup([$journal_select, $title], 'title_search');
+        $mform->addGroup([$journal_select, $title], 'title_search_group', array('hidden' => 1));
         $mform->setType('title', PARAM_TEXT);
 
-        $mform->hideIf('title_search', 'urlortitle', 'eq', 0);
+        $mform->hideIf('title_search_group', 'urlortitle', 'eq', 0);
 
         $mform->addElement('hidden', 'categoryid', $categoryid);
         $mform->setType('categoryid', PARAM_INT);
@@ -100,8 +100,8 @@ class searchelibrary_form extends \moodleform {
         $userreqeusts = $DB->get_records('course_request', array('requester' => $USER->id));
 
         if(count($userreqeusts) > 5){
-            $this->_form->_errors['url_search'] = "You have submitted too many requests, please allow time for your previouse requests to be processed";
-            $this->_form->_errors['title_search'] = "You have submitted too many requests, please allow time for your previouse requests to be processed.";
+            $this->_form->_errors['url_search_group'] = "You have submitted too many requests, please allow time for your previouse requests to be processed";
+            $this->_form->_errors['title_search_group'] = "You have submitted too many requests, please allow time for your previouse requests to be processed.";
         
             return true;
         }
@@ -110,8 +110,8 @@ class searchelibrary_form extends \moodleform {
 
 
     public function no_result(){
-        $this->_form->_errors['url_search'] = "We don't currently have that paper, if you'd like you can submit a request for it.";
-        $this->_form->_errors['title_search'] = "We don't currently have that paper, if you'd like you can submit a request for it.";
+        $this->_form->_errors['url_search_group'] = "We don't currently have that paper, if you'd like you can submit a request for it.";
+        $this->_form->_errors['title_search_group'] = "We don't currently have that paper, if you'd like you can submit a request for it.";
     }
 
     public function validation($data, $files) {
@@ -121,10 +121,10 @@ class searchelibrary_form extends \moodleform {
         
         // Validate URL field
         $urlortitle = $data['urlortitle'];
-        $url = $data['url_search'];
+        $url = $data['url_search_group']['url_search'];
         if($url && !$urlortitle){
             if (!filter_var($url, FILTER_VALIDATE_URL)) {
-                $errors['url_search'] = 'Please enter a valid URL.';
+                $errors['url_search_group'] = 'Please enter a valid URL.';
             }
             $parts = parse_url($url);
             if (isset($parts['scheme']) && isset($parts['host'])) {
@@ -139,17 +139,17 @@ class searchelibrary_form extends \moodleform {
             $validhost = $DB->get_record('theme_apoa_journals', array('url' => $url));
             
             if(!$validhost){
-                $errors['url_search'] = 'This is not a from a journal we support';
+                $errors['url_search_group'] = 'This is not a from a journal we support';
             }else{
                 $this->_customdata['journal'] = $validhost;
             }
         }
 
-        $journal = $data['title_search']['journal_select'];
-        $title = $data['title_search']['title'];
+        $journal = $data['title_search_group']['journal_select'];
+        $title = $data['title_search_group']['title'];
 
         if ($urlortitle && !$title) {
-            $errors['title_search']= 'Please enter a title.';
+            $errors['title_search_group']= 'Please enter a title.';
         }
 
         return $errors;
