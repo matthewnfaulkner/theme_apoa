@@ -43,7 +43,7 @@ class searchelibrary_form extends \moodleform {
         $mform->setDefault('urlortitle', 0);
         
 
-        $url_search = $mform->addElement('text', 'url_search', 'URL:', array('placeholder' => "Search by URL"));
+        $url_search = $mform->createElement('text', 'url_search', 'URL:', array('placeholder' => "Search by URL"));
         $mform->setType('url_search', PARAM_URL);
         //$mform->addRule('url_search', 'Please enter a valid URL.', 'required', null);
         
