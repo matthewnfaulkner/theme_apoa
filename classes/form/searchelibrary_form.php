@@ -61,7 +61,6 @@ class searchelibrary_form extends \moodleform {
 
         $mform->addGroup([$journal_select, $title], 'title_search');
         $mform->setType('title', PARAM_TEXT);
-        $mform->addRule('title', 'Please enter a valid URL.', 'required', null, 'client');
 
         $mform->hideIf('title_search', 'urlortitle', 'eq', 0);
 
