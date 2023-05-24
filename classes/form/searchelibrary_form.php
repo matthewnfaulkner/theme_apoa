@@ -49,7 +49,7 @@ class searchelibrary_form extends \moodleform {
         
         $mform->addGroup([$url_search], 'url_search_group');
 
-        $mform->hideif('url_search', 'urlortitle', 'eq', 1);
+        $mform->hideif('url_search_group', 'urlortitle', 'eq', 1);
 
         $journal_select = $mform->createElement('select', 'journal_select', 'Journal:', $options, array('placeholder' => "Select Journal"));
 
