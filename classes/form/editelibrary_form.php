@@ -20,7 +20,7 @@ class editelibrary_form extends \moodleform {
 
         $mform->addElement('text', 'url', 'URL:');
         $mform->setType('url', PARAM_URL);
-        $mform->addRule('url', 'Please enter a valid URL.', 'required_if', null, 'client');
+        $mform->addRule('url', 'Please enter a valid URL.', 'required', null, 'client');
         
         $mform->addElement('hidden', 'id', 0);
         $mform->setType('id', PARAM_INT);
