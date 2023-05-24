@@ -54,7 +54,6 @@ class searchelibrary_form extends \moodleform {
         $journal_select = $mform->createElement('select', 'journal_select', 'Journal:', $options, array('placeholder' => "Select Journal"));
 
         $mform->setType('journal_select', PARAM_INT);
-        $mform->addRule('title', 'Please enter a valid Journal.', 'required', null, 'client');
 
 
         $title = $mform->createElement('text', 'title', 'Title:', array('placeholder' => "Search by title"));
