@@ -59,7 +59,7 @@ class searchelibrary_form extends \moodleform {
         $title = $mform->createElement('text', 'title', 'Title:', array('placeholder' => "Search by title"));
 
 
-        $mform->addGroup([$journal_select, $title], 'title_search_group', array('hidden' => 1));
+        $mform->addGroup([$journal_select, $title], 'title_search_group');
         $mform->setType('title', PARAM_TEXT);
 
         $mform->hideIf('title_search_group', 'urlortitle', 'eq', 0);
