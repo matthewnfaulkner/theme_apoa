@@ -3,15 +3,23 @@
 
 namespace theme_apoa\form;
 
+use stdClass;
+
 require_once("$CFG->libdir/formslib.php");
 
 class searchelibrary_form extends \moodleform {
 
+    protected stdClass $journal;
+
     public function definition() {
         $mform = $this->_form;
         $categoryid = $this->_customdata['categoryid'];
+        $noresult = $this->_customdata['noresult'];
 
-
+        if(isset($this->_customdata['journal'])){
+            $this->journal = $this->_customdata['journal'];
+        }   
+        
         // Get list of categories to use as parents, with site as the first one.
         if ($categoryid) {
             // Editing an existing category
@@ -21,22 +29,22 @@ class searchelibrary_form extends \moodleform {
         $elibraryid = get_config('theme_apoa' ,'elibraryid');
         $elibrary = \core_course_category::get($elibraryid);
 
-        $options = array(0 => 'All Journals');
+        $options = array($elibraryid => 'All Journals');
         foreach($elibrary->get_children() as $journal){
             $options[$journal->id] = $journal->name;
         }
 
         
+        
         $myarray = array();
-        $myarray[] = $mform->createElement('radio', 'yesno', null, 'By URL', 1);
-        $myarray[] = $mform->createElement('radio', 'yesno', null, 'By Title', 2);
-        //$myarray[] = $mform->createElement('submit', 'submitbutton', 'search');
+        $myarray[] = $mform->createElement('radio', 'urlortitle', null, 'By URL', 0);
+        $myarray[] = $mform->createElement('radio', 'urlortitle', null, 'By Title', 1);
+        $myarray[] = $mform->createElement('submit', 'submitbutton', 'Search for Paper');
+        $myarray[] = $mform->createElement('submit', 'request', 'Request');
+
         $mform->addGroup($myarray, 'radioar', '', array(' '), false);
-        $mform->setDefault('yesno', 1);
-        /*$mform->addElement('radio', 'radio', null, 'By URL', 1);
-        $mform->addElement('radio', 'radio', null, 'By Title', 2);
-        $mform->setType('radio', PARAM_INT);
-        $mform->setDefault('radio', 1);*/
+        $mform->addHelpButton('urlortitle', 'urlortitle_help', 'theme_apoa', 'Select whether to search by URL or Paper Title');
+        $mform->setDefault('urlortitle', 0);
         
 
         $url_search = $mform->addElement('text', 'url_search', 'URL:', array('placeholder' => "Search by URL"));
@@ -45,15 +53,10 @@ class searchelibrary_form extends \moodleform {
         
         $mform->addGroup([$url_search], 'url_search');
 
-        $mform->hideif('url_search', 'yesno', 'eq', 2);
-
-        
-
+        $mform->hideif('url_search', 'urlortitle', 'eq', 1);
 
         $journal_select = $mform->createElement('select', 'journal_select', 'Journal:', $options, array('placeholder' => "Select Journal"));
 
-
-        
         $mform->setType('journal_select', PARAM_INT);
         $mform->addRule('title', 'Please enter a valid Journal.', 'required', null, 'client');
 
@@ -65,72 +68,100 @@ class searchelibrary_form extends \moodleform {
 
         $mform->addGroup([$journal_select, $title], 'title_search');
 
-        $mform->hideIf('title_search', 'yesno', 'eq', 1);
+        $mform->hideIf('title_search', 'urlortitle', 'eq', 0);
 
-        $mform->addElement('hidden', 'categoryid', 0);
+        $mform->addElement('hidden', 'categoryid', $categoryid);
         $mform->setType('categoryid', PARAM_INT);
         $mform->setDefault('categoryid', $categoryid);
 
-        $this->add_action_buttons(false, $strsubmit);
+        
 
+        //$this->add_action_buttons(false, $strsubmit);
+
+        $mform->hideif('request', 'noresult', 'eq', 0);
     }
 
-    public function definition_after_data() {
+    public function definition_after_data(){
         $mform = $this->_form;
+        if($this->is_submitted()){
+            $mform->_submitValues['noresult'] = 1;
+            $mform->addElement('hidden', 'noresult', 1);
+            $mform->setType('noresult', PARAM_INT);
+            $mform->setDefault('noresult', 1);
+        }else{
+            $mform->addElement('hidden', 'noresult', 0);
+            $mform->setType('noresult', PARAM_INT);
+            $mform->setDefault('noresult', 0);
+        }
+    }
 
-        // Get the value of the search option
-        $search_option = $mform->getElementValue('search_option');
+    public function get_journal(){
+        return $this->journal;
+    }
 
-        // Hide or display fields based on the search option
-        /*if ($search_option == 'url') {
-            $mform->removeElement('journal_select');
-            $mform->removeElement('title');
-        } else {
-            $mform->removeElement('url_search');
-        }*/
+
+    public function has_user_submitted_too_often(){
+        global $USER, $DB;
+
+        $userreqeusts = $DB->get_records('course_request', array('requester' => $USER->id));
+
+        if(count($userreqeusts) > 5){
+            $this->_form->_errors['url_search'] = "You have submitted too many requests, please allow time for your previouse requests to be processed";
+            $this->_form->_errors['title_search'] = "You have submitted too many requests, please allow time for your previouse requests to be processed.";
+        
+            return true;
+        }
+        return false;
+    }
+
+
+    public function no_result(){
+        $this->_form->_errors['url_search'] = "We don't currently have that paper, if you'd like you can submit a request for it.";
+        $this->_form->_errors['title_search'] = "We don't currently have that paper, if you'd like you can submit a request for it.";
     }
 
     public function validation($data, $files) {
-        $errors = parent::validation($data, $files);
+        global $DB;
 
+        $errors = parent::validation($data, $files);
+        
         // Validate URL field
-        $url = $data['url'];
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            $errors['url'] = 'Please enter a valid URL.';
+        $urlortitle = $data['urlortitle'];
+        $url = $data['url_search'];
+        if($url && !$urlortitle){
+            if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                $errors['url_search'] = 'Please enter a valid URL.';
+            }
+            $parts = parse_url($url);
+            if (isset($parts['scheme']) && isset($parts['host'])) {
+                $scheme = $parts['scheme'];
+                $host = $parts['host'];
+                $url = $scheme . '://' . $host;
+            } else {
+                // Handle case when scheme or host is missing
+                $url = '';
+            }
+            
+            $validhost = $DB->get_record('theme_apoa_journals', array('url' => $url));
+            
+            if(!$validhost){
+                $errors['url_search'] = 'This is not a from a journal we support';
+            }else{
+                $this->_customdata['journal'] = $validhost;
+            }
         }
 
-        // Perform additional custom validation
-        if ($data['radio'] == '1' && empty($data['url_search'])) {
-            $errors['url_search'] = 'Please enter a value.';
+        $journal = $data['title_search']['journal_select'];
+        $title = $data['title_search']['title'];
+
+        if ($urlortitle && !$title) {
+            $errors['title_search']= 'Please enter a title.';
         }
 
         return $errors;
         // Additional validation for the path fiel
         // Perform any necessary validation for the path field
 
-        return $errors;
     }
 
-    public function renderf(){
-        $elements = $this->_form->_elements;
-        $elementsArray = array();
-
-        foreach ($elements as $element) {
-            $elementArray = array(
-                'name' => $element->getName(),
-                'label' => $element->getLabel(),
-                'value' => $element->getValue(),
-                'type' => $element->getType(),
-                'html' => $element->toHtml(),
-            );
-            if (isset($elementsArray[$element->getName()])){
-                $elementsArray[$element->getName()][] = $elementArray;
-            }
-            else{
-                $elementsArray[$element->getName()][] = $elementArray;
-            }
-        }
-
-        return $elementsArray;
-    }
 }
