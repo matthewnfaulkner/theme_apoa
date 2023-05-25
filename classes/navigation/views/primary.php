@@ -122,11 +122,11 @@ class primary extends \core\navigation\views\primary {
             switch ($name) {
                 case 'Sections':
                     $sectionnode = $this->add('Sections', new \moodle_url("/course/index.php?categoryid={$child->id}"), self::TYPE_CATEGORY,
-                        'Sections', 'cc' . $child->id);
+                        'Sections', navigation_node::TYPE_CATEGORY . $child->id);
                     $sections = $child->get_children();
                     foreach ($sections as $section) {
                         $sectionnode->add($section->name, new \moodle_url("/course/index.php?categoryid={$section->id}"), self::TYPE_CATEGORY,
-                        $section->name, 'cc' . $section->id);
+                        $section->name, navigation_node::TYPE_CATEGORY . $section->id);
                     }
                     $sectionnode->showchildreninsubmenu = true;
 
@@ -140,19 +140,19 @@ class primary extends \core\navigation\views\primary {
                             case 'Committees':
 
                                 $apoanode = $this->add($apoacategory->name, new \moodle_url("/course/index.php?categoryid={$apoacategory->id}"), self::TYPE_CATEGORY,
-                                $apoacategory->name, 'cc'.  $apoacategory->id);
+                                $apoacategory->name, navigation_node::TYPE_CATEGORY.  $apoacategory->id);
 
                                 $subcategories = $apoacategory->get_children();
                                 foreach ($subcategories as $subcategory){
                                     $apoanode->add($subcategory->name, new \moodle_url("/course/index.php?categoryid={$subcategory->id}"), self::TYPE_CATEGORY,
-                                    $subcategory->name, 'cc' . $subcategory->id);
+                                    $subcategory->name, navigation_node::TYPE_CATEGORY . $subcategory->id);
                                 }
                                 $apoanode->showchildreninsubmenu = true;
                                 break;
                             case 'E-Library':
                             case 'Newsletter':
                                 $apoanode = $this->add($apoacategory->name, new \moodle_url("/course/index.php?categoryid={$apoacategory->id}"), self::TYPE_CATEGORY,
-                                $apoacategory->name, 'cc' . $apoacategory->id);
+                                $apoacategory->name, navigation_node::TYPE_CATEGORY . $apoacategory->id);
                                 break;
                             default:
                                 break;
@@ -179,7 +179,7 @@ class primary extends \core\navigation\views\primary {
                 foreach($navnode->children as $navnodechild) {
                     
                     $rootnode->add($navnodechild->name, 
-                        new \moodle_url($navnodechild->ur), 
+                        new \moodle_url($navnodechild->url), 
                         $navnodechild->type,
                         $navnodechild->name, 
                         $navnodechild->key,

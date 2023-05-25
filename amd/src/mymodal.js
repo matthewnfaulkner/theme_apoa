@@ -1,5 +1,7 @@
-define(['jquery', 'swiper'], function($, Swiper) {
-  
+
+define(['jquery', 'swiper-bundle'], function($, Swiper) {
+
+
   const jumbo = document.getElementById('jumbo');
   const subjumbo = document.getElementById('jumbomodal');
   const menuItems = document.querySelectorAll('.sidejumboitemcontainer');

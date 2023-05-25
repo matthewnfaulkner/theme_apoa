@@ -2,6 +2,7 @@
 
 namespace theme_apoa\task;
 
+
 require_once($CFG->dirroot . '/theme/apoa/lib.php');
 require_once($CFG->dirroot . '/theme/apoa/classes/output/core/course_category.php');
 require_once($CFG->dirroot . '/theme/apoa/classes/output/core/tag_course_category.php');

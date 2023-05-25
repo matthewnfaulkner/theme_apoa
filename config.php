@@ -128,7 +128,7 @@ if (!$CFG->custommenuitems && 1==2) {
         $CFG->custommenuitems .= $rootlink;
     }
 }
-$THEME->javascripts =[$CFG->wwwroot .'/theme/apoa/amd/build/swiper-bundler.min.js'];
+
 $THEME->editor_sheets = [];                                                                                                                                                                              
 $THEME->parents = ['boost'];                                                                                                                        
 $THEME->enable_dock = false;                                                                                                                          
