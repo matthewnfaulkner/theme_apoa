@@ -149,7 +149,7 @@ $('.sidejumbo-link').on('click', function(event) {
           subjumbo.removeEventListener('animationend', handleAnimationEnd);
         }
       }
-    }, 10); // Adjust the delay time in milliseconds (e.g., 500ms)
+    }, 200); // Adjust the delay time in milliseconds (e.g., 500ms)
   }
 
   let jumboHeight = jumbo.clientHeight;
