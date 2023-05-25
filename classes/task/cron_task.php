@@ -24,7 +24,7 @@ class cron_task extends \core\task\scheduled_task {
         // Call your own api
         $cache = \cache::make('theme_apoa', 'navigation_cache');
         $this->log_start("Deleting old cache records.");
-        $cache->delete('primarynav');
+        //$cache->delete('primarynav');
         $this->log_finish("Finished deleting old navigation cache records");
 
         $this->log_start("Generating new navigation records");

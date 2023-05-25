@@ -35,12 +35,11 @@ class update_mainpage extends \core\task\scheduled_task {
         // Call your own api
         $this->cache = \cache::make('theme_apoa', 'main_page_cache');
         $this->log_start("Deleting old cache records.");
-        $this->cache->delete('mainpagecontent');
+        //$this->cache->delete('mainpagecontent');
         $this->log_finish("Finished deleting old main page cache records");
 
 
         $this->populate_cache();
-        purge_caches();
     }
 
     private function populate_cache(){
