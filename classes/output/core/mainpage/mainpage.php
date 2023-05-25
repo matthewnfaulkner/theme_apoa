@@ -11,9 +11,10 @@ class mainpage implements \templatable , \renderable {
 
     use mainpage_named_templatable;
 
-
+    protected array $sections;
+    
     public function __construct() {
-
+        $this->sections = ['jumbo', 'subjumbo', 'events', 'about', 'sections', 'membership', 'resources'];
     }
     
         
@@ -33,6 +34,8 @@ class mainpage implements \templatable , \renderable {
     }
 
 
-
+    public function get_sections(){
+        return $this->sections;
+    }
     
 }

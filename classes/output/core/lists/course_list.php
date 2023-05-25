@@ -210,8 +210,7 @@ class course_list implements \templatable , \renderable {
                 GROUP BY f.itemid
                 ORDER BY count DESC
                 ) AS top
-                ON c.id = top.itemid)";
-        $record = $DB->get_records_sql($favquery);       
+                ON c.id = top.itemid)";      
         foreach ($this->subcategories as $subcategory) {
             $id = $subcategory->id;
             $children = $subcategory->get_all_children_ids();
@@ -219,13 +218,14 @@ class course_list implements \templatable , \renderable {
             $query = "(SELECT c.*, ". $id ." AS root 
                     FROM ". $favquery . " AS c 
                     WHERE c.category IN (". $conditions .")
+                    ORDER BY count, RAND()
                     LIMIT 3)";
             array_push($sql, $query);   
             $record = $DB->get_records_sql($query);
         }
         
         $union = join(' UNION ', $sql);
-        $massivequery = "SELECT a.* FROM (" . $union . ") a ORDER BY a.count DESC";
+        $massivequery = "SELECT a.* FROM (" . $union . ") a";
         $limit = count($sql) * 3 + 1;
         $records = $DB->get_records_sql($massivequery, null, 0, $limit);
         $this->courses = $records;
@@ -255,7 +255,7 @@ class course_list implements \templatable , \renderable {
             $id = $subcategory->id;
             $conditions = $id;
             if($children = $subcategory->get_all_children_ids()){
-                $conditions = join(', ', $children);
+                $conditions .= ',' . join(', ', $children);
             };
             $query = "(SELECT c.*, ". $id ." AS root 
                     FROM {course} AS c 

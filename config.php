@@ -74,9 +74,8 @@ $topchildren = core_course_category::top()->get_children();
 if (empty($topchildren)) {
     throw new moodle_exception('cannotviewcategory', 'error');
 }
-$category = reset($topchildren);
 
-if (!$CFG->custommenuitems) {
+if (!$CFG->custommenuitems && 1==2) {
     $CFG->custommenuitems = "";
     foreach ($topchildren as $category) {
         $subcats = $category->get_children();

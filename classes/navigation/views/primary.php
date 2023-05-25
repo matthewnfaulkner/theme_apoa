@@ -17,6 +17,7 @@
 namespace theme_apoa\navigation\views;
 
 use navigation_node;
+use stdClass;
 
 /**
  * Class primary.
@@ -32,6 +33,10 @@ class primary extends \core\navigation\views\primary {
     /**
      * Initialise the primary navigation node
      */
+
+    private \cache $navigation_cache;
+
+
     public function initialise(): void {
         global $CFG, $USER;
 
@@ -39,6 +44,7 @@ class primary extends \core\navigation\views\primary {
             return;
         }
         $this->id = 'primary_navigation';
+
 
         $showhomenode = empty($this->page->theme->removedprimarynavitems) ||
             !in_array('home', $this->page->theme->removedprimarynavitems);
@@ -80,6 +86,18 @@ class primary extends \core\navigation\views\primary {
             // We don't need everything from the node just the initial link.
             $this->add($node->text, $node->action(), self::TYPE_SITE_ADMIN, null, 'siteadminnode', $node->icon);
         }
+
+        
+        $this->navigation_cache = \cache::make('theme_apoa', 'navigation_cache');
+        
+        if ($data = $this->navigation_cache->get('primarynav')){
+            $this->get_nav_from_cache($data);
+        }
+        else{
+            $this->get_backup_nav();
+        }
+        
+
         $showmanagementnode = has_capability('moodle/course:create', $this->context);
         if($showmanagementnode) {
             $this->add('Management', new \moodle_url('/course/management.php'), self::TYPE_SETTING,
@@ -88,6 +106,88 @@ class primary extends \core\navigation\views\primary {
         // Search and set the active node.
         $this->set_active_node();
         $this->initialised = true;
+    }
+
+
+    private function get_backup_nav(){
+        
+        $topchildren = \core_course_category::top()->get_children();
+        if (empty($topchildren)) {
+            throw new \moodle_exception('cannotviewcategory', 'error');
+        }
+        
+        foreach ($topchildren as $child) {
+
+            $name = $child->name;
+            switch ($name) {
+                case 'Sections':
+                    $sectionnode = $this->add('Sections', new \moodle_url("/course/index.php?categoryid={$child->id}"), self::TYPE_CATEGORY,
+                        'Sections', 'cc' . $child->id);
+                    $sections = $child->get_children();
+                    foreach ($sections as $section) {
+                        $sectionnode->add($section->name, new \moodle_url("/course/index.php?categoryid={$section->id}"), self::TYPE_CATEGORY,
+                        $section->name, 'cc' . $section->id);
+                    }
+                    $sectionnode->showchildreninsubmenu = true;
+
+                    break;
+                case 'APOA':
+                    $apoacategories = $child->get_children();
+                    foreach ($apoacategories as $apoacategory) {
+
+                        switch ($apoacategory->name){
+                            case 'About':
+                            case 'Committees':
+
+                                $apoanode = $this->add($apoacategory->name, new \moodle_url("/course/index.php?categoryid={$apoacategory->id}"), self::TYPE_CATEGORY,
+                                $apoacategory->name, 'cc'.  $apoacategory->id);
+
+                                $subcategories = $apoacategory->get_children();
+                                foreach ($subcategories as $subcategory){
+                                    $apoanode->add($subcategory->name, new \moodle_url("/course/index.php?categoryid={$subcategory->id}"), self::TYPE_CATEGORY,
+                                    $subcategory->name, 'cc' . $subcategory->id);
+                                }
+                                $apoanode->showchildreninsubmenu = true;
+                                break;
+                            case 'E-Library':
+                            case 'Newsletter':
+                                $apoanode = $this->add($apoacategory->name, new \moodle_url("/course/index.php?categoryid={$apoacategory->id}"), self::TYPE_CATEGORY,
+                                $apoacategory->name, 'cc' . $apoacategory->id);
+                                break;
+                            default:
+                                break;
+                            }
+                    }
+                    break;
+                default:
+                        break;
+                }
+        }
+    }
+    private function get_nav_from_cache($navigation_cache_data){
+
+        foreach ($navigation_cache_data as $navnode) {
+
+            $rootnode = $this->add($navnode->name, 
+                        new \moodle_url($navnode->url), 
+                        $navnode->type,
+                        $navnode->name,
+                        $navnode->key
+                    );
+            
+            if ($navnode->haschildren){
+                foreach($navnode->children as $navnodechild) {
+                    
+                    $rootnode->add($navnodechild->name, 
+                        new \moodle_url($navnodechild->ur), 
+                        $navnodechild->type,
+                        $navnodechild->name, 
+                        $navnodechild->key,
+                );
+                }
+            }
+            $rootnode->showchildreninsubmenu = $navnode->showchildreninsubmenu;
+        }
     }
 
 

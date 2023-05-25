@@ -46,6 +46,8 @@ if (defined('BEHAT_SITE_RUNNING')) {
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
+$PAGE->requires->js_call_amd('theme_apoa/tablistcycle', 'init');
+
 $secondarynavigation = false;
 $overflow = '';
 if ($PAGE->has_secondary_navigation()) {
@@ -58,7 +60,7 @@ if ($PAGE->has_secondary_navigation()) {
     }
 }
 
-$primary = new core\navigation\output\primary($PAGE);
+$primary = new \theme_apoa\navigation\output\primary($PAGE);
 
 
 $renderer = $PAGE->get_renderer('core');

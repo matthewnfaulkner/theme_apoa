@@ -188,10 +188,11 @@ class course_renderer extends \core_course_renderer {
      * @param int|stdClass|core_course_category $category
      */
     public function course_category($category) {
-        global $CFG, $USER;
+        global $CFG, $USER, $PAGE;
 
         
         $usertop = core_course_category::user_top();
+
         if (empty($category)) {
             $coursecat = $usertop;
         } else if (is_object($category) && $category instanceof core_course_category) {
@@ -201,6 +202,7 @@ class course_renderer extends \core_course_renderer {
         }
 
         $parent = $coursecat->get_parent_coursecat();
+
 
         if (!$parent->depth == core_course_category::top()->depth && !is_siteadmin($USER) && False){
             redirect(new moodle_url('/course/index.php?categoryid=' . $parent->id));
@@ -393,13 +395,26 @@ class course_renderer extends \core_course_renderer {
     }
 
     protected function render_subcategory(coursecat_helper $chelper, core_course_category $coursecat) {
-
+        $output = '';
+        $elibrary = core_course_category::get(get_config('theme_apoa', 'elibraryid'));
+        if ($coursecat->id == $elibrary->id){
+            $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
+            $searchbarout['elementsarray'] = $searchbar->export_for_template($this);
+            //$output .= $searchbarout['elementsarray'];
+            $render['elibrarysearch'] = $searchbarout['elementsarray'];
+        }
+        $directParent = end($coursecat->get_parents());
+        if($directParent == $elibrary->id){
+            $journallink = get_journal_link($coursecat->id);
+            $render['journallinkbutton'] = $journallink;
+        }
         $render['description'] = $chelper->get_category_formatted_description($coursecat);
         $render['sectiontitle'] = $coursecat->name;
+
         $courselist = new \theme_apoa\output\core\lists\course_list('category', $coursecat->name, $coursecat);
         
         $render['categorylist'] = $courselist->export_for_template($this);
-        $output = $this->render_from_template('theme_apoa/category',$render);
+        $output .= $this->render_from_template('theme_apoa/category',$render);
         return $output;
     }
 

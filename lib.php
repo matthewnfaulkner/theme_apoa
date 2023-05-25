@@ -7,6 +7,9 @@ defined('MOODLE_INTERNAL') || die();
 
 // We will add callbacks here as we add features to our theme.
 
+define('PRIMARY_CATEGORY_DEPTH', 2);
+define('SECONDARY_CATEGORY_DEPTH', 3);
+
 
 function theme_apoa_get_main_scss_content($theme) {                                                                                
     global $CFG;                                                                                                                    
@@ -23,7 +26,7 @@ function theme_apoa_get_main_scss_content($theme) {
     } else if ($filename && ($presetfile = $fs->get_file($context->id, 'theme_boost', 'preset', 0, '/', $filename))) {              
         $scss .= $presetfile->get_content();                                                                                        
     } else {                                                                                                                        
-        // Safety fallback - maybe new installs etc.                                                                                
+        // Safety fallback - maybe new installs etc.                                                                                   
         $scss .= file_get_contents($CFG->dirroot . '/theme/boost/scss/preset/default.scss');                                        
     }                                                                                                                               
     
@@ -71,15 +74,15 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
     
         $nospacename = preg_replace("/[^a-zA-Z0-9]+/", "", $subcategory->name);
         $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
-        if ($coursecount = $subcategory->get_courses_count() == 1){
+        if ($coursecount = $subcategory->get_courses_count() == 1 && $subcategory->get_children_count() == 0){
             if($courses = $subcategory->get_courses($limit = 1)) {
                 $course = reset($courses);
                 $parentnode->add(
                     $name ,
                     new \moodle_url('/course/view.php', ['id' => $course->id]),
-                    navigation_node::TYPE_CUSTOM,
+                    navigation_node::TYPE_COURSE,
                     $name ,
-                    $subcategory->id 
+                    navigation_node::TYPE_COURSE . $course->id 
                 );
             }
             
@@ -87,34 +90,73 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
             $newnode = $parentnode->add(
                 $name ,
                 new \moodle_url('/course/index.php', ['categoryid' => $subcategory->id]),
-                navigation_node::TYPE_CUSTOM,
+                navigation_node::TYPE_CATEGORY,
                 $name,
-                $subcategory->id 
+                navigation_node::TYPE_CATEGORY . $subcategory->id 
             );
+            $courses = $subcategory->get_courses();
+            foreach ($courses as $course){
+                $newnode->add(
+                    $course->shortname,
+                    new \moodle_url('/course/view.php', ['id' => $course->id]),
+                    navigation_node::TYPE_COURSE,
+                    $course->names,
+                    navigation_node::TYPE_COURSE . $course->shortname 
+                );
+            }
+            if(count($courses) > 1){
+                $newnode->showchildreninsubmenu = true;
+            }
         }
     }
 }
 
 function theme_apoa_extend_navigation_category_settings(navigation_node $parentnode, context_coursecat $context) {
-    global $USER;
+    global $USER, $PAGE;
+    
+    $category = core_course_category::get($context->instanceid);
+    $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
+
+    $subrootcategory = core_course_category::get($parents[1]);
+    $subcategories = $subrootcategory->get_children();
+
     if(!is_siteadmin($USER->id)) {
         $parentnode->children = new navigation_node_collection;
     }
+    else{
+        $elibraryid = get_config('theme_apoa', 'elibraryid');
+        if ($subrootcategory->id == $elibraryid && $category->depth == 3){
+            $parentnode->add(
+                'Journal Settings' ,
+                new \moodle_url('/theme/apoa/editelibrary.php', ['id' => $category->id]),
+                navigation_node::TYPE_COURSE,
+                'Journal Settings' ,
+                navigation_node::TYPE_COURSE . 0 
+            );
+        }
+    }
     $category = core_course_category::get($context->instanceid);
-    $subrootcategory = get_subroot_category($category);
-    $subcategories = $subrootcategory->get_children();
+ 
+    $PAGE->set_primary_active_tab(navigation_node::TYPE_CATEGORY. $subrootcategory->id);
+    $PAGE->set_secondary_active_tab(navigation_node::TYPE_CATEGORY. $parents[2]);
     $component = 'theme_apoa';
 
     theme_apoa_get_secondary_nav_items($parentnode, $subcategories, $component);
 }
 
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
-    global $USER;
+    global $USER, $PAGE;
+    
     if(!is_siteadmin($USER->id)) {
         $parentnode->children = new navigation_node_collection;
     }
     $category = core_course_category::get($course->category);
     $rootcat = get_subroot_category($category);
+
+    $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
+
+    $PAGE->set_primary_active_tab(navigation_node::TYPE_CATEGORY. $rootcat->id);
+    $category->depth > 3 ? $PAGE->set_secondary_active_tab(navigation_node::TYPE_CATEGORY. $parents[2]) : $PAGE->set_secondary_active_tab(navigation_node::TYPE_COURSE. $course->id);
     $subcategories = $rootcat->get_children();
     $component = 'theme_apoa';
 
@@ -273,5 +315,12 @@ function get_category_path(\core_course_category $category) {
     }
 }
     
-    
+function get_journal_link($categoryid){
+    global $DB;
 
+    if($journalhostandpath =  $DB->get_record('theme_apoa_journals', array('category' => $categoryid))){
+        $journallink = $journalhostandpath->url . $journalhostandpath->path;     
+        return $journallink;     
+    }
+    return false;
+}

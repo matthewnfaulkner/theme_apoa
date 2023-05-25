@@ -24,12 +24,15 @@ class course_list_item implements \templatable , \renderable {
 
     protected bool $iselibrary;
 
+    protected \cache $image_cache;
+
     public function __construct(\stdClass $course, $index, $iselibrary) {
         
         $this->course = $course;
         $this->courselistelement = new \core_course_list_element($course);
         $this->index = $index;
         $this->iselibrary = $iselibrary;
+        $this->image_cache = \cache::make('theme_apoa', 'image_cache');
 
     }
         
@@ -79,16 +82,24 @@ class course_list_item implements \templatable , \renderable {
 
         $itemdesc = $this->course->summary;
         $itemsummary = $this->course->summary;
-        
+        $key = md5($course->id);
+
+
         foreach ($this->courselistelement->get_course_overviewfiles() as $file) {
             $isimage = $file->is_valid_image();
-            $img = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
+            $imgurl = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
                 '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
                 $file->get_filearea() . $file->get_filepath() . $file->get_filename(), !$isimage);
             if ($isimage) {
                 break;
             }
-        }
+        }/*
+        if($file){
+            $filecontents = file_get_contents($imgurl);
+            $imgurl  = 'data:image/jpeg;base64,' . base64_encode($filecontents);
+        }*/
+
+
 
         $template = ["itemtitle" => $this->course->shortname,
             "itemcat" => $coursecat->name,
@@ -99,7 +110,7 @@ class course_list_item implements \templatable , \renderable {
             "itemurl" => $itemurl,
             "itemcaturl" => $caturl,
             "itemrooturl" => $rooturl,
-            "itemimg" => $img,
+            "itemimg" => $imgurl,
             'itemtag' => $tagname,
             'itemtagurl' => $tagurl,
             'itemindex' => $this->index,
