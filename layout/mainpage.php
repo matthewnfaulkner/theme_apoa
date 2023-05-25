@@ -46,6 +46,8 @@ if (defined('BEHAT_SITE_RUNNING')) {
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
+//$PAGE->requires->js_call_amd('theme_apoa/Simple-Slider');
+$PAGE->requires->js_call_amd('theme_apoa/mymodal');
 $PAGE->requires->js_call_amd('theme_apoa/tablistcycle', 'init');
 
 $secondarynavigation = false;

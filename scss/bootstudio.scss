@@ -83,9 +83,13 @@
   }
   
   .main-page-main-image {
-    filter: brightness(0.7);
+    filter: brightness(0.8);
   }
-  
+
+  .main-page-main-image .modal{
+    filter: brightness(0.95)!important;
+  }
+
   .main-page-container {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -570,8 +574,16 @@
     }
   }
   
+  .main-page-link-wrapper:hover{
+    cursor: pointer;
+  }
+
   .main-page-link-wrapper:hover + .main-page-jumbo-main .main-page-jumbo-video {
     filter: brightness(0.9);
+  }
+  
+  .main-page-link-wrapper:hover + .main-page-jumbo-main .main-page-main-image {
+    filter: brightness(1)!important;
   }
   
   @media (min-width: 1200px) {
@@ -607,7 +619,7 @@
   
   .main-page-link-sub {
     position: relative;
-    z-index: 1000;
+    z-index: 5;
   }
   
   .journal-card-sub-title.main-page-subsection-title {
@@ -691,6 +703,7 @@
   }
   
   .main-page-jumbo-logo {
+    z-index:7;
     height: 100px;
   }
   
