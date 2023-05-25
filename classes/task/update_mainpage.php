@@ -40,6 +40,7 @@ class update_mainpage extends \core\task\scheduled_task {
 
 
         $this->populate_cache();
+        purge_caches();
     }
 
     private function populate_cache(){
