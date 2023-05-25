@@ -33,6 +33,7 @@ class update_mainpage extends \core\task\scheduled_task {
      */
     public function execute() {
         // Call your own api
+        global $CFG;
         $this->cache = \cache::make('theme_apoa', 'main_page_cache');
         $this->log_start("Deleting old cache records.");
         //$this->cache->delete('mainpagecontent');
@@ -40,6 +41,7 @@ class update_mainpage extends \core\task\scheduled_task {
 
 
         $this->populate_cache();
+        $this->log_start($CFG->wwwroot, var_dump($_SERVER));
     }
 
     private function populate_cache(){
