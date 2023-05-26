@@ -23,7 +23,7 @@ require_once($CFG->dirroot . '/theme/apoa/classes/output/core/tag_course_categor
 require_once($CFG->dirroot . '/theme/apoa/classes/output/core/tag.php');
 require_once($CFG->dirroot . '/theme/apoa/classes/output/core/lists/pagelist.php');
 
-
+use context_coursecat;
 use moodle_url;
 use html_writer;
 use get_string;
@@ -319,8 +319,17 @@ class course_renderer extends \core_course_renderer {
 
     protected function render_course_cat(coursecat_helper $chelper, core_course_category $coursecat){
 
-        $renderer = new theme_apoa_course_category([$coursecat], 5);
-        $output = $this->render_from_template('theme_apoa/categorycourselist', $renderer->export_for_template($this));
+        $renderer = new theme_apoa_course_category([$coursecat], 5);    
+        $rendererout = $renderer->export_for_template($this);
+        $context = context_coursecat::instance($coursecat->id);
+        if(has_capability('moodle/course:create', $context)){
+            $rendererout['createcourse'] = array(
+                'buttonlink' => new moodle_url('/course/edit.php', array('category' => $coursecat->id)),
+                'buttontext' => 'Create new Elibrary Page',
+            );
+        }
+
+        $output = $this->render_from_template('theme_apoa/categorycourselist',  $rendererout);
         return $output;
     }
 
@@ -396,6 +405,7 @@ class course_renderer extends \core_course_renderer {
 
     protected function render_subcategory(coursecat_helper $chelper, core_course_category $coursecat) {
         $output = '';
+        
         $elibrary = core_course_category::get(get_config('theme_apoa', 'elibraryid'));
         if ($coursecat->id == $elibrary->id){
             $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
@@ -403,11 +413,23 @@ class course_renderer extends \core_course_renderer {
             //$output .= $searchbarout['elementsarray'];
             $render['elibrarysearch'] = $searchbarout['elementsarray'];
         }
+        $context = context_coursecat::instance($coursecat->id);
         $directParent = end($coursecat->get_parents());
         if($directParent == $elibrary->id){
             $journallink = get_journal_link($coursecat->id);
             $render['journallinkbutton'] = $journallink;
+            if(has_capability('moodle/course:create', $context)){
+                if ($latests = $coursecat->get_children(array('sort'=> ['sortorder' => 1], 'limit' => 1 ))){
+                    $latest = reset($latests);
+                    $render['createcourse'] = array(
+                        'buttonlink' => new moodle_url('/course/edit.php', array('category' => $latest->id)),
+                        'buttontext' => 'Create Elibrary page in latest issue'
+                    );
+                }
+            }
         }
+
+
         $render['description'] = $chelper->get_category_formatted_description($coursecat);
         $render['sectiontitle'] = $coursecat->name;
 
