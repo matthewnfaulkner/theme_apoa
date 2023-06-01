@@ -115,9 +115,9 @@ class search_elibrary_bar implements \templatable {
             // Find all elements with class "col-form-label" in the form
             $colFormLabels = $xpath->query('.//div[contains(@class, "col-form-label")]', $formElement);
             
-            foreach ($colFormLabels as $label) {
+            /*foreach ($colFormLabels as $label) {
                 $label->parentNode->removeChild($label);
-            }
+            }*/
 
             $colElements = $xpath->query('.//div[contains(@class, "felement")]', $formElement);
             // Remove each col-form-label element from the form

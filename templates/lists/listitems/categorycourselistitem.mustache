@@ -1,26 +1,27 @@
 <div class="row mx-0 py-2">
-    <div class="col col-12 px-0"><a class="stretched-link main-page-link-wrapper" href="{{url}}"></a>
+    <div class="col col-12 px-0"><a class="stretched-link main-page-link-wrapper" href="{{itemurl}}"></a>
         <div class="main-page-announcements-card w-100">
             <div class="row mx-0">
                 <div class="col col-7 px-0 main-page-announcements-card-text-cont">
                     <div class="card-img-overlay main-page-card">
-                        <h5 class="main-page-announcements-title main-page-link">{{name}}</h5>
+                        <h5 class="main-page-announcements-title main-page-link">{{itemtitle}}</h5>
                         <div>
                             <p>
-                                {{#tag}}
+                                {{{itemdescription}}}   
+                                {{#itemtag}}
                                 <span>&nbsp;|&nbsp;</span>
-                                <a href="{{caturl}}"><small class="main-page-link-sub">{{tag}}</small></a>
-                                {{/tag}}
+                                <a href="{{caturl}}"><small class="main-page-link-sub">{{itemtag}}</small></a>
+                                {{/itemtag}}
                             </p>
                         </div>
-                        {{#date}}
+                        {{#startdate}}
                         <p class="main-page-announcements-title">
-                            {{#userdate}} {{date}}, {{#str}} strftimedate, core_langconfig {{/str}} {{/userdate}}
+                            {{#userdate}} {{itemstartdate}}, {{#str}} strftimedate, core_langconfig {{/str}} {{/userdate}}
                         </p>
-                        {{/date}}
+                        {{/startdate}}
                     </div>
                 </div>
-                <div class="col col-5 h-100 px-0 main-page-announcements-card-image-cont"><img class="categorylist-image" src="{{img}}"></div>
+                <div class="col col-5 h-100 px-0 main-page-announcements-card-image-cont"><img class="categorylist-image" src="{{itemimg}}"></div>
             </div>
         </div>
     </div>

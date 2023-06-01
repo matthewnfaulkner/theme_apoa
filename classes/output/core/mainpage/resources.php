@@ -21,7 +21,10 @@ class resources implements \templatable , \renderable {
     protected string $contentgenerator;
 
     public function __construct() {
-        $this->resources = ['Forum' => 'forum', "Member's Gallery" => 'gallery', 'Contact Us' => 'contact', 'Meetings' => 'meetings'];
+        $this->resources = ['Forum' => 'forum', "Member's Gallery" => 'gallery', 
+        'Contact Us' => 'contact', 'Meetings' => 'meetings',
+        'Blog' => 'blog', 'Educational Videos' => 'eduvideos',
+        ];
     }
         
     

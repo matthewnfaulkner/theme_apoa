@@ -45,7 +45,7 @@ class searchelibrary_form extends \moodleform {
         $myarray[] = $mform->createElement('submit', 'request', 'Request');
 
         $mform->addGroup($myarray, 'radioar', '', array(' '), false);
-        $mform->addHelpButton('urlortitle', 'urlortitle_help', 'theme_apoa', 'Select whether to search by URL or Paper Title');
+       
         $mform->setDefault('urlortitle', 0);
         
 
@@ -66,6 +66,7 @@ class searchelibrary_form extends \moodleform {
 
 
         $mform->addGroup([$journal_select, $title], 'title_search_group');
+        //x$mform->addHelpButton('title_search_group', 'pluginname', 'theme_apoa');
         $mform->setType('title', PARAM_TEXT);
 
         $mform->hideIf('title_search_group', 'urlortitle', 'eq', 0);

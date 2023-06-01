@@ -126,7 +126,9 @@
                     </div>
                 {{/hasblocks}}
             </div>
-            {{> theme_apoa/secondarynav}}
+            {{#secondarymoremenu}}
+                {{> theme_apoa/secondarynav}}
+            {{/secondarymoremenu}}
             {{{ output.full_header }}}
             <div id="page-content" class="pb-3 d-print-block">
                 <div id="region-main-box">

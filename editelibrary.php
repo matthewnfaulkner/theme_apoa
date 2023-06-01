@@ -117,7 +117,7 @@ if ($mform->is_cancelled()) {
         // Handle case when scheme or host is missing
         $url = '';
     }
-    $path = $parts['path'];
+    $path = $parts['path']. '?' . $parts['query'];
     if($journal){
 
         $journal->url = $url;

@@ -1,10 +1,13 @@
 <div class="row mx-0">
-    <div class="col col-lg-8 col-sm-12 col-12 main-page-col">
+    <div id="jumbo" class="col col-lg-8 col-sm-12 col-12 main-page-col">
         {{#jumbomain}}
+            <div>
             {{>theme_apoa/mainpage/jumbo/jumbomain}}
+            </div>
+            {{>theme_apoa/mainpage/jumbo/jumbomodal}}
         {{/jumbomain}}
     </div>
-    <div class="col col-lg-4 col-sm-12 col-12 main-page-col main-page-sec-col">
+    <div class="col col-lg-4 col-sm-12 col-12 main-page-col main-page-sec-col bg-white">
         <h4 class="p-1 pt-2 m-0 main-page-section-title main-page-link">Announcements</h4>
         <div class="main-page-announcements-cont">
             {{#jumboside}}

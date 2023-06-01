@@ -78,7 +78,7 @@ class course_list implements \templatable , \renderable {
         if(isset($this->subcategories)){
             if($this->iselibrary){
                 $store['toppages'] = array('subcategorycourses' => [], 'firsttab' => $this->iselibrary, 
-                                    'categoryid' => "0", 'categorytitle' => "Most popular papers",
+                                    'categoryid' => "0", 'categorytitle' => "Journal Club",
                                     'categoryurl' => "");
                 $loopcounter += 1;
             }

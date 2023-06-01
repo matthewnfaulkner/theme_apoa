@@ -33,7 +33,8 @@ function theme_apoa_get_main_scss_content($theme) {
     $pre = file_get_contents($CFG->dirroot . '/theme/apoa/scss/pre.scss');
     $post = file_get_contents($CFG->dirroot . '/theme/apoa/scss/post.scss');
     $booststudio = file_get_contents($CFG->dirroot . '/theme/apoa/scss/bootstudio.scss');
-    return $pre . "\n" . $scss . "\n" . $post . "\n" . $booststudio;                                                                                                                  
+    $swiper = file_get_contents($CFG->dirroot . '/theme/apoa/scss/swiper.scss');
+    return $pre . "\n" . $scss . "\n" . $post . "\n" . $booststudio. "\n" . $swiper;                                                                                                                  
 }
 
 

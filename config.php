@@ -68,6 +68,12 @@ $THEME->layouts = [
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,)
+    ),
+    'standard' => array(
+        'file' => 'page.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => false,)
     )
 ];   
 $topchildren = core_course_category::top()->get_children();
@@ -128,6 +134,7 @@ if (!$CFG->custommenuitems && 1==2) {
         $CFG->custommenuitems .= $rootlink;
     }
 }
+
 $THEME->editor_sheets = [];                                                                                                                                                                              
 $THEME->parents = ['boost'];                                                                                                                        
 $THEME->enable_dock = false;                                                                                                                          

@@ -102,3 +102,82 @@ img.committeeicon{
 table.discussion-list tr td:nth-child(3), table.discussion-list tr td:nth-child(4)  { display: none; }
 
 table.discussion-list tr th:nth-child(3), table.discussion-list tr th:nth-child(4)  { display: none; }
+
+#jumbomodal{
+    position: absolute;
+    overflow: hidden;
+    transition-duration: 0.5s;
+    
+}
+
+#jumbomodal.hide{
+    top: 100% !important;
+    height: 0%;
+    display: block;
+}
+
+#jumbomodal.showing{
+    animation-name: expandAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+#jumbomodal.hiding {
+
+    animation-name: reverseAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+  }
+
+#jumbomodal.drag {
+top: 0%;
+animation: none;
+height: 100%;
+z-index: 0;
+}
+
+#jumbomodal.show {
+height: 100%;
+z-index:6;
+top: 0%;
+}
+  
+#jumbomodal.show #closemodal {
+    display: block;
+  }
+  
+  @keyframes reverseAnimation {
+    from {
+        height: 100%;
+      top: 0;
+    }
+    to {
+        height: 0%;
+      top: 100%;
+    }
+  }
+  
+@keyframes expandAnimation {
+    from {
+        height:0%;
+      top: 100%;
+    }
+    to {
+        height: 100%;
+      top: 0;
+    }
+  }
+  
+#jumbo{
+    overflow: hidden!important;
+}
+  
+  
+#closemodal {
+    display: none;
+  }
+  
+   
+  
