@@ -68,6 +68,12 @@ $THEME->layouts = [
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,)
+    ),
+    'standard' => array(
+        'file' => 'page.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => false,)
     )
 ];   
 $topchildren = core_course_category::top()->get_children();

@@ -69,21 +69,21 @@ class theme_apoa_course_category implements \templatable {
                 $summary = str_replace('<p', '<p class="card-summary-hide-mobile"', $course->summary);
                 $url = course_get_url($course);
                 array_push($subcatcourses, array(
-                    'name' => $course->get_formatted_shortname(),
-                    'summary' => $summary,
-                    'url' => $url,
-                    'img' => $img,
-                    'tag' => $tagname,
-                    'tagurl' => $tagurl,
-                    'date' => $date
+                    'itemtitle' => $course->get_formatted_shortname(),
+                    'itemsummary' => $summary,
+                    'itemurl' => $url,
+                    'itemimg' => $img,
+                    'itemtag' => $tagname,
+                    'itemtagurl' => $tagurl,
+                    'itemstartdate' => $date
                 ));
 
             }
             if ($subcatcourses) {
                 $caturl = $subcategory->get_view_link();
                 array_push($subcat['category'],  array(
-                    'name' => $subcategory->name,
-                    'url' => $caturl,
+                    'catname' => $subcategory->name,
+                    'caturl' => $caturl,
                     'courses' => $subcatcourses)
                 );
             }

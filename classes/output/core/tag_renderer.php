@@ -81,7 +81,7 @@ class tag_renderer extends \core_tag_renderer {
         $content = '';
         foreach ($entities as $entity) {
             if (!empty($entity->hascontent)) {
-                $content .= $this->output->render_from_template('core_tag/index', $entity->export_for_template($this->output));
+                $content .= $this->output->render_from_template('theme_apoa/tag/index', $entity->export_for_template($this->output));
             }
         }
 
