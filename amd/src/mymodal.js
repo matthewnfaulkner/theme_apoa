@@ -1,5 +1,5 @@
 
-define(['jquery', 'swiper-bundle'], function($, Swiper) {
+define(['jquery', 'swiper'], function($, Swiper) {
 
 
   const jumbo = document.getElementById('jumbo');
