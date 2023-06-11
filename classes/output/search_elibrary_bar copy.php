@@ -52,10 +52,23 @@ class search_elibrary_bar implements \templatable {
         } 
         if ($data = $this->mform->get_data()) {
             if($search){
-                $courseurl = new \moodle_url('/local/journalclub/search.php');
-                $courseurl->param('search', $data->title_search_group['title']);
-                $courseurl->param('journal', $data->title_search_group['journal_select']);
-                redirect($courseurl);
+                if(!$urlortitle){
+                    if($course = $this->search_for_paper_by_url($data)){
+                        $courseurl = new \moodle_url('/course/view.php');
+                        $courseurl->param('id', $course->course);
+                        redirect($courseurl);
+                    }
+                }else{
+                    $courseurl = new \moodle_url('/local/journalclub/search.php');
+                    $courseurl->param('search', $data->title_search_group['title']);
+                    $courseurl->param('journal', $data->title_search_group['journal_select']);
+                    redirect($courseurl);
+                    if($course = $this->search_for_paper_by_title($data)){
+                        $courseurl = new \moodle_url('/course/view.php');
+                        $courseurl->param('id', $course->id);
+                        redirect($courseurl);
+                    }
+                }
             $this->mform->no_result();
             }
             if($request){
@@ -122,16 +135,24 @@ class search_elibrary_bar implements \templatable {
             $noresult = $xpath->query("//input[@name='noresult']", $formElement)->item(0);
             if(!$noresult->getAttribute('value')){
                 $request = $xpath->query("//input[@name='request']", $formElement)->item(0);
-                if($requestgroup = $request->parentNode->parentNode){
-                    $requestgroup->setAttribute('style', 'display: none');
-                }
+                $requestgroup = $request->parentNode->parentNode;
+                $requestgroup->setAttribute('style', 'display: none');
             }
 
 
-
+            $radio = $xpath->query("//input[@name='urlortitle' and @checked='checked']", $formElement)->item(0);
+            $urlortitle = $radio->getAttribute('value');
+            $url_search = $xpath->query('.//div[@id = "fgroup_id_url_search_group"]', $formElement)->item(0);
             $title_search = $xpath->query('.//div[@id = "fgroup_id_title_search_group"]', $formElement)->item(0);
-            $title_search->setAttribute('style', 'display: block');
-
+            if($urlortitle){
+                $url_search->setAttribute('style', 'display: none');
+                $title_search->setAttribute('style', 'display: block');
+                $title_search->removeAttribute('hidden');
+            }else{
+                $title_search->setAttribute('style', 'display: none');
+                $url_search->setAttribute('style', 'display: block');
+                $url_search->removeAttribute('hidden');
+            }
 
         }
     

@@ -1,7 +1,6 @@
 
 define(['jquery', 'swiper'], function($, Swiper) {
 
-
   const jumbo = document.getElementById('jumbo');
   const subjumbo = document.getElementById('jumbomodal');
   const menuItems = document.querySelectorAll('.sidejumboitemcontainer');
@@ -32,18 +31,16 @@ define(['jquery', 'swiper'], function($, Swiper) {
   });
 
   mySwiper.on('slideChange', function () {
-    isClicked ={}
-    
+    isClicked ={};
     isClicked[mySwiper.realIndex] = true;
-    
   });
 
 
-$('.sidejumbo-link').on('touchstart', function(event) {
+$('.sidejumbo-link').on('touchstart', function() {
   istouchevent = true;
 });
 
-$('.sidejumbo-link').on('touchend', function(event) {
+$('.sidejumbo-link').on('touchend', function() {
   istouchevent = false;
   var linkId = $(this).data('link-id');
   var linkAddress = $(this).data('link-address');
@@ -54,7 +51,7 @@ $('.sidejumbo-link').on('touchend', function(event) {
   }
 });
 
-$('.sidejumbo-link').on('click', function(event) {
+$('.sidejumbo-link').on('click', function() {
   var linkAddress = $(this).data('link-address');
 
     // Link is not "readied" yet, prevent the default behavior
@@ -92,21 +89,17 @@ $('.sidejumbo-link').on('click', function(event) {
   menuItems.forEach(menuItem => {
 
     menuItem.addEventListener('touchend', function() {
-      const imageSource = this.querySelector('.main-page-sec-image').src;
       subjumbo.addEventListener('animationend', handleAnimationEnd);
       subjumbo.classList.replace('hide', 'showing');
-
       function handleAnimationEnd() {
-  
-        subjumbo.classList.replace('showing', 'show');
-        subjumbo.removeEventListener('animationend', handleAnimationEnd);
+      subjumbo.classList.replace('showing', 'show');
+      subjumbo.removeEventListener('animationend', handleAnimationEnd);
       }
 
       mouseovermenu = true;
     });
 
     menuItem.addEventListener('mouseover', function() {
-      const imageSource = this.querySelector('.main-page-sec-image').src;
       subjumbo.addEventListener('animationend', handleAnimationEnd);
       subjumbo.classList.replace('hide', 'showing');
 
@@ -137,6 +130,13 @@ $('.sidejumbo-link').on('click', function(event) {
     mouseoversub = true;
   });
 
+  function handleAnimationEnd() {
+
+    subjumbo.classList.replace('hiding', 'hide');
+    isClicked = {};
+    subjumbo.removeEventListener('animationend', handleAnimationEnd);
+  }
+
   function startDelayTimer() {
     clearTimeout(delayTimer);
     delayTimer = setTimeout(function() {
@@ -144,19 +144,13 @@ $('.sidejumbo-link').on('click', function(event) {
         subjumbo.addEventListener('animationend', handleAnimationEnd);
         subjumbo.classList.replace('show', 'hiding');
 
-        function handleAnimationEnd() {
-
-          subjumbo.classList.replace('hiding', 'hide');
-          isClicked = {};
-          subjumbo.removeEventListener('animationend', handleAnimationEnd);
-        }
+        handleAnimationEnd();
       }
+
     }, 200); // Adjust the delay time in milliseconds (e.g., 500ms)
   }
 
   let jumboHeight = jumbo.clientHeight;
-  let jumboTop = jumbo.offsetTop;
-  let startHeight = 100;
   let startTop = 0;
   let startY = 0;
   let momentum = 0;

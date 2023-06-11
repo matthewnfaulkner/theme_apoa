@@ -37,7 +37,25 @@ class searchelibrary_form extends \moodleform {
         }
 
         
-    
+        
+        $myarray = array();
+        $myarray[] = $mform->createElement('radio', 'urlortitle', null, 'By URL', 0);
+        $myarray[] = $mform->createElement('radio', 'urlortitle', null, 'By Title', 1);
+        $myarray[] = $mform->createElement('submit', 'submitbutton', 'Search for Paper');
+        $myarray[] = $mform->createElement('submit', 'request', 'Request');
+
+        $mform->addGroup($myarray, 'radioar', '', array(' '), false);
+       
+        $mform->setDefault('urlortitle', 0);
+        
+
+        $url_search = $mform->createElement('text', 'url_search', 'URL:', array('placeholder' => "Search by URL"));
+        $mform->setType('url_search', PARAM_URL);
+        //$mform->addRule('url_search', 'Please enter a valid URL.', 'required', null);
+        
+        $mform->addGroup([$url_search], 'url_search_group');
+
+        $mform->hideif('url_search_group', 'urlortitle', 'eq', 1);
 
         $journal_select = $mform->createElement('select', 'journal_select', 'Journal:', $options, array('placeholder' => "Select Journal"));
 
@@ -51,13 +69,14 @@ class searchelibrary_form extends \moodleform {
         //x$mform->addHelpButton('title_search_group', 'pluginname', 'theme_apoa');
         $mform->setType('title', PARAM_TEXT);
 
+        $mform->hideIf('title_search_group', 'urlortitle', 'eq', 0);
 
         $mform->addElement('hidden', 'categoryid', $categoryid);
         $mform->setType('categoryid', PARAM_INT);
         $mform->setDefault('categoryid', $categoryid);
 
         
-        $this->add_action_buttons(false, "Search");
+
         //$this->add_action_buttons(false, $strsubmit);
 
         $mform->hideif('request', 'noresult', 'eq', 0);

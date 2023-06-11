@@ -203,7 +203,7 @@ class course_list implements \templatable , \renderable {
 
         $favquery = "(SELECT c.*, count
             FROM {course} c
-            INNER JOIN (
+            LEFT JOIN (
                 SELECT f.itemid, COUNT(*) as count
                 FROM {favourite} f
                 WHERE f.component = 'core_course'
