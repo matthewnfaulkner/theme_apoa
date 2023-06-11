@@ -150,7 +150,7 @@ class course_renderer extends \core_course_renderer {
                     }
                     $courselistitem = new \theme_apoa\output\core\listitems\course_list_item($rawcourse, $index, false);
                     $template['category']['courses'][] = $courselistitem->export_for_template($this);
-                    
+
                   
                 }
                 $output = $this->render_from_template('theme_apoa/categorycourselist',  $template);
@@ -350,7 +350,7 @@ class course_renderer extends \core_course_renderer {
                 //$courses = $coursecat->get_courses($options = array('limit' => 5));
                 if($coursecat->get_courses_count() == 1){
                     $course = reset($coursecat->get_courses());
-                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
+                    //redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
                 };
                 $output .= $this->render_course_cat($chelper, $coursecat);
             }
@@ -370,6 +370,7 @@ class course_renderer extends \core_course_renderer {
     }
 
     protected function render_course_cat(coursecat_helper $chelper, core_course_category $coursecat){
+        global $PAGE;
 
         $renderer = new theme_apoa_course_category([$coursecat], 5);    
         $rendererout = $renderer->export_for_template($this);
@@ -377,8 +378,17 @@ class course_renderer extends \core_course_renderer {
         if(has_capability('moodle/course:create', $context)){
             $rendererout['createcourse'] = array(
                 'buttonlink' => new moodle_url('/course/edit.php', array('category' => $coursecat->id)),
-                'buttontext' => 'Create new Elibrary Page',
+                'buttontext' => 'Create new Page',
             );
+            if($categorylist = \core_course_category::make_categories_list(\core_course\management\helper::get_course_copy_capabilities())){
+                if($coursecat->name == 'Journal Club'){
+                    $PAGE->requires->js_call_amd('format_apoapage/copy_modal', 'init', array($context->id));
+                    $rendererout['copypage'] = array(
+                        'buttonclasses' => 'action-copy',
+                        'buttonlink' => new moodle_url('/backup/copy.php', array('categoryid' => $coursecat->id)),
+                        'buttontext' => 'Copy Existing Elibrary Page');
+                }
+            }
         }
 
         $output = $this->render_from_template('theme_apoa/categorycourselist',  $rendererout);

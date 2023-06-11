@@ -59,6 +59,10 @@ class search_elibrary_bar implements \templatable {
                         redirect($courseurl);
                     }
                 }else{
+                    $courseurl = new \moodle_url('/local/journalclub/search.php');
+                    $courseurl->param('search', $data->title_search_group['title']);
+                    $courseurl->param('journal', $data->title_search_group['journal_select']);
+                    redirect($courseurl);
                     if($course = $this->search_for_paper_by_title($data)){
                         $courseurl = new \moodle_url('/course/view.php');
                         $courseurl->param('id', $course->id);

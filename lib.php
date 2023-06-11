@@ -101,8 +101,18 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
                     $course->shortname,
                     new \moodle_url('/course/view.php', ['id' => $course->id]),
                     navigation_node::TYPE_COURSE,
-                    $course->names,
-                    navigation_node::TYPE_COURSE . $course->shortname 
+                    $course->shortname,
+                    navigation_node::TYPE_COURSE . $course->id 
+                );
+            }
+            $subsubcategories = $subcategory->get_children();
+            foreach ($subsubcategories as $subsubcategory){
+                $newnode->add(
+                    $subsubcategory->name,
+                    new \moodle_url('/course/index.php', ['categoryid' => $subsubcategory->id]),
+                    navigation_node::TYPE_CATEGORY,
+                    $subsubcategory->name,
+                    navigation_node::TYPE_CATEGORY .$subsubcategory->id 
                 );
             }
             if(count($courses) > 1){
@@ -120,13 +130,15 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
 
     $subrootcategory = core_course_category::get($parents[1]);
     $subcategories = $subrootcategory->get_children();
+    $elibraryid = get_config('theme_apoa', 'elibraryid');#
 
     if(!is_siteadmin($USER->id)) {
         $parentnode->children = new navigation_node_collection;
     }
     else{
         $elibraryid = get_config('theme_apoa', 'elibraryid');
-        if ($subrootcategory->id == $elibraryid && $category->depth == 3){
+        if ($subrootcategory->id == $elibraryid){
+            if($category->depth == 3){
             $parentnode->add(
                 'Journal Settings' ,
                 new \moodle_url('/theme/apoa/editelibrary.php', ['id' => $category->id]),
@@ -134,7 +146,24 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
                 'Journal Settings' ,
                 navigation_node::TYPE_COURSE . 0 
             );
+            }
         }
+    }
+    if ($subrootcategory->id == $elibraryid){
+        $parentnode->add(
+            'Journal Clubs' ,
+            new \moodle_url('/local/journalclub/index.php', ['id' => $category->id]),
+            navigation_node::TYPE_COURSE,
+            'Journal Clubs' ,
+            navigation_node::TYPE_COURSE . 'jc'
+        );
+        $parentnode->add(
+            'Search' ,
+            new \moodle_url('/local/journalclub/search.php', ['id' => $category->id]),
+            navigation_node::TYPE_CATEGORY,
+            'Search' ,
+            navigation_node::TYPE_CATEGORY . 'js'
+        );
     }
     $category = core_course_category::get($context->instanceid);
  
