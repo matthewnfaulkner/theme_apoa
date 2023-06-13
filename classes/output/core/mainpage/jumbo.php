@@ -31,7 +31,12 @@ class jumbo implements \templatable , \renderable {
         global $CFG;
 
         $component = 'theme_apoa';
-        $url = $CFG->wwwroot . '/course/view.php?id=' . get_config($component, 'jumboid');
+        if($courseid = get_config($component, 'jumboid')){
+            $url = $CFG->wwwroot . '/course/view.php?id=' . $courseid;
+        }
+        else{
+            $url = get_config($component, 'jumbolink');
+        }
         $jumbomain = ['jumbotitle' => get_config($component, 'jumbotitle'),
             'jumbodescription' => get_config($component, 'jumbodescription'),
             'jumbovideoflag' => get_config($component, 'jumbovideoflag'),

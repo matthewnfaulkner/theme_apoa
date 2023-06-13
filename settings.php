@@ -101,7 +101,12 @@ if ($ADMIN->fulltree) {
     $setting = new admin_setting_configtext('theme_apoa/jumboid', get_string('jumboid', 'theme_apoa'),                           
         get_string('jumboid_desc', 'theme_apoa'), '', PARAM_INT);                                                                  
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
-    $page->add($setting);  
+    $page->add($setting);
+    
+    $setting = new admin_setting_configtext('theme_apoa/jumbolink',                                                              
+        get_string('jumbolink', 'theme_apoa'), get_string('jumbolink_desc', 'theme_apoa'), '', PARAM_TEXT);                      
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);   
 
     $setting = new admin_setting_configcheckbox('theme_apoa/jumbovideoflag', get_string('jumbovideoflag', 'theme_apoa'),
         get_string('jumboflag_desc', 'theme_apoa'), '');
