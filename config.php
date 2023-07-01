@@ -58,15 +58,15 @@ $THEME->layouts = [
         'options' => array('nonavbar' => false,)
     ),
     'incourse' => array(
-        'file' => 'page.php',
+        'file' => 'mod.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false),
     ),
     'course' => array(
         'file' => 'page.php',
-        'regions' => array('side-pre'),
-        'defaultregion' => 'side-pre',
+        'regions' => array('side-pre', 'content'),
+        'defaultregion' => 'content',
         'options' => array('nonavbar' => false,)
     ),
     'standard' => array(
@@ -134,7 +134,7 @@ if (!$CFG->custommenuitems && 1==2) {
         $CFG->custommenuitems .= $rootlink;
     }
 }
-$THEME->javascripts_header[] = $CFG->dirroot .'/amd/build/swiper-bundle.min.js';
+
 $THEME->editor_sheets = [];                                                                                                                                                                              
 $THEME->parents = ['boost'];                                                                                                                        
 $THEME->enable_dock = false;                                                                                                                          

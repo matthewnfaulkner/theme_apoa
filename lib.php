@@ -132,7 +132,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
     $subcategories = $subrootcategory->get_children();
     $elibraryid = get_config('theme_apoa', 'elibraryid');#
 
-    if(!is_siteadmin($USER->id)) {
+    if(!has_capability('moodle/course:update', $context)) {
         $parentnode->children = new navigation_node_collection;
     }
     else{
@@ -177,7 +177,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
     global $USER, $PAGE;
     
-    if(!is_siteadmin($USER->id)) {
+    if(!has_capability('moodle/course:update', $context)) {
         $parentnode->children = new navigation_node_collection;
     }
     $category = core_course_category::get($course->category);

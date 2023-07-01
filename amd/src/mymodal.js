@@ -1,7 +1,9 @@
 
-define(['jquery', 'swiper'], function($, Swiper) {
+define(['jquery'], function($) {
 
-  const jumbo = document.getElementById('jumbo');
+  var registereventlisteners = function (){
+    require(['swiper'] , function(Swiper){
+      const jumbo = document.getElementById('jumbo');
   const subjumbo = document.getElementById('jumbomodal');
   const menuItems = document.querySelectorAll('.sidejumboitemcontainer');
   const closemodal = document.getElementById('closemodal');
@@ -72,16 +74,16 @@ $('.sidejumbo-link').on('click', function() {
       subjumbo.removeEventListener('animationend', handleAnimationEnd);
     }
   }
+  if(closemodal !== null){
+    closemodal.addEventListener('touchstart', function(event) {
+      closemodalfunc();
+      event.preventDefault();
+    });
 
-  closemodal.addEventListener('touchstart', function(event) {
-    closemodalfunc();
-    event.preventDefault();
-  });
-
-  closemodal.addEventListener('click', function() {
-    closemodalfunc();
-  });
-
+    closemodal.addEventListener('click', function() {
+      closemodalfunc();
+    });
+  }
   var mouseovermenu = false;
   var mouseoversub = false;
   var delayTimer;
@@ -199,4 +201,9 @@ $('.sidejumbo-link').on('click', function() {
       momentum = 0;
     }, 100);
   }
+    });
+  };
+  return {
+    init: registereventlisteners
+  };
 });

@@ -28,41 +28,69 @@ require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
 // Add block button in editing mode.
-//$addblockbutton = $OUTPUT->addblockbutton();
+$addblockbutton = $OUTPUT->addblockbutton();
 
 user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
 user_preference_allow_ajax_update('drawer-open-block', PARAM_BOOL);
 
-
-$courseindexopen = false;
-$blockdraweropen = false;
-
+if (isloggedin()) {
+    $courseindexopen = (get_user_preferences('drawer-open-index', true) == true);
+    $blockdraweropen = (get_user_preferences('drawer-open-block') == true);
+} else {
+    $courseindexopen = false;
+    $blockdraweropen = false;
+}
 
 if (defined('BEHAT_SITE_RUNNING')) {
     $blockdraweropen = true;
 }
 
+$extraclasses = ['uses-drawers'];
+if ($courseindexopen) {
+    $extraclasses[] = 'drawer-open-index';
+}
+
+$blockshtml = $OUTPUT->blocks('side-pre');
+$hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbutton));
+if (!$hasblocks) {
+    $blockdraweropen = false;
+}
+$courseindex = core_course_drawer();
+if (!$courseindex) {
+    $courseindexopen = false;
+}
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
-//$PAGE->requires->js_call_amd('theme_apoa/swiper-bundle');
-
-
 $secondarynavigation = false;
 $overflow = '';
-if ($PAGE->has_secondary_navigation()) {
-    $tablistnav = $PAGE->has_tablist_secondary_navigation();
-    $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
-    $secondarynavigation = $moremenu->export_for_template($OUTPUT);
-    $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
-    if (!is_null($overflowdata)) {
-        $overflow = $overflowdata->export_for_template($OUTPUT);
+if (is_siteadmin($USER->id)) {
+    if ($PAGE->has_secondary_navigation()) {
+        $tablistnav = $PAGE->has_tablist_secondary_navigation();
+        $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
+        $secondarynavigation = $moremenu->export_for_template($OUTPUT);
+        //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+        $overflowdata =null;
+        if (!is_null($overflowdata)) {
+            $overflow = $overflowdata->export_for_template($OUTPUT);
+        }
     }
+}else{
+    if ($PAGE->has_secondary_navigation()) {
+        $tablistnav = $PAGE->has_tablist_secondary_navigation();
+        $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
+        $secondarynavigation = $moremenu->export_for_template($OUTPUT);
+        //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+        $overflowdata=null;
+        if (!is_null($overflowdata)) {
+            $overflow = $overflowdata->export_for_template($OUTPUT);
+        }
+    }
+
 }
 
 $primary = new \theme_apoa\navigation\output\primary($PAGE);
-
 
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
@@ -74,7 +102,6 @@ $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settin
 
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
-
 
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
@@ -97,7 +124,7 @@ $templatecontext = [
     'overflow' => $overflow,
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
-    'jumbo'    =>  $jumbo,
+    'sidebar' => $sidebaroutput
 ];
 
-echo $OUTPUT->render_from_template('theme_apoa/mainpage', $templatecontext);
+echo $OUTPUT->render_from_template('theme_apoa/page', $templatecontext);

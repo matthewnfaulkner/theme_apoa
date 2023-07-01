@@ -326,6 +326,42 @@ class core_renderer extends \core_renderer {
         return $this->render_context_header($contextheader);
     }
 
+        /**
+     * Renders the login form.
+     *
+     * @param \core_auth\output\login $form The renderable.
+     * @return string
+     */
+    public function render_login(\core_auth\output\login $form) {
+        global $CFG, $SITE;
+
+        $context = $form->export_for_template($this);
+        $authplugin = signup_is_enabled();
+        if($authplugin->multipath){
+            $context->signuppaths = [];
+            $paths = $authplugin->get_paths();
+            foreach($paths as $path){
+                $pathurl = new moodle_url('/login/signup.php', array('path' => $path['path']));
+                $context->signuppaths[] = array(
+                    'signupurl' => $pathurl->out(false), 
+                    'signupdesc' => $path['desc'],
+                    'signuptitle' => $path['title']
+                );
+            }   
+        }
+        $context->errorformatted = $this->error_text($context->error);
+        $url = $this->get_logo_url();
+        if ($url) {
+            $url = $url->out(false);
+        }
+        $context->logourl = $url;
+        $context->sitename = format_string($SITE->fullname, true,
+                ['context' => \context_course::instance(SITEID), "escape" => false]);
+
+        return $this->render_from_template('theme_apoa/loginform', $context);
+    }
+
+
      /**
       * Renders the header bar.
       *
@@ -433,6 +469,10 @@ class core_renderer extends \core_renderer {
      */
     public function main_page_content() {
         
+        global $PAGE;
+        $PAGE->requires->js_call_amd('theme_apoa/mymodal', 'init');
+        $PAGE->requires->js_call_amd('theme_apoa/tablistcycle', 'init');
+
         $output =  new \theme_apoa\output\core\mainpage\mainpage;
         $template = $output->export_for_template($this);
         return $this->render_from_template('theme_apoa/mainpage/mainpage', $template);
