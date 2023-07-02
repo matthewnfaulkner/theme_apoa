@@ -20,6 +20,14 @@ use \core_course_category as core_course_category;
 
 class tag_renderer extends \core_tag_renderer {
 
+
+    public function tag_index_page($tag, $entities, $tagareaid, $exclusivemode, $fromctx, $ctx, $rec, $page){
+        $this->page->set_pagetype('tag-index');
+        $this->page->blocks->add_region('content');
+        $this->page->force_lock_all_blocks();
+        return '';
+    }
+
     /**
      * Renders the tag index page
      *
@@ -35,8 +43,9 @@ class tag_renderer extends \core_tag_renderer {
      * @param int $page 0-based number of page being displayed
      * @return string
      */
-    public function tag_index_page($tag, $entities, $tagareaid, $exclusivemode, $fromctx, $ctx, $rec, $page) {
+    public function tag_index_pgage($tag, $entities, $tagareaid, $exclusivemode, $fromctx, $ctx, $rec, $page) {
         global $CFG;
+
         $this->page->requires->js_call_amd('core/tag', 'initTagindexPage');
 
         $tagname = $tag->get_display_name();

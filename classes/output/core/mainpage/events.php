@@ -2,6 +2,8 @@
 
 namespace theme_apoa\output\core\mainpage;
 
+use moodle_url;
+
 defined('MOODLE_INTERNAL') || die;
 
 
@@ -20,7 +22,7 @@ class events implements \templatable , \renderable {
     protected string $contentgenerator;
 
     public function __construct() {
-        $this->sections = ['Previous Events' => 'past', 'Ongoing Events' => 'present', 'Future Events' => 'future'];
+        $this->sections = ['Previous Events' => 'past', 'Ongoing Events' => 'inprogress', 'Future Events' => 'future'];
     }
     
         
@@ -46,7 +48,7 @@ class events implements \templatable , \renderable {
                 $template[$onlyalpha] = ['content' => $subjumbolist,
                         'sectiontitle' => $key,
                         'sectionmore' => "more " . $key,
-                        'sectionurl' => $subjumboclass->redirecturl];
+                        'sectionurl' => new moodle_url("/tag/index.php?", array('group' => $type, 'tag' => 'Events', 'tc' => 0))];
             }
             
         }

@@ -2,12 +2,18 @@
     <div class="card-header p-0 border-0" role="tab"><a class="stretched-link main-page-link-wrapper" href="{{itemurl}}"></a>
         <div class="card no-border-radius journal-card"><img class="card-img w-100 d-block main-page-sub-card-img no-border-radius" src="{{itemimg}}">
             <div class="card-img-overlay justify-content-end align-items-start align-content-end text-white flex-column d-flex">
-                <h5 class="journal-card-title main-page-link card-text-over-picture"><br>{{itemtitle}}<br><br></h5>
+                <div class="card-text-over-picture">
+                <h5 class="journal-card-title main-page-link"><br>{{itemtitle}}<br><br></h5>
                 <div class="w-100">
-                    <p><span class="main-page-link" style="font-size: 14px;">{{itemauthors}}</span>
-                    <span>{{#itemtag}}&nbsp;|{{/itemtag}}&nbsp;</span><small><a class="main-page-link-sub text-white" href="{{{itemtagurl}}}">{{itemtag}}</a></small></p>
+                    <p class="mb-2 journal-card-text mw-50" style="font-size: smaller">
+                        <span class="mw-100"><a class="main-page-link-sub d-inline-block text-truncate mw-100 text-white"href="{{itemcaturl}}">{{itemcat}}</a></span>
+                        <span>{{#itemtag}}&nbsp;|&nbsp;{{/itemtag}}<small class="text-muted main-page-link-sub"><a class="main-page-link-sub text-white" href="{{{itemtagurl}}}">{{itemtag}}</a></small></span>
+                    </p>
+                </div>
+                </div>
+                <div class="w-100">
                     {{#forum}}
-                    <h6 class="text-right main-page-link-sub float-right" href="#accordion-{{itemrootid}} .item-{{itemindex}}" data-toggle="collapse" aria-expanded="true" aria-controls="#accordion-{{itemrootid}} .item-1">Show Discussion</h6>
+                        <h6 class="text-right main-page-link-sub float-right" href="#accordion-{{itemrootid}} .item-{{itemindex}}" data-toggle="collapse" aria-expanded="true" aria-controls="#accordion-{{itemrootid}} .item-1">Show Discussion</h6>
                     {{/forum}}
                 </div>
             </div>

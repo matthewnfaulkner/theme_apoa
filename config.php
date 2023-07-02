@@ -65,12 +65,12 @@ $THEME->layouts = [
     ),
     'course' => array(
         'file' => 'page.php',
-        'regions' => array('side-pre'),
+        'regions' => array('side-pre', 'content'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,)
     ),
     'standard' => array(
-        'file' => 'page.php',
+        'file' => 'tagpage.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,)

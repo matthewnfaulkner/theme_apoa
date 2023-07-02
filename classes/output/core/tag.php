@@ -208,4 +208,13 @@ class theme_apoa_tag_tag extends \core_tag_tag {
         
         return $DB->get_records_sql($query, $params, $limitfrom, $limitnum);
     }
+
+    public function get_elibrary_url(){
+        $coll = core_tag_collection::get_by_id($this->id);
+        $elibraryid = get_config('theme_apoa', 'elibraryid');
+        $params = array('tc' => $this->record->tagcollid,
+        'tag' => $this->record->rawname, 'category' => $elibraryid);
+
+        return new moodle_url('/local/journalclub/search.php', $params);
+    }
 }

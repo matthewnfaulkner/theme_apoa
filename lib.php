@@ -159,7 +159,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
         );
         $parentnode->add(
             'Search' ,
-            new \moodle_url('/local/journalclub/search.php', ['id' => $category->id]),
+            new \moodle_url('/local/journalclub/search.php', ['category' => $category->id]),
             navigation_node::TYPE_CATEGORY,
             'Search' ,
             navigation_node::TYPE_CATEGORY . 'js'

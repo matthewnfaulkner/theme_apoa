@@ -4,9 +4,9 @@
             <div class="card-body pb-0">
                 <h5 class="text-muted card-subtitle mb-2 journal-sub-card-title main-page-link main-page-sub-card-text">{{itemtitle}}</h5>
                 <div class="journal-sub-card-text-cont">
-                    <p class="mb-2 journal-card-text">
-                    <span class="journal-sub-card-authors main-page-link main-page-sub-card-text">{{itemauthors}}</span>
-                    <span>{{#itemtag}}&nbsp;|&nbsp;{{/itemtag}}<small class="text-muted main-page-link-sub"><a class="main-page-link-sub" href="{{{itemtagurl}}}">{{itemtag}}</a></small></span>
+                    <p class="mb-2 journal-card-text w-50" style="font-size: smaller">
+                        <span class="w-100"><a class="main-page-link-sub d-inline-block text-truncate w-100"href="{{itemcaturl}}">{{itemcat}}</a></span>
+                        <span>{{#itemtag}}&nbsp;|&nbsp;{{/itemtag}}<small class="text-muted main-page-link-sub"><a class="main-page-link-sub" href="{{{itemtagurl}}}">{{itemtag}}</a></small></span>
                     </p>
                     {{#forum}}
                         <span class="float-right main-page-link-sub text-primary" href="#accordion-{{itemrootid}} .item-{{itemindex}}" data-toggle="collapse" aria-controls="#accordion-{{itemrootid}} .item-{{itemindex}}" aria-expanded="true">Show Discussion</span>

@@ -59,7 +59,7 @@ class event_list implements \templatable {
         }
     }
     
-    protected function set_courses_for_present() {
+    protected function set_courses_for_inprogress() {
 
             $subquery = 'it.startdate <= ' . $this->now .' AND it.enddate > ' . $this->now;
             $this->courses = $this->tag->get_tagged_items('core', 'course', '', '', $subquery, 'startdate');
