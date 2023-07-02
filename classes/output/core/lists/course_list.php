@@ -77,15 +77,22 @@ class course_list implements \templatable , \renderable {
         $loopcounter = 0;
         if(isset($this->subcategories)){
             if($this->iselibrary){
-                $store['toppages'] = array('subcategorycourses' => [], 'firsttab' => $this->iselibrary, 
-                                    'categoryid' => "0", 'categorytitle' => "Journal Club",
-                                    'categoryurl' => "");
+                $store['toppages'] = array('subcategorycourses' => [], 
+                                    'firsttab' => $this->iselibrary, 
+                                    'categoryid' => "0", 
+                                    'categorytitle' => "Journal Club",
+                                    'categoryurl' => "", 
+                                    'hascourses' => false);
                 $loopcounter += 1;
             }
             foreach ($this->subcategories as $subcategory) {
-                $store[$subcategory->id] = array('subcategorycourses' => [], 'firsttab' => !$loopcounter, 
-                                'categoryid' => $subcategory->id, 'categorytitle' => $subcategory->name,
-                                'categoryurl' => $subcategory->get_view_link(), $subcategory->name => $subcategory->name);
+                $store[$subcategory->id] = array('subcategorycourses' => [], 
+                                'firsttab' => !$loopcounter, 
+                                'categoryid' => $subcategory->id, 
+                                'categorytitle' => $subcategory->name,
+                                'categoryurl' => $subcategory->get_view_link(), 
+                                $subcategory->name => $subcategory->name,
+                                'hascourses' => false);
                 $loopcounter += 1;
             }
         }
@@ -98,6 +105,7 @@ class course_list implements \templatable , \renderable {
                     $jumbosidelistitem = new \theme_apoa\output\core\listitems\course_list_item($course, $index, $this->iselibrary);
                     $render = $jumbosidelistitem->export_for_template($output);
                     array_push($store[$course->root]['subcategorycourses'], $render);
+                    $store[$course->root]['hascourses'] = true;
                     if($firstthree < 3 && $this->iselibrary){
                         $render['first'] = !$firstthree;
                         $render['itemrootid'] = 0;
@@ -203,7 +211,7 @@ class course_list implements \templatable , \renderable {
 
         $favquery = "(SELECT c.*, count
             FROM {course} c
-            INNER JOIN (
+            LEFT JOIN (
                 SELECT f.itemid, COUNT(*) as count
                 FROM {favourite} f
                 WHERE f.component = 'core_course'

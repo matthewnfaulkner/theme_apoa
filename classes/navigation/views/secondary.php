@@ -451,8 +451,9 @@ class secondary extends \core\navigation\views\secondary {
             $courseadminnode = $settingsnav->get('courseadmin'); // Custom nodes for regular courses live under 'courseadmin'.
         }
 
+        $context = $this->page->context;
         // Add the known nodes from settings and navigation.
-        if (is_siteadmin($USER)) {
+        if (has_all_capabilities(['moodle/course:update', 'moodle/course:enrolconfig'], $context)) {
             $nodes = $this->get_default_course_mapping_for_admin();
         }else{
             $nodes = $this->get_default_course_mapping();

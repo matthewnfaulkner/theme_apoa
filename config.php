@@ -58,7 +58,7 @@ $THEME->layouts = [
         'options' => array('nonavbar' => false,)
     ),
     'incourse' => array(
-        'file' => 'page.php',
+        'file' => 'mod.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false),
@@ -66,7 +66,7 @@ $THEME->layouts = [
     'course' => array(
         'file' => 'page.php',
         'regions' => array('side-pre', 'content'),
-        'defaultregion' => 'side-pre',
+        'defaultregion' => 'content',
         'options' => array('nonavbar' => false,)
     ),
     'standard' => array(

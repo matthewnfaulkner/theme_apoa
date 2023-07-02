@@ -63,7 +63,7 @@ class cron_task extends \core\task\scheduled_task {
                                     $data->$subname = $this->get_cache_struct_for_section($apoacategory, false);
                                     break;
                                 default:
-                                    break;
+                                    $data->$subname = $this->get_cache_struct_for_section($apoacategory, false);
                                 }
                         }
                         break;

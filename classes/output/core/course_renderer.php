@@ -361,6 +361,8 @@ class course_renderer extends \core_course_renderer {
                 $subcat = reset($coursecat->get_children($options));
                 $output .= $this->render_subcategory($chelper, $coursecat);
                 //$courses = $subcat->get_courses($options = array('limit' => 5));
+            }else{
+                $output .= $this->render_course_cat($chelper, $coursecat);
             }
             //$output .= $this->coursecat_tree($chelper, $coursecat);
 
