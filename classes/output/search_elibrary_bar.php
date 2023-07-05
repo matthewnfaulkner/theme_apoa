@@ -54,25 +54,10 @@ class search_elibrary_bar implements \templatable {
             if($search){
                 $courseurl = new \moodle_url('/local/journalclub/search.php');
                 $courseurl->param('search', $data->title_search_group['title']);
-                $courseurl->param('journal', $data->title_search_group['journal_select']);
+                $courseurl->param('category', $data->title_search_group['journal_select']);
                 redirect($courseurl);
             $this->mform->no_result();
-            }
-            if($request){
-                $requestdata = new \stdClass();
-                $requestdata->fullname = !$urlortitle ? $data->url_search_group['url_search'] :  $data->title_search_group['title'];
-                $requestdata->shortname = substr($requestdata->fullname, 0, 50);
-                $requestdata->category = $data->categoryid;
-                $requestdata->summary_editor['text'] ='';
-                $requestdata->summary_editor['format'] =1;
-                $requestdata->reason = 'elibrary request';
-                if(!$this->mform->has_user_submitted_too_often()){
-                    $this->requestformapproved = true;
-                    \course_request::create($requestdata);
-                }
-
-            }
-            
+            }   
         }
     }
     

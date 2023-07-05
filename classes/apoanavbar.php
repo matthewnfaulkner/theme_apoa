@@ -115,7 +115,6 @@ class apoanavbar implements \renderable {
         if ($this->page->context->contextlevel == CONTEXT_MODULE) {
             $this->remove('mycourses');
             $this->remove('courses');
-            $this->remove('course');
             // Remove the course category breadcrumb node.
             //$this->remove($this->page->course->category, \breadcrumb_navigation_node::TYPE_CATEGORY);
             $courseformat = course_get_format($this->page->course)->get_course();
@@ -130,6 +129,8 @@ class apoanavbar implements \renderable {
                     $coursenode->action = course_get_format($this->page->course)->get_view_url($this->page->cm->sectionnum);
                 }
             }
+            $this->remove_items_that_exist_in_navigation($PAGE->secondarynav);
+            array_pop($this->items);
         }
 
         if ($this->page->context->contextlevel == CONTEXT_SYSTEM) {
@@ -146,7 +147,7 @@ class apoanavbar implements \renderable {
         }
         $apoakey = get_config('theme_apoa', 'APOAid');
         $sectionskey = get_config('theme_apoa', 'Sectionsid');
-        $this->remove( $apoakey);
+        $this->remove($apoakey);
         $this->remove($sectionskey);
         $this->remove_no_link_items($removesections);
 

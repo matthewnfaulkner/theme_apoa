@@ -124,6 +124,9 @@ class secondary extends \core\navigation\views\secondary {
             ],
         ];
         $nodes['navigation'] = [
+            self::TYPE_COURSE => [
+                'courseview' => 0,
+            ],
             self::TYPE_CONTAINER => [
                 'participants' => 1,
             ],
@@ -488,21 +491,6 @@ class secondary extends \core\navigation\views\secondary {
             }
         }
 
-        /*// Add the respective first node, provided there are other nodes included.
-        if (!empty($nodekeys = $rootnode->children->get_key_list())) {
-            $category = core_course_category::get($course->category);
-            $categorypath = get_category_path($category);
-            /*$rootnode->add_node(
-                navigation_node::create('Home', new \moodle_url('/course/index.php', ['categoryid' => $secondarycatid]),
-                    self::TYPE_CATEGORY, null, 'coursehome'), reset($nodekeys)
-            );
-            if ($secondarycatid) {
-                $this->page->set_secondary_active_tab($secondarycatid);
-            }
-            else {
-                $this->page->set_secondary_active_tab('coursehome');
-            }
-        }*/
     }
 
     /**

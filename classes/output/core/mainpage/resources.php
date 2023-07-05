@@ -21,8 +21,9 @@ class resources implements \templatable , \renderable {
     protected string $contentgenerator;
 
     public function __construct() {
-        $this->resources = ['Forum' => 'forum', "Member's Gallery" => 'gallery', 
-        'Contact Us' => 'contact', 'Meetings' => 'meetings',
+        $this->resources = ['Newsletter' => 'newsletter', 'Forum' => 'forum', 
+        'Memberships' => 'membership', "Member's Gallery" => 'gallery', 
+        'Contact Us' => 'contact', 'Meetings' => 'meetings', 
         'Blog' => 'blog', 'Educational Videos' => 'eduvideos',
         ];
     }
@@ -45,10 +46,11 @@ class resources implements \templatable , \renderable {
             if (!$img = theme_apoa_get_file_from_setting('resources' . $config)){
                 $img = $placeholder;
             };
-            if($id = get_config('theme_apoa', $config .'id')) {
-                $link = new moodle_url('/course/index.php?categoryid=', array('categoryid' => $id));
-            } else {
-                $link = new moodle_url('user/contactsitesupport.php');
+            if($path = get_config('theme_apoa', 'resources' . $config . 'link')){
+                $link = new moodle_url($path);
+            }
+            else{
+                $link =  new moodle_url('/user/contactsitesupport.php');
             }
             array_push($template['resources'], array('resourcename' => $label,
                         'resourcelink' => $link,

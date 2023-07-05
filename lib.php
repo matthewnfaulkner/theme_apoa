@@ -95,16 +95,6 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
                 $name,
                 navigation_node::TYPE_CATEGORY . $subcategory->id 
             );
-            $courses = $subcategory->get_courses();
-            foreach ($courses as $course){
-                $newnode->add(
-                    $course->shortname,
-                    new \moodle_url('/course/view.php', ['id' => $course->id]),
-                    navigation_node::TYPE_COURSE,
-                    $course->shortname,
-                    navigation_node::TYPE_COURSE . $course->id 
-                );
-            }
             $subsubcategories = $subcategory->get_children();
             foreach ($subsubcategories as $subsubcategory){
                 $newnode->add(
@@ -115,7 +105,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
                     navigation_node::TYPE_CATEGORY .$subsubcategory->id 
                 );
             }
-            if(count($courses) > 1){
+            if(count($subsubcategories) > 1){
                 $newnode->showchildreninsubmenu = true;
             }
         }
@@ -175,10 +165,17 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
 }
 
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
-    global $USER, $PAGE;
+    global $PAGE;
     
     if(!has_capability('moodle/course:update', $context)) {
         $parentnode->children = new navigation_node_collection;
+    }else{
+
+        $parentnode->add('View',
+        new \moodle_url('/course/view.php', ['id' => $course->id]),
+        navigation_node::TYPE_COURSE,
+        'View',
+        'courseview');
     }
     $category = core_course_category::get($course->category);
     $rootcat = get_subroot_category($category);

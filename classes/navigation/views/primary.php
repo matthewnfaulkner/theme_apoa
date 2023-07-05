@@ -74,10 +74,11 @@ class primary extends \core\navigation\views\primary {
             $showcoursesnode = empty($this->page->theme->removedprimarynavitems) ||
                 !in_array('courses', $this->page->theme->removedprimarynavitems);
             if ($showcoursesnode) {
-                $myparent = $this->add(get_string('mycourses'), new \moodle_url('/my/courses.php'), self::TYPE_ROOTNODE, null, 'mycourses');
+                $this->add(get_string('mycourses'), new \moodle_url('/my/courses.php'), self::TYPE_ROOTNODE, null, 'mycourses');
             }
 
         }
+
 
         $showsiteadminnode = empty($this->page->theme->removedprimarynavitems) ||
             !in_array('siteadminnode', $this->page->theme->removedprimarynavitems);
@@ -87,6 +88,11 @@ class primary extends \core\navigation\views\primary {
             $this->add($node->text, $node->action(), self::TYPE_SITE_ADMIN, null, 'siteadminnode', $node->icon);
         }
 
+        $showmanagementnode = has_capability('moodle/course:create', $this->context);
+        if($showmanagementnode) {
+            $this->add('Management', new \moodle_url('/course/management.php'), self::TYPE_SETTING,
+                null, 'management', new \pix_icon('i/settings', ''));
+        }
         
         $this->navigation_cache = \cache::make('theme_apoa', 'navigation_cache');
         
@@ -97,12 +103,12 @@ class primary extends \core\navigation\views\primary {
             $this->get_backup_nav();
         }
         
-
-        $showmanagementnode = has_capability('moodle/course:create', $this->context);
-        if($showmanagementnode) {
-            $this->add('Management', new \moodle_url('/course/management.php'), self::TYPE_SETTING,
-                null, 'management', new \pix_icon('i/settings', ''));
+        $showmembershipsnode = empty($this->page->theme->removedprimarynavitems) ||
+                !in_array('memberships', $this->page->theme->removedprimarynavitems);
+        if ($showmembershipsnode) {
+            $this->add(get_string('memberships', 'local_memberships'), new \moodle_url('/local/memberships/index.php'), self::TYPE_ROOTNODE, null, 'memberships');
         }
+        
         // Search and set the active node.
         $this->set_active_node();
         $this->initialised = true;
@@ -150,7 +156,6 @@ class primary extends \core\navigation\views\primary {
                                 $apoanode->showchildreninsubmenu = true;
                                 break;
                             case 'E-Library':
-                            case 'Newsletter':
                                 $apoanode = $this->add($apoacategory->name, new \moodle_url("/course/index.php?categoryid={$apoacategory->id}"), self::TYPE_CATEGORY,
                                 $apoacategory->name, navigation_node::TYPE_CATEGORY . $apoacategory->id);
                                 break;

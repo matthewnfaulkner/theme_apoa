@@ -33,7 +33,8 @@ class membership implements \templatable , \renderable {
     }
 
     protected function get_content() {
-        return array('url' => new moodle_url('login/index.php'));
+        return array('loginurl' => new moodle_url('login/index.php'),
+                'membershipsurl' => new moodle_url('local/memberships/index.php'));
     }
     
 }

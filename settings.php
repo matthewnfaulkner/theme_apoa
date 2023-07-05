@@ -137,9 +137,47 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting); 
 
+    $settings->add($page); 
+
+    // Advanced settings.                                                                                                           
+    $page = new admin_settingpage('theme_apoa_resources', get_string('mainpageresources', 'theme_apoa'));    
+
+
     $setting = new admin_setting_configstoredfile('theme_apoa/resourcesforum', get_string('resources', 'theme_apoa'),
         get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
             array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configtext('theme_apoa/resourcesforumlink', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), '', PARAM_URL);
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/resourcesnewsletter', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configtext('theme_apoa/resourcesnewsletterlink', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), '', PARAM_URL);
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/resourcesmembership', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configtext('theme_apoa/resourcesmembershiplink', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), '', PARAM_URL);
     $setting->set_updatedcallback('theme_reset_all_caches');   
                                                                                  
     $page->add($setting); 
@@ -151,6 +189,12 @@ if ($ADMIN->fulltree) {
                                                                                  
     $page->add($setting); 
 
+    $setting = new admin_setting_configtext('theme_apoa/resourcesgallerylink', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), '', PARAM_URL);
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
     $setting = new admin_setting_configstoredfile('theme_apoa/resourcescontact', get_string('resources', 'theme_apoa'),
         get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
             array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
@@ -158,9 +202,34 @@ if ($ADMIN->fulltree) {
                                                                                  
     $page->add($setting); 
 
+    $setting = new admin_setting_configtext('theme_apoa/resourcescontactlink', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), '', PARAM_URL);
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+    
     $setting = new admin_setting_configstoredfile('theme_apoa/resourcesmeetings', get_string('resources', 'theme_apoa'),
         get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
             array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configtext('theme_apoa/resourcesmeetingslink', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), '', PARAM_URL);
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/resourcesblog', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), 'resources', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');   
+                                                                                 
+    $page->add($setting); 
+
+    $setting = new admin_setting_configtext('theme_apoa/resourcesbloglink', get_string('resources', 'theme_apoa'),
+        get_string('jumbobannerlogo_desc', 'theme_apoa'), '', PARAM_URL);
     $setting->set_updatedcallback('theme_reset_all_caches');   
                                                                                  
     $page->add($setting); 

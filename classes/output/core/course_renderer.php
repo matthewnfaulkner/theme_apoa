@@ -350,7 +350,7 @@ class course_renderer extends \core_course_renderer {
                 //$courses = $coursecat->get_courses($options = array('limit' => 5));
                 if($coursecat->get_courses_count() == 1){
                     $course = reset($coursecat->get_courses());
-                    //redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
+                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
                 };
                 $output .= $this->render_course_cat($chelper, $coursecat);
             }
