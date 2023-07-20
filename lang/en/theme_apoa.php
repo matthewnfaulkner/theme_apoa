@@ -113,3 +113,52 @@ $string['APOAid_desc'] = "Category ID for the APOA main Category, can be found i
 $string['Sectionsid'] = "APOA main category ID";
 $string['Sectionsid_desc'] = "Category ID for the Sections Category, can be found in the URL of the Sections landing page";
 $string['someallowguest'] = "You can also explore the site as a guest";
+
+//tour
+$string['endtour'] = "End Tour";
+$string['tourmainwelcometitle'] = "Welcome";
+$string['tourmainwelcomemessage'] = "It looks like you've not been here before, would you like a quick tour to show you all the features of the site";
+$string['tourmainintro'] = "Introduction";
+$string['tourmainintromessage'] = "The new APOA online site aims to offer more value for its members than ever before. 
+\nServing as a one stop shop for new, events, education and community.
+\nTheir are tours like this one across the site so please explore to learn all about the features.
+\nOr visit the blog for more video guides.";
+$string['tourmainprimary'] = "Navigation";
+$string['tourmainprimarymessage'] = "Here you can learn about the APOA, explore the 12 Sections of APOA, visit the E-Library, and learn about membership.";
+$string['tourmainnotifications'] = "Notifications";
+$string['tourmainnotificationsmessage'] = "Get notified when events start, forum replies, membership expiration and much more.";
+$string['tourmainmessages'] = "Messages";
+$string['tourmainmessagesmessage'] = "Here you can chat with other members.";
+$string['tourmainprofile'] = "Profile";
+$string['tourmainprofilemessage'] = "View and Edit your profile. Add a photo, set privacy settings, view active memberships.";
+
+$string['tourmainjumbo'] = "Main Congress";
+$string['tourmainjumbomessage'] = "Front and center is our annual meeting, find out all about it here.";
+
+$string['tourmainsidejumbo'] = "Announcements";
+$string['tourmainsidejumbomessage'] = "View out latest announcements, hover/tap to enlarge and find out more. ";
+
+$string['tourmainelibrary'] = "E-Library";
+$string['tourmainelibrarymessage'] = "The E-Library is a repository of Orthopaedic research papers from all over the Asia Pacific region. 
+Shown here are the current most popular papers. Don't see one you like, explore more in the E-library.";
+
+$string['tourmainevents'] = "Events";
+$string['tourmaineventsmessage'] = "Past, present or future events are shown here.";
+
+$string['tourmainsections'] = "Sections";
+$string['tourmainsectionsmessage'] = "The APOA has 12 sections, each has its own space on the site, click a section's logo to visit them.";
+
+$string['tourmainabout'] = "About";
+$string['tourmainaboutmessage'] = "Learn all about the APOA.
+";
+$string['tourmainmembership'] = "Membership";
+$string['tourmainmembershipmessage'] = "Membership grants you full access to the site and all its features. Interested? Find out more here.";
+
+
+
+$string['tourmainresources'] = "Resources";
+$string['tourmainresourcesmessage'] = "Here are some additional resources you might find interesting.
+\nCheckout the latest newsletter, 
+\nAsk a question in the APOA forum, 
+\nread the blog,
+\nview the gallery and more.";
