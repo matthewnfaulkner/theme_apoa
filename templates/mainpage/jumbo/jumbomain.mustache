@@ -23,8 +23,33 @@
                         {{jumbotag}}
                     </small>
                 </span>
+                <span class="br text-right main-page-sub-card-text">
+                    <small id="jumbotimestart" class="">
+                        {{#userdate}}{{jumbostartdate}}, {{#str}} strftimedate, core_langconfig {{/str}}{{/userdate}}
+                    </small>
+                </span>
+                
             </span>
+
             </h1>
+            <div class="row text-center text-white">
+                <div class="col-3 px-1" style="width: 120px">
+                    <h3 id="jumbocountdowndays" class="mb-0"></h3>
+                    <p style="font-size: 60%">{{#str}}days, core{{/str}}</p>
+                </div>
+                <div class="col-3 px-1">
+                    <h3 id="jumbocountdownhours" class="mb-0"></h3>
+                    <p style="font-size: 60%">{{#str}}hours, core{{/str}}</p>
+                </div>
+                <div class="col-3 px-1">
+                    <h3 id="jumbocountdownminutes" class="mb-0"></h3>
+                    <p style="font-size: 60%">{{#str}}minutes, core{{/str}}</p>
+                </div>
+                <div class="col-3 px-1">
+                    <h3 id="jumbocountdownseconds" class="mb-0"></h3>
+                    <p style="font-size: 60%">{{#str}}seconds, core{{/str}}</p>
+                </div>
+            </div>
             <div class="w-100 d-flex justify-content-end">
                 {{#jumbovideoflag}}
                 <video class="main-page-jumbo-video main-page-jumbo-sub-video" width="560" height="315" poster="{{jumboSubPlaceholder}}" loop="" muted="" controls="">
@@ -34,3 +59,8 @@
             </div>
     </div>
 </div>
+{{#js}}
+    require(['core/jquery', 'theme_apoa/countdown'], function($, Countdown) {
+    Countdown.init({{jumbostartdate}});
+});
+{{/js}}

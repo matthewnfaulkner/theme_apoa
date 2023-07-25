@@ -113,3 +113,35 @@ $string['APOAid_desc'] = "Category ID for the APOA main Category, can be found i
 $string['Sectionsid'] = "APOA main category ID";
 $string['Sectionsid_desc'] = "Category ID for the Sections Category, can be found in the URL of the Sections landing page";
 $string['someallowguest'] = "You can also explore the site as a guest";
+
+//tours
+$string['tourelibrarystart'] = "Welcome to the E-Library";
+$string['tourelibrarystartmessage'] = "It looks as though you're visiting the E-Library for the first time,
+would you like a tour";
+$string['tourelibraryintroduction'] = "What is the E-Library?";
+$string['tourelibraryintroductionmessage'] = "The E-Library is a repository of research papers collated from participating journals across the Asia Pacific region covering all areas of Orhtopaedics. With the intention of creating a hub for discussion and collaboration amongst the APOA community. The papers are organised by their journal, area of research and publication date.";
+$string['tourelibrarynavigation'] = "Navigating the E-Library";
+$string['tourelibrarynavigationmessage'] = "You can navigate the E-Library here. Choose a specific journal, 
+search manually or check out on going journal clubs.";
+$string['tourelibrarysearch'] = "Quick Search"; 
+$string['tourelibrarysearchmessage'] = "Know the name of the paper? You can perform a quick search here.";
+$string['tourelibraryfeatured'] = "Featured Article";
+$string['tourelibraryfeaturedmessage'] = "Whichever paper currently has the most activity, that being active 
+discussions, boosts, and views, is displayed prominently.";
+$string['tourelibraryfeatured'] = "Featured Article";
+$string['tourelibraryfeaturedmessage'] = "Whichever paper currently has the most activity, that being active 
+discussions, boosts, and views, is displayed prominently here.";
+$string['tourelibraryjournals'] = "Journals";
+$string['tourelibraryjournalsmessage'] = "All the journals are show here, popular articles within each are displayed too.";
+$string['tourelibraryarticle'] = "E-Library Article";
+$string['tourelibraryarticlemessage'] = "This is an article within the E-Library click on the title to view the
+full article";
+$string['tourelibraryarticleissue'] = "Issue";
+$string['tourelibraryarticleissuemessage'] = "You can also visit the issue the article is from and find
+find other articles from the same issue";
+$string['tourelibraryarticletag'] = "Tag";
+$string['tourelibraryarticletagmessage'] = "Each article also includes a tag indicating the area of Orthopaedics
+the article is concerned with. You can find articles with the same tag by clicking this.";
+$string['tourelibraryarticlediscussion'] = "Discussion";
+$string['tourelibraryarticlediscussionmessage'] = "Finally each article includes a discussion, clicking here
+expands a small preview.";

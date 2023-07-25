@@ -32,7 +32,9 @@ class jumbo implements \templatable , \renderable {
 
         $component = 'theme_apoa';
         if($courseid = get_config($component, 'jumboid')){
-            $url = $CFG->wwwroot . '/course/view.php?id=' . $courseid;
+            $course = get_course($courseid);
+            $startdate = $course->startdate;
+            $url = get_config($component, 'jumbolink');
         }
         else{
             $url = get_config($component, 'jumbolink');
@@ -45,7 +47,8 @@ class jumbo implements \templatable , \renderable {
             'jumbobannerposter' => theme_apoa_get_file_from_setting('jumbobannerposter'),
             'jumbovideo' => theme_apoa_get_file_from_setting('jumbovideo'),
             'jumbobannerlogo' => theme_apoa_get_file_from_setting('jumbobannerlogo'),
-            'jumbourl' => $url
+            'jumbourl' => $url,
+            'jumbostartdate' => $startdate
         ];
         $jumboside = new \theme_apoa\output\core\lists\course_list('course_list', 'sidejumbo');
 
