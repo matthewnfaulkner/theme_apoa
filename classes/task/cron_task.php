@@ -59,8 +59,9 @@ class cron_task extends \core\task\scheduled_task {
                                     $data->$subname = $this->get_cache_struct_for_section($apoacategory, true);
                                     break;
                                 case 'E-Library':
-                                case 'Newsletter':
                                     $data->$subname = $this->get_cache_struct_for_section($apoacategory, false);
+                                    break;
+                                case 'Newsletter':
                                     break;
                                 default:
                                     $data->$subname = $this->get_cache_struct_for_section($apoacategory, false);

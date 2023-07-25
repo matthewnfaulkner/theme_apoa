@@ -9,7 +9,7 @@
  *
  * Released on: May 15, 2023
  */
-
+define(['module'], function(module) {
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
@@ -4128,13 +4128,13 @@
             offset,
             from,
             to,
-            slides: function getSlides() {
+            slides: (function getSlides() {
               const slidesToRender = [];
               for (let i = from; i <= to; i += 1) {
                 slidesToRender.push(slides[i]);
               }
               return slidesToRender;
-            }()
+            })()
           });
           if (swiper.params.virtual.renderExternalUpdate) {
             onRendered();
@@ -6543,7 +6543,7 @@
         control: undefined
       };
       function LinearSpline(x, y) {
-        const binarySearch = function search() {
+        const binarySearch = (function search() {
           let maxIndex;
           let minIndex;
           let guess;
@@ -6560,7 +6560,7 @@
             }
             return maxIndex;
           };
-        }();
+        })();
         this.x = x;
         this.y = y;
         this.lastIndex = x.length - 1;
@@ -9086,4 +9086,6 @@
     return Swiper;
 
 }));
+
+});
 //# sourceMappingURL=swiper-bundle.js.map

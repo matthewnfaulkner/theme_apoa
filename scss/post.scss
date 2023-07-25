@@ -179,7 +179,45 @@ top: 0%;
     display: none;
   }
   
+#topofscroll {
+    min-height: 80%!important;
+}  
+  
    
   [data-flexitour="step-backdrop"]{
     color: var(--primary)!important;
   }
+
+
+.tourstepcontainer{
+  animation: pulse 2s infinite;
+  background-color: rgba(203, 30, 111, 1)
+}
+
+.toursteparrow::after{
+  border-bottom-color: rgba(203, 30, 111, 1)!important;
+  border-top-color: rgba(203, 30, 111, 1)!important
+}
+
+.tourstepbody{
+  max-height: none!important;
+}
+
+@keyframes pulse {
+  0% {
+    transform:scale(0.99);
+    box-shadow:0 0 0 0 rgba(203, 30, 111, 0.8)
+  }
+  50% {
+    transform:scale(1);
+    box-shadow:0 0 0 10px rgba(203, 30, 111, 0.2)
+  }
+  100% {
+    transform:scale(0.99);
+    
+  }
+}
+
+.btn-trans:hover{
+  background-color: rgb(239 83 156);
+}

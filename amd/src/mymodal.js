@@ -1,8 +1,7 @@
 
-define(['jquery'], function($) {
+define(['jquery', 'theme_apoa/swiper'], function($, Swiper) {
 
   var registereventlisteners = function (){
-    require(['swiper'] , function(Swiper){
       const jumbo = document.getElementById('jumbo');
   const subjumbo = document.getElementById('jumbomodal');
   const menuItems = document.querySelectorAll('.sidejumboitemcontainer');
@@ -10,7 +9,7 @@ define(['jquery'], function($) {
 
   var isClicked = {};
   var istouchevent = false;
-
+  console.log(Swiper);
   var mySwiper = new Swiper('.swiper-container', {
     loop: true,
     pagination: {
@@ -201,7 +200,6 @@ $('.sidejumbo-link').on('click', function() {
       momentum = 0;
     }, 100);
   }
-    });
   };
   return {
     init: registereventlisteners
