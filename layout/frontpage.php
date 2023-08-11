@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core\output\notification;
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/behat/lib.php');
@@ -32,83 +30,42 @@ require_once($CFG->dirroot . '/course/lib.php');
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
 
-
 user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
 user_preference_allow_ajax_update('drawer-open-block', PARAM_BOOL);
 
-if (isloggedin()) {
-    $courseindexopen = (get_user_preferences('drawer-open-index', true) == true);
-    $blockdraweropen = (get_user_preferences('drawer-open-block') == true);
-    $courseindexopen = false;
-    $blockdraweropen = false;
-}
+
+$courseindexopen = false;
+$blockdraweropen = false;
+
 
 if (defined('BEHAT_SITE_RUNNING')) {
     $blockdraweropen = true;
 }
 
-$extraclasses = ['uses-drawers'];
-if ($courseindexopen) {
-    $extraclasses[] = 'drawer-open-index';
-}
-
-$blockshtml = $OUTPUT->blocks('side-pre');
-
-$hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbutton));
-if (!$hasblocks) {
-    $blockdraweropen = false;
-}
-$courseindex = core_course_drawer();
-if (!$courseindex) {
-    $courseindexopen = false;
-}
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
+//$PAGE->requires->js_call_amd('theme_apoa/swiper-bundle');
+
+
 $secondarynavigation = false;
 $overflow = '';
-if (is_siteadmin($USER->id)) {
-    if ($PAGE->has_secondary_navigation()) {
-        $tablistnav = $PAGE->has_tablist_secondary_navigation();
-        $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
-        $secondarynavigation = $moremenu->export_for_template($OUTPUT);
-        //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
-        $overflowdata =null;
-        if (!is_null($overflowdata)) {
-            $overflow = $overflowdata->export_for_template($OUTPUT);
-        }
+if ($PAGE->has_secondary_navigation()) {
+    $tablistnav = $PAGE->has_tablist_secondary_navigation();
+    $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
+    $secondarynavigation = $moremenu->export_for_template($OUTPUT);
+    $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+    if (!is_null($overflowdata)) {
+        $overflow = $overflowdata->export_for_template($OUTPUT);
     }
-}else{
-    if ($PAGE->has_secondary_navigation()) {
-        $tablistnav = $PAGE->has_tablist_secondary_navigation();
-        $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
-        $secondarynavigation = $moremenu->export_for_template($OUTPUT);
-        //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
-        $overflowdata=null;
-        if (!is_null($overflowdata)) {
-            $overflow = $overflowdata->export_for_template($OUTPUT);
-        }
-    }
-
 }
-
-$PAGE->requires->css('/mod/lightboxgallery/assets/skins/sam/gallery-lightbox-skin.css');
-$PAGE->requires->yui_module('moodle-mod_lightboxgallery-lightbox', 'M.mod_lightboxgallery.init');
 
 $primary = new \theme_apoa\navigation\output\primary($PAGE);
 
+
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
-
-
-if ($COURSE->format == 'apoapage') {
-    $sidebar = new \theme_apoa\output\core\lists\theme_apoa_pagelist($COURSE);
-    $sidebaroutput = $sidebar->export_for_template($renderer);
-}else{
-    $sidebaroutput = '';
-}
-
 
 
 $buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions() && !$PAGE->has_secondary_navigation();
@@ -117,6 +74,7 @@ $regionmainsettingsmenu = $buildregionmainsettings ? $OUTPUT->region_main_settin
 
 $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
+
 
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
@@ -139,7 +97,7 @@ $templatecontext = [
     'overflow' => $overflow,
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
-    'sidebar' => $sidebaroutput,
+    'jumbo'    =>  $jumbo,
 ];
 
-echo $OUTPUT->render_from_template('theme_apoa/page', $templatecontext);
+echo $OUTPUT->render_from_template('theme_apoa/mainpage', $templatecontext);

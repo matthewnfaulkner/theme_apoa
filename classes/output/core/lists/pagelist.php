@@ -66,9 +66,11 @@ class theme_apoa_pagelist implements \templatable {
                         break;  
                     }
                 }
+                $name = substr($course->get_formatted_shortname(), 0, 40);
+                $name = strlen($name) < 40 ? $name : $name . '...';
                 $url = course_get_url($course);
                 array_push($template['sidebaritems'], array(
-                    'name' => $course->get_formatted_shortname(),
+                    'name' => $name,
                     'url' => $url,
                     'img' => $img,
                     'cat' => $category->name,

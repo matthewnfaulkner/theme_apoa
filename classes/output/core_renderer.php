@@ -24,6 +24,8 @@ use get_string;
 
 defined('MOODLE_INTERNAL') || die;
 
+require_once($CFG->dirroot . '/local/subscriptions/lib.php');
+require_once($CFG->dirroot . '/auth/apoa/lib.php');
 /**
  * Renderers to align Moodle's HTML with that expected by Bootstrap
  *
@@ -599,6 +601,103 @@ class core_renderer extends \core_renderer {
             array_push($template, array('quickname' => $label, 'quicklink' => $link));
         }
         return $template;
+    }
+
+    /**
+     * Renders an mform element from a template.
+     *
+     * @param HTML_QuickForm_element $element element
+     * @param bool $required if input is required field
+     * @param bool $advanced if input is an advanced field
+     * @param string $error error message to display
+     * @param bool $ingroup True if this element is rendered as part of a group
+     * @return mixed string|bool
+     */
+    public function mform_element($element, $required, $advanced, $error, $ingroup) {
+        if(method_exists($element, 'get_template_name')){
+            $templatename = $element->get_template_name($this);
+        }
+        else{
+            $templatename = 'core_form/element-' . $element->getType();
+                if ($ingroup) {
+                    $templatename .= "-inline";
+                }
+        }
+        try {
+            // We call this to generate a file not found exception if there is no template.
+            // We don't want to call export_for_template if there is no template.
+            \core\output\mustache_template_finder::get_template_filepath($templatename);
+
+            if ($element instanceof \templatable) {
+                $elementcontext = $element->export_for_template($this);
+
+                $helpbutton = '';
+                if (method_exists($element, 'getHelpButton')) {
+                    $helpbutton = $element->getHelpButton();
+                }
+                $label = $element->getLabel();
+                $text = '';
+                if (method_exists($element, 'getText')) {
+                    // There currently exists code that adds a form element with an empty label.
+                    // If this is the case then set the label to the description.
+                    if (empty($label)) {
+                        $label = $element->getText();
+                    } else {
+                        $text = $element->getText();
+                    }
+                }
+
+                // Generate the form element wrapper ids and names to pass to the template.
+                // This differs between group and non-group elements.
+                if ($element->getType() === 'group') {
+                    // Group element.
+                    // The id will be something like 'fgroup_id_NAME'. E.g. fgroup_id_mygroup.
+                    $elementcontext['wrapperid'] = $elementcontext['id'];
+
+                    // Ensure group elements pass through the group name as the element name.
+                    $elementcontext['name'] = $elementcontext['groupname'];
+                } else {
+                    // Non grouped element.
+                    // Creates an id like 'fitem_id_NAME'. E.g. fitem_id_mytextelement.
+                    $elementcontext['wrapperid'] = 'fitem_' . $elementcontext['id'];
+                }
+
+                $context = array(
+                    'element' => $elementcontext,
+                    'label' => $label,
+                    'text' => $text,
+                    'required' => $required,
+                    'advanced' => $advanced,
+                    'helpbutton' => $helpbutton,
+                    'error' => $error,
+                    'valid' => $elementcontext['valid']
+                );
+                return $this->render_from_template($templatename, $context);
+            }
+        } catch (\Exception $e) {
+            // No template for this element.
+            return false;
+        }
+    }
+
+    public function has_active_subscription(){
+        global $CFG;
+    
+        if (isloggedin() && !isguestuser()) {
+            $redirect=  $CFG->wwwroot . '/local/subscriptions/index.php';
+            if(!user_has_active_subscription()){
+                return $this->notification(get_string('noactivesubscription', 'theme_apoa', $redirect), 'notifyerror');
+            }
+        }
+    }
+
+    public function has_federation_pending()
+    {
+        if (isloggedin() && !isguestuser()) {
+            if(is_federation_pending()){
+                return $this->notification(get_string('federationpending', 'theme_apoa'), 'notifyerror');
+            }
+        }
     }
 }
     

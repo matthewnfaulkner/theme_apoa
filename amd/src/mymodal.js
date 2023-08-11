@@ -5,11 +5,10 @@ define(['jquery', 'theme_apoa/swiper'], function($, Swiper) {
       const jumbo = document.getElementById('jumbo');
   const subjumbo = document.getElementById('jumbomodal');
   const menuItems = document.querySelectorAll('.sidejumboitemcontainer');
+  const swiperpages = document.querySelectorAll('.swiper-slide');
   const closemodal = document.getElementById('closemodal');
-
   var isClicked = {};
   var istouchevent = false;
-  console.log(Swiper);
   var mySwiper = new Swiper('.swiper-container', {
     loop: true,
     pagination: {
@@ -62,12 +61,19 @@ $('.sidejumbo-link').on('click', function() {
 });
 
 
+  /**
+     * Register event listeners for the subscription toggle.
+     */
   function closemodalfunc() {
     subjumbo.addEventListener('animationend', handleAnimationEnd);
     subjumbo.classList.remove('drag');
     subjumbo.classList.add('hiding');
     subjumbo.classList.remove('show');
     isClicked = {};
+
+    /**
+     * Register event listeners for the subscription toggle.
+     */
     function handleAnimationEnd() {
       subjumbo.classList.replace('hiding', 'hide');
       subjumbo.removeEventListener('animationend', handleAnimationEnd);
@@ -87,11 +93,23 @@ $('.sidejumbo-link').on('click', function() {
   var mouseoversub = false;
   var delayTimer;
 
-  menuItems.forEach(menuItem => {
+  swiperpages.forEach(swiperpage => {
+    var swiperimg = swiperpage.querySelector('img');
+    var swiperid = swiperpage.getAttribute('data-control-id');
+    var query = '[data-link-id="' + swiperid + '"]';
+    var swipercontrol = document.querySelector(query);
+    console.log(query, swiperid, swiperpage);
+    swiperimg.src = swipercontrol.getAttribute('data-modalimg');
+  });
 
+  menuItems.forEach(menuItem => {
     menuItem.addEventListener('touchend', function() {
       subjumbo.addEventListener('animationend', handleAnimationEnd);
       subjumbo.classList.replace('hide', 'showing');
+
+      /**
+     * Register event listeners for the subscription toggle.
+     */
       function handleAnimationEnd() {
       subjumbo.classList.replace('showing', 'show');
       subjumbo.removeEventListener('animationend', handleAnimationEnd);
@@ -99,11 +117,13 @@ $('.sidejumbo-link').on('click', function() {
 
       mouseovermenu = true;
     });
-
     menuItem.addEventListener('mouseover', function() {
       subjumbo.addEventListener('animationend', handleAnimationEnd);
       subjumbo.classList.replace('hide', 'showing');
-
+      startDelayTimerOver();
+        /**
+       * Register event listeners for the subscription toggle.
+       */
       function handleAnimationEnd() {
 
         subjumbo.classList.replace('showing', 'show');
@@ -130,14 +150,33 @@ $('.sidejumbo-link').on('click', function() {
 
     mouseoversub = true;
   });
-
+  /**
+     * Register event listeners for the subscription toggle.
+     */
   function handleAnimationEnd() {
 
     subjumbo.classList.replace('hiding', 'hide');
     isClicked = {};
     subjumbo.removeEventListener('animationend', handleAnimationEnd);
   }
+  /**
+     * Register event listeners for the subscription toggle.
+     */
+  function startDelayTimerOver() {
+    clearTimeout(delayTimer);
+    delayTimer = setTimeout(function() {
+      if (!mouseoversub && !mouseovermenu) {
+        subjumbo.addEventListener('animationend', handleAnimationEnd);
+        subjumbo.classList.replace('hiding', 'show');
 
+        handleAnimationEnd();
+      }
+
+    }, 200); // Adjust the delay time in milliseconds (e.g., 500ms)
+  }
+  /**
+     * Register event listeners for the subscription toggle.
+     */
   function startDelayTimer() {
     clearTimeout(delayTimer);
     delayTimer = setTimeout(function() {
@@ -159,14 +198,20 @@ $('.sidejumbo-link').on('click', function() {
   subjumbo.addEventListener('touchstart', handleTouchStart);
   subjumbo.addEventListener('touchmove', handleTouchMove);
   subjumbo.addEventListener('touchend', handleTouchEnd);
-
+  /**
+     * Register event listeners for the subscription toggle.
+     * @param {event} event
+     */
   function handleTouchStart(event) {
     subjumbo.classList.replace('show', 'drag');
     startY = event.touches[0].clientY;
 
     momentum = 0;
   }
-
+  /**
+     * Register event listeners for the subscription toggle.
+     * @param {event} event
+     */
   function handleTouchMove(event) {
     event.preventDefault();
     const currentY = event.touches[0].clientY;
@@ -179,7 +224,9 @@ $('.sidejumbo-link').on('click', function() {
 
     momentum = deltaY;
   }
-
+  /**
+     * Register event listeners for the subscription toggle.
+     */
   function handleTouchEnd() {
     if (!subjumbo.classList.contains('drag')) {
       return;

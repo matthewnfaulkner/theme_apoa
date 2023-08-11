@@ -4,7 +4,7 @@ namespace theme_apoa\output\core\mainpage;
 
 defined('MOODLE_INTERNAL') || die;
 
-
+use theme_apoa\helper\frontpage_cache_helper;
 
 class jumbo implements \templatable , \renderable {
 
@@ -28,7 +28,7 @@ class jumbo implements \templatable , \renderable {
     }
 
     protected function get_content(\renderer_base $output) {
-        global $CFG;
+        global $PAGE;
 
         $component = 'theme_apoa';
         if($courseid = get_config($component, 'jumboid')){
@@ -50,10 +50,24 @@ class jumbo implements \templatable , \renderable {
             'jumbourl' => $url,
             'jumbostartdate' => $startdate
         ];
-        $jumboside = new \theme_apoa\output\core\lists\course_list('course_list', 'sidejumbo');
+        //$jumboside = new \theme_apoa\output\core\lists\course_list('course_list', 'sidejumbo');
 
+        $region = 'sidejumbo';
+
+        $indexes = [['index' => 0],
+        ['index' => 1],
+        ['index' => 2]];
+
+        $blockhelper = new frontpage_cache_helper($region);
+
+        $template[$region] =['blocks' => $blockhelper];
+
+        $block = ['addblockbutton' => $output->addblockbutton($region),
+                    'blocks' => $blockhelper,
+                    'indexes' => $indexes];
+        
         $template = ['jumbomain' => $jumbomain,
-            'jumboside' => $jumboside->export_for_template($output)];
+             $region => $block];
         return $template;
 
     }

@@ -43,12 +43,12 @@ $THEME->layouts = [
     // The site home page.
     'base' => array(
         'file' => 'page.php',
-        'regions' => array(),
+        'regions' => array('content'),
     ),
     'frontpage' => array(
-        'file' => 'mainpage.php',
-        'regions' => array('side-pre'),
-        'defaultregion' => 'side-pre',
+        'file' => 'frontpage.php',
+        'regions' => array('jumbo', 'sidejumbo', 'elibrary', 'subjumbo1', 'subjumbo2'),
+        'defaultregion' => 'sidejumbo',
         'options' => array('nonavbar' => false),
     ),
     'coursecategory' => array(
@@ -65,14 +65,26 @@ $THEME->layouts = [
     ),
     'course' => array(
         'file' => 'page.php',
-        'regions' => array('side-pre', 'content'),
+        'regions' => array('side-pre', 'content', 'subscriptions'),
         'defaultregion' => 'content',
         'options' => array('nonavbar' => false,)
+    ),
+    // Server administration scripts.
+    'admin' => array(
+        'file' => 'drawers.php',
+        'regions' => array('side-pre', 'content'),
+        'defaultregion' => 'side-pre',
     ),
     'standard' => array(
         'file' => 'tagpage.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => false,)
+    ),
+    'landingpage' => array(
+        'file' => 'page.php',
+        'regions' => array('side-pre', 'content'),
+        'defaultregion' => 'content',
         'options' => array('nonavbar' => false,)
     )
 ];   

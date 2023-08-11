@@ -104,9 +104,9 @@ class primary extends \core\navigation\views\primary {
         }
         
         $showmembershipsnode = empty($this->page->theme->removedprimarynavitems) ||
-                !in_array('memberships', $this->page->theme->removedprimarynavitems);
+                !in_array('subscriptions', $this->page->theme->removedprimarynavitems);
         if ($showmembershipsnode) {
-            $this->add(get_string('memberships', 'local_memberships'), new \moodle_url('/local/memberships/index.php'), self::TYPE_ROOTNODE, null, 'memberships');
+            $this->add(get_string('subscriptions', 'local_subscriptions'), new \moodle_url('/local/subscriptions/index.php'), self::TYPE_ROOTNODE, null, 'subscriptions');
         }
         
         // Search and set the active node.

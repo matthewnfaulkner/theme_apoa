@@ -2,11 +2,12 @@
 <div class="card main-page-jumbo-main border-0 pr-lg-1">
     <video src="{{jumbobanner}}" class="main-page-jumbo-video main-page-main-image d-block" width="" height="315" autoplay="" muted="" loop="" poster="{{jumbobannerposter}}">
     </video>
-    <div class="card-img-overlay justify-content-start align-items-end d-flex flex-column">
+    <div class="card-img-overlay justify-content-start align-items-center d-flex flex-column">
         <h1 class="d-flex main-page-jumbo-title-cont main-page-link align-items-center w-100 justify-content-end">
             <p class="d-flex align-items-center w-100 text-white">
                 <img class="float-left main-page-jumbo-logo" src="{{jumbobannerlogo}}">
-                <span class="main-page-sub-card-text px-2 main-page-jumbo-title-logo-text ">
+                <span class="main-page-sub-card-text px-2 main-page-jumbo-title-logo-text">
+                        <small>Welcome to the</small><br>
                         Asia Pacific Othopaedic Association
                         {{{ sitename }}}
                 </span>
@@ -31,36 +32,44 @@
                 
             </span>
 
-            </h1>
-            <div class="row text-center text-white">
-                <div class="col-3 px-1" style="width: 120px">
-                    <h3 id="jumbocountdowndays" class="mb-0"></h3>
-                    <p style="font-size: 60%">{{#str}}days, core{{/str}}</p>
-                </div>
-                <div class="col-3 px-1">
-                    <h3 id="jumbocountdownhours" class="mb-0"></h3>
-                    <p style="font-size: 60%">{{#str}}hours, core{{/str}}</p>
-                </div>
-                <div class="col-3 px-1">
-                    <h3 id="jumbocountdownminutes" class="mb-0"></h3>
-                    <p style="font-size: 60%">{{#str}}minutes, core{{/str}}</p>
-                </div>
-                <div class="col-3 px-1">
-                    <h3 id="jumbocountdownseconds" class="mb-0"></h3>
-                    <p style="font-size: 60%">{{#str}}seconds, core{{/str}}</p>
+        </h1>
+        <div class="row text-center text-white align-content-center m-1 countdown">
+            <div class="col-3 px-1" style="width: 140px">
+                <div class="countdowncont">
+                    <h1 id="jumbocountdowndays" class="mb-0"></h3>
+                    <p class="mb-0" style="font-size: 60%">{{#str}}days, core{{/str}}</p>
                 </div>
             </div>
-            <div class="w-100 d-flex justify-content-end">
-                {{#jumbovideoflag}}
-                <video class="main-page-jumbo-video main-page-jumbo-sub-video" width="560" height="315" poster="{{jumboSubPlaceholder}}" loop="" muted="" controls="">
-                    <source src="{{jumbobanner}}" type="video/webm">
-                </video>
-                {{/jumbovideoflag}}
+            <div class="col-3 px-1">
+                <div class="countdowncont">
+                    <h1 id="jumbocountdownhours" class="mb-0"></h3>
+                    <p class="mb-0" style="font-size: 60%">{{#str}}hours, core{{/str}}</p>
+                </div>
             </div>
+            <div class="col-3 px-1">
+                <div class="countdowncont">
+                    <h1 id="jumbocountdownminutes" class="mb-0"></h3>
+                    <p class="mb-0" style="font-size: 60%">{{#str}}minutes, core{{/str}}</p>
+                </div>
+            </div>
+            <div class="col-3 px-1">
+                <div class="countdowncont">
+                    <h1 id="jumbocountdownseconds" class="mb-0"></h3>
+                    <p class="mb-0" style="font-size: 60%">{{#str}}seconds, core{{/str}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="w-100 d-flex justify-content-end">
+            {{#jumbovideoflag}}
+            <video class="main-page-jumbo-video main-page-jumbo-sub-video" width="560" height="315" poster="{{jumboSubPlaceholder}}" loop="" muted="" controls="">
+                <source src="{{jumbobanner}}" type="video/webm">
+            </video>
+            {{/jumbovideoflag}}
+        </div>
     </div>
 </div>
 {{#js}}
-    require(['core/jquery', 'theme_apoa/countdown'], function($, Countdown) {
+    require(['jquery', 'theme_apoa/countdown'], function($, Countdown) {
     Countdown.init({{jumbostartdate}});
 });
 {{/js}}

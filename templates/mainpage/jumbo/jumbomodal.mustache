@@ -2,14 +2,16 @@
     <div class="simple-slider" style="/*height: 100%;*/">
         <div class="swiper-container" style="/*height: 100%;*/">
             <div class="swiper-wrapper">
-                {{#jumboside}}
-                    <div id="slide-{{itemindex}}" class="swiper-slide" style="height: 100%;">
-                        <a class="stretched-link main-page-link-wrapper" href="{{{itemurl}}}"></a>
+                {{#blocks}}
+                    {{#indexes}}
+                    <div id="slide-{{index}}" class="swiper-slide" style="height: 100%;" data-src="" data-control-id="{{index}}">
+                        <a class="stretched-link main-page-link-wrapper" href="#"></a>
                         <div class="card main-page-jumbo-main w-100 border-0">
-                            <img class="card-img w-100 d-block main-page-main-image rounded-0" style="filter:brightness(0.93); object-fit:contain; object-position:center; background-color: var(--primary);" src="{{itemimg}}"/>
+                            <img class="card-img w-100 d-block main-page-main-image rounded-0" style="filter:brightness(0.93); object-fit:contain; object-position:center; background-color: var(--primary);" src="#"/>
                         </div>
                     </div>
-                {{/jumboside}}
+                    {{/indexes}}
+                {{/blocks}}
             </div>
             <svg id="closemodal" class="bi bi-x-circle float-right position-absolute m-2" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="top: 0;right: 0;color: rgb(255,255,255);z-index: 10;height: 40px;width: 40px;">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>

@@ -59,6 +59,9 @@ $string['rawscsspre_desc'] = 'In this field you can provide initialising SCSS co
 // We need to include a lang string for each block region.                                                                          
 $string['region-side-pre'] = 'Right';
 
+$string['noactivesubscription'] = 'You don\'t currently have an active subscription, without one your account will be suspended.
+Click <a href="{$a}">HERE</a> to learn more';
+$string['federationpending'] = 'Still waiting for your federation to confirm your membership. Your experience will be limited until they do.';
 $string['Announcements'] = 'Announcements';
 $string['Events'] = 'Events';
 $string['Forum'] = 'Forum';
@@ -80,7 +83,10 @@ $string['SportsInjury'] = 'Asia Pacific Sports Injury Section';
 $string['Trauma'] = 'Asia Pacific Trauma Society';
 $string['WAVES'] = "Asia Pacific Women's Advocacy";
 $string['E-Library'] = "E-Library";
+$string['Sections'] = "Sections";
 $string['Newsletter'] = "Newsletter";
+$string['APOA'] = "Asia Pacific Orthopaedic Association";
+
 
 $string['mainpagesettings'] = "Home Page Settings";
 $string['jumbotitle'] = "Jumbotron title";
@@ -97,11 +103,25 @@ $string['jumboposter'] = "Jumbotron Poster";
 $string['jumboposter_desc'] = "Alternative image to be displayed in jumbotron if jumbo banner fails to load";
 $string['jumbobannerlogo'] = "APOA Logo";
 $string['jumbobannerlogo_desc'] = "APOA logo to be displayed on the right hand side of jumbotron";
+$string['jumboid'] = 'Id of course for Jumbotron';
+$string['jumboid_desc'] = 'Course ID of the course related to the jumbotron';
+$string['jumbolink'] = 'Link for jumbotron';
+$string['jumboid_desc'] = 'Link that determines where clicking the jumbotron will navigate to, if blank uses jumbo id';
+$string['jumboposter'] = 'Jumbotron poster';
+$string['jumboid_desc'] = 'Image displayed if jumbotron video fails to load';
+
+
+$string['mainpageresources'] = 'Main page resources';
 $string['resources_desc'] = "Placeholder image for resources tiles";
 $string['resources'] = "Resources tiles image";
+$string['resourceslink'] = "Resources tiles link";
 
 $string['sectionsettings'] = "Section Settings";
 $string['sectionlogo_desc'] = "The logo for this section of the APOA";
+
+$string['footersettings'] = 'Footer Settings';
+$string['footercontact'] = 'Footer Contact Info';
+$string['footerquicklinks'] = 'Footer Quick Links';
 
 $string['categorysettings'] = "Category Settings";
 $string['elibraryid'] = "Elibrary ID";
