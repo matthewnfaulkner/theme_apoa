@@ -65,7 +65,13 @@ class header implements renderable, templatable {
      */
     public function export_for_template(renderer_base $output): array {
         $title = str_replace(' ', '', $this->title);
-        echo $title;
+        try {
+            $title = get_string($title ,'theme_apoa');
+        }
+        catch(\exception $e){
+            $title = "";
+        }
+        
         $data = [
             'title' => get_string($title, 'theme_apoa'),
             'imgurl' => $this->imgurl,
