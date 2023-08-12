@@ -98,8 +98,7 @@ $('.sidejumbo-link').on('click', function() {
     var swiperid = swiperpage.getAttribute('data-control-id');
     var query = '[data-link-id="' + swiperid + '"]';
     var swipercontrol = document.querySelector(query);
-    console.log(query, swiperid, swiperpage);
-    if(swipercontrol.hasAttribute('data-modalimg')){
+    if(swipercontrol !== null){
       swiperimg.src = swipercontrol.getAttribute('data-modalimg');
     }
   });
