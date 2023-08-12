@@ -99,7 +99,9 @@ $('.sidejumbo-link').on('click', function() {
     var query = '[data-link-id="' + swiperid + '"]';
     var swipercontrol = document.querySelector(query);
     console.log(query, swiperid, swiperpage);
-    swiperimg.src = swipercontrol.getAttribute('data-modalimg');
+    if(swipercontrol.hasAttribute('data-modalimg')){
+      swiperimg.src = swipercontrol.getAttribute('data-modalimg');
+    }
   });
 
   menuItems.forEach(menuItem => {
