@@ -73,7 +73,7 @@ class header implements renderable, templatable {
         }
         
         $data = [
-            'title' => get_string($title, 'theme_apoa'),
+            'title' => $title,
             'imgurl' => $this->imgurl,
             'linkurl' => $this->url,
         ];
