@@ -155,6 +155,7 @@ class primary extends \core\navigation\views\primary {
                                 }
                                 $apoanode->showchildreninsubmenu = true;
                                 break;
+                            case 'Newsletter':
                             case 'E-Library':
                                 $apoanode = $this->add($apoacategory->name, new \moodle_url("/course/index.php?categoryid={$apoacategory->id}"), self::TYPE_CATEGORY,
                                 $apoacategory->name, navigation_node::TYPE_CATEGORY . $apoacategory->id);

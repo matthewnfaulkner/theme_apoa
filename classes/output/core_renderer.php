@@ -136,6 +136,16 @@ class core_renderer extends \core_renderer {
             }
             else if ($context->contextlevel == CONTEXT_COURSE || $context->contextlevel == CONTEXT_MODULE ){
                 $category = core_course_category::get($this->page->course->category);
+                if($context->contextlevel == CONTEXT_MODULE){
+                    $cm = $PAGE->cm;
+                    if($cm){
+                        $modname = $cm->modname;
+                        if($modname == 'page' || $modname == 'elibrary' || $modname == 'pdf' || $modname == 'committee'){
+                            $courseurl = new moodle_url($CFG->wwwroot . '/course/view.php', array('id' => $PAGE->course->id));
+                            redirect($courseurl);
+                        }
+                    }
+                }
             }
             if($rootcategory = get_subroot_category($category)) {
                 $PAGE->set_primary_active_tab($rootcategory->name . $rootcategory->id );
