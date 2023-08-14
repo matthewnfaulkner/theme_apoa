@@ -34,7 +34,7 @@ define(['jquery'], function($){
          * @return {null}
          */
         function getCountdown(){
-            
+
             var now = new Date().getTime();
             // Find the distance between now and the count down date
             var distance = countDownDate - now;
@@ -59,7 +59,10 @@ define(['jquery'], function($){
         }
 
         getCountdown();
-
+        // Select the element with class name "countdown"
+        const countdownElement = document.querySelector('.countdown');
+        // Remove the class "d-none" from the selected element
+        countdownElement.classList.remove('d-none');
         // Update the count down every 1 second
         var x = setInterval(function() {
             getCountdown();
