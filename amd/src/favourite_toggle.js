@@ -45,13 +45,10 @@ define([
      * @param {function} callback Success callback
      */
     var registerEventListeners = function(root, preventDefault, callback) {
-        console.log(root);
         root.on('click', Selectors.favourite.toggle, function(e) {
-            console.log("yayayay");
             var toggleElement = $(this);
             var courseid = toggleElement.data('courseid');
             var subscriptionState = toggleElement.data('targetstate');
-            
             Repository.setFavouriteDiscussionState(courseid, subscriptionState)
                 .then(function(context) {
                     return callback(toggleElement, context);
