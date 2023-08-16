@@ -318,29 +318,16 @@ class course_renderer extends \core_course_renderer {
             $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
 
             // Display course category tree.
-            if ($coursecat->depth <= 2) {
-                if ($description = $chelper->get_category_formatted_description($coursecat)) {
-                }
-                if ($coursecat->name == 'E-Library') {
+            if ($coursecat->depth == 1) {
+                $output .= $this->render_root_cat($chelper, $coursecat);
+            }
+            if ($coursecat->depth == 2) {
+                $apoaid = get_config('theme_apoa', 'APOAid');
+
+                $path = explode('/', $coursecat->path);
+                $root = $path[0];
+                if($apoaid === $root){
                     $output .= $this->render_subcategory($chelper, $coursecat);
-                }
-                else if ($coursecat->name == 'Newsletter') {
-                    $output .= $this->render_subcategory($chelper, $coursecat);
-                }
-                else if ($coursecat->name == 'About') {
-                    $output .= $this->render_subcategory($chelper, $coursecat);
-                }
-                else if ($coursecat->name == 'Forum') {
-                    $course = reset($coursecat->get_courses(array('limit' => 1)));
-                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
-                }
-                else if ($coursecat->name == 'Gallery') {
-                    $course = reset($coursecat->get_courses(array('limit' => 1)));
-                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
-                }
-                else if ($coursecat->name == 'Meetings') {
-                    $course = reset($coursecat->get_courses(array('limit' => 1)));
-                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
                 }
                 else {
                     $output .= $this->render_root_cat($chelper, $coursecat);

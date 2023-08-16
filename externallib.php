@@ -30,6 +30,12 @@ require_once("$CFG->libdir/externallib.php");
 use mod_forum\local\exporters\post as post_exporter;
 use mod_forum\local\exporters\discussion as discussion_exporter;
 use theme_apoa\external\exporters\favourite as favourite_exporter;
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_value;
+use core_external\external_multiple_structure;
+use core_external\external_single_structure;
+use core_external\external_warnings;
 
 class theme_apoa_external extends external_api {
 

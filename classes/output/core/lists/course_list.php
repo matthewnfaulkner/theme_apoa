@@ -4,6 +4,7 @@ namespace theme_apoa\output\core\lists;
 
 use moodle_url;
 use stdClass;
+use theme_apoa\output\core\listitems\course_list_item;
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -102,7 +103,7 @@ class course_list implements \templatable , \renderable {
             foreach ($this->courses as $course){
                 if (isset($course->root)) {
                     $index = count($store[$course->root]['subcategorycourses']);
-                    $jumbosidelistitem = new \theme_apoa\output\core\listitems\course_list_item($course, $index, $this->iselibrary);
+                    $jumbosidelistitem = new course_list_item($course, $index, $this->iselibrary);
                     $render = $jumbosidelistitem->export_for_template($output);
                     array_push($store[$course->root]['subcategorycourses'], $render);
                     $store[$course->root]['hascourses'] = true;
@@ -116,7 +117,7 @@ class course_list implements \templatable , \renderable {
                     
                 } else {
                     $index = count($store);
-                    $jumbosidelistitem = new \theme_apoa\output\core\listitems\course_list_item($course, $index, $this->iselibrary);
+                    $jumbosidelistitem = new course_list_item($course, $index, $this->iselibrary);
                     array_push($store, $jumbosidelistitem->export_for_template($output));
                 }
             }
@@ -268,9 +269,9 @@ class course_list implements \templatable , \renderable {
             $query = "(SELECT c.*, ". $id ." AS root 
                     FROM {course} AS c 
                     WHERE c.category IN (". $conditions .")
+                    ORDER BY c.sortorder ASC
                     LIMIT 3)";
             array_push($sql, $query);   
-            $record = $DB->get_records_sql($query);
         }
         
         $union = join(' UNION ', $sql);

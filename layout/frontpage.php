@@ -28,7 +28,7 @@ require_once($CFG->libdir . '/behat/lib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
 // Add block button in editing mode.
-$addblockbutton = $OUTPUT->addblockbutton();
+//$addblockbutton = $OUTPUT->addblockbutton();
 
 user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
 user_preference_allow_ajax_update('drawer-open-block', PARAM_BOOL);

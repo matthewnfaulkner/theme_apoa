@@ -16,9 +16,9 @@ class course_list_item implements \templatable , \renderable {
 
 
 
-    protected \stdclass $course;
+    protected \core_course_list_element $course;
 
-    protected \core_course_list_element $courselistelement;
+    protected stdClass $coursestd;
 
     protected int $index;
 
@@ -26,10 +26,16 @@ class course_list_item implements \templatable , \renderable {
 
     protected \cache $image_cache;
 
-    public function __construct(\stdClass $course, $index, $iselibrary) {
+    public function __construct(mixed $course, $index, $iselibrary) {
         
-        $this->course = $course;
-        $this->courselistelement = new \core_course_list_element($course);
+        if($course instanceof \core_course_list_element){
+            $this->course = $course;
+        }
+        else{
+            $this->coursestd = $course;
+            $this->course = new \core_course_list_element($course);
+        }
+;
         $this->index = $index;
         $this->iselibrary = $iselibrary;
         $this->image_cache = \cache::make('theme_apoa', 'image_cache');
@@ -69,7 +75,7 @@ class course_list_item implements \templatable , \renderable {
                 $coursemodule = get_coursemodule_from_instance('forum', $forum->id);
                 $modcontext = \context_module::instance($coursemodule->id);
                 $entityfactory = \mod_forum\local\container::get_entity_factory();
-                $forumentity = $entityfactory->get_forum_from_stdclass($forum, $modcontext, $coursemodule, $this->course);
+                $forumentity = $entityfactory->get_forum_from_stdclass($forum, $modcontext, $coursemodule, $this->coursestd);
                 $discussionsummaries = mod_forum_get_discussion_summaries($forumentity, $USER, null, 0, 0, 0);
                 $discussionsummariesrendererable = new \format_apoapage\output\discussiontopics($PAGE, $discussionsummaries);
                 $discussionsummariesrender = $discussionsummariesrendererable->export_for_template(($output));
@@ -87,11 +93,11 @@ class course_list_item implements \templatable , \renderable {
         $caturl  = $coursecat->get_view_link();
         $rooturl  = $rootcat->get_view_link();
 
-        $itemdesc = $this->course->summary;
         $itemsummary = $this->course->summary;
+        $itemsummary = strip_tags($itemsummary, 'p');
+        $itemdesc= strlen($itemsummary) > 250 ? substr($itemsummary, 0, 250) . '...' : $itemsummary;
 
-
-        foreach ($this->courselistelement->get_course_overviewfiles() as $file) {
+        foreach ($this->course->get_course_overviewfiles() as $file) {
             $isimage = $file->is_valid_image();
             $imgurl = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
                 '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
