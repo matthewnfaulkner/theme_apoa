@@ -95,11 +95,13 @@ $('.sidejumbo-link').on('click', function() {
 
   swiperpages.forEach(swiperpage => {
     var swiperimg = swiperpage.querySelector('img');
+    var swiperlink = swiperpage.querySelector('a');
     var swiperid = swiperpage.getAttribute('data-control-id');
     var query = '[data-link-id="' + swiperid + '"]';
     var swipercontrol = document.querySelector(query);
     if(swipercontrol !== null){
       swiperimg.src = swipercontrol.getAttribute('data-modalimg');
+      swiperlink.href = swipercontrol.getAttribute('data-link-address');
     }
   });
 
