@@ -82,7 +82,7 @@
     }
   }
   
-  @media (min-width: 1200px) {
+  @media (min-width: 962px) {
     .main-page-main-image {
       min-height: 400px;
       max-height: 400px;
@@ -1079,18 +1079,18 @@
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
-    background: linear-gradient(to left, white 50%, var(--pink) 50%) right;
+    background: linear-gradient(to left, white 50%, var(--accent) 50%) right;
     background-size: 200% 100%;
   }
   
-  .boost-span:hover{
+  /*.boost-span:hover{
     background-position: left;
     color: white!important;
   }
 
   .boost-span:hover:before{
     color: white!important;
-  }
+  }*/
 
   #resourceobject {
     width: 100% !important;
