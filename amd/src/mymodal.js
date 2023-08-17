@@ -98,14 +98,14 @@ $('.sidejumbo-link').on('click', function() {
 
   swiperpages.forEach(swiperpage => {
     var swiperimg = swiperpage.querySelector('img');
-    //var swiperlink = swiperpage.querySelector('a');
+    var swiperlink = swiperpage.querySelector('a');
     var swiperid = swiperpage.getAttribute('data-control-id');
     var query = '[data-link-id="' + swiperid + '"]';
     var swipercontrol = document.querySelector(query);
     if(swipercontrol !== null){
       swiperimg.src = swipercontrol.getAttribute('data-modalimg');
       console.log(swiperimg.src);
-      //swiperlink.href = swipercontrol.getAttribute('data-link-address');
+      swiperlink.href = swipercontrol.getAttribute('data-link-address');
     }
   });
 
@@ -124,7 +124,6 @@ $('.sidejumbo-link').on('click', function() {
           tapstart = false;
           subjumbo.addEventListener('animationend', handleAnimationEnd);
           subjumbo.classList.replace('hide', 'showing');
-          
         }
       }
       /**
