@@ -325,7 +325,7 @@ class course_renderer extends \core_course_renderer {
                 $apoaid = get_config('theme_apoa', 'APOAid');
 
                 $path = explode('/', $coursecat->path);
-                $root = $path[0];
+                $root = $path[1];
                 if($apoaid === $root){
                     $output .= $this->render_subcategory($chelper, $coursecat);
                 }
