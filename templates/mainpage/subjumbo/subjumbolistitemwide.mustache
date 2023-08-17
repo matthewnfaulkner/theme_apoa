@@ -4,9 +4,11 @@
             <div class="card-body pb-0">
                 <h5 class="text-muted card-subtitle mb-2 journal-sub-card-title main-page-link main-page-sub-card-text">{{itemtitle}}</h5>
                 <div class="journal-sub-card-text-cont">
-                    <p class="mb-2 journal-card-text w-100 mw-100" style="font-size: smaller">
-                        <a class="main-page-link-sub d-inline-block text-truncate" href="{{itemcaturl}}" style="max-width: 75%!important">{{itemcat}}</a>
-                        {{#itemtag}}&nbsp;|&nbsp;{{/itemtag}}<small class="text-muted main-page-link-sub mw-25" style="max-width: 25%!important; width:auto"><a class="main-page-link-sub text-truncate d-block w-auto" href="{{{itemtagurl}}}">{{{itemtag}}}</a></small>
+                    <p class="mb-2 journal-card-text w-100 mw-100 align-items-end" style="font-size: smaller">
+                        <a class="main-page-link-sub d-inline-block text-truncate  pr-1" href="{{itemcaturl}}" style="max-width: 75%!important">{{itemcat}}</a>
+                        {{#itemtag}}
+                                <a class="main-page-link-sub text-truncate d-block w-auto border-left border-primary pl-1 text-muted small" style="max-width: 25%!important; width:auto"  href="{{{itemtagurl}}}">{{{itemtag}}}</a>
+                        {{/itemtag}}
                     </p>
                 </div>
                 {{#forum}}
