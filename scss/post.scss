@@ -104,6 +104,19 @@ table.discussion-list tr td:nth-child(3), table.discussion-list tr td:nth-child(
 
 table.discussion-list tr th:nth-child(3), table.discussion-list tr th:nth-child(4)  { display: none; }
 
+
+.zoom-container .zoom-icon{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: 1000;
+}
+
+.zoom-container{
+  max-height: 100%!important;
+  overflow: hidden!important;
+}
+
 #jumbomodal{
     position: absolute;
     overflow: hidden;
