@@ -92,6 +92,9 @@ $('.sidejumbo-link').on('click', function() {
   var mouseovermenu = false;
   var mouseoversub = false;
   var delayTimer;
+  var tapstart = false;
+  var tapstartX;
+  var tapstartY;
 
   swiperpages.forEach(swiperpage => {
     var swiperimg = swiperpage.querySelector('img');
@@ -107,19 +110,31 @@ $('.sidejumbo-link').on('click', function() {
   });
 
   menuItems.forEach(menuItem => {
-    menuItem.addEventListener('touchend', function() {
-      subjumbo.addEventListener('animationend', handleAnimationEnd);
-      subjumbo.classList.replace('hide', 'showing');
-
-      /**
-     * Register event listeners for the subscription toggle.
-     */
-      function handleAnimationEnd() {
-      subjumbo.classList.replace('showing', 'show');
-      subjumbo.removeEventListener('animationend', handleAnimationEnd);
+    menuItem.addEventListener('touchstart', function(e) {
+      tapstart = true;
+      tapstartX= e.pageX;
+      tapstartY = e.pageY;
+    });
+    menuItem.addEventListener('touchend', function(e) {
+      if(tapstart){
+        const diffX = Math.abs(e.pageX - tapstartX);
+        const diffY = Math.abs(e.pageY - tapstartY);
+        let delta = 6;
+        if (diffX < delta && diffY < delta) {
+          tapstart = false;
+          subjumbo.addEventListener('animationend', handleAnimationEnd);
+          subjumbo.classList.replace('hide', 'showing');
+          
+        }
       }
-
-      mouseovermenu = true;
+      /**
+         * Register event listeners for the subscription toggle.
+         */
+      function handleAnimationEnd() {
+        subjumbo.classList.replace('showing', 'show');
+        subjumbo.removeEventListener('animationend', handleAnimationEnd);
+        mouseovermenu = true;
+      }
     });
     menuItem.addEventListener('mouseover', function() {
       subjumbo.addEventListener('animationend', handleAnimationEnd);
