@@ -4,11 +4,11 @@ define(['jquery', 'theme_apoa/swiper'], function($, Swiper) {
   var registereventlisteners = function (){
       const jumbo = document.getElementById('jumbo');
   const subjumbo = document.getElementById('jumbomodal');
-  const menuItems = document.querySelectorAll('.sidejumboitemcontainer');
+  const menuItems = document.querySelectorAll('.sidejumbo-link');
   const swiperpages = document.querySelectorAll('.swiper-slide');
   const closemodal = document.getElementById('closemodal');
   var isClicked = {};
-  var istouchevent = false;
+  //var istouchevent = false;
   var mySwiper = new Swiper('.swiper-container', {
     loop: true,
     pagination: {
@@ -36,34 +36,45 @@ define(['jquery', 'theme_apoa/swiper'], function($, Swiper) {
   });
 
 
-$('.sidejumbo-link').on('touchstart', function() {
+/*$('.sidejumbo-link').on('touchstart', function() {
   istouchevent = true;
 });
 
-$('.sidejumbo-link').on('touchend', function() {
+$('.sidejumbo-link').on('touchend', function(event) {
   istouchevent = false;
   var linkId = $(this).data('link-id');
   var linkAddress = $(this).data('link-address');
   istouchevent = true;
+  console.log(doubletapstart);
+  event.preventDefault();
+  if(Date.now() - doubletapstart < 500){
+    window.location.href = linkAddress;
+  }
+  doubletapstart = Date.now();
   if (isClicked[linkId] == true) {
     // Link is not "readied" yet, prevent the default behavior
     window.location.href = linkAddress;
   }
-});
+});*/
 
-$('.sidejumbo-link').on('click', function() {
+var doubletapstart =0;
+
+/*$('.sidejumbo-link').on('click', function() {
   var linkAddress = $(this).data('link-address');
-
+    if(Date.now() - doubletapstart < 500){
+      window.location.href = linkAddress;
+    }
+    doubletapstart = Date.now();
     // Link is not "readied" yet, prevent the default behavior
     if(!istouchevent){
       window.location.href = linkAddress;
     }
-});
+});*/
 
 
   /**
      * Register event listeners for the subscription toggle.
-     */
+   */
   function closemodalfunc() {
     subjumbo.addEventListener('animationend', handleAnimationEnd);
     subjumbo.classList.remove('drag');
@@ -95,7 +106,7 @@ $('.sidejumbo-link').on('click', function() {
   var tapstart = false;
   var tapstartX;
   var tapstartY;
-
+  var isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
   swiperpages.forEach(swiperpage => {
     var swiperimg = swiperpage.querySelector('img');
     var swiperlink = swiperpage.querySelector('a');
@@ -110,18 +121,35 @@ $('.sidejumbo-link').on('click', function() {
   });
 
   menuItems.forEach(menuItem => {
+    if(isTouchDevice !== true){
+      console.log(isTouchDevice);
+      menuItem.addEventListener('click', function(e) {
+        if(tapstart === false){
+          window.location.href = e.currentTarget.getAttribute("data-link-address");
+        }
+      });
+    }
     menuItem.addEventListener('touchstart', function(e) {
       tapstart = true;
-      tapstartX= e.pageX;
-      tapstartY = e.pageY;
+      var touch = e.touches[0];
+      tapstartX= touch.clientX;
+      tapstartY = touch.clientY;
     });
     menuItem.addEventListener('touchend', function(e) {
-      if(tapstart){
-        const diffX = Math.abs(e.pageX - tapstartX);
-        const diffY = Math.abs(e.pageY - tapstartY);
-        let delta = 6;
+      if(tapstart === true){
+        var changedTouch = e.changedTouches[0];
+        const diffX = Math.abs(changedTouch.clientX - tapstartX);
+        const diffY = Math.abs(changedTouch.clientY - tapstartY);
+        let delta = 30;
+        console.log(diffX, diffY);
         if (diffX < delta && diffY < delta) {
           tapstart = false;
+          console.log(doubletapstart);
+          if(Date.now() - doubletapstart < 500){
+            console.log(e.currentTarget.getAttribute("data-link-address"));
+            window.location.href = e.currentTarget.getAttribute("data-link-address");
+          }
+          doubletapstart = Date.now();
           subjumbo.addEventListener('animationend', handleAnimationEnd);
           subjumbo.classList.replace('hide', 'showing');
         }
