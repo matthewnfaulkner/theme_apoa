@@ -86,7 +86,7 @@ $string['E-Library'] = "E-Library";
 $string['Sections'] = "Sections";
 $string['Newsletter'] = "Newsletter";
 $string['APOA'] = "Asia Pacific Orthopaedic Association";
-
+$string['Subscriptions'] = "Subscriptions";
 
 $string['mainpagesettings'] = "Home Page Settings";
 $string['jumbotitle'] = "Jumbotron title";
