@@ -2,12 +2,13 @@
 
 define(['jquery'], function($) {
     // Configure the interval time (in milliseconds)
-
-    function startTabCycling(){   
+    /**
+    * Register event listeners for the subscription toggle.
+    *
+    */
+    function startTabCycling(){
         const intervalTime = 20000; // 10 seconds
 
-        let tabs = $('#elibrary-tab .nav-link');
-        
         let isHovered = false;
         let activeTab = $('#elibrary-tab .nav-link.active');
 
@@ -18,10 +19,9 @@ define(['jquery'], function($) {
         navLinks.on('click mouseenter', function() {
         clearTimeout(delayTimeout);
         tabPanes.removeClass('active show');
-        
         const targetpaneid = $(this).attr('href');
         const targetpane = $(targetpaneid);
-        
+
         delayTimeout = setTimeout(() => {
             targetpane.tab('show');
             $(this).tab('show');
@@ -32,7 +32,7 @@ define(['jquery'], function($) {
         });
 
 
-        
+
         // Start cycling through tabs
         const interval = setInterval(tabCycle, intervalTime);
 
@@ -57,17 +57,20 @@ define(['jquery'], function($) {
                 }
             );
         }
-
+        /**
+ * Register event listeners for the subscription toggle.
+ *
+ */
         function tabCycle(){
-            if (!isHovered) {   
+            if (!isHovered) {
                 const nextTab = activeTab.next('a').length ? activeTab.next('a') : $('#elibrary-tab').find(':first');
                 activeTab.removeClass('active');
                 nextTab.tab('show');
                 activeTab = nextTab;
             }
         }
-    };
+    }
     return {
         init : startTabCycling
     };
-})
+});
