@@ -217,6 +217,7 @@ class primary extends \core\navigation\views\primary {
     /**
      * Find and set the active node. Initially searches based on URL/explicitly set active node.
      * If nothing is found, it checks the following:
+     * 
      *      - If the node is a site page, set 'Home' as active
      *      - If within a course context, set 'My courses' as active
      *      - If within a course category context, set 'Site Admin' (if available) else set 'Home'
