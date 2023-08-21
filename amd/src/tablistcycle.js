@@ -4,7 +4,7 @@ define(['jquery'], function($) {
     // Configure the interval time (in milliseconds)
 
     function startTabCycling(){   
-        const intervalTime = 5000; // 10 seconds
+        const intervalTime = 20000; // 10 seconds
 
         let tabs = $('#elibrary-tab .nav-link');
         

@@ -139,7 +139,7 @@ $string['tourelibrarystart'] = "Welcome to the E-Library";
 $string['tourelibrarystartmessage'] = "It looks as though you're visiting the E-Library for the first time,
 would you like a tour";
 $string['tourelibraryintroduction'] = "What is the E-Library?";
-$string['tourelibraryintroductionmessage'] = "The E-Library is a repository of research papers collated from participating journals across the Asia Pacific region covering all areas of Orhtopaedics. With the intention of creating a hub for discussion and collaboration amongst the APOA community. The papers are organised by their journal, area of research and publication date.";
+$string['tourelibraryintroductionmessage'] = "The E-Library is a repository of research papers collated from participating journals across the Asia Pacific region covering all areas of Orthopaedics. With the intention of creating a hub for discussion and collaboration amongst the APOA community. The papers are organised by their journal, area of research and publication date.";
 $string['tourelibrarynavigation'] = "Navigating the E-Library";
 $string['tourelibrarynavigationmessage'] = "You can navigate the E-Library here. Choose a specific journal, 
 search manually or check out on going journal clubs.";

@@ -6,7 +6,7 @@ use moodle_url;
 
 defined('MOODLE_INTERNAL') || die;
 
-
+use theme_apoa\helper\frontpage_cache_helper;
 
 class resources implements \templatable , \renderable {
 
@@ -31,15 +31,14 @@ class resources implements \templatable , \renderable {
     
     public function export_for_template(\renderer_base $output) {
 
-        $template = $this->get_content();
-
+        $template = ['resources' => $output->blocks('resources', ['d-flex', 'flex-column', 'flex-md-row', 'flex-wrap', 'w-100'])];
         return $template;
 
     }
 
     protected function get_content() {
 
-        global $CFG;
+        /*
         $template['resources'] = [];
         $placeholder = theme_apoa_get_file_from_setting('resources');
         foreach ($this->resources as $label=>$config) {
@@ -57,6 +56,20 @@ class resources implements \templatable , \renderable {
                         'resourceimg' => $img));
         }
 
+        return $template;*/
+
+        $region = 'resources';
+
+        $blockhelper = new frontpage_cache_helper($region);
+
+        $template[$region] =['blocks' => $blockhelper];
+
+        $block = ['addblockbutton' => $output->addblockbutton($region),
+                    'blocks' => $blockhelper,
+                    'indexes' => $indexes];
+        
+        $template = ['jumbomain' => $jumbomain,
+             $region => $block];
         return $template;
     }
     

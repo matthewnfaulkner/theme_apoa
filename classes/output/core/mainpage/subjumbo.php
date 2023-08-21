@@ -39,7 +39,7 @@ class subjumbo implements \templatable , \renderable {
         $template = [];
         foreach($this->regions as $region){
             $blockhelper = new frontpage_cache_helper($region);
-            $template[$region] =['blocks' => $blockhelper];
+            $template[$region] = ['blocks' => $blockhelper];
         }
         $type = 'elibrary';
         $key = 'E-library';
