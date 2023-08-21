@@ -31,7 +31,7 @@ class resources implements \templatable , \renderable {
     
     public function export_for_template(\renderer_base $output) {
 
-        $template = ['resources' => $output->blocks('resources', ['d-flex', 'flex-column', 'flex-md-row', 'flex-wrap', 'w-100']),
+        $template = ['resources' => $output->blocks('resources', ['d-flex', 'flex-column', 'flex-md-row', 'flex-wrap', 'w-100', 'justify-content-center']),
         'addblockbutton' => $output->addblockbutton('resources')];
         return $template;
 
