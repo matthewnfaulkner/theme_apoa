@@ -99,7 +99,6 @@ class cron_task extends \core\task\scheduled_task {
                     $subsections->url = new \moodle_url("/course/index.php?categoryid={$subcategory->id}");
                 }
                 $subsections->name = $subcategory->name;
-                $subsections->url = "/course/index.php?categoryid={$subcategory->id}";
                 $subsections->type = \navigation_node::TYPE_CATEGORY;
                 $subsections->id = $subcategory->id;
                 $subsections->key = \navigation_node::TYPE_CATEGORY . $subcategory->id;
