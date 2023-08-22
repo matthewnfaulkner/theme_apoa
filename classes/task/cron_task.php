@@ -92,6 +92,12 @@ class cron_task extends \core\task\scheduled_task {
             $subcategories = $category->get_children();
             foreach ($subcategories as $subcategory) {
                 $subsections = new \stdClass;
+                if($sectionlink = get_config('theme_apoa', 'sectionlink' . $subcategory->id)){
+                    $subsections->url = new \moodle_url($sectionlink);
+                }
+                else{
+                    $subsections->url = new \moodle_url("/course/index.php?categoryid={$subcategory->id}");
+                }
                 $subsections->name = $subcategory->name;
                 $subsections->url = "/course/index.php?categoryid={$subcategory->id}";
                 $subsections->type = \navigation_node::TYPE_CATEGORY;

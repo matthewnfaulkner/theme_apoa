@@ -255,7 +255,10 @@ if ($ADMIN->fulltree) {
                 get_string('sectionlogo_desc', 'theme_apoa'), 'sectionlogo' . $category->id, 0,
                     array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
             $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
-            $page->add($setting);                                                                                                                               
+            $page->add($setting);      
+            $setting = new admin_setting_configtext('theme_apoa/sectionlink' . $category->id, get_string('sectionlink', 'theme_apoa', $category->name),
+                get_string('sectionlink_desc', 'theme_apoa', $category->name), '', PARAM_URL);
+            $page->add($setting);                                                                                                                         
 
         }
     }

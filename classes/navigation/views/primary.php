@@ -131,7 +131,13 @@ class primary extends \core\navigation\views\primary {
                         'Sections', navigation_node::TYPE_CATEGORY . $child->id);
                     $sections = $child->get_children();
                     foreach ($sections as $section) {
-                        $sectionnode->add($section->name, new \moodle_url("/course/index.php?categoryid={$section->id}"), self::TYPE_CATEGORY,
+                        if($sectionlink = get_config('theme_apoa', 'sectionlink' . $section->id)){
+                            $sectionlink = new \moodle_url($sectionlink);
+                        }
+                        else{
+                            $sectionlink = new \moodle_url("/course/index.php?categoryid={$section->id}");
+                        }
+                        $sectionnode->add($section->name, $sectionlink, self::TYPE_CATEGORY,
                         $section->name, navigation_node::TYPE_CATEGORY . $section->id);
                     }
                     $sectionnode->showchildreninsubmenu = true;

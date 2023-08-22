@@ -117,6 +117,8 @@ $string['resources'] = "Resources tiles image";
 $string['resourceslink'] = "Resources tiles link";
 
 $string['sectionsettings'] = "Section Settings";
+$string['sectionlink'] = '{$a} Link';
+$string['sectionlink_desc'] = 'Alternative link for category: {$a}. Default is category landing page.';
 $string['sectionlogo_desc'] = "The logo for this section of the APOA";
 
 $string['footersettings'] = 'Footer Settings';
