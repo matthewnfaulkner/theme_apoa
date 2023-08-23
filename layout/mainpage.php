@@ -62,7 +62,6 @@ if ($PAGE->has_secondary_navigation()) {
 }
 
 $primary = new \theme_apoa\navigation\output\primary($PAGE);
-error_log(print_r( 'hello', true ));
 
 
 $renderer = $PAGE->get_renderer('core');
