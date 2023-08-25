@@ -59,9 +59,12 @@ $string['rawscsspre_desc'] = 'In this field you can provide initialising SCSS co
 // We need to include a lang string for each block region.                                                                          
 $string['region-side-pre'] = 'Right';
 
-$string['noactivesubscription'] = 'You don\'t currently have an active subscription, without one your account will be suspended.
-Click <a href="{$a}">HERE</a> to learn more';
+$string['noactivesubscription'] = 'You don\'t currently have an active subscription, without one your account has limited access.
+Click <a href="{$a}">HERE</a> to learn more.';
 $string['federationpending'] = 'Still waiting for your federation to confirm your membership. Your experience will be limited until they do.';
+$string['dontshowmessageagain'] = '(Don\'t show this message again)';
+$string['membershipcategoryapprovalpending'] = 'You haven\'t yet been approved as a {$a}. Your experience will be limited until you are.';
+
 $string['Announcements'] = 'Announcements';
 $string['Events'] = 'Events';
 $string['Forum'] = 'Forum';

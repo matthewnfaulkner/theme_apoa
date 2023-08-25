@@ -1,7 +1,6 @@
 define(function () {
 
 var simpleImageExpand = function(options) {
-  console.log("here");
   // IE8 utility function
   /**
  * Register event listeners for the subscription toggle.
@@ -34,7 +33,6 @@ var simpleImageExpand = function(options) {
     fullIconPos += posProp + ': ' + options.iconPos[posProp] + ';';
   }
   options.iconImg = options.iconImg ||  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAqVJREFUeNq8VjuLGlEUnhlHNz5BsnkYXdwQNWCxVoFUWlhJCotgI4LiP5AUlpZiEfwBgljZSBohpaCpUgUkIEELH1EkJCH4fo1jzpE7wZjRnXElB84uc+d6vjnnfOe7l95sNjRFUfeJX1DntQX4T3QWAUaj0XU0GnU3Go2Xk8nESNP0nRE0Gs0vu93+MZvNftDr9RQNGT0PBAKvqtXqa3jPwjN3DiCMBc65XK53hULhPYPlwkzIiyWA8PD/HL7EmCT2BQJR0+nUiOjU+Y0jsbdZ/GNQPobjOCXP88zuOsMwPDinUCjWp9QRA1O7fUGQZrP5Yn/zcDhc+/3+z71ebywVAGNvPxL/7Dd/PxO0wWDAx2Kxr+12ey4nEyE2I/UHUC6q3+8jWTanNEsykE6nY4LB4APIVkmG/O5AQrrQC65SqUyF9VAoZEylUk8BTHEykNA0ArRutVqLZDLZDYfDXyKRSEt4V6vVZrhdLhAqw43D4XiLqkEGbUtvtVqtBDlaA53XYKzX6720WCyqXC7Xh379UQ8y4McSmdbr9TfsgdLx8/l8gQTYzgDLrsrl8jeBFAgMWZq63e6yVCr9QGAsp1arVcxms5UYOCODpjw6EgHK+SSRSFxlMplnbrf70Wq1Uvt8vsfFYvEGZpA9OLBiQ3sM0+l0qoUHKOU1EOahzWZTmc1mFGXFUSCpio09i8fjzeVyySALcc3j8WjESLX78Yxs9sDAAtgqn89/H4/HvBRVOAmIfCltMplUQAp5oirXrFbrvXQ6fWUwGBiR0vKS1fs263Q6Mzg5P4kdIzgKYurNyiHCjsCupZ5Jf5EBLxKnlvG21pDYW6AF3lbIUa4ia1tHKdp9FvMjezAWR2IvUOsud69bwhkvtXeH9uxdt1r0/7pA/hZgACO4VuIsr37kAAAAAElFTkSuQmCC';
-  console.log(options);
   // DOM elements
   var style = document.createElement('style'),
       cnt = document.createElement('div'),

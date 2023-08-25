@@ -107,7 +107,7 @@ class cron_task extends \core\task\scheduled_task {
 
             }
         }
-        $sections->children ? $sections->haschildren = true : $sections->haschilren = false;
+        $sections->children ? $sections->haschildren = true : $sections->haschildren = false;
         $sections->haschildren ? $sections->showchildreninsubmenu = true : $sections->showchildreninsubmenu = false ;
         return $sections;
 

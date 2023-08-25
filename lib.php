@@ -354,3 +354,19 @@ function get_journal_link($categoryid){
     }
     return false;
 }
+
+function theme_apoa_user_preferences(){
+    return ['theme_apoa_user_notapproved'=> [
+                'type' =>   PARAM_INT,
+                'null' => NULL_ALLOWED,
+                'default' => 0,
+                'permissioncallback' => [core_user::class, 'is_current_user'],
+        ], 
+        'theme_apoa_user_nosub' => [
+            'type' =>   PARAM_INT,
+            'null' => NULL_ALLOWED,
+            'default' => 0,
+            'permissioncallback' => [core_user::class, 'is_current_user'],
+            ], 
+        ];
+}

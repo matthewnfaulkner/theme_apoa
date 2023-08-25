@@ -691,24 +691,47 @@ class core_renderer extends \core_renderer {
     }
 
     public function has_active_subscription(){
-        global $CFG;
+        global $CFG, $USER;
     
         if (isloggedin() && !isguestuser()) {
-            $redirect=  $CFG->wwwroot . '/local/subscriptions/index.php';
-            if(!user_has_active_subscription()){
-                return $this->notification(get_string('noactivesubscription', 'theme_apoa', $redirect), 'notifyerror');
+            $preference = 'theme_apoa_user_nosub';
+            if(!get_user_preferences($preference)){
+                $redirect=  $CFG->wwwroot . '/local/subscriptions/index.php';
+                if(!user_has_active_subscription()){
+                    $message = get_string('noactivesubscription', 'theme_apoa', $redirect);
+                    $notification = new \theme_apoa\output\notification($message, 'special', true);
+                    $notification->set_extra_classes(['error']);
+                    $notification->set_name_and_user($preference, $USER->id);
+                    return $this->render_from_template($notification->get_template_name(), $notification->export_for_template($this));
+                }
             }
         }
     }
 
-    public function has_federation_pending()
-    {
+    public function has_membership_category_approved()
+    {   
+        global $USER;
         if (isloggedin() && !isguestuser()) {
-            if(is_federation_pending()){
-                return $this->notification(get_string('federationpending', 'theme_apoa'), 'notifyerror');
+            $preference = 'theme_apoa_user_notapproved';
+                if(!get_user_preferences($preference)){
+                    $membershipfields = is_membership_category_approved();
+                    if(!$membershipfields['membership_category_approved']){
+                        if($membershipfields['membership_category'] == "Federation Fellow"){
+                            $message = get_string('federationpending', 'theme_apoa');
+                        }
+                        else{
+                            $message = get_string('membershipcategoryapprovalpending', 'theme_apoa', $membershipfields['membership_category']);
+                        }
+                    
+                    $notification = new \theme_apoa\output\notification($message, 'special', true);
+                    $notification->set_extra_classes(['error']);
+                    $notification->set_name_and_user($preference, $USER->id);
+                    return $this->render_from_template($notification->get_template_name(), $notification->export_for_template($this));
+                }
             }
         }
     }
+
 }
     
 

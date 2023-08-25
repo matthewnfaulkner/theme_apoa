@@ -39,4 +39,12 @@ $tasks = [
         'day' => '*',
         'month' => '1*',
     ],
+    [
+        'classname' => 'theme_apoa\task\refresh_warning_preferences',
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => '*',
+        'day' => '*',
+        'month' => '1*',
+    ],
 ];

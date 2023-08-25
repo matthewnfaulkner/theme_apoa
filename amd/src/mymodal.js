@@ -115,14 +115,12 @@ var doubletapstart =0;
     var swipercontrol = document.querySelector(query);
     if(swipercontrol !== null){
       swiperimg.src = swipercontrol.getAttribute('data-modalimg');
-      console.log(swiperimg.src);
       swiperlink.href = swipercontrol.getAttribute('data-link-address');
     }
   });
 
   menuItems.forEach(menuItem => {
     if(isTouchDevice !== true){
-      console.log(isTouchDevice);
       menuItem.addEventListener('click', function(e) {
         if(tapstart === false){
           window.location.href = e.currentTarget.getAttribute("data-link-address");
@@ -141,12 +139,9 @@ var doubletapstart =0;
         const diffX = Math.abs(changedTouch.clientX - tapstartX);
         const diffY = Math.abs(changedTouch.clientY - tapstartY);
         let delta = 30;
-        console.log(diffX, diffY);
         if (diffX < delta && diffY < delta) {
           tapstart = false;
-          console.log(doubletapstart);
           if(Date.now() - doubletapstart < 500){
-            console.log(e.currentTarget.getAttribute("data-link-address"));
             window.location.href = e.currentTarget.getAttribute("data-link-address");
           }
           doubletapstart = Date.now();
