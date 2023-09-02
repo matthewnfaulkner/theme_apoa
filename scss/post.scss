@@ -272,3 +272,25 @@ top: 0%;
   flex-direction: column!important;
   margin-left:  0px !important;
 }
+
+.course-section{
+  margin: 5px 5px 10px 5px;
+  padding: 5px 5px 5px 5px!important;
+  border: 1px solid #e6e9e6!important;
+}
+
+.course-section-header{
+  border-bottom: 1px solid #e6e9e6!important;
+}
+
+.sectionname{
+  color: var(--primary)!important;
+}
+
+.activity-item{
+  border: 0!important;
+}
+
+.course-description-item{
+  padding-left: 5px!important;
+}
