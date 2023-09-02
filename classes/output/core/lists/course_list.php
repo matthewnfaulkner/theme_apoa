@@ -123,6 +123,10 @@ class course_list implements \templatable , \renderable {
             }
         }
         $template = array_values($store);
+
+        if($this->iselibrary){
+            $template['moresubcategorytitle'] = 'More Journals';
+        }
         return  $template;
 
     }
