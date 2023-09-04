@@ -78,7 +78,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
     
         $nospacename = preg_replace("/[^a-zA-Z0-9]+/", "", $subcategory->name);
         if($nospacename){
-            $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
+            $name  = get_string($nospacename, $component);
         }
         else{
             $name = $subcategory->name;
