@@ -77,12 +77,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $
     foreach ($subcategories as $subcategory) {
     
         $nospacename = preg_replace("/[^a-zA-Z0-9]+/", "", $subcategory->name);
-        if($nospacename){
-            $name  = get_string($nospacename, $component);
-        }
-        else{
-            $name = $subcategory->name;
-        }
+        $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
         if ($coursecount = $subcategory->get_courses_count() == 1 && $subcategory->get_children_count() == 0){
             if($courses = $subcategory->get_courses($limit = 1)) {
                 $course = reset($courses);
