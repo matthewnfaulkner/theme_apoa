@@ -139,7 +139,7 @@ $string['Sectionsid'] = "APOA main category ID";
 $string['Sectionsid_desc'] = "Category ID for the Sections Category, can be found in the URL of the Sections landing page";
 $string['someallowguest'] = "You can also explore the site as a guest";
 
-
+$string['skiptoagreement'] = "Skip To Consent";
 $string['tourelibrarystart'] = "Welcome to the E-Library";
 $string['tourelibrarystartmessage'] = "It looks as though you're visiting the E-Library for the first time,
 would you like a tour";
