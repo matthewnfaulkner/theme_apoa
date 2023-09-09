@@ -45,7 +45,7 @@ confirm_sesskey();
 $launchid = required_param('launchid', PARAM_TEXT);
 $modules = optional_param_array('modules', [], PARAM_INT);
 $grades = optional_param_array('grades', [], PARAM_INT);
-$urls = optional_param_array('grades', [], PARAM_URL);
+$urls = optional_param_array('urls', [], PARAM_URL);
 
 $sesscache = new launch_cache_session();
 $issdb = new issuer_database(new application_registration_repository(), new deployment_repository());
@@ -87,7 +87,7 @@ foreach ($resources as $resource) {
 
 
 global $USER, $CFG, $OUTPUT, $SESSION;
-$SESSION->ltitargeturl = $urls;
+$SESSION->ltitargeturl = reset($urls);
 $PAGE->set_context(context_system::instance());
 $url = new moodle_url('/enrol/lti/configure.php');
 $PAGE->set_url($url);
