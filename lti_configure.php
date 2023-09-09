@@ -36,7 +36,7 @@ use Packback\Lti1p3\LtiServiceConnector;
 
 global $CFG, $DB, $PAGE, $USER;
 
-require($CFG->dirroot .  "/config.php");
+require_once('../../config.php');
 require_once($CFG->dirroot .'/ernol/lti/lib.php');
 require_once($CFG->libdir . '/filelib.php');
 require_login(null, false);
