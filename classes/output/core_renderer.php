@@ -719,6 +719,9 @@ class core_renderer extends \core_renderer {
                         if($membershipfields['membership_category'] == "Federation Fellow"){
                             $message = get_string('federationpending', 'theme_apoa');
                         }
+                        else if($membershipfields['membership_category'] == "No Membership"){
+                            $message = get_string('nomembershippending', 'theme_apoa');
+                        }
                         else{
                             $message = get_string('membershipcategoryapprovalpending', 'theme_apoa', $membershipfields['membership_category']);
                         }

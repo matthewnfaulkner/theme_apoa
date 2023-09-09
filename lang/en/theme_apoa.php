@@ -64,6 +64,7 @@ Click <a href="{$a}">HERE</a> to learn more.';
 $string['federationpending'] = 'Still waiting for your federation to confirm your membership. Your experience will be limited until they do.';
 $string['dontshowmessageagain'] = '(Don\'t show this message again)';
 $string['membershipcategoryapprovalpending'] = 'You haven\'t yet been approved as a {$a}. Your experience will be limited until you are.';
+$string['nomembershippending'] = "You currently are not a confirmed member of APOA.";
 
 $string['Announcements'] = 'Announcements';
 $string['Events'] = 'Events';
