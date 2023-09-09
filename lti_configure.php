@@ -87,7 +87,7 @@ foreach ($resources as $resource) {
 
 
 global $USER, $CFG, $OUTPUT, $SESSION;
-$SESSION->ltitargeturl = reset($url);
+$SESSION->ltitargeturl = reset($urls);
 $PAGE->set_context(context_system::instance());
 $url = new moodle_url('/enrol/lti/configure.php');
 $PAGE->set_url($url);
