@@ -34,6 +34,7 @@ use Packback\Lti1p3\LtiDeepLinkResource;
 use Packback\Lti1p3\LtiLineitem;
 use Packback\Lti1p3\LtiMessageLaunch;
 use Packback\Lti1p3\LtiServiceConnector;
+use Packback\Lti1p3\LtiConstants;
 
 global $CFG, $DB, $PAGE, $USER;
 
@@ -65,6 +66,7 @@ $sesscache->purge();
 $resourcerepo = new published_resource_repository();
 $resources = $resourcerepo->find_all_by_ids_for_user($modules, $USER->id);
 
+
 $contentitems = [];
 foreach ($resources as $resource) {
 
@@ -91,10 +93,13 @@ foreach ($resources as $resource) {
         $context = $DB->get_record('context', array('id' => $contextid));
         if($context->contextlevel == CONTEXT_MODULE){
           if($cm = get_coursemodule_from_id('freepapervote', $context->instance, $resource->get_course())){
+            
             $freepapervote = new stdClass();
             $freepapervote->resourceid = $resource->get_id();
             $freepapervote->resourcelinkid = $resource->get_uuid();
             $freepapervote->linkurl = $url; 
+            
+            $DB->insert_record('freepapervote_resource_link', $freepapervote);
           }
         }
     }
@@ -103,9 +108,8 @@ foreach ($resources as $resource) {
     $contentitems[] = $contentitem;
 }
 
-
 global $USER, $CFG, $OUTPUT, $SESSION;
-$SESSION->launchcachedata = $SESSION->enrol_lti_launch;
+$SESSION->launchcachedata = $resource->get_uuid();
 $PAGE->set_context(context_system::instance());
 $url = new moodle_url('/enrol/lti/configure.php');
 $PAGE->set_url($url);
