@@ -93,10 +93,18 @@ foreach ($resources as $resource) {
         $context = $DB->get_record('context', array('id' => $contextid));
         if($context->contextlevel == CONTEXT_MODULE){
           if($cm = get_coursemodule_from_id('freepapervote', $context->instance, $resource->get_course())){
-            
+            // Authenticate the platform user, which could be an instructor, an admin or a learner.
+            // Auth code needs to be told about consumer secrets for the purposes of migration, since these reside in enrol_lti.
+            $launchdata = $messagelaunch->getLaunchData();
+            // To authenticate, we need the resource's account provisioning mode for the given LTI role.
+            if (empty($launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'])) {
+                throw new \moodle_exception('ltiadvlauncherror:missingid', 'enrol_lti');
+            }
+            $resourceuuid = $launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'];
+
             $freepapervote = new stdClass();
             $freepapervote->resourceid = $resource->get_id();
-            $freepapervote->resourcelinkid = $resource->get_uuid();
+            $freepapervote->resourcelinkid = $resourceuuid;
             $freepapervote->linkurl = $url; 
             
             $DB->insert_record('freepapervote_resource_link', $freepapervote);
