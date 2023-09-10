@@ -93,18 +93,28 @@ foreach ($resources as $resource) {
         $context = $DB->get_record('context', array('id' => $contextid));
         if($context->contextlevel == CONTEXT_MODULE){
           if($cm = get_coursemodule_from_id('freepapervote', $context->instance, $resource->get_course())){
+
+            $freepapervote = new stdClass();
+            $freepapervote->resourceid = $resource->get_id();
+
             // Authenticate the platform user, which could be an instructor, an admin or a learner.
             // Auth code needs to be told about consumer secrets for the purposes of migration, since these reside in enrol_lti.
             $launchdata = $messagelaunch->getLaunchData();
             // To authenticate, we need the resource's account provisioning mode for the given LTI role.
-            if (empty($launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'])) {
-                throw new \moodle_exception('ltiadvlauncherror:missingid', 'enrol_lti');
+            
+            // Check if the "https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings" key exists
+            if (isset($launchdata[LtiConstants::DL_DEEP_LINK_SETTINGS])) {
+                // Check if the "deep_link_return_url" key exists within the deep_linking_settings sub-array
+                if (isset($launchdata[LtiConstants::DL_DEEP_LINK_SETTINGS]['deep_link_return_url'])) {
+                    // Extract the "deep_link_return_url"
+                    $deepLinkReturnUrl = $launchdata[LtiConstants::DL_DEEP_LINK_SETTINGS]['deep_link_return_url'];
+                    
+                    // Find the position of the last '/' character
+                    $parsed = explode('/', $deepLinkReturnUrl);
+                    $empty  = array_pop($parsed);
+                    $freepapervote->resourcelinkid  = array_pop($parsed);
+                }
             }
-            $resourceuuid = $launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'];
-
-            $freepapervote = new stdClass();
-            $freepapervote->resourceid = $resource->get_id();
-            $freepapervote->resourcelinkid = $resourceuuid;
             $freepapervote->linkurl = $url; 
             
             $DB->insert_record('freepapervote_resource_link', $freepapervote);
@@ -115,26 +125,12 @@ foreach ($resources as $resource) {
 
     $contentitems[] = $contentitem;
 }
-$launchdata = $messagelaunch->getLaunchData();
-// To authenticate, we need the resource's account provisioning mode for the given LTI role.
 
-// Check if the "https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings" key exists
-if (isset($launchdata['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'])) {
-    // Check if the "deep_link_return_url" key exists within the deep_linking_settings sub-array
-    if (isset($launchdata['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings']['deep_link_return_url'])) {
-        // Extract the "deep_link_return_url"
-        $deepLinkReturnUrl = $launchdata['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings']['deep_link_return_url'];
-        
-        // Find the position of the last '/' character
-        $parsed = explode('/', $deepLinkReturnUrl);
-        $empty  = array_pop($parsed);
-        $resourcelinkid = array_pop($parsed);
-    }
-}
 
 
 global $USER, $CFG, $OUTPUT, $SESSION;
-$SESSION->launchcachedata = $resourcelinkid;
+$SESSION->urls = $urls;
+$SESSION->urls = $urlsid;
 $PAGE->set_context(context_system::instance());
 $url = new moodle_url('/enrol/lti/configure.php');
 $PAGE->set_url($url);
