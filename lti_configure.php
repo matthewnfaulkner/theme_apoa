@@ -48,7 +48,7 @@ $launchid = required_param('launchid', PARAM_TEXT);
 $modules = optional_param_array('modules', [], PARAM_INT);
 $grades = optional_param_array('grades', [], PARAM_INT);
 $urls = optional_param_array('urls', [], PARAM_URL);
-$urlsid = optional_param_array('urls', [], PARAM_INT);
+$urlsid = optional_param_array('urlsid', [], PARAM_INT);
 
 $sesscache = new launch_cache_session();
 $issdb = new issuer_database(new application_registration_repository(), new deployment_repository());
