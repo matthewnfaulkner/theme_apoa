@@ -88,7 +88,7 @@ foreach ($resources as $resource) {
 
     if(($urlkey = array_search($resource->get_id(), $urlsid))){
         $url = $urls[$urlkey];
-        require_once($CFG->dirroot . '/mod/freepapervote.php');
+        require_once($CFG->dirroot . '/mod/freepapervote/lib.php');
         $contextid = $resource->get_contextid();
         $context = $DB->get_record('context', array('id' => $contextid));
         if($context->contextlevel == CONTEXT_MODULE){
