@@ -85,16 +85,13 @@ foreach ($resources as $resource) {
 
         $contentitem->setLineitem($lineitem);
     }
-    $key = array_search($resource->get_id(), $urlsid);
-    if($key !== false){
+    $urlkey = array_search($resource->get_id(), $urlsid);
+    if($urlkey !== false){
         $url = $urls[$urlkey];
         require_once($CFG->dirroot . '/mod/freepapervote/lib.php');
         $contextid = $resource->get_contextid();
-        $SESSION->instance = $context->instanceid;
         $context = $DB->get_record('context', array('id' => $contextid));
         if($context->contextlevel == CONTEXT_MODULE){
-          $SESSION->instance = $context->instanceid;
-          $SESSION->courseid = $resource->get_courseid();
           if($cm = get_coursemodule_from_id('freepapervote', $context->instanceid, $resource->get_courseid())){
 
             $freepapervote = new stdClass();
@@ -119,7 +116,6 @@ foreach ($resources as $resource) {
                 }
             }
             $freepapervote->linkurl = $url; 
-            $SESSION->freepapervote = $freepapervote;
             //$DB->insert_record('freepapervote_resource_link', $freepapervote);
           }
         }
@@ -132,10 +128,6 @@ foreach ($resources as $resource) {
 
 
 global $USER, $CFG, $OUTPUT;
-$SESSION->urls = $urls;
-$SESSION->urlsid = $urlsid;
-$SESSION->modules = $modules;
-$SESSION->resourceid = $resource->get_id();
 $PAGE->set_context(context_system::instance());
 $url = new moodle_url('/enrol/lti/configure.php');
 $PAGE->set_url($url);
