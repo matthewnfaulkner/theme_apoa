@@ -120,7 +120,7 @@ foreach ($resources as $resource) {
             }
             $freepapervote->linkurl = $url; 
             $SESSION->freepapervote = $freepapervote;
-            $DB->insert_record('freepapervote_resource_link', $freepapervote);
+            //$DB->insert_record('freepapervote_resource_link', $freepapervote);
           }
         }
     }
