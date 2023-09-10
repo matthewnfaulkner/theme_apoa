@@ -22,6 +22,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use block_accessreview\external\get_module_data;
 use core\http_client;
 use enrol_lti\local\ltiadvantage\lib\launch_cache_session;
 use enrol_lti\local\ltiadvantage\lib\issuer_database;
@@ -46,6 +47,7 @@ $launchid = required_param('launchid', PARAM_TEXT);
 $modules = optional_param_array('modules', [], PARAM_INT);
 $grades = optional_param_array('grades', [], PARAM_INT);
 $urls = optional_param_array('urls', [], PARAM_URL);
+$urlsid = optional_param_array('urls', [], PARAM_INT);
 
 $sesscache = new launch_cache_session();
 $issdb = new issuer_database(new application_registration_repository(), new deployment_repository());
@@ -82,12 +84,28 @@ foreach ($resources as $resource) {
         $contentitem->setLineitem($lineitem);
     }
 
+    if(($urlkey = array_search($resource->get_id(), $urlsid))){
+        $url = $urls[$urlkey];
+        require_once($CFG->dirroot . '/mod/freepapervote.php');
+        $contextid = $resource->get_contextid();
+        $context = $DB->get_record('context', array('id' => $contextid));
+        if($context->contextlevel == CONTEXT_MODULE){
+          if($cm = get_coursemodule_from_id('freepapervote', $context->instance, $resource->get_course())){
+            $freepapervote = new stdClass();
+            $freepapervote->resourceid = $resource->get_id();
+            $freepapervote->resourcelinkid = $resource->get_uuid();
+            $freepapervote->linkurl = $url; 
+          }
+        }
+    }
+
+
     $contentitems[] = $contentitem;
 }
 
 
 global $USER, $CFG, $OUTPUT, $SESSION;
-$SESSION->ltitargeturl = reset($urls);
+$SESSION->launchcachedata = $SESSION->enrol_lti_launch;
 $PAGE->set_context(context_system::instance());
 $url = new moodle_url('/enrol/lti/configure.php');
 $PAGE->set_url($url);

@@ -105,7 +105,10 @@
                                 {{^lineitem}}
                                 <td>-</td>
                                 {{/lineitem}}
-                                <td><input type="text" name="urls[]" value="hello"></td>
+                                <td>
+                                    <input type="text" name="urls[]" value="hello">
+                                    <input type="hidden" name="urlsid[]" value="{{id}}">
+                                </td>
                             </tr>
                         {{/modules}}
                     {{/courses}}
