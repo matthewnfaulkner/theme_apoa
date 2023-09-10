@@ -115,7 +115,12 @@ foreach ($resources as $resource) {
 
     $contentitems[] = $contentitem;
 }
-
+$launchdata = $messagelaunch->getLaunchData();
+// To authenticate, we need the resource's account provisioning mode for the given LTI role.
+if (empty($launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'])) {
+    throw new \moodle_exception('ltiadvlauncherror:missingid', 'enrol_lti');
+}
+$resourceuuid = $launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'];
 global $USER, $CFG, $OUTPUT, $SESSION;
 $SESSION->launchcachedata = $resourceuuid;
 $PAGE->set_context(context_system::instance());
