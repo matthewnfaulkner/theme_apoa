@@ -131,7 +131,7 @@ foreach ($resources as $resource) {
 global $USER, $CFG, $OUTPUT, $SESSION;
 $SESSION->urls = $urls;
 $SESSION->urlsid = $urlsid;
-$SESSION->grades = $grades;
+$SESSION->modules = $modules;
 $SESSION->resourceid = $resource->get_id();
 $PAGE->set_context(context_system::instance());
 $url = new moodle_url('/enrol/lti/configure.php');
