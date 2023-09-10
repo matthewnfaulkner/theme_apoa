@@ -90,6 +90,7 @@ foreach ($resources as $resource) {
         $url = $urls[$urlkey];
         require_once($CFG->dirroot . '/mod/freepapervote/lib.php');
         $contextid = $resource->get_contextid();
+        $SESSION->instance = $context->instance;
         $context = $DB->get_record('context', array('id' => $contextid));
         if($context->contextlevel == CONTEXT_MODULE){
           $SESSION->instance = $context->instance;
