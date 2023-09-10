@@ -92,7 +92,7 @@ foreach ($resources as $resource) {
         $contextid = $resource->get_contextid();
         $context = $DB->get_record('context', array('id' => $contextid));
         if($context->contextlevel == CONTEXT_MODULE){
-          if($cm = get_coursemodule_from_id('freepapervote', $context->instance, $resource->get_course())){
+          if($cm = get_coursemodule_from_id('freepapervote', $context->instance, $resource->get_courseid())){
 
             $freepapervote = new stdClass();
             $freepapervote->resourceid = $resource->get_id();
