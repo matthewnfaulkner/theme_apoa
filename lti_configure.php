@@ -90,12 +90,12 @@ foreach ($resources as $resource) {
         $url = $urls[$urlkey];
         require_once($CFG->dirroot . '/mod/freepapervote/lib.php');
         $contextid = $resource->get_contextid();
-        $SESSION->instance = $context->instance;
+        $SESSION->instance = $context->instanceid;
         $context = $DB->get_record('context', array('id' => $contextid));
         if($context->contextlevel == CONTEXT_MODULE){
-          $SESSION->instance = $context->instance;
+          $SESSION->instance = $context->instanceid;
           $SESSION->courseid = $resource->get_courseid();
-          if($cm = get_coursemodule_from_id('freepapervote', $context->instance, $resource->get_courseid())){
+          if($cm = get_coursemodule_from_id('freepapervote', $context->instanceid, $resource->get_courseid())){
 
             $freepapervote = new stdClass();
             $freepapervote->resourceid = $resource->get_id();
