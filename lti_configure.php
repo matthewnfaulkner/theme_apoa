@@ -117,12 +117,24 @@ foreach ($resources as $resource) {
 }
 $launchdata = $messagelaunch->getLaunchData();
 // To authenticate, we need the resource's account provisioning mode for the given LTI role.
-if (empty($launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'])) {
-    throw new \moodle_exception('ltiadvlauncherror:missingid', 'enrol_lti');
+
+// Check if the "https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings" key exists
+if (isset($launchdata['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'])) {
+    // Check if the "deep_link_return_url" key exists within the deep_linking_settings sub-array
+    if (isset($launchdata['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings']['deep_link_return_url'])) {
+        // Extract the "deep_link_return_url"
+        $deepLinkReturnUrl = $launchdata['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings']['deep_link_return_url'];
+        
+        // Find the position of the last '/' character
+        $parsed = explode('/', $deepLinkReturnUrl);
+        $empty  = array_pop($parsed);
+        $resourcelinkid = array_pop($parsed);
+    }
 }
-$resourceuuid = $launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'];
+
+
 global $USER, $CFG, $OUTPUT, $SESSION;
-$SESSION->launchcachedata = $launchdata;
+$SESSION->launchcachedata = $resourcelinkid;
 $PAGE->set_context(context_system::instance());
 $url = new moodle_url('/enrol/lti/configure.php');
 $PAGE->set_url($url);
