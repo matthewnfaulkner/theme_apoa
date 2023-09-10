@@ -92,6 +92,8 @@ foreach ($resources as $resource) {
         $contextid = $resource->get_contextid();
         $context = $DB->get_record('context', array('id' => $contextid));
         if($context->contextlevel == CONTEXT_MODULE){
+          $SESSION->instance = $context->instance;
+          $SESSION->courseid = $resource->get_courseid();
           if($cm = get_coursemodule_from_id('freepapervote', $context->instance, $resource->get_courseid())){
 
             $freepapervote = new stdClass();
