@@ -122,7 +122,7 @@ if (empty($launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'])
 }
 $resourceuuid = $launchdata['https://purl.imsglobal.org/spec/lti/claim/custom']['id'];
 global $USER, $CFG, $OUTPUT, $SESSION;
-$SESSION->launchcachedata = $resourceuuid;
+$SESSION->launchcachedata = $launchdata;
 $PAGE->set_context(context_system::instance());
 $url = new moodle_url('/enrol/lti/configure.php');
 $PAGE->set_url($url);
