@@ -36,7 +36,7 @@ use Packback\Lti1p3\LtiMessageLaunch;
 use Packback\Lti1p3\LtiServiceConnector;
 use Packback\Lti1p3\LtiConstants;
 
-global $CFG, $DB, $PAGE, $USER;
+global $CFG, $DB, $PAGE, $USER, $SESSION;
 
 require_once('../../config.php');
 require_once($CFG->dirroot .'/enrol/lti/lib.php');
@@ -128,7 +128,7 @@ foreach ($resources as $resource) {
 
 
 
-global $USER, $CFG, $OUTPUT, $SESSION;
+global $USER, $CFG, $OUTPUT;
 $SESSION->urls = $urls;
 $SESSION->urlsid = $urlsid;
 $SESSION->modules = $modules;
