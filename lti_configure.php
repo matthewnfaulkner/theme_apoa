@@ -85,8 +85,8 @@ foreach ($resources as $resource) {
 
         $contentitem->setLineitem($lineitem);
     }
-
-    if(($urlkey = array_search($resource->get_id(), $urlsid))){
+    $key = array_search($resource->get_id(), $urlsid);
+    if($key !== false){
         $url = $urls[$urlkey];
         require_once($CFG->dirroot . '/mod/freepapervote/lib.php');
         $contextid = $resource->get_contextid();
