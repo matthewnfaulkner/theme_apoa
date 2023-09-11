@@ -122,7 +122,7 @@ foreach ($resources as $resource) {
                 if($resourceid = $DB->get_record_select('enrol_lti_resource_link', $select, $params, 'id')){
                     $freepapervote->resourceid = $resourceid->id;
 
-                    if($id = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid), 'id')){
+                    if($id = $DB->get_record('freepapervote_resource_link', array('resourcelinkid' => $resourceid->id), 'id')){
                         $freepapervote->id = $id->id;
                         $DB->update_record('freepapervote_resource_link', $freepapervote);
                     }
