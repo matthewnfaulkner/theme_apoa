@@ -125,7 +125,7 @@ foreach ($resources as $resource) {
                     $DB->insert_record('freepapervote_resource_link', $freepapervote);
                 }
             }else{
-                $freepapervote = 0;
+                $freepapervote->resourceid = 0;
                 $DB->insert_record('freepapervote_resource_link', $freepapervote);
                 \cache_helper::purge_by_event('newunlinkedresourceadded');
             }
