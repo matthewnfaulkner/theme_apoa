@@ -130,11 +130,11 @@ foreach ($resources as $resource) {
                         $DB->insert_record('freepapervote_resource_link', $freepapervote);
                     }
                 }
-            }
-            else{
-                $freepapervote->resourceid = 0;
-                $DB->insert_record('freepapervote_resource_link', $freepapervote);
-                \cache_helper::purge_by_event('newunlinkedresourceadded');
+                else{
+                    $freepapervote->resourceid = 0;
+                    $DB->insert_record('freepapervote_resource_link', $freepapervote);
+                    \cache_helper::purge_by_event('newunlinkedresourceadded');
+                }
             }
           }
         }
