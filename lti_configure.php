@@ -117,7 +117,7 @@ foreach ($resources as $resource) {
             if($DB->sql_regex_supported()){
                 $select = 'resourcelinkid ' . $DB->sql_regex() . ' :pattern';
                 $firsthalf = reset(explode(':', $freepapervote->resourcelinkid));
-                $params = ['pattern' => "/$firsthalf:[a-zA-Z0-9]+/"];
+                $params = ['pattern' => "$firsthalf:[a-zA-Z0-9]+"];
             
                 if($resourceid = $DB->get_record_select('enrol_lti_resource_link', $select, $params, 'id')){
                     $freepaper->resouceid = $resourceid->id;
