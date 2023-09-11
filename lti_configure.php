@@ -116,7 +116,7 @@ foreach ($resources as $resource) {
                 }
             }
             $freepapervote->linkurl = $url; 
-            //$DB->insert_record('freepapervote_resource_link', $freepapervote);
+            $DB->insert_record('freepapervote_resource_link', $freepapervote);
           }
         }
     }
