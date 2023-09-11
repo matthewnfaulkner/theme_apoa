@@ -95,8 +95,7 @@ foreach ($resources as $resource) {
           if($cm = get_coursemodule_from_id('freepapervote', $context->instanceid, $resource->get_courseid())){
 
             $freepapervote = new stdClass();
-            $freepapervote->resourceid = $resource->get_id();
-
+            $freepapervote->linkurl = $url;
             // Authenticate the platform user, which could be an instructor, an admin or a learner.
             // Auth code needs to be told about consumer secrets for the purposes of migration, since these reside in enrol_lti.
             $launchdata = $messagelaunch->getLaunchData();
@@ -115,8 +114,17 @@ foreach ($resources as $resource) {
                     $freepapervote->resourcelinkid  = array_pop($parsed);
                 }
             }
-            $freepapervote->linkurl = $url; 
-            $DB->insert_record('freepapervote_resource_link', $freepapervote);
+            if($resourceid = $DB->get_record('enrol_lti_resource_link', array('resourcelinkid', $freepapervote->resourcelinkid), 'id', MUST_EXIST)){
+                $freepaper->resouceid = $resourceid->id;
+
+                if($id = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid), 'id')){
+                    $freepapervote->id = $id->id;
+                    $DB->update_record('freepapervote_resource_link', $freepapervote);
+                }
+                else{
+                    $DB->insert_record('freepapervote_resource_link', $freepapervote);
+                }
+            }
           }
         }
     }
