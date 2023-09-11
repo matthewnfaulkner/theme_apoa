@@ -115,7 +115,7 @@ foreach ($resources as $resource) {
                 }
             }
             if($DB->sql_regex_supported()){
-                $select = 'content ' . $DB->sql_regex() . ' :pattern';
+                $select = 'resourcelinkid ' . $DB->sql_regex() . ' :pattern';
                 $firsthalf = reset(explode(':', $freepapervote->resourcelinkid));
                 $params = ['pattern' => "/$firsthalf:[a-zA-Z0-9]+/"];
             
