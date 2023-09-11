@@ -120,7 +120,7 @@ foreach ($resources as $resource) {
                 $params = ['pattern' => "$firsthalf:[a-zA-Z0-9]+"];
             
                 if($resourceid = $DB->get_record_select('enrol_lti_resource_link', $select, $params, 'id')){
-                    $freepaper->resouceid = $resourceid->id;
+                    $freepapervote->resourceid = $resourceid->id;
 
                     if($id = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid), 'id')){
                         $freepapervote->id = $id->id;
