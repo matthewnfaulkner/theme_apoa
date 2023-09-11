@@ -114,7 +114,7 @@ foreach ($resources as $resource) {
                     $freepapervote->resourcelinkid  = array_pop($parsed);
                 }
             }
-            if($resourceid = $DB->get_record('enrol_lti_resource_link', array('resourcelinkid' => $freepapervote->resourcelinkid), 'id', MUST_EXIST)){
+            if($resourceid = $DB->get_record('enrol_lti_resource_link', array('resourcelinkid' => $freepapervote->resourcelinkid), 'id')){
                 $freepaper->resouceid = $resourceid->id;
 
                 if($id = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid), 'id')){
@@ -124,6 +124,10 @@ foreach ($resources as $resource) {
                 else{
                     $DB->insert_record('freepapervote_resource_link', $freepapervote);
                 }
+            }else{
+                $freepapervote = 0;
+                $DB->insert_record('freepapervote_resource_link', $freepapervote);
+                \cache_helper::purge_by_event('newunlinkedresourceadded');
             }
           }
         }
