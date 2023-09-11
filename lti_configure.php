@@ -114,7 +114,7 @@ foreach ($resources as $resource) {
                     $freepapervote->resourcelinkid  = array_pop($parsed);
                 }
             }
-            if($resourceid = $DB->get_record('enrol_lti_resource_link', array('resourcelinkid', $freepapervote->resourcelinkid), 'id', MUST_EXIST)){
+            if($resourceid = $DB->get_record('enrol_lti_resource_link', array('resourcelinkid' => $freepapervote->resourcelinkid), 'id', MUST_EXIST)){
                 $freepaper->resouceid = $resourceid->id;
 
                 if($id = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid), 'id')){
