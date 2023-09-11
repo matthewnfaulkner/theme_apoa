@@ -114,17 +114,24 @@ foreach ($resources as $resource) {
                     $freepapervote->resourcelinkid  = array_pop($parsed);
                 }
             }
-            if($resourceid = $DB->get_record('enrol_lti_resource_link', array('resourcelinkid' => $freepapervote->resourcelinkid), 'id')){
-                $freepaper->resouceid = $resourceid->id;
+            if($DB->sql_regex_supported()){
+                $select = 'content ' . $DB->sql_regex() . ' :pattern';
+                $firsthalf = reset(explode(':', $freepapervote->resourcelinkid));
+                $params = ['pattern' => "/$firsthalf:[a-zA-Z0-9]+/"];
+            
+                if($resourceid = $DB->get_record_select('enrol_lti_resource_link', $select, $params, 'id')){
+                    $freepaper->resouceid = $resourceid->id;
 
-                if($id = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid), 'id')){
-                    $freepapervote->id = $id->id;
-                    $DB->update_record('freepapervote_resource_link', $freepapervote);
+                    if($id = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid), 'id')){
+                        $freepapervote->id = $id->id;
+                        $DB->update_record('freepapervote_resource_link', $freepapervote);
+                    }
+                    else{
+                        $DB->insert_record('freepapervote_resource_link', $freepapervote);
+                    }
                 }
-                else{
-                    $DB->insert_record('freepapervote_resource_link', $freepapervote);
-                }
-            }else{
+            }
+            else{
                 $freepapervote->resourceid = 0;
                 $DB->insert_record('freepapervote_resource_link', $freepapervote);
                 \cache_helper::purge_by_event('newunlinkedresourceadded');
