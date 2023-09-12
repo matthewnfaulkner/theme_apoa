@@ -76,6 +76,7 @@
                         <th class="header" scope="col"></th>
                         <th class="header" scope="col">{{#str}}addtocourse, enrol_lti{{/str}}</th>
                         <th class="header" scope="col">{{#str}}addtogradebook, enrol_lti{{/str}}</th>
+                        <th class="header" scope="col">{{#str}}openlearningurl, mod_freepapervote{{/str}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,7 +107,7 @@
                                 <td>-</td>
                                 {{/lineitem}}
                                 <td>
-                                    <input type="text" name="urls[]" value="hello">
+                                    <input type="text" name="urls[]" placeholder="URL of this page">
                                     <input type="hidden" name="urlsid[]" value="{{id}}">
                                 </td>
                             </tr>
