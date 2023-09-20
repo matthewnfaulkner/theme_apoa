@@ -326,6 +326,8 @@ class course_renderer extends \core_course_renderer {
 
                 $path = explode('/', $coursecat->path);
                 $root = $path[1];
+
+
                 if($apoaid === $root){
                     $output .= $this->render_subcategory($chelper, $coursecat);
                 }
@@ -458,12 +460,16 @@ class course_renderer extends \core_course_renderer {
         $output = '';
         
         $elibrary = core_course_category::get(get_config('theme_apoa', 'elibraryid'));
+
         if ($coursecat->id == $elibrary->id){
             $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
             $searchbarout['elementsarray'] = $searchbar->export_for_template($this);
             //$output .= $searchbarout['elementsarray'];
             $render['elibrarysearch'] = $searchbarout['elementsarray'];
+            $render['morecategoriestitle'] = "Our Journals";
         }
+
+
         $context = context_coursecat::instance($coursecat->id);
         $directParent = end($coursecat->get_parents());
         if($directParent == $elibrary->id){

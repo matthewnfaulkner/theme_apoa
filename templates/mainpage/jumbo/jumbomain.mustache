@@ -28,11 +28,22 @@
                         {{#userdate}}{{jumbostartdate}}, {{#str}} strftimedate, core_langconfig {{/str}}{{/userdate}}
                     </small>
                 </span>
-                
+                {{#jumboannouncement}}
+                    <div class="my-2" style="background:#fae808; z-index:4">
+                        <a href="{{{announcementlink}}}" >
+                            <h5 class="px-1 text-accent pb-0">Latest News:</h5>
+                            <h5 class="px-1 text-dark">{{jumboannouncement}}</h5>
+                            <h6><small class="px-1">Read more...</small></p>
+                        </a>
+                    </div>
+                {{/jumboannouncement}}
+
             </span>
 
         </h1>
-        <div class="row text-center text-white align-content-center m-1 countdown d-none">
+        
+        <div class="row text-center text-white align-content-center m-1 d-lg-flex d-none countdown ">
+        
             <div class="col-3 px-1" style="width: 140px">
                 <div class="countdowncont">
                     <h1 id="jumbocountdowndays" class="mb-0"></h3>

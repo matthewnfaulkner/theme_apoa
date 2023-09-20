@@ -20,11 +20,24 @@
         <div class="col-12 col-md-7 mb-3 px-0 px-lg-2 section-page-top-cont">
             {{#categorylist}}
                 {{#firsttab}}
-                    {{#subcategorycourses}}
-                        {{#first}}  
-                            <h4 class="text-center main-page-section-title pt-2 p-1 px-0 position-relative" style="z-index: 2">
+                <h4 class="text-center main-page-section-title pt-2 p-1 px-0 position-relative" style="z-index: 2">
                                 <a class="section_title main-page-link" href="{{{categoryurl}}}">{{categorytitle}}</a>
                             </h4>
+                    {{^featuredcourse}}
+                        <div class="w-100 d-flex justify-content-center align-items-center flex-column section-page-sub-card" style="min-height: 100px">
+                            <div class="row">
+                                <h4 class="text-primary">{{nocoursemessage}}</h4>
+                            </div>
+                            {{#previousfuture}}
+                                <div class="row w-100 justify-content-between">
+                                    <a class="text-left" href="{{{previousjournalclubsink}}}" style="max-width:50%">< {{previousjournalclubstext}}</a>
+                                    <a class="text-right" href="{{{futurejournalclubslink}}}" style="max-width:50%">{{futurejournalclubstext}} ></a>
+                                </div>
+                            {{/previousfuture}}
+                        </div>
+                    {{/featuredcourse}}
+                    {{#featuredcourse}}
+                        {{#first}}  
                             <a class="stretched-link main-page-link-wrapper" href="{{itemurl}}"></a>
                                 <div class="card border-0 pb-0 section-page-sub-card">
                                     <img class="card-img w-100 d-block section-page-sub-card-img no-border-radius" src="{{itemimg}}">
@@ -47,14 +60,17 @@
                                             </span>
                                         </h1>
                                     </div>
+                    
                                 </div>
+                                
                             {{/first}}
-                        {{/subcategorycourses}}
+                        {{/featuredcourse}}
                     {{/firsttab}}
                 {{/categorylist}}
         </div>
     </div>
-    <h3 class="text-primary text-center text-underline">Our Journals
+    <h3 class="text-primary text-center text-underline">
+        {{morecategoriestitle}}
     </h3>
     <div class="row pt-3 mx-0 main-page-section-top-border">
         {{#categorylist}}

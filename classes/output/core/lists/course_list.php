@@ -32,11 +32,21 @@ class course_list implements \templatable , \renderable {
 
     public \moodle_url $redirecturl;
 
+    protected stdClass $featuredcourse;
+
     protected bool $iselibrary = false;
     
+    protected \context $context;
+
+    protected \context_coursecat $category_context;
+
+
     public function __construct(string $listtype, string $criteria, \core_course_category $category = null) {
  
-        global $CFG;
+        global $CFG, $PAGE;
+
+
+        $this->context = $PAGE->context;
 
         $this->redirecturl = new moodle_url($CFG->wwwroot);
 
@@ -53,6 +63,7 @@ class course_list implements \templatable , \renderable {
             $this->subcategories = $category->get_children();
         }
 
+        $this->category_context = \context_coursecat::instance($this->category->id);
         
         if (isset($this->category)) {
             $settingname = 'elibraryid';
@@ -73,6 +84,8 @@ class course_list implements \templatable , \renderable {
     
     public function export_for_template(\renderer_base $output) {
 
+        global $PAGE;
+
         $template = [];
         $store = array();
         $loopcounter = 0;
@@ -81,9 +94,25 @@ class course_list implements \templatable , \renderable {
                 $store['toppages'] = array('subcategorycourses' => [], 
                                     'firsttab' => $this->iselibrary, 
                                     'categoryid' => "0", 
-                                    'categorytitle' => "Journal Club",
+                                    'categorytitle' => "Popular Papers",
                                     'categoryurl' => "", 
                                     'hascourses' => false);
+                if($this->context->id == $this->category_context->id){
+                    if(isset($this->featuredcourse)){
+                        $featuredlistitem = new course_list_item($this->featuredcourse, 0, $this->iselibrary);
+                        $render = $featuredlistitem->export_for_template($output);
+                        $store['toppages']['featuredcourse'] = $render;
+                    }
+                    else{
+                        $store['toppages']['nocoursemessage'] = "No current Journal Clubs";
+                        $store['toppages']['previousfuture'] = True;
+                        $store['toppages']['previousjournalclubslink'] = new moodle_url('/tag/index.php', array('group' => 'past', 'tag' => 'Journal Club', 'tc' => 0));
+                        $store['toppages']['previousjournalclubstext'] = "See Previous Journal Clubs";
+                        $store['toppages']['futurejournalclubslink'] = new moodle_url('/tag/index.php', array('group' => 'future', 'tag' => 'Journal Club', 'tc' => 0));
+                        $store['toppages']['futurejournalclubstext'] = "See Upcoming Journal Clubs";
+                    }
+                    $store['toppages']['categorytitle'] = 'Journal Club';
+                }
                 $loopcounter += 1;
             }
             foreach ($this->subcategories as $subcategory) {
@@ -238,6 +267,8 @@ class course_list implements \templatable , \renderable {
         $limit = count($sql) * 3 + 1;
         $records = $DB->get_records_sql($massivequery, null, 0, $limit);
         $this->courses = $records;
+
+
     }
 
     protected function set_category_for_category() {
@@ -259,6 +290,18 @@ class course_list implements \templatable , \renderable {
             $this->courses = $DB->get_records('course', array('category' => $this->category->id), 'sortorder ASC');
             return;
         }
+
+        if($this->iselibrary){
+            if($tags = \theme_apoa_tag_tag::guess_by_name('Journal Club')){
+                $tag = reset($tags);
+                $params = ['startlimit' => time(), 'endlimit' => time()];
+                $subquery = "it.startdate < :startlimit AND it.enddate > :endlimit";
+                if($taggedcourses = $tag->get_tagged_items('core', 'course', 0, 1, $subquery, 'startdate', $params)){
+                    $this->featuredcourse = reset($taggedcourses);
+                }
+            }
+        }
+        
 
         foreach ($this->subcategories as $subcategory) {
             $id = $subcategory->id;

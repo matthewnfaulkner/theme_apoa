@@ -137,8 +137,13 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting); 
 
-    $settings->add($page); 
+    $setting = new admin_setting_configtext('theme_apoa/jumboannouncementsid', get_string('jumboid', 'theme_apoa'),                           
+        get_string('jumboid_desc', 'theme_apoa'), '', PARAM_INT);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);
 
+    $settings->add($page);
+    
     // Advanced settings.                                                                                                           
     $page = new admin_settingpage('theme_apoa_resources', get_string('mainpageresources', 'theme_apoa'));    
 
