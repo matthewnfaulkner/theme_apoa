@@ -71,7 +71,9 @@ class header implements renderable, templatable {
         catch(\exception $e){
             $title = "";
         }
-        
+        if(strpos($title, '[') === false){
+            $title = $this->title;
+        }
         $data = [
             'title' => $title,
             'imgurl' => $this->imgurl,
