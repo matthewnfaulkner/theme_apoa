@@ -50,9 +50,12 @@ class jumbo implements \templatable , \renderable {
                     $forumentity = $entityfactory->get_forum_from_stdclass($forum, $modcontext, $cm, $course);
                     $discussionsummaries = mod_forum_get_discussion_summaries($forumentity, $USER, null, 0, 0, 1);
                     $firstdiscussionsummary = reset($discussionsummaries);
-                    $firstdiscussion = $firstdiscussionsummary->get_discussion();
-                    $firstposttext = $firstdiscussion->get_name();
-                    $announcementlink = new moodle_url('/mod/forum/discuss.php', array('d' => $firstdiscussion->get_id()));
+                    if($firstdiscussionsummary){
+                        $firstdiscussion = $firstdiscussionsummary->get_discussion();
+                        $firstposttext = $firstdiscussion->get_name();
+                        $announcementlink = new moodle_url('/mod/forum/discuss.php', array('d' => $firstdiscussion->get_id()));
+                    }
+                   
                 }
             }
         }

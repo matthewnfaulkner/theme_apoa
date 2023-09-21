@@ -467,6 +467,7 @@ class course_renderer extends \core_course_renderer {
             //$output .= $searchbarout['elementsarray'];
             $render['elibrarysearch'] = $searchbarout['elementsarray'];
             $render['morecategoriestitle'] = "Our Journals";
+            $render['iselibrary'] = True;
         }
 
 
@@ -491,7 +492,6 @@ class course_renderer extends \core_course_renderer {
         $render['sectiontitle'] = $coursecat->name;
 
         $courselist = new \theme_apoa\output\core\lists\course_list('category', $coursecat->name, $coursecat);
-        
         $render['categorylist'] = $courselist->export_for_template($this);
         $output .= $this->render_from_template('theme_apoa/category',$render);
         return $output;
