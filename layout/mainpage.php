@@ -67,7 +67,7 @@ $primary = new \theme_apoa\navigation\output\primary($PAGE);
 $renderer = $PAGE->get_renderer('core');
 $primarymenu = $primary->export_for_template($renderer);
 
-$mainpagenotification = $OUPUT->notification(get_config('theme_apoa', 'mainpagenotification'), 'warning');
+$mainpagenotification = $OUTPUT->notification(get_config('theme_apoa', 'mainpagenotification'), 'warning');
 
 $buildregionmainsettings = !$PAGE->include_region_main_settings_in_header_actions() && !$PAGE->has_secondary_navigation();
 // If the settings menu will be included in the header then don't add it here.
