@@ -81,7 +81,12 @@ if ($ADMIN->fulltree) {
     // Advanced settings.                                                                                                           
     $page = new admin_settingpage('theme_apoa_mainpage', get_string('mainpagesettings', 'theme_apoa'));                           
                                                                                                                                     
-    // Raw SCSS to include before the content.                                                                                      
+    // Raw SCSS to include before the content.            
+    $setting = new admin_setting_configtextarea('theme_apoa/mainpagenotification',                                                              
+        get_string('mainpagenotification', 'theme_apoa'), get_string('mainpagenotification_desc', 'theme_apoa'), '', PARAM_RAW);                      
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);   
+
     $setting = new admin_setting_configtext('theme_apoa/jumbotitle',                                                              
         get_string('jumbotitle', 'theme_apoa'), get_string('jumbotitle_desc', 'theme_apoa'), '', PARAM_RAW);                      
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
