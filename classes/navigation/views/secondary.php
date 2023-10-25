@@ -138,6 +138,7 @@ class secondary extends \core\navigation\views\secondary {
             self::TYPE_CUSTOM => [
                 'contentbank' => 5,
                 'participants' => 1, // In site home, 'participants' is classified differently.
+                'downloadcommittee' => 14
             ],
         ];
 
