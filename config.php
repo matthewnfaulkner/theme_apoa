@@ -86,7 +86,14 @@ $THEME->layouts = [
         'regions' => array('side-pre', 'content'),
         'defaultregion' => 'content',
         'options' => array('nonavbar' => false,)
-    )
+    ),
+    // My dashboard page.
+    'mydashboard' => array(
+        'file' => 'drawers.php',
+        'regions' => array('side-pre', 'content'),
+        'defaultregion' => 'side-pre',
+        'options' => array('nonavbar' => true, 'langmenu' => true),
+    ),
 ];   
 $topchildren = core_course_category::top()->get_children();
 if (empty($topchildren)) {

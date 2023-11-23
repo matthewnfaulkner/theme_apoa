@@ -300,3 +300,13 @@ top: 0%;
 #id_title_search_group_journal_select{
   max-width: 75%!important;
 }
+
+div .apoauserselector_wrapper{
+  width: 100%;
+}
+
+body.limitedwidth #page.drawers .footer-popover { 
+  max-width: 100%!important;
+  width: 100%;
+  border-radius: 0px;
+}

@@ -63,6 +63,7 @@ if (!$courseindex) {
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
+
 $secondarynavigation = false;
 $overflow = '';
 if (is_siteadmin($USER->id)) {
