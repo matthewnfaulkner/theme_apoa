@@ -78,7 +78,7 @@ class primary extends \core\navigation\output\primary {
      *
      * @return array
      */
-    protected function get_primary_nav(): array {
+    protected function get_primary_nav($parent = null): array {
         $nodes = [];
         foreach ($this->page->primarynav->children as $node) {
             $childnodes = [];

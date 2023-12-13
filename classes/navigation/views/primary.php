@@ -115,7 +115,7 @@ class primary extends \core\navigation\views\primary {
     }
 
 
-    private function get_backup_nav($parent = null){
+    private function get_backup_nav(){
         
         $topchildren = \core_course_category::top()->get_children();
         if (empty($topchildren)) {
