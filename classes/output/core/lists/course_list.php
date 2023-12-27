@@ -313,16 +313,15 @@ class course_list implements \templatable , \renderable {
             };
             $query = "(SELECT c.*, ". $id ." AS root 
                     FROM {course} AS c 
-                    WHERE c.category IN (". $conditions .") AND c.visible = :visible
+                    WHERE c.category IN (". $conditions .") AND c.visible = $showinvisible
                     ORDER BY c.sortorder ASC
                     LIMIT 3)";
             array_push($sql, $query);   
         }
-        $params = ['visible' => $showinvisible];
         $union = join(' UNION ', $sql);
         $massivequery = "SELECT a.* FROM (" . $union . ") a ORDER BY a.startdate DESC";
         $limit = count($sql) * 3 + 1;
-        $records = $DB->get_records_sql($massivequery, $params, 0, $limit);
+        $records = $DB->get_records_sql($massivequery, null, 0, $limit);
         $this->courses = $records;
     }
 
