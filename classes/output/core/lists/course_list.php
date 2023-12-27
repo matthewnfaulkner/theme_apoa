@@ -285,17 +285,19 @@ class course_list implements \templatable , \renderable {
     protected function set_courses_for_category() {
         global $DB;
         $sql = [];
+        
+        $showinvisible = has_capability('moodle/course:viewhiddencourses', $this->context) ? 1 : 0;
 
         if (!$this->subcategories) {
-            $this->courses = $DB->get_records('course', array('category' => $this->category->id), 'sortorder ASC');
+            $this->courses = $DB->get_records('course', array('category' => $this->category->id, 'visible' => $showinvisible), 'sortorder ASC');
             return;
         }
 
         if($this->iselibrary){
             if($tags = \theme_apoa_tag_tag::guess_by_name('Journal Club')){
                 $tag = reset($tags);
-                $params = ['startlimit' => time(), 'endlimit' => time()];
-                $subquery = "it.startdate < :startlimit AND it.enddate > :endlimit";
+                $params = ['startlimit' => time(), 'endlimit' => time(), 'visible' => $showinvisible];
+                $subquery = "it.startdate < :startlimit AND it.enddate > :endlimit AND it.visible = :visible";
                 if($taggedcourses = $tag->get_tagged_items('core', 'course', 0, 1, $subquery, 'startdate', $params)){
                     $this->featuredcourse = reset($taggedcourses);
                 }
@@ -311,16 +313,16 @@ class course_list implements \templatable , \renderable {
             };
             $query = "(SELECT c.*, ". $id ." AS root 
                     FROM {course} AS c 
-                    WHERE c.category IN (". $conditions .")
+                    WHERE c.category IN (". $conditions .") AND c.visible = :visible
                     ORDER BY c.sortorder ASC
                     LIMIT 3)";
             array_push($sql, $query);   
         }
-        
+        $params = ['visible' => $showinvisible];
         $union = join(' UNION ', $sql);
         $massivequery = "SELECT a.* FROM (" . $union . ") a ORDER BY a.startdate DESC";
         $limit = count($sql) * 3 + 1;
-        $records = $DB->get_records_sql($massivequery, null, 0, $limit);
+        $records = $DB->get_records_sql($massivequery, $params, 0, $limit);
         $this->courses = $records;
     }
 

@@ -28,7 +28,6 @@ class theme_apoa_course_category implements \templatable {
 
         global $CFG;
         
-        //$subcategories = $this->coursecat->get_children();
         $subcat = ['category' => []];
 
         foreach($this->categories as $subcategory) {

@@ -336,7 +336,6 @@ class course_renderer extends \core_course_renderer {
                 }
             }
             else if ($coursecat->has_courses()) {
-                //$courses = $coursecat->get_courses($options = array('limit' => 5));
                 if($coursecat->get_courses_count() == 1){
                     $course = reset($coursecat->get_courses());
                     redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
@@ -344,16 +343,10 @@ class course_renderer extends \core_course_renderer {
                 $output .= $this->render_course_cat($chelper, $coursecat);
             }
             else if ($coursecat->has_children()) {
-                $sort = array('sortorder' => 1);
-                $limit = 1;
-                $options = array('sort' => $sort, 'limit' => $limit);
-                $subcat = reset($coursecat->get_children($options));
                 $output .= $this->render_subcategory($chelper, $coursecat);
-                //$courses = $subcat->get_courses($options = array('limit' => 5));
             }else{
                 $output .= $this->render_course_cat($chelper, $coursecat);
             }
-            //$output .= $this->coursecat_tree($chelper, $coursecat);
 
 
             return $output;
@@ -461,6 +454,9 @@ class course_renderer extends \core_course_renderer {
         
         $elibrary = core_course_category::get(get_config('theme_apoa', 'elibraryid'));
 
+        $context = context_coursecat::instance($coursecat->id);
+
+
         if ($coursecat->id == $elibrary->id){
             $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
             $searchbarout['elementsarray'] = $searchbar->export_for_template($this);
@@ -471,7 +467,6 @@ class course_renderer extends \core_course_renderer {
         }
 
 
-        $context = context_coursecat::instance($coursecat->id);
         $directParent = end($coursecat->get_parents());
         if($directParent == $elibrary->id){
             $journallink = get_journal_link($coursecat->id);
