@@ -100,60 +100,6 @@ if (empty($topchildren)) {
     throw new moodle_exception('cannotviewcategory', 'error');
 }
 
-if (!$CFG->custommenuitems && 1==2) {
-    $CFG->custommenuitems = "";
-    foreach ($topchildren as $category) {
-        $subcats = $category->get_children();
-        $rootlink = "";
-        $sublinks = "";
-        $name = $category->name;
-        switch($name) {
-            case "APOA":
-                foreach ($subcats as $subcat) {
-                    switch($subcat->name) {
-                        case "About":
-                            $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
-                            if($subcat->has_children()) {
-                                $subsubcats = $subcat->get_children();
-                                foreach ($subsubcats as $subsubcat){
-                                    $name = $subsubcat->name;
-                                    $sublinks .= "-{$name}|/course/index.php?categoryid={$subsubcat->id}\n";
-                                }
-                            }
-                            break;
-                        case "Committees":
-                                $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
-                                if($subcat->has_children()) {
-                                    $subsubcats = $subcat->get_children();
-                                    foreach ($subsubcats as $subsubcat){
-                                        $name = $subsubcat->name;
-                                        $sublinks .= "-{$name}|/course/index.php?categoryid={$subsubcat->id}\n";
-                                    }
-                                }
-                                break;
-                        case "E-Library":
-                            $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
-                            break;
-                        case "Newsletter":
-                            $sublinks .= "{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                $rootlink .= $sublinks;
-                break;
-            case "Sections":
-                foreach ($subcats as $subcat) {
-                    $sublinks .= "-{$subcat->name}|/course/index.php?categoryid={$subcat->id}\n";
-                }
-                $rootlink = "Sections|/course/index\n" . $sublinks;
-                break;
-        }
-        $CFG->custommenuitems .= $rootlink;
-    }
-}
-
 $THEME->editor_sheets = [];                                                                                                                                                                              
 $THEME->parents = ['boost'];                                                                                                                        
 $THEME->enable_dock = false;                                                                                                                          
@@ -162,7 +108,7 @@ $THEME->rendererfactory = 'theme_overridden_renderer_factory';
 $THEME->requiredblocks = '';   
 $THEME->addblockposition = BLOCK_ADDBLOCK_POSITION_FLATNAV;
 $THEME->precsscallback = 'theme_apoa_get_pre_scss';
-$THEME->removedprimarynavitems = ['courses', 'myhome'];
+$THEME->removedprimarynavitems = ['courses', ''];
 $THEME->scss = function($theme) {
     return theme_apoa_get_main_scss_content($theme);
 };
