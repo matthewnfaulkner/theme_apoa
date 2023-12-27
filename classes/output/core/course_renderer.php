@@ -363,7 +363,7 @@ class course_renderer extends \core_course_renderer {
     protected function render_course_cat(coursecat_helper $chelper, core_course_category $coursecat){
         global $PAGE;
 
-        $renderer = new theme_apoa_course_category([$coursecat], 5);    
+        $renderer = new theme_apoa_course_category([$coursecat], 20);    
         $rendererout = $renderer->export_for_template($this);
         $context = context_coursecat::instance($coursecat->id);
         if(has_capability('moodle/course:create', $context)){
