@@ -138,9 +138,9 @@ foreach ($resources as $resource) {
                     if($resourcelink = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid->id), 'id')){
 
                         $id = $resourcelink->id;
-                        /*$resourcetags = $DB->get_records('freepapervote_resource_tags', array('resourceid' => $resourceid), 'tagid');
+                        $resourcetags = $DB->get_records('freepapervote_resource_tags', array('resourceid' => $resourceid), 'tagid');
 
-                        if($tagstodelete = array_diff_key($resourcetags, $tagobjects)){
+                        /*if($tagstodelete = array_diff_key($resourcetags, $tagobjects)){
                             list($deletesql, $deleteparams) = $DB->get_in_or_equal(array_keys($tagstodelete));
                             $deleteparams[] = $id;
 
