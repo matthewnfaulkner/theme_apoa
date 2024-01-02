@@ -141,7 +141,7 @@ foreach ($resources as $resource) {
                         $resourcetags = $DB->get_records('freepapervote_resource_tags', array('resourceid' => $resourceid), 'tagid');
 
                         if($tagstodelete = array_diff_key($resourcetags, $tagobjects)){
-                            list($deletesql, $deleteparams) = $DB->get_in_or_equal(array_keys($tagstodelete));
+                            list($deletesql, $deleteparams) = $DB->get_in_or_equal(array_keys($tagstodelete), SQL_PARAMS_QM);
                             $deleteparams[] = $id;
 
                             //$DB->delete_records_select('freepapervote_resource_tags', "tagid $deletesql AND resourecid = ?", $deleteparams);
