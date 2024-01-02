@@ -147,7 +147,7 @@ foreach ($resources as $resource) {
                             $DB->delete_records_select('freepapervote_resource_tags', "tagid $deletesql AND resourecid = ?", $deleteparams);
                         }*/
                         $freepapervote->id = $resourcelink->id;
-                        $DB->update_record('freepapervote_resource_link', $freepapervote);
+                        //$DB->update_record('freepapervote_resource_link', $freepapervote);
                     }
                     else{
                         $id = $DB->insert_record('freepapervote_resource_link', $freepapervote);    
