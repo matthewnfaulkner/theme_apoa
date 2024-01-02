@@ -126,7 +126,10 @@ foreach ($resources as $resource) {
                 $params = ['pattern' => "$firsthalf:[a-zA-Z0-9]+"];
                 
                 $tags = [];
-                $tagobjects =  mod_freepapervote\helper::parse_openlearning_tags($jsonresponse['tags'], $cm->id);
+
+                if($jsonresponse = mod_freepapervote\helper::get_openlearningpage($url)){
+                    $tagobjects =  mod_freepapervote\helper::parse_openlearning_tags($jsonresponse['tags'], $cm->instance);
+                }
 
                 if($resourceid = $DB->get_record_select('enrol_lti_resource_link', $select, $params, 'id')){
                     $freepapervote->resourceid = $resourceid->id;
