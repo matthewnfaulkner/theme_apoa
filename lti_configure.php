@@ -135,7 +135,7 @@ foreach ($resources as $resource) {
                     $freepapervote->resourceid = $resourceid->id;
 
                     
-                    if($resourcelink = $DB->get_record('freepapervote_resource_link', array('resourcelinkid' => $resourceid->id), 'id')){
+                    if($resourcelink = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid->id), 'id')){
 
                         $id = $resourcelink->id;
                         $resourcetags = $DB->get_records('freepapervote_resource_tags', array('resourceid' => $resourceid), 'tagid');
@@ -147,6 +147,7 @@ foreach ($resources as $resource) {
                             $DB->delete_records_select('freepapervote_resource_tags', "tagid $deletesql AND resourecid = ?", $deleteparams);
                         }
                         $freepapervote->id = $resourcelink->id;
+                        if()
                         $DB->update_record('freepapervote_resource_link', $freepapervote);
                     }
                     else{
