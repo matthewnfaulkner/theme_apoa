@@ -138,13 +138,13 @@ foreach ($resources as $resource) {
                     if($resourcelink = $DB->get_record('freepapervote_resource_link', array('resourceid' => $resourceid->id), 'id')){
 
                         $id = $resourcelink->id;
-                        $resourcetags = $DB->get_records('freepapervote_resource_tags', array('resourceid' => $resourceid), 'tagid');
+                        $resourcetags = $DB->get_records('freepapervote_resource_tags', array('resourceid' => $resourceid->id), 'tagid');
 
                         if($tagstodelete = array_diff_key($resourcetags, $tagobjects)){
-                            //list($deletesql, $deleteparams) = $DB->get_in_or_equal(array_keys($tagstodelete), SQL_PARAMS_QM);
+                            list($deletesql, $deleteparams) = $DB->get_in_or_equal(array_keys($tagstodelete), SQL_PARAMS_QM);
                             $deleteparams[] = $id;
 
-                            //$DB->delete_records_select('freepapervote_resource_tags', "tagid $deletesql AND resourecid = ?", $deleteparams);
+                            $DB->delete_records_select('freepapervote_resource_tags', "tagid $deletesql AND resourecid = ?", $deleteparams);
                         }
                         $freepapervote->id = $resourcelink->id;
                         $DB->update_record('freepapervote_resource_link', $freepapervote);
