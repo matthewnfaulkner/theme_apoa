@@ -91,11 +91,17 @@ foreach ($resources as $resource) {
         require_once($CFG->dirroot . '/mod/freepapervote/lib.php');
         $contextid = $resource->get_contextid();
         $context = $DB->get_record('context', array('id' => $contextid));
+
         if($context->contextlevel == CONTEXT_MODULE){
           if($cm = get_coursemodule_from_id('freepapervote', $context->instanceid, $resource->get_courseid())){
 
+            $olpage = mod_freepapervote\helper::get_openlearningpage($url);
+
             $freepapervote = new stdClass();
             $freepapervote->linkurl = $url;
+            $freepapervote->modid = $cm->instance;
+
+            
             // Authenticate the platform user, which could be an instructor, an admin or a learner.
             // Auth code needs to be told about consumer secrets for the purposes of migration, since these reside in enrol_lti.
             $launchdata = $messagelaunch->getLaunchData();
@@ -118,22 +124,46 @@ foreach ($resources as $resource) {
                 $select = 'resourcelinkid ' . $DB->sql_regex() . ' :pattern';
                 $firsthalf = reset(explode(':', $freepapervote->resourcelinkid));
                 $params = ['pattern' => "$firsthalf:[a-zA-Z0-9]+"];
-            
+                
+                $tags = [];
+                $tagobjects =  mod_freepapervote\helper::parse_openlearning_tags($jsonresponse['tags'], $cm->id);
+
                 if($resourceid = $DB->get_record_select('enrol_lti_resource_link', $select, $params, 'id')){
                     $freepapervote->resourceid = $resourceid->id;
 
-                    if($id = $DB->get_record('freepapervote_resource_link', array('resourcelinkid' => $resourceid->id), 'id')){
-                        $freepapervote->id = $id->id;
+                    
+                    if($resourcelink = $DB->get_record('freepapervote_resource_link', array('resourcelinkid' => $resourceid->id), 'id')){
+
+                        $id = $resourcelink->id;
+                        $resourcetags = $DB->get_records('freepapervote_resource_tags', array('resourceid' => $resourceid), 'tagid');
+
+                        if($tagstodelete = array_diff_key($resourcetags, $tagobjects)){
+                            list($deletesql, $deleteparams) = $DB->get_in_or_equal(array_keys($tagstodelete));
+                            $deleteparams[] = $id;
+
+                            $DB->delete_records_select('freepapervote_resource_tags', "tagid $deletesql AND resourecid = ?", $deleteparams);
+                        }
+                        $freepapervote->id = $resourcelink->id;
                         $DB->update_record('freepapervote_resource_link', $freepapervote);
                     }
                     else{
-                        $DB->insert_record('freepapervote_resource_link', $freepapervote);
+                        $id = $DB->insert_record('freepapervote_resource_link', $freepapervote);
                     }
                 }
                 else{
                     $freepapervote->resourceid = 0;
-                    $DB->insert_record('freepapervote_resource_link', $freepapervote);
+                    $id = $DB->insert_record('freepapervote_resource_link', $freepapervote);
                     \cache_helper::purge_by_event('newunlinkedresourceadded');
+                }
+
+                foreach($tagobjects as $tagobject) {
+                    if(!$DB->record_exists('freepapervote_resource_tags', array('tagid' => $tagobject->id, 'resourceid' => $id))){
+                        $tag = new stdClass();
+                        $tag->tagid = $tagobject->id;
+                        $tag->resourceid = $id;
+                        $tag->timecreated = time();
+                        $DB->insert_record('freepapervote_resource_tags', $tag);
+                    }
                 }
             }
           }
