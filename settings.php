@@ -3,6 +3,10 @@
 // Every file should have GPL and copyright in the header - we skip it in tutorials but you should not skip it for real.
 
 // This line protects the file from being accessed by a URL directly.                                                               
+
+use core_adminpresets\local\setting\adminpresets_admin_setting_configmultiselect;
+use core_adminpresets\local\setting\adminpresets_admin_setting_configmultiselect_with_loader;
+
 defined('MOODLE_INTERNAL') || die();                                                                                                
                                                                                                                                     
 // This is used for performance, we don't need to know about these settings on every page in Moodle, only when                      
@@ -149,6 +153,24 @@ if ($ADMIN->fulltree) {
 
     $settings->add($page);
     
+    $page = new admin_settingpage('theme_apoa_primary_navigation', get_string('navigation', 'theme_apoa'));  
+    
+    $setting = new admin_setting_configtext('theme_apoa/primarynavcount', get_string('primarynavcount', 'theme_apoa'),
+                            get_string('primarynavcount_desc', 'theme_apoa'), 8, PARAM_INT);
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);           
+    
+    $primarynavcount = get_config('theme_apoa', 'primarynavcount');
+    for ($i = 1; $i <= $primarynavcount; $i++) {
+        $setting = new admin_setting_configselect_with_advanced('theme_apoa/primarynavitems' . $i, get_string('primarynavitems', 'theme_apoa' , $i),
+                                        get_string('primarynavitems_desc', 'theme_apoa'), [], core_course_category::make_categories_list());
+
+        $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+        $page->add($setting); 
+    }
+
+    $settings->add($page);
+
     // Advanced settings.                                                                                                           
     $page = new admin_settingpage('theme_apoa_resources', get_string('mainpageresources', 'theme_apoa'));    
 

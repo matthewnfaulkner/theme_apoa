@@ -117,65 +117,41 @@ class primary extends \core\navigation\views\primary {
 
     private function get_backup_nav(){
         
-        $topchildren = \core_course_category::top()->get_children();
-        if (empty($topchildren)) {
-            throw new \moodle_exception('cannotviewcategory', 'error');
-        }
-        
-        foreach ($topchildren as $child) {
 
-            $name = $child->name;
-            switch ($name) {
-                case 'Sections':
-                    $sectionnode = $this->add('Sections', new \moodle_url("/course/index.php?categoryid={$child->id}"), self::TYPE_CATEGORY,
-                        'Sections', navigation_node::TYPE_CATEGORY . $child->id);
-                    $sections = $child->get_children();
-                    foreach ($sections as $section) {
-                        if($sectionlink = get_config('theme_apoa', 'sectionlink' . $section->id)){
-                            $sectionlink = new \moodle_url($sectionlink);
-                        }
-                        else{
-                            $sectionlink = new \moodle_url("/course/index.php?categoryid={$section->id}");
-                        }
-                        $sectionnode->add($section->name, $sectionlink, self::TYPE_CATEGORY,
-                        $section->name, navigation_node::TYPE_CATEGORY . $section->id);
+        $primarynavitemcount = get_config('theme_apoa', 'primarynavcount');
+
+        for ($i = 1; $i <= $primarynavitemcount; $i++) {
+            $primarynavitem = get_config('theme_apoa', 'primarynavitems' . $i);
+            $includechildren = get_config('theme_apoa', 'primarynavitems' . $i . '_adv');
+            
+            $category = \core_course_category::get($primarynavitem);
+
+            $node = $this->add($category->name, new \moodle_url("/course/index.php?categoryid={$category->id}"), self::TYPE_CATEGORY,
+                                $category->name, navigation_node::TYPE_CATEGORY . $category->id);
+
+            if($includechildren) {
+                $children = $category->get_children();
+
+                foreach ($children as $child) {
+                    if($sectionlink = get_config('theme_apoa', 'sectionlink' . $child->id)){
+                        $sectionlink = new \moodle_url($sectionlink);
                     }
-                    $sectionnode->showchildreninsubmenu = true;
-
-                    break;
-                case 'APOA':
-                    $apoacategories = $child->get_children();
-                    foreach ($apoacategories as $apoacategory) {
-
-                        switch ($apoacategory->name){
-                            case 'About':
-                            case 'Committees':
-
-                                $apoanode = $this->add($apoacategory->name, new \moodle_url("/course/index.php?categoryid={$apoacategory->id}"), self::TYPE_CATEGORY,
-                                $apoacategory->name, navigation_node::TYPE_CATEGORY.  $apoacategory->id);
-
-                                $subcategories = $apoacategory->get_children();
-                                foreach ($subcategories as $subcategory){
-                                    $apoanode->add($subcategory->name, new \moodle_url("/course/index.php?categoryid={$subcategory->id}"), self::TYPE_CATEGORY,
-                                    $subcategory->name, navigation_node::TYPE_CATEGORY . $subcategory->id);
-                                }
-                                $apoanode->showchildreninsubmenu = true;
-                                break;
-                            case 'Newsletter':
-                            case 'E-Library':
-                                $apoanode = $this->add($apoacategory->name, new \moodle_url("/course/index.php?categoryid={$apoacategory->id}"), self::TYPE_CATEGORY,
-                                $apoacategory->name, navigation_node::TYPE_CATEGORY . $apoacategory->id);
-                                break;
-                            default:
-                                break;
-                            }
+                    else{
+                        $sectionlink = new \moodle_url("/course/index.php?categoryid={$child->id}");
                     }
-                    break;
-                default:
-                        break;
+                    $node->add($child->name, $sectionlink, self::TYPE_CATEGORY,
+                    $child->name, navigation_node::TYPE_CATEGORY . $child->id);
                 }
+                $node->showchildreninsubmenu = true;
+            }
+            
         }
+
+        return;
+        
     }
+
+    
     private function get_nav_from_cache($navigation_cache_data){
 
         foreach ($navigation_cache_data as $navnode) {

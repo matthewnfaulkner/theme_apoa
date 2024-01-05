@@ -219,3 +219,10 @@ $string['tourmainresourcesmessage'] = "Here are some additional resources you mi
 \nAsk a question in the APOA forum, 
 \nread the blog,
 \nview the gallery and more.";
+
+$string['navigation'] = 'Primary Navbar Settings';
+$string['primarynavcount'] = 'Primary navigation items';
+$string['primarynavcount_desc'] = 'Number of items to add to the navigation';
+$string['primarynavitems'] = 'Primary Navigation Item {$a}';
+$string['primarynavitems_desc'] = 'The category to add to primary navigation in position {$a}';
+

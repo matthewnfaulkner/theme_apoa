@@ -34,48 +34,27 @@ class cron_task extends \core\task\scheduled_task {
 
     private function populate_cache(){
 
-        $topchildren = \core_course_category::top()->get_children();
-            if (empty($topchildren)) {
-                throw new \moodle_exception('cannotviewcategory', 'error');
-            }
-    
-            $data = new \stdClass();
+        $data = new \stdClass();
+
+        $primarynavitemcount = get_config('theme_apoa', 'primarynavcount');
+
+        for ($i = 1; $i <= $primarynavitemcount; $i++) {
+            $primarynavitem = get_config('theme_apoa', 'primarynavitems' . $i);
+            $includechildren = get_config('theme_apoa', 'primarynavitems' . $i . '_adv');
             
-            foreach ($topchildren as $child) {
-    
-                $name = $child->name;
-                switch ($name) {
-                    case 'Sections':
-                       
-                        $data->$name = $this->get_cache_struct_for_section($child, true);
-                        break;
-                    case 'APOA':
-                        $apoacategories = $child->get_children();
-                        foreach ($apoacategories as $apoacategory) {
-                            $subname = $apoacategory->name;
-                            switch ($apoacategory->name){
-                                case 'About':
-                                case 'Committees':
-                                    $data->$subname = $this->get_cache_struct_for_section($apoacategory, true);
-                                    break;
-                                case 'E-Library':
-                                    $data->$subname = $this->get_cache_struct_for_section($apoacategory, false);
-                                    break;
-                                case 'Newsletter':
-                                    $data->$subname = $this->get_cache_struct_for_section($apoacategory, false);
-                                    break;
-                                default:
-                                    break;
-                                }
-                        }
-                        break;
-                    default:
-                            break;
-                    }
+            $category = \core_course_category::get($primarynavitem);
+
+
+            if($includechildren) {
+                $data->{$category->name} = $this->get_cache_struct_for_section($category, true);
+            }else {
+                $data->{$category->name} = $this->get_cache_struct_for_section($category, false);
             }
-            $this->log_start('Printing structure of new navigation' . var_dump($data));
-            $this->log_finish('End of new navigation structure');
-            return $data;
+            
+        }
+
+        return $data;
+
     }
 
     private function get_cache_struct_for_section($category, $includeChildren) {
