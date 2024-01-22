@@ -28,6 +28,7 @@
                         {{#userdate}}{{jumbostartdate}}, {{#str}} strftimedate, core_langconfig {{/str}}{{/userdate}}
                     </small>
                 </span>
+                {{^jumbovideoflag}}
                 {{#jumboannouncement}}
                     <div class="my-2" style="background:#fae808; z-index:4">
                         <a href="{{{announcementlink}}}" >
@@ -37,12 +38,52 @@
                         </a>
                     </div>
                 {{/jumboannouncement}}
+                {{/jumbovideoflag}}
 
             </span>
-
-        </h1>
         
-        <div class="row text-center text-white align-content-center m-1 d-lg-flex d-none countdown ">
+        </h1>
+        {{#jumbovideoflag}}
+        <div class="w-100 d-flex justify-content-end">
+            <video class="main-page-jumbo-video main-page-jumbo-sub-video" width="560" height="315" poster="{{jumboSubPlaceholder}}" loop="" muted="" controls="">
+                <source src="{{jumbobanner}}" type="video/webm">
+            </video>
+        </div>
+        <div class="row text-center text-white align-content-center m-1 d-lg-flex d-none countdown" style="left:15%!important">
+        
+            <div class="col-6 px-1" style="width: 140px">
+                <div class="row m-0 justify-content-center">
+                    <div class="countdowncont ">
+                        <h1 id="jumbocountdowndays" class="mb-0"></h3>
+                        <p class="mb-0" style="font-size: 60%">{{#str}}days, core{{/str}}</p>
+                    </div>
+                </div>
+                <div class="row m-0 justify-content-center">
+                    <div class="countdowncont">
+                        <h1 id="jumbocountdownminutes" class="mb-0"></h3>
+                        <p class="mb-0" style="font-size: 60%">{{#str}}minutes, core{{/str}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 px-1">
+                <div class="row m-0 justify-content-center">
+                    <div class="countdowncont">
+                        <h1 id="jumbocountdownhours" class="mb-0"></h3>
+                        <p class="mb-0" style="font-size: 60%">{{#str}}hours, core{{/str}}</p>
+                    </div>
+                </div>
+                <div class="row m-0 justify-content-center">
+                    <div class="countdowncont">
+                        <h1 id="jumbocountdownseconds" class="mb-0"></h3>
+                        <p class="mb-0" style="font-size: 60%">{{#str}}seconds, core{{/str}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{/jumbovideoflag}}
+        {{^jumbovideoflag}}
+        <div class="row text-center text-white align-content-center m-1 d-lg-flex d-none countdown" style="left:15%!important">
         
             <div class="col-3 px-1" style="width: 140px">
                 <div class="countdowncont">
@@ -69,13 +110,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-100 d-flex justify-content-end">
-            {{#jumbovideoflag}}
-            <video class="main-page-jumbo-video main-page-jumbo-sub-video" width="560" height="315" poster="{{jumboSubPlaceholder}}" loop="" muted="" controls="">
-                <source src="{{jumbobanner}}" type="video/webm">
-            </video>
-            {{/jumbovideoflag}}
-        </div>
+        {{/jumbovideoflag}}
     </div>
 </div>
 {{#js}}
