@@ -310,3 +310,20 @@ body.limitedwidth #page.drawers .footer-popover {
   width: 100%;
   border-radius: 0px;
 }
+
+.pagelayout-course #page.drawers .main-inner, body.limitedwidth #page.drawers .main-inner {
+  max-width: 100%!important;
+}
+.pagelayout-mydashboard #page.drawers .main-inner {
+  max-width: 90%!important;
+}
+
+.pagelayout-mydashboard .main-inner {
+  max-width: 90%!important;
+  width: 90%!important;
+}
+
+.pagelayout-standard #page.drawers .footer-popover, body.limitedwidth #page.drawers .footer-popover{
+  max-width: 100%!important;
+  border-radius: 0px;
+}

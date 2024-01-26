@@ -66,7 +66,7 @@ $THEME->layouts = [
     'course' => array(
         'file' => 'page.php',
         'regions' => array('side-pre', 'content', 'subscriptions'),
-        'defaultregion' => 'content',
+        'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,)
     ),
     // Server administration scripts.
@@ -76,7 +76,7 @@ $THEME->layouts = [
         'defaultregion' => 'side-pre',
     ),
     'standard' => array(
-        'file' => 'tagpage.php',
+        'file' => 'page.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,)
