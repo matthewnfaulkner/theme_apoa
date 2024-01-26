@@ -579,14 +579,21 @@
   }
   
   .main-page-jumbo-video.main-page-jumbo-sub-video {
-    height: 150px;
-    width: 200px;
+    height: 130px;
+    width: 175px;
     box-shadow: 1px 2px 3px rgba(252,248,248,0.5);
     border-radius: 5px;
     filter: brightness(0.9);
     border-color: white;
     border-style: solid;
     z-index: 1;
+  }
+
+  @media (min-width: 576px) {
+    .main-page-jumbo-video.main-page-jumbo-sub-video {
+      height: 150px;
+    width: 200px;
+    }
   }
   
   @media (min-width: 768px) {
