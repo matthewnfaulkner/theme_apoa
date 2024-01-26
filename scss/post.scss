@@ -311,12 +311,14 @@ body.limitedwidth #page.drawers .footer-popover {
   border-radius: 0px;
 }
 
-.pagelayout-course #page.drawers .main-inner, body.limitedwidth #page.drawers .main-inner {
+.pagelayout-course #page.drawers .main-inner, body.limitedwidth #page.drawers .main-inner
+,.pagelayout-standart #page.drawers .main-inner {
   max-width: 100%!important;
 }
 .pagelayout-mydashboard #page.drawers .main-inner {
   max-width: 90%!important;
 }
+
 
 .pagelayout-mydashboard .main-inner {
   max-width: 90%!important;
