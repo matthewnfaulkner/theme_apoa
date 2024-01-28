@@ -115,7 +115,7 @@ class primary extends \core\navigation\views\primary {
     }
 
 
-    private function get_backup_nav($parent = null){
+    private function get_backup_nav(){
         
 
         $primarynavitemcount = get_config('theme_apoa', 'primarynavcount');
