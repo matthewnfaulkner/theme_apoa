@@ -58,7 +58,7 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
         }
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
     }else if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'jumbobanner' || $filearea === 'jumbobannerlogo' || 
-    preg_replace('/[0-9]+/', '', $filearea) === 'sectionlogo' || $filearea === 'resources' || $filearea === 'jumbobannerposter' || $filearea === 'jumbovideo' || $filearea == 'jumbovideoposter'
+    preg_replace('/[0-9]+/', '', $filearea) === 'sectionlogo' || $filearea === 'resources' || $filearea === 'jumbobannerposter' || $filearea === 'jumbovideo'
     $filearea === 'about'){
         $theme = theme_config::load('apoa');
         // By default, theme files must be cache-able by both browsers and proxies.
