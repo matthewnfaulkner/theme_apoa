@@ -61,6 +61,10 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);                                                                                                           
                          
+    $setting = new admin_setting_configtextarea('theme_apoa/logininstructions',                                                              
+        get_string('logininstructions', 'theme_apoa'), get_string('logininstructions_desc', 'theme_apoa'), '', PARAM_TEXT);                      
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
 
     // Must add the page after definiting all the settings!                                                                         
     $settings->add($page);                                                                                                          

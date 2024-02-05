@@ -226,3 +226,5 @@ $string['primarynavcount_desc'] = 'Number of items to add to the navigation';
 $string['primarynavitems'] = 'Primary Navigation Item {$a}';
 $string['primarynavitems_desc'] = 'The category to add to primary navigation in position {$a}';
 
+$string['logininstructions'] = 'Login Instructions';
+$string['logininstructions_desc'] = 'Enter Instructions to be displayed on the login page.'; 

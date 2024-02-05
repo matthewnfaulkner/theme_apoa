@@ -346,7 +346,7 @@ class core_renderer extends \core_renderer {
      */
     public function render_login(\core_auth\output\login $form) {
         global $CFG, $SITE;
-
+        
         $context = $form->export_for_template($this);
         $authplugin = signup_is_enabled();
         if($authplugin->multipath){
@@ -366,6 +366,8 @@ class core_renderer extends \core_renderer {
         if ($url) {
             $url = $url->out(false);
         }
+        $instructions = get_config('theme_apoa', 'logininstructions');
+        $context->instructions = format_text($instructions);
         $context->logourl = $url;
         $context->sitename = format_string($SITE->fullname, true,
                 ['context' => \context_course::instance(SITEID), "escape" => false]);
