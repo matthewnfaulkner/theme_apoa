@@ -155,7 +155,6 @@ $('.sidejumbo-link').on('touchend', function(event) {
           subjumbo.addEventListener('animationend', handleAnimationEnd);
           subjumbo.classList.replace('hide', 'showing');
         }
-        console.log(menuItem.getAttribute('data-link-id'));
         touchedmenuitem = menuItem.getAttribute('data-link-id');
       }
       /**
