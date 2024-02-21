@@ -57,7 +57,7 @@ $('.sidejumbo-link').on('touchend', function(event) {
   }
 });*/
 
-var doubletapstart =0;
+//var doubletapstart =0;
 
 /*$('.sidejumbo-link').on('click', function() {
   var linkAddress = $(this).data('link-address');
@@ -106,6 +106,7 @@ var doubletapstart =0;
   var tapstart = false;
   var tapstartX;
   var tapstartY;
+  var touchedmenuitem;
   var isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
   swiperpages.forEach(swiperpage => {
     var swiperimg = swiperpage.querySelector('img');
@@ -141,13 +142,21 @@ var doubletapstart =0;
         let delta = 30;
         if (diffX < delta && diffY < delta) {
           tapstart = false;
-          if(Date.now() - doubletapstart < 500){
+          //window.location.href = e.currentTarget.getAttribute("data-link-address");
+          //if(Date.now() - doubletapstart < 500){
+            //if(touchedmenuitem == menuItem.id){
+              //window.location.href = e.currentTarget.getAttribute("data-link-address");
+            //}
+          //}
+          if(touchedmenuitem == menuItem.getAttribute('data-link-id')){
             window.location.href = e.currentTarget.getAttribute("data-link-address");
           }
-          doubletapstart = Date.now();
+          //doubletapstart = Date.now();
           subjumbo.addEventListener('animationend', handleAnimationEnd);
           subjumbo.classList.replace('hide', 'showing');
         }
+        console.log(menuItem.getAttribute('data-link-id'));
+        touchedmenuitem = menuItem.getAttribute('data-link-id');
       }
       /**
          * Register event listeners for the subscription toggle.
