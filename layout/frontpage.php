@@ -44,7 +44,7 @@ if (defined('BEHAT_SITE_RUNNING')) {
 
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
-$forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
+//$forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
 //$PAGE->requires->js_call_amd('theme_apoa/swiper-bundle');
 

@@ -76,9 +76,9 @@ $THEME->layouts = [
         'defaultregion' => 'side-pre',
     ),
     'standard' => array(
-        'file' => 'page.php',
-        'regions' => array('side-pre'),
-        'defaultregion' => 'side-pre',
+        'file' => 'drawers.php',
+        'regions' => array('side-pre', 'content'),
+        'defaultregion' => 'content',
         'options' => array('nonavbar' => false,)
     ),
     'landingpage' => array(

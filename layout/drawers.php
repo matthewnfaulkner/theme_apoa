@@ -51,18 +51,24 @@ if ($courseindexopen) {
 }
 
 $blockshtml = $OUTPUT->blocks('side-pre');
+
+$blockshtmlcontent = $OUTPUT->blocks('content');
+
 $hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbutton));
 if (!$hasblocks) {
     $blockdraweropen = false;
 }
+
+$hasblockscontent = (strpos($blockshtmlcontent, 'data-block=') !== false || !empty($addblockbutton));
+
 $courseindex = core_course_drawer();
 if (!$courseindex) {
     $courseindexopen = false;
 }
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
-$forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
-
+//$forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
+$forceblockdraweropen = False;
 
 $secondarynavigation = false;
 $overflow = '';
@@ -121,7 +127,9 @@ $templatecontext = [
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     'overflow' => $overflow,
     'headercontent' => $headercontent,
-    'addblockbutton' => $addblockbutton
+    'addblockbutton' => $addblockbutton,
+    'blockshtmlcontent' => $blockshtmlcontent,
+    'hasblockscontent' => $hasblockscontent
 ];
 
 echo $OUTPUT->render_from_template('theme_apoa/drawers', $templatecontext);

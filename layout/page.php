@@ -58,6 +58,8 @@ $hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbu
 if (!$hasblocks) {
     $blockdraweropen = false;
 }
+
+
 $courseindex = core_course_drawer();
 if (!$courseindex) {
     $courseindexopen = false;
