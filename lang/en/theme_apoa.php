@@ -92,6 +92,8 @@ $string['Newsletter'] = "Newsletter";
 $string['APOA'] = "Asia Pacific Orthopaedic Association";
 $string['Subscriptions'] = "Subscriptions";
 
+$string['2025APOACongressAustralia'] = "24th APOA Congress Cairns";
+
 $string['mainpagesettings'] = "Home Page Settings";
 $string['jumbotitle'] = "Jumbotron title";
 $string['jumbotitle_desc'] = "The main heading for the home page jumbo tron";

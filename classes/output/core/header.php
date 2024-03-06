@@ -64,12 +64,13 @@ class header implements renderable, templatable {
      * @return array Data for rendering a template
      */
     public function export_for_template(renderer_base $output): array {
+    
         $title = str_replace(' ', '', $this->title);
         try {
             $title = get_string($title ,'theme_apoa');
         }
         catch(\exception $e){
-            $title = "";
+            $title = $this->title;
         }
         if(strpos($title, '[') !== false){
             $title = $this->title;
