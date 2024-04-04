@@ -8,7 +8,34 @@
     padding-bottom: 0;
     background-color: white;
   }
-  
+
+  .main-modal-bg{
+    display: none;
+  }
+
+  .main-modal-bg-mobile{
+    display: block;
+  }
+
+  .main-modal-dialog{
+    max-width: 80%;
+    margin:auto;
+    top: 30px;
+  }
+
+  @media (min-width: 576px) {
+    .main-modal-bg{
+      display: block;
+    }
+    .main-modal-bg-mobile{
+      display: none;
+    }
+    .main-modal-dialog{
+      max-width: 90%!important;
+    }
+  }
+
+  .main-modal-dialog{}
   @media (min-width: 300px) {
     .main-page-container {
       min-width: 300px;
@@ -91,7 +118,7 @@
   }
   
   .main-page-main-image {
-    filter: brightness(0.8);
+    filter: brightness(0.7);
   }
 
   .main-page-main-image .modal{
@@ -1019,7 +1046,7 @@
   }
 
   .card-text-over-picture{
-    background-color: rgba(203, 30, 111, 0.8);
+    background-color: rgba(203, 30, 111, 0.9);
     padding-left: 0.2rem;
     padding-right: 0.2rem;
     min-width: 50%!important;

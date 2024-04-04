@@ -47,7 +47,7 @@ $THEME->layouts = [
     ),
     'frontpage' => array(
         'file' => 'frontpage.php',
-        'regions' => array('jumbo', 'sidejumbo', 'elibrary', 'subjumbo1', 'subjumbo2', 'resources'),
+        'regions' => array('jumbo', 'sidejumbo', 'elibrary', 'subjumbo1', 'subjumbo2', 'subjumbo3', 'resources'),
         'defaultregion' => 'sidejumbo',
         'options' => array('nonavbar' => false),
     ),

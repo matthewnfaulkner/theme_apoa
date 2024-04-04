@@ -104,4 +104,56 @@ class theme_apoa_external extends external_api {
             ]
         );
     }
+
+    
+
+       /**
+     * Toggle the favouriting value for the discussion provided
+     *
+     * @param int $discussionid The discussion we need to favourite
+     * @param bool $targetstate The state of the favourite value
+     * @return array The exported discussion
+     */
+    public static function cache_closed_modal($closemodal) {    
+
+        $params = self::validate_parameters(self::cache_closed_modal_parameters(), [
+            'closemodal' => $closemodal
+        ]);
+        if(!isloggedin() || isguestuser()){
+            return array('success' => false);
+        }
+        $modalcache = \cache::make('theme_apoa', 'modal_cache');
+
+        $modalcache->set('hasopened', true);
+        
+        return array('success' => true);
+        
+        
+    }
+
+    /**
+     * Returns description of method result value
+     *
+     * @return external_description
+     * @since Moodle 3.0
+     */
+    public static function cache_closed_modal_returns() {
+        return new external_single_structure(array(
+            'success' => new external_value(PARAM_BOOL, 'success')
+            )
+        );
+    }
+
+     /**
+     * Defines the parameters for the toggle_favourite_state method
+     *
+     * @return external_function_parameters
+     */
+    public static function cache_closed_modal_parameters() {
+        return new external_function_parameters(
+            [
+                'closemodal' => new external_value(PARAM_BOOL, 'The target state')
+            ]
+        );
+    }
 }

@@ -11,5 +11,15 @@ $functions = array(
         'type' => 'write',
         'ajax' => true,
         'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
+    ),
+
+    'theme_apoa_cache_closed_modal' => array(
+        'classname' => 'theme_apoa_external',
+        'methodname' => 'cache_closed_modal',
+        'classpath' => 'theme/apoa/externallib.php',
+        'description' => 'keeps modal from popping up during the sassion',
+        'type' => 'write',
+        'ajax' => true,
+        'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     )
 );

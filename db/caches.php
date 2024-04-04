@@ -1,6 +1,12 @@
 <?php
 
 $definitions = [
+
+    'modal_cache' => [
+        'mode' => cache_store::MODE_SESSION,
+        'simplekeys' => true,
+        'simpledata' => true,
+    ],
     'navigation_cache' => [
         'mode' => cache_store::MODE_APPLICATION,
         'simplekeys' => true,

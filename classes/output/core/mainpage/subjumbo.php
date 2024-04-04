@@ -21,7 +21,7 @@ class subjumbo implements \templatable , \renderable {
     public function __construct() {
 
         $this->sections = ['Section Highlights' => 'course_list', 'Newsletter' => 'newsletter', 'E-library' => 'elibrary'];
-        $this->regions = ['elibrary', 'subjumbo1', 'subjumbo2'];
+        $this->regions = ['elibrary', 'subjumbo1', 'subjumbo2', 'subjumbo3', 'sections'];
     }
         
     

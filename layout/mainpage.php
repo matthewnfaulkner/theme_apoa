@@ -77,6 +77,7 @@ $header = $PAGE->activityheader;
 $headercontent = $header->export_for_template($renderer);
 
 
+
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'sitenamefull' => format_string($SITE->fullname, true, ['context' => context_course::instance(SITEID), "escape" => false]),

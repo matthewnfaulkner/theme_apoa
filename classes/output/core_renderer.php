@@ -493,6 +493,41 @@ class core_renderer extends \core_renderer {
         
     }
     
+         /**
+     * See if this is the first view of the current cm in the session if it has fake blocks.
+     *
+     * (We track up to 100 cms so as not to overflow the session.)
+     * This is done for drawer regions containing fake blocks so we can show blocks automatically.
+     *
+     * @return string true if the page has fakeblocks and this is the first visit.
+     */
+    public function main_page_modal() {
+        
+        global $PAGE;
+
+        if(isloggedin() && !isguestuser()){
+            $modalcache = \cache::make('theme_apoa', 'modal_cache');
+
+            if(!$modalcache->get('hasopened')){
+                $PAGE->requires->js_call_amd('theme_apoa/mainmodal', 'init', array(true));
+            }
+        }
+        else{
+            $PAGE->requires->js_call_amd('theme_apoa/mainmodal', 'init', array(false));
+        }
+
+        $template = [
+            'mainmodal' => get_config('theme_apoa', 'mainmodaltoggle'),
+            'mainmodalbg' => theme_apoa_get_file_from_setting('mainmodalbg'),
+            'mainmodalbgmobile' => theme_apoa_get_file_from_setting('mainmodalbgmobile'),
+            'mainmodalcontent' => get_config('theme_apoa', 'mainmodalcontent'),
+
+        ]
+        ;
+        return $this->render_from_template('theme_apoa/mainpage/mainmodal', $template);
+        
+    }
+
     /**
      * This is an optional menu that can be added to a layout by a theme. It contains the
      * menu for the course administration, only on the course main page.

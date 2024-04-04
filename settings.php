@@ -155,6 +155,34 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);
 
+    $setting = new admin_setting_heading('theme_apoa/mainmodalsettings', get_string('mainmodalsettings', 'theme_apoa'), '');
+    $page->add($setting);
+
+    $setting = new admin_setting_configcheckbox('theme_apoa/mainmodaltoggle', get_string('mainmodaltoggle', 'theme_apoa'),
+        get_string('mainmodaltoggle_desc', 'theme_apoa'), '');
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/mainmodalbg', get_string('mainmodalbg', 'theme_apoa'),
+        get_string('mainmodalbg_desc', 'theme_apoa'), 'mainmodalbg', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');      
+
+    $page->add($setting); 
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/mainmodalbgmobile', get_string('mainmodalbgmobile', 'theme_apoa'),
+        get_string('mainmodalbgmobile_desc', 'theme_apoa'), 'mainmodalbgmobile', 0,
+            array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png')));
+    $setting->set_updatedcallback('theme_reset_all_caches');      
+
+    $page->add($setting); 
+    
+    $setting = new admin_setting_confightmleditor('theme_apoa/mainmodalcontent',                                                              
+        get_string('mainmodalcontent', 'theme_apoa'), get_string('mainmodalcontent_desc', 'theme_apoa'), '', PARAM_RAW);                      
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+
     $settings->add($page);
     
     $page = new admin_settingpage('theme_apoa_primary_navigation', get_string('navigation', 'theme_apoa'));  
