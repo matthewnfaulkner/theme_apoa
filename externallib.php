@@ -203,10 +203,10 @@ class theme_apoa_external extends external_api {
             'jumbodescription' => get_config($component, 'jumbodescription'),
             'jumbovideoflag' => get_config($component, 'jumbovideoflag'),
             'jumbotag' => get_config($component, 'jumbotag'),
-            'jumbobanner' => theme_apoa_get_file_from_setting('jumbobanner'),
-            'jumbobannerposter' => theme_apoa_get_file_from_setting('jumbobannerposter'),
-            'jumbovideo' => theme_apoa_get_file_from_setting('jumbovideo'),
-            'jumbobannerlogo' => theme_apoa_get_file_from_setting('jumbobannerlogo'),
+            'jumbobanner' => get_file_from_setting('jumbobanner'),
+            'jumbobannerposter' => get_file_from_setting('jumbobannerposter'),
+            'jumbovideo' => get_file_from_setting('jumbovideo'),
+            'jumbobannerlogo' => get_file_from_setting('jumbobannerlogo'),
             'jumbourl' => get_config($component, 'jumbolink'),
             'jumbostartdate' => $startdate,
             'jumboannouncement' => $firstposttext,
@@ -256,4 +256,28 @@ class theme_apoa_external extends external_api {
     public static function get_jumbo_config_parameters() {
         return new external_function_parameters(array());
     }
+
+}
+
+function get_file_from_setting($settingname) {
+
+    $component = 'theme_apoa';
+    $filename = get_config($component, $settingname);
+
+    $fs = get_file_storage();
+    $syscontext = context_system::instance();
+    $files = $fs->get_area_files($syscontext->id, $component, $settingname);
+    $url = '';
+    foreach ($files as $file){
+        if (is_valid_video($file)){
+            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
+            $file->get_filepath(), $file->get_filename(), false)->out();
+        }else if ($file->is_valid_image()) {
+            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
+            $file->get_filepath(), $file->get_filename(), false)->out();
+        }
+    }
+
+
+    return $url;
 }
