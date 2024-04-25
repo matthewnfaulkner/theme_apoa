@@ -219,16 +219,17 @@ function theme_apoa_get_file_from_setting($settingname) {
     $fs = get_file_storage();
     $syscontext = context_system::instance();
     $files = $fs->get_area_files($syscontext->id, $component, $settingname);
-    
+    $url = '';
     foreach ($files as $file){
         if (is_valid_video($file)){
             $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
-            $file->get_filepath(), $file->get_filename(), false);
+            $file->get_filepath(), $file->get_filename(), false)->out();
         }else if ($file->is_valid_image()) {
             $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
-            $file->get_filepath(), $file->get_filename(), false);
+            $file->get_filepath(), $file->get_filename(), false)->out();
         }
     }
+
 
     return $url;
 }

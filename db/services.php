@@ -17,8 +17,17 @@ $functions = array(
         'classname' => 'theme_apoa_external',
         'methodname' => 'cache_closed_modal',
         'classpath' => 'theme/apoa/externallib.php',
-        'description' => 'keeps modal from popping up during the sassion',
+        'description' => 'keeps modal from popping up during the session',
         'type' => 'write',
+        'ajax' => true,
+        'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
+    ),
+    'theme_apoa_get_jumbo_config' => array(
+        'classname' => 'theme_apoa_external',
+        'methodname' => 'get_jumbo_config',
+        'classpath' => 'theme/apoa/externallib.php',
+        'description' => 'sends jumbo config to mobile users',
+        'type' => 'read',
         'ajax' => true,
         'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     )
