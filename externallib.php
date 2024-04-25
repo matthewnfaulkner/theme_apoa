@@ -168,9 +168,9 @@ class theme_apoa_external extends external_api {
      */
     public static function get_jumbo_config() {    
 
-        global $OUTPUT, $DB, $USER;
+        global $OUTPUT, $DB, $USER, $CFG;
 
-        require_once('lib.php');
+        require_once($CFG->dirroot . '/theme/apoa/lib.php');
         
         $component = 'theme_apoa';
         $result = [];
