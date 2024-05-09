@@ -20,7 +20,7 @@ class mainpage implements \templatable , \renderable {
         
     public function export_for_template(\renderer_base $output) {
 
-        $sections = ['jumbo', 'subjumbo', 'events', 'about', 'sections', 'membership', 'resources'];
+        $sections = ['jumbo', 'subjumbo', 'about','membership', 'events', 'sections', 'resources'];
         $containers = [];
         foreach ($sections as $section) {
             $item = new mainpagecontainer($section);

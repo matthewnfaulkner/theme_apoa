@@ -117,15 +117,13 @@ class theme_apoa_external extends external_api {
      */
     public static function cache_closed_modal($closemodal) {    
 
+        global $SESSION;
+
         $params = self::validate_parameters(self::cache_closed_modal_parameters(), [
             'closemodal' => $closemodal
         ]);
-        if(!isloggedin() || isguestuser()){
-            return array('success' => false);
-        }
-        $modalcache = \cache::make('theme_apoa', 'modal_cache');
 
-        $modalcache->set('hasopened', true);
+        $SESSION->mainmodalclosed = true;
         
         return array('success' => true);
         

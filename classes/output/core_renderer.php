@@ -503,17 +503,10 @@ class core_renderer extends \core_renderer {
      */
     public function main_page_modal() {
         
-        global $PAGE;
+        global $PAGE, $SESSION;
 
-        if(isloggedin() && !isguestuser()){
-            $modalcache = \cache::make('theme_apoa', 'modal_cache');
-
-            if(!$modalcache->get('hasopened')){
-                $PAGE->requires->js_call_amd('theme_apoa/mainmodal', 'init', array(true));
-            }
-        }
-        else{
-            $PAGE->requires->js_call_amd('theme_apoa/mainmodal', 'init', array(false));
+        if (!isset($SESSION->mainmodalclosed)){
+            $PAGE->requires->js_call_amd('theme_apoa/mainmodal', 'init', array(true));
         }
 
         $template = [

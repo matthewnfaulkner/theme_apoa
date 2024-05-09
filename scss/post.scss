@@ -329,3 +329,8 @@ body.limitedwidth #page.drawers .footer-popover {
   max-width: 100%!important;
   border-radius: 0px;
 }
+
+#quickcourselist{
+  overflow-y: scroll;
+  max-height: 200px;
+}
