@@ -54,10 +54,12 @@ class renderer extends plugin_renderer_base {
 
         $usercommittees = committee_get_user_committees($USER->id);
 
-        $committeemenu = new \mod_committee\output\committee_menu($usercommittees);
+        if($template->usercommittees = $usercommittees) {
+            $committeemenu = new \mod_committee\output\committee_menu($usercommittees);
     
-        $template->usercommittees = $this->render($committeemenu);
-
+            $template->usercommittees = $this->render($committeemenu);
+        }
+        
         $template->usermembershipnumbers = array_values(local_subscriptions_get_user_membershipnumber($USER->id));
 
         
