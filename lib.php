@@ -74,7 +74,7 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
 
 function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_course_category $category, string $component) {
 
-    $courses = $category->get_courses(array('limit' => 3));
+    $courses = $category->get_courses(array('recursive' => false, 'limit' => 10));
 
     foreach($courses as $course){
         $parentnode->add(
