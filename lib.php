@@ -78,7 +78,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
 
     foreach($courses as $course){
         $parentnode->add(
-            $course->shortname ,
+            $course->get_formatted_fullname() ,
             new \moodle_url('/course/view.php', ['id' => $course->id]),
             navigation_node::TYPE_COURSE,
             $course->shortname,
