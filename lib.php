@@ -72,7 +72,20 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
 }
 
 
-function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, array $subcategories, string $component) {
+function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_course_category $category, string $component) {
+
+    $courses = $category->get_courses(array('limit' => 3));
+
+    foreach($courses as $course){
+        $parentnode->add(
+            $course->shortname ,
+            new \moodle_url('/course/view.php', ['id' => $course->id]),
+            navigation_node::TYPE_COURSE,
+            $course->shortname,
+            navigation_node::TYPE_COURSE . $course->id 
+        );
+    }
+    $subcategories = $category->get_children();
 
     foreach ($subcategories as $subcategory) {
     
@@ -122,7 +135,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
     $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
 
     $subrootcategory = core_course_category::get($parents[1]);
-    $subcategories = $subrootcategory->get_children();
+
     $elibraryid = get_config('theme_apoa', 'elibraryid');#
 
     if(!has_capability('moodle/course:update', $context)) {
@@ -164,7 +177,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
     $PAGE->set_secondary_active_tab(navigation_node::TYPE_CATEGORY. $parents[2]);
     $component = 'theme_apoa';
 
-    theme_apoa_get_secondary_nav_items($parentnode, $subcategories, $component);
+    theme_apoa_get_secondary_nav_items($parentnode, $subrootcategory, $component);
 }
 
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
@@ -187,10 +200,9 @@ function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdCla
 
     $PAGE->set_primary_active_tab(navigation_node::TYPE_CATEGORY. $rootcat->id);
     $category->depth > 3 ? $PAGE->set_secondary_active_tab(navigation_node::TYPE_CATEGORY. $parents[2]) : $PAGE->set_secondary_active_tab(navigation_node::TYPE_COURSE. $course->id);
-    $subcategories = $rootcat->get_children();
     $component = 'theme_apoa';
 
-    theme_apoa_get_secondary_nav_items($parentnode, $subcategories, $component);
+    theme_apoa_get_secondary_nav_items($parentnode, $rootcat, $component);
     
 }
 

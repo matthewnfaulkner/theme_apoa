@@ -338,7 +338,7 @@ class course_renderer extends \core_course_renderer {
             else if ($coursecat->has_courses()) {
                 if($coursecat->get_courses_count() == 1){
                     $course = reset($coursecat->get_courses());
-                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->__get('id'));
+                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->id);
                 };
                 $output .= $this->render_course_cat($chelper, $coursecat);
             }
@@ -380,7 +380,8 @@ class course_renderer extends \core_course_renderer {
     }
 
     protected function render_root_cat(coursecat_helper $chelper, core_course_category $coursecat){
-        
+        global $PAGE;
+
         $render['description'] = $chelper->get_category_formatted_description($coursecat);
         $render['sectiontitle'] = $coursecat->name;
         $courselist = new \theme_apoa\output\core\lists\course_list('category', $coursecat->name, $coursecat);
@@ -450,12 +451,28 @@ class course_renderer extends \core_course_renderer {
     }
 
     protected function render_subcategory(coursecat_helper $chelper, core_course_category $coursecat) {
+        global $PAGE, $CFG;
+
         $output = '';
         
         $elibrary = core_course_category::get(get_config('theme_apoa', 'elibraryid'));
 
         $context = context_coursecat::instance($coursecat->id);
 
+
+        if($coursecat->has_courses()){
+            $landingpage = reset($coursecat->get_courses(['recursive' => false, 'limit' => 1, 'idonly' => true]));
+            
+            if($landingpage) {
+                $course = get_course($landingpage);
+                $format = $course->format;
+                $renderer = $PAGE->get_renderer('format_' . $format);
+                if(!method_exists($renderer, 'display')){
+                    redirect($CFG->wwwroot . "/course/view.php?id=" . $landingpage);
+                }
+                return $renderer->display($course, false);
+            }
+        }
 
         if ($coursecat->id == $elibrary->id){
             $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
