@@ -197,9 +197,15 @@ function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdCla
     $rootcat = get_subroot_category($category);
 
     $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
-
+    
     $PAGE->set_primary_active_tab(navigation_node::TYPE_CATEGORY. $rootcat->id);
-    $category->depth > 3 ? $PAGE->set_secondary_active_tab(navigation_node::TYPE_CATEGORY. $parents[2]) : $PAGE->set_secondary_active_tab(navigation_node::TYPE_COURSE. $course->id);
+
+    if($rootcat->id == $category->id || $category->depth <= 3){
+        $PAGE->set_secondary_active_tab(navigation_node::TYPE_COURSE. $course->id);
+    }
+    else{
+        $PAGE->set_secondary_active_tab(navigation_node::TYPE_CATEGORY. $parents[2]);
+    }
     $component = 'theme_apoa';
 
     theme_apoa_get_secondary_nav_items($parentnode, $rootcat, $component);
