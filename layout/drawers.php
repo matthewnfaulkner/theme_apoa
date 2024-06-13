@@ -52,6 +52,7 @@ if ($courseindexopen) {
 
 $blockshtml = $OUTPUT->blocks('side-pre');
 
+$isdashboard = $PAGE->pagelayout == 'mydashboard';
 $blockshtmlcontent = $OUTPUT->blocks('content');
 
 $hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbutton));
@@ -129,6 +130,7 @@ $templatecontext = [
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
     'blockshtmlcontent' => $blockshtmlcontent,
+    'isdashboard' => $isdashboard,
     'hasblockscontent' => $hasblockscontent
 ];
 

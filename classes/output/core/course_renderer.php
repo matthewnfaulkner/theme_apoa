@@ -470,7 +470,7 @@ class course_renderer extends \core_course_renderer {
                 if(!method_exists($renderer, 'display')){
                     redirect($CFG->wwwroot . "/course/view.php?id=" . $landingpage);
                 }
-                return $renderer->display($course, false);
+                    return $renderer->display($course, false);
             }
         }
 
