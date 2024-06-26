@@ -37,7 +37,7 @@ function theme_apoa_get_main_scss_content($theme) {
     $post = file_get_contents($CFG->dirroot . '/theme/apoa/scss/post.scss');
     $booststudio = file_get_contents($CFG->dirroot . '/theme/apoa/scss/bootstudio.scss');
     $swiper = file_get_contents($CFG->dirroot . '/theme/apoa/scss/swiper.scss');
-    return $pre . "\n" . $scss . "\n" . $post . "\n" . $booststudio. "\n" . $swiper;                                                                                                                  
+    return $pre . "\n" . $scss . "\n" . $post . "\n" . $booststudio. "\n"  . $swiper;                                                                                                                  
 }
 
 
