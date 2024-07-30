@@ -105,7 +105,12 @@ class course_list_item implements \templatable , \renderable {
             if ($isimage) {
                 break;
             }
-        }/*
+        }
+        
+        if(!$imgurl){
+            $imgurl = $output->get_generated_image_for_id($this->course->id);
+        }
+        /*
         if($file){
             $filecontents = file_get_contents($imgurl);
             $imgurl  = 'data:image/jpeg;base64,' . base64_encode($filecontents);

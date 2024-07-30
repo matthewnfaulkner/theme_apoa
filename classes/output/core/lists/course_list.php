@@ -112,6 +112,7 @@ class course_list implements \templatable , \renderable {
                         $store['toppages']['futurejournalclubstext'] = "See Upcoming Journal Clubs";
                     }
                     $store['toppages']['categorytitle'] = 'Journal Club';
+                    $store['toppages']['categoryurl'] = new moodle_url('/tag/index.php', array('tag' => 'Journal Club', 'tc' => 0));
                 }
                 $loopcounter += 1;
             }
