@@ -18,7 +18,7 @@ define(['jquery'], function($) {
 
             setTimeout(function() {
                 var end = new Date().getTime();
-                if(end - start < 1500) {
+                if(end - start < 5000) {
                     window.location.href = alturl;
                 }
             });
