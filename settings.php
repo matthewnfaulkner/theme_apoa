@@ -372,5 +372,10 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);  
 
+    $setting = new admin_setting_configcheckbox('theme_apoa/viewinappbutton', get_string('viewinappbutton', 'theme_apoa'),
+    get_string('viewinappbutton_desc', 'theme_apoa'), '');
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
     $settings->add($page); 
 }
