@@ -586,7 +586,7 @@ class core_renderer extends \core_renderer {
         if(!get_config('theme_apoa', 'viewinappbutton')) {
             return '';
         }
-        
+
         if(!$context->contextlevel == CONTEXT_COURSE && !$context->contextlevel == CONTEXT_MODULE){
             return '';
         }
@@ -594,7 +594,9 @@ class core_renderer extends \core_renderer {
         if(isloggedin() && !isguestuser()){
 
             $urlscheme = get_config('tool_mobile', 'forcedurlscheme');
+
             $appurl = "$urlscheme://$CFG->wwwroot?redirect=$CFG->wwwroot";
+
             if($context->contextlevel == CONTEXT_COURSE) {
                 $course = $page->course;
                 $urlscheme = get_config('tool_mobile', 'forcedurlscheme');
@@ -604,8 +606,10 @@ class core_renderer extends \core_renderer {
                 $cm = $page->cm;
                 $modname = $cm->modname;
                 $page->url;
-                if(file_exists("$CFG->dataroot/mod/modname/db/mobile.php")){
+                if(file_exists("$CFG->dataroot/mod/$modname/db/mobile.php")){
                     $appurl .= "/mod/$modname/view.php?id=$cm->instance";
+                }else{
+                    return '';
                 }
             }
             else{
