@@ -606,7 +606,7 @@ class core_renderer extends \core_renderer {
                 $cm = $page->cm;
                 $modname = $cm->modname;
                 $page->url;
-                $appurl .= "/mod/$modname/view.php?id=$cm->instance";
+                $appurl .= "/mod/$modname/view.php?id=$cm->id";
             }
             else{
                 return '';
