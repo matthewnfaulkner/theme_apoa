@@ -605,8 +605,7 @@ class core_renderer extends \core_renderer {
             else if($context->contextlevel == CONTEXT_MODULE){
                 $cm = $page->cm;
                 $modname = $cm->modname;
-                $page->url;
-                $appurl .= "/mod/$modname/view.php?id=$cm->id";
+                $appurl .= "/mod/$modname/view.php?id=$cm->id"; 
             }
             else{
                 return '';
