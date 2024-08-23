@@ -16,10 +16,16 @@ define(['jquery'], function($) {
             console.log(url, alturl);
             window.location.href = url;
 
-            setTimeout(function() {
+            var timeout = setTimeout(function() {
                 var end = new Date().getTime();
                 if(end - start < 5000) {
                     window.location.href = alturl;
+                }
+            });
+
+            document.addEventListener('visibilitychange', function() {
+                if(document.hidden) {
+                    clearTimeout(timeout);
                 }
             });
         });
