@@ -583,6 +583,10 @@ class core_renderer extends \core_renderer {
         $page = $this->page;
         $context = $page->context;
 
+        if(!get_config('theme_apoa', 'viewinappbutton')) {
+            return '';
+        }
+        
         if(!$context->contextlevel == CONTEXT_COURSE && !$context->contextlevel == CONTEXT_MODULE){
             return '';
         }
@@ -609,7 +613,7 @@ class core_renderer extends \core_renderer {
             }
             
             $alturl = get_config('tool_mobile', 'setuplink');
-            
+
             return $this->render_from_template('theme_apoa/view_on_mobile', array('appurl' => $appurl, 'appurlalt' => $alturl));
             
         }
