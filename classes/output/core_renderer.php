@@ -111,6 +111,90 @@ class core_renderer extends \core_renderer {
         return $this->render_from_template('theme_apoa/full_header', $header);
     }
 
+        /**
+     * This is an optional menu that can be added to a layout by a theme. It contains the
+     * menu for the most specific thing from the settings block. E.g. Module administration.
+     *
+     * @return string
+     */
+    public function region_main_settings_menu() {
+        $context = $this->page->context;
+        $menu = new \action_menu();
+
+        if ($context->contextlevel == CONTEXT_MODULE) {
+
+            $this->page->navigation->initialise();
+            $node = $this->page->navigation->find_active_node();
+            $buildmenu = false;
+            // If the settings menu has been forced then show the menu.
+            if ($this->page->is_settings_menu_forced()) {
+                $buildmenu = true;
+            } else if (!empty($node) && ($node->type == \navigation_node::TYPE_ACTIVITY ||
+                            $node->type == \navigation_node::TYPE_RESOURCE)) {
+
+                $items = $this->page->navbar->get_items();
+                $navbarnode = end($items);
+                // We only want to show the menu on the first page of the activity. This means
+                // the breadcrumb has no additional nodes.
+                if ($navbarnode && ($navbarnode->key === $node->key && $navbarnode->type == $node->type)) {
+                    $buildmenu = true;
+                }
+            }
+            if ($buildmenu) {
+                // Get the course admin node from the settings navigation.
+                $node = $this->page->settingsnav->find('modulesettings', \navigation_node::TYPE_SETTING);
+                if ($node) {
+                    // Build an action menu based on the visible nodes from this navigation tree.
+                    $this->build_action_menu_from_navigation($menu, $node);
+                }
+            }
+
+        } else if ($context->contextlevel == CONTEXT_COURSECAT) {
+            // For course category context, show category settings menu, if we're on the course category page.
+            if ($this->page->pagetype === 'course-index-category') {
+                $node = $this->page->settingsnav->find('categorysettings', \navigation_node::TYPE_CONTAINER);
+                if ($node) {
+                    // Build an action menu based on the visible nodes from this navigation tree.
+                    $this->build_action_menu_from_navigation($menu, $node);
+                }
+            }
+
+        }  else if ($context->contextlevel == CONTEXT_COURSE) {
+            // For course category context, show category settings menu, if we're on the course category page.
+
+            if ($this->page->pagetype === 'course-view-' . $this->page->course->format) {
+                $settingsnode = $this->page->settingsnav->find('courseadmin', \navigation_node::TYPE_COURSE);
+                if ($settingsnode) {
+                    // Build an action menu based on the visible nodes from this navigation tree.
+                    $skipped = $this->build_action_menu_from_navigation($menu, $settingsnode, false, true);
+
+                    // We only add a list to the full settings menu if we didn't include every node in the short menu.
+                    if ($skipped) {
+                        $text = get_string('morenavigationlinks');
+                        $url = new moodle_url('/course/admin.php', array('courseid' => $this->page->course->id));
+                        $link = new \action_link($url, $text, null, null, new \pix_icon('t/edit', $text));
+                        $menu->add_secondary_action($link);
+                    }
+                }
+            }
+
+        } else {
+            $items = $this->page->navbar->get_items();
+            $navbarnode = end($items);
+
+            if ($navbarnode && ($navbarnode->key === 'participants')) {
+                $node = $this->page->settingsnav->find('users', \navigation_node::TYPE_CONTAINER);
+                if ($node) {
+                    // Build an action menu based on the visible nodes from this navigation tree.
+                    $this->build_action_menu_from_navigation($menu, $node);
+                }
+
+            }
+        }
+        return $this->render($menu);
+    }
+
+
     /**s
      * Renders the context header for the page.
      *
@@ -491,6 +575,46 @@ class core_renderer extends \core_renderer {
         $template = $output->export_for_template($this);
         return $this->render_from_template('theme_apoa/mainpage/mainpage', $template);
         
+    }
+
+    public function view_on_mobile() {
+        global $CFG, $USER;
+
+        $page = $this->page;
+        $context = $page->context;
+
+        if(!$context->contextlevel == CONTEXT_COURSE && !$context->contextlevel == CONTEXT_MODULE){
+            return '';
+        }
+
+        if(isloggedin() && !isguestuser()){
+
+            $urlscheme = get_config('tool_mobile', 'forcedurlscheme');
+            $appurl = "$urlscheme://$CFG->wwwroot?redirect=$CFG->wwwroot";
+            if($context->contextlevel == CONTEXT_COURSE) {
+                $course = $page->course;
+                $urlscheme = get_config('tool_mobile', 'forcedurlscheme');
+                $appurl .= "/course/view.php?id=$course->id";
+            }
+            else if($context->contextlevel == CONTEXT_MODULE){
+                $cm = $page->cm;
+                $modname = $cm->modname;
+                $page->url;
+                if(file_exists("$CFG->dataroot/mod/modname/db/mobile.php")){
+                    $appurl .= "/mod/$modname/view.php?id=$cm->instance";
+                }
+            }
+            else{
+                return '';
+            }
+            
+            $alturl = get_config('tool_mobile', 'setuplink');
+            
+            return $this->render_from_template('theme_apoa/view_on_mobile', array('appurl' => $appurl, 'appurlalt' => $alturl));
+            
+        }
+
+
     }
     
          /**
