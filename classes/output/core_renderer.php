@@ -578,10 +578,13 @@ class core_renderer extends \core_renderer {
     }
 
     public function view_on_mobile() {
-        global $CFG, $USER;
+        global $CFG, $USER, $SESSION, $DB;
 
         $page = $this->page;
         $context = $page->context;
+        $contextid = $context->id;
+
+        $mobileapplinkid = 'mobilelinkappid' . $contextid;
 
         if(!get_config('theme_apoa', 'viewinappbutton')) {
             return '';
@@ -590,33 +593,75 @@ class core_renderer extends \core_renderer {
         if(!$context->contextlevel == CONTEXT_COURSE && !$context->contextlevel == CONTEXT_MODULE){
             return '';
         }
-
+        
         if(isloggedin() && !isguestuser()){
 
-            $urlscheme = get_config('tool_mobile', 'forcedurlscheme');
+            require_once($CFG->dirroot .'/vendor/autoload.php');
 
-            $appurl = "$urlscheme://$CFG->wwwroot?redirect=$CFG->wwwroot";
+            if(!class_exists('\Detection\MobileDetect')){
+                return;
+            }
+            
+            $detect = new \Detection\MobileDetect();
+    
+            if(!$detect->isMobile()){
+                return '';
+            };
 
             if($context->contextlevel == CONTEXT_COURSE) {
                 $course = $page->course;
-                $urlscheme = get_config('tool_mobile', 'forcedurlscheme');
-                $appurl .= "/course/view.php?id=$course->id";
+                $redirectpath = "/course/view.php?id=$course->id";
             }
             else if($context->contextlevel == CONTEXT_MODULE){
                 $cm = $page->cm;
                 $modname = $cm->modname;
-                $appurl .= "/mod/$modname/view.php?id=$cm->id"; 
+                $redirectpath = "/mod/$modname/view.php?id=$cm->id"; 
             }
             else{
                 return '';
             }
             
-            $alturl = get_config('tool_mobile', 'setuplink');
 
-            return $this->render_from_template('theme_apoa/view_on_mobile', array('appurl' => $appurl, 'appurlalt' => $alturl));
+            if(!$branchApiKey = get_config('theme_apoa', 'branchapikey')){
+                return '';
+            }
+
+            $parsedurl = parse_url($CFG->wwwroot);
             
-        }
 
+            $deeplink_path = $parsedurl['scheme'] . "://$USER->username@" . $parsedurl['host'] . "?redirect=$redirectpath";
+            $data = array(
+                'branch_key' => $branchApiKey,
+                'channel' => 'web',
+                'feature' => 'login',
+                'stage' => 'existing_user',
+                'tags' => ['dynamic_link'],
+                'data' => array(    
+                    '$deeplink_path' => $deeplink_path,
+                )
+            );
+
+            $options = array(
+                'http' => array(
+                    'header'  => "Content-Type: application/json\r\n" .
+                                "Authorization: Bearer " . $branchApiKey . "\r\n",
+                    'method'  => 'POST',
+                    'content' => json_encode($data),
+                ),
+            );
+
+            $context  = stream_context_create($options);
+            $result = file_get_contents('https://api2.branch.io/v1/url', false, $context);
+            
+            if ($result === FALSE) {
+                return '';
+            }
+
+            $decoded = json_decode($result);
+            $SESSION->$mobileapplinkid = $decoded->url; 
+
+            return $this->render_from_template('theme_apoa/view_on_mobile', array('appurl' => $SESSION->$mobileapplinkid));
+        }
 
     }
     
