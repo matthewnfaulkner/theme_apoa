@@ -377,5 +377,10 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);  
 
+    $setting = new admin_setting_configtext('theme_apoa/branchapikey', get_string('branchapikey', 'theme_apoa'),                           
+        get_string('branchapikey_desc', 'theme_apoa'), '', PARAM_TEXT);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
     $settings->add($page); 
 }
