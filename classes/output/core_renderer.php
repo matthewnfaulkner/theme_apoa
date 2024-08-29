@@ -593,18 +593,16 @@ class core_renderer extends \core_renderer {
         if(!$context->contextlevel == CONTEXT_COURSE && !$context->contextlevel == CONTEXT_MODULE){
             return '';
         }
-        
-        if(isloggedin() && !isguestuser()){
 
             require_once($CFG->dirroot .'/vendor/autoload.php');
 
             if(!class_exists('\Detection\MobileDetect')){
                 return;
             }
-            
+
             $detect = new \Detection\MobileDetect();
     
-            if(!$detect->isMobile()){
+            if($detect->isMobile()){
                 return '';
             };
 
@@ -628,8 +626,13 @@ class core_renderer extends \core_renderer {
 
             $parsedurl = parse_url($CFG->wwwroot);
             
+            if(isloggedin() && !isguestuser()){
+                $deeplink_path = $parsedurl['scheme'] . "://$USER->username@" . $parsedurl['host'] . "?redirect=$redirectpath";
+            }
+            else{
+                $deeplink_path = $parsedurl['scheme'] . "://" . $parsedurl['host'] . "?redirect=$redirectpath";
+            }
 
-            $deeplink_path = $parsedurl['scheme'] . "://$USER->username@" . $parsedurl['host'] . "?redirect=$redirectpath";
             $data = array(
                 'branch_key' => $branchApiKey,
                 'channel' => 'web',
