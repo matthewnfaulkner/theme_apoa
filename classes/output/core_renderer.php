@@ -602,7 +602,7 @@ class core_renderer extends \core_renderer {
 
             $detect = new \Detection\MobileDetect();
     
-            if($detect->isMobile()){
+            if(!$detect->isMobile()){
                 return '';
             };
 
