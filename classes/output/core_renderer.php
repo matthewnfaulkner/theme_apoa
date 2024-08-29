@@ -664,8 +664,7 @@ class core_renderer extends \core_renderer {
             $SESSION->$mobileapplinkid = $decoded->url; 
 
             return $this->render_from_template('theme_apoa/view_on_mobile', array('appurl' => $SESSION->$mobileapplinkid));
-        }
-
+        
     }
     
          /**
