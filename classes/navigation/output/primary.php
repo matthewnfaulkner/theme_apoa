@@ -20,6 +20,7 @@ use renderable;
 use renderer_base;
 use templatable;
 use custom_menu;
+use stdClass;
 
 /**
  * Primary navigation renderable
@@ -60,7 +61,7 @@ class primary extends \core\navigation\output\primary {
         }
 
         $menudata = (object) array_merge($this->get_primary_nav(), $this->get_custom_menu($output));
-        $moremenu = new \theme_apoa\navigation\output\more_menu($menudata, 'navbar-nav', true);
+        $moremenu = new \theme_apoa\navigation\output\more_menu($menudata, 'navbar-nav', false);
         $mobileprimarynav = array_merge($this->get_primary_nav(), $this->get_custom_menu($output));
 
         $languagemenu = new \core\output\language_menu($this->page);

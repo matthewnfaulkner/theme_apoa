@@ -50,7 +50,7 @@ class apoa_page extends moodle_page{
                         DEBUG_DEVELOPER);
                 $class = "mod_{$this->activityname}\\local\\views\\secondary";
             }
-
+            $class = 'theme_apoa\navigation\views\secondary';
             $this->_secondarynav = new $class($this);
             $this->_secondarynav->initialise();
         }

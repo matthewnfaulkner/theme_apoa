@@ -334,3 +334,68 @@ body.limitedwidth #page.drawers .footer-popover {
   overflow-y: scroll;
   max-height: 200px;
 }
+
+.course-navigation-title{
+
+}
+
+.course-navigation-link{
+  border: none!important;
+}
+
+.course-navigation-link:hover{
+  background-color: var(--primary)!important;
+  color: white!important;
+}
+
+.course-navigation-container{
+
+}
+
+.drawercontent{
+  padding-top: 0px!important;
+}
+
+.indexoffset-0 .course-index-title {
+  top: 0px!important;
+}
+
+.indexoffset-30 .course-index-title {
+  top: 30px!important;
+}
+
+.indexoffset-60 .course-index-title {
+  top: 60px!important;
+}
+
+@media (min-width: 576px) {  
+  .indexoffset-30 .course-index-title {
+    top: 35px!important;
+  }
+  
+  .indexoffset-60 .course-index-title {
+    top: 70px!important;
+  }
+}
+
+.menuoffset-0{
+  top: 0px!important;
+}
+
+.menuoffset-30 {
+  top: 30px!important;
+}
+
+.menuoffset-60 {
+  top: 60px!important;
+}
+
+@media (min-width: 576px) {  
+  .menuoffset-30 {
+    top: 35px!important;
+  }
+  
+  .menuoffset-60{
+    top: 70px!important;
+  }
+}

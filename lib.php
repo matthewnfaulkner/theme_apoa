@@ -139,7 +139,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
     $elibraryid = get_config('theme_apoa', 'elibraryid');#
 
     if(!has_capability('moodle/course:update', $context)) {
-        $parentnode->children = new navigation_node_collection;
+        //$parentnode->children = new navigation_node_collection;
     }
     else{
         $elibraryid = get_config('theme_apoa', 'elibraryid');
@@ -182,17 +182,13 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
 
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
     global $PAGE;
-    
-    if(!has_capability('moodle/course:update', $context)) {
-        $parentnode->children = new navigation_node_collection;
-    }else{
 
-        $parentnode->add('View',
-        new \moodle_url('/course/view.php', ['id' => $course->id]),
-        navigation_node::TYPE_COURSE,
-        'View',
-        'courseview');
-    }
+    $apoanav = $parentnode->add('Apoanav',
+    null,
+    navigation_node::TYPE_CONTAINER,
+    'Apoanav',
+    'apoanav');
+
     $category = core_course_category::get($course->category);
     $rootcat = get_subroot_category($category);
 
@@ -208,7 +204,7 @@ function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdCla
     }
     $component = 'theme_apoa';
 
-    theme_apoa_get_secondary_nav_items($parentnode, $rootcat, $component);
+    theme_apoa_get_secondary_nav_items($apoanav, $rootcat, $component);
     
 }
 

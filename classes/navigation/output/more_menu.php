@@ -20,7 +20,11 @@ use renderable;
 use renderer_base;
 use templatable;
 use custom_menu;
+use flat_navigation_node;
+use navigation_node_collection;
 use stdClass;
+
+use function PHPUnit\Framework\isEmpty;
 
 /**
  * more menu navigation renderable
@@ -30,7 +34,7 @@ use stdClass;
  * @copyright   2021 onwards Adrian Greeve
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class more_menu extends \core\navigation\output\more_menu {
+class more_menu implements renderable, templatable {
 
     protected $content;
     protected $navbarstyle;
@@ -64,32 +68,61 @@ class more_menu extends \core\navigation\output\more_menu {
             'navbarstyle' => $this->navbarstyle,
             'istablist' => $this->istablist,
         ];
-        $collection = new stdClass();
         if ($this->haschildren) {
-
-                // Find all nodes that have children and are defined to show the children in a submenu.
-                // For each of these nodes we would like to display a dropdown menu and in order to achieve that
-                // (as required by the template) we need to set the node's property 'moremenuid' to a new unique value and
-                // 'haschildren' to true.
-                $count = 0;
-                foreach ($this->content as &$item) {
-                    if (!isset($item->children) || count($item->children) == 0) {
-                        $collection->$count = $item;
-                    }
-                    if ($item->showchildreninsubmenu && isset($item->children) &&
-                            count($item->children) > 0) {
-                        $item->moremenuid = uniqid();
-                        $item->haschildren = true;
-                        $collection->$count = $item;
-                    }
-                    $count += 1;
+            // The node collection doesn't have anything to render so exit now.
+            if (!isset($this->content->children) || count($this->content->children) == 0) {
+                return [];
+            }
+            // Find all nodes that have children and are defined to show the children in a submenu.
+            // For each of these nodes we would like to display a dropdown menu and in order to achieve that
+            // (as required by the template) we need to set the node's property 'moremenuid' to a new unique value and
+            // 'haschildren' to true.
+            foreach ($this->content->children as &$item) {
+                if ($item->showchildreninsubmenu && isset($this->content->children) &&
+                        count($this->content->children) > 0) {
+                    $item->moremenuid = uniqid();
+                    $item->haschildren = true;
                 }
+            }
+            $data['flatnavigation'] = [];
+            if($module_navigation = $this->content->children->find('modulemenu')){
+                if($module_navigation->has_children()) {
+                    $modmenu = new stdClass;
+                    $modmenu->title = "Activity Menu";
+                    $modmenu->id = "modmenu";
+                    $modmenu->items = [];
+                    $modmenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;
+                    foreach($module_navigation->children as $child){
+                        $flatnode = new flat_navigation_node($child, false);
+                        $modmenu->items[] = $flatnode;
 
-                $data['nodecollection'] = $collection;
-                $data['nodearray'] = (array) $collection;
-        } 
-            
-        
+                    }
+                    $data['flatnavigation'][] = $modmenu;
+                }
+                $this->content->children->remove('modulemenu');
+            }
+            if($course_navigation = $this->content->children->find('coursenavigation')){
+                if($course_navigation->has_children()){
+                    $coursemenu = new stdClass;
+                    $coursemenu->title = "Course Menu";
+                    $coursemenu->id = "coursemenu";
+                    $coursemenu->items = [];
+                    $coursemenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;
+                    foreach($course_navigation->children as $child){
+                        $flatnode = new flat_navigation_node($child, false);
+                        $coursemenu->items[] = $flatnode;
+
+                    }
+                    
+                    $data['flatnavigation'][] = $coursemenu;
+                }
+                $this->content->children->remove('coursenavigation');
+            }
+
+            $data['nodecollection'] = $this->content;
+        } else {
+            $data['nodearray'] = (array) $this->content;
+        }
         $data['moremenuid'] = uniqid();
 
         return $data;

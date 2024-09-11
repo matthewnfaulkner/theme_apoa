@@ -1,0 +1,122 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @deprecated since Moodle 4.0
+    @template theme_boost/flat_navigation
+
+    Display the flat navigation for the boost theme
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * flatnavigation - array of flat_navigation_nodes
+      * showdivider - boolean
+      * action - string
+      * isactive - boolean
+      * get_indent - integer
+      * is_section - boolean
+      * text - HTML
+
+    Example context (json):
+    {
+        "flatnavigation" : [
+            {
+                "showdivider": false,
+                "action": "#",
+                "isactive": true,
+                "get_indent": 1,
+                "is_section": false,
+                "text": "First"
+            },{
+                "showdivider": true,
+                "action": "#",
+                "isactive": false,
+                "get_indent": 0,
+                "is_section": true,
+                "text": "Last &amp; Second"
+            }
+        ]
+    }
+}}
+{{#flatnavigation}}
+    <div class="courseindex-item d-flex courseindex-section-title position-sticky sticky-top bg-white {{offset}}" id="{{id}}section" data-for="section_item">
+        <a data-toggle="collapse" href="#{{id}}collapse" class="courseindex-chevron icons-collapse-expand" aria-expanded="true" aria-controls="{{id}}collapse">
+            <span class="collapsed-icon icon-no-margin mr-1" title="Expand">
+                <span class="dir-rtl-hide" ><i class="icon fa fa-chevron-right fa-fw " aria-hidden="true"  aria-selected="false"></i></span>
+                <span class="dir-ltr-hide" ><i class="icon fa fa-chevron-left fa-fw " aria-hidden="true"></i></span>
+                <span class="sr-only" >Expand</span>
+            </span>
+            <span class="expanded-icon icon-no-margin mr-1" title="Collapse" >
+                <i class="icon fa fa-chevron-down fa-fw " aria-hidden="true"aria-selected="false"></i>
+                <span class="sr-only">Collapse</span>
+            </span>
+        </a>
+        <h4 class="courseindex-link text-truncate w-100 text-center text-primary" style="line-height: normal;">{{title}}</h4>
+    </div>
+
+    <div id="{{id}}collapse" class="show pb-2 mb-2 border-bottom border-primary collapse" aria-labelledby="{{id}}">
+
+        <nav class="list-group" aria-label="{{firstcollectionlabel}}">
+            <div style="list-style-type: none;">
+            {{#items}}
+                {{#showdivider}}
+                    </ul>
+                    </nav>
+                    <nav class="list-group mt-1" aria-label="{{get_collectionlabel}}">
+                    <ul>
+                {{/showdivider}}
+                {{#action}}
+                    <li>
+                        <a class="list-group-item list-group-item-action course-navigation-link{{#isactive}}active{{/isactive}} {{#classes}}{{.}} {{/classes}}" href="{{{action}}}" data-key="{{key}}" data-isexpandable="{{isexpandable}}" data-indent="{{get_indent}}" data-showdivider="{{showdivider}}" data-type="{{type}}" data-nodetype="{{nodetype}}" data-collapse="{{collapse}}" data-forceopen="{{forceopen}}" data-isactive="{{isactive}}" data-hidden="{{hidden}}" data-preceedwithhr="{{preceedwithhr}}" {{#parent.key}}data-parent-key="{{.}}"{{/parent.key}}>
+                            <div class="ml-{{get_indent}}">
+                                <div class="media">
+                                    {{#icon.pix}}
+                                        <span class="media-left">
+                                            {{#pix}}{{{icon.pix}}}, {{{icon.component}}}, {{{icon.alt}}}{{/pix}}
+                                        </span>
+                                    {{/icon.pix}}
+                                    <span class="media-body {{#isactive}}font-weight-bold{{/isactive}}">{{{text}}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                {{/action}}
+                {{^action}}
+                    <li>
+                        <div class="list-group-item {{#classes}}{{.}} {{/classes}}" data-key="{{key}}" data-isexpandable="{{isexpandable}}" data-indent="{{get_indent}}" data-showdivider="{{showdivider}}" data-type="{{type}}" data-nodetype="{{nodetype}}" data-collapse="{{collapse}}" data-forceopen="{{forceopen}}" data-isactive="{{isactive}}" data-hidden="{{hidden}}" data-preceedwithhr="{{preceedwithhr}}" {{#parent.key}}data-parent-key="{{.}}"{{/parent.key}}>
+                            <div class="ml-{{get_indent}}">
+                                <div class="media">
+                                    {{#icon.pix}}
+                                        <span class="media-left">
+                                            {{#pix}}{{{icon.pix}}}, {{{icon.component}}}, {{{icon.alt}}}{{/pix}}
+                                        </span>
+                                    {{/icon.pix}}
+                                    <span class="media-body">{{{text}}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {{/action}}
+            {{/items}}
+            </div>
+        </nav>
+    </div>
+{{/flatnavigation}}

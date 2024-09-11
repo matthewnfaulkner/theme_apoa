@@ -62,7 +62,8 @@ class secondary extends \core\navigation\views\secondary {
                 'questionbank' => 4,
             ],
             self::TYPE_SETTING => [
-                'editsettings' => 0,
+                'courselanding' => 0.1,
+                'editsettings' => 0.2,
                 'review' => 1.1,
                 'manageinstances' => 1.2,
                 'groups' => 1.3,
@@ -80,6 +81,23 @@ class secondary extends \core\navigation\views\secondary {
                 'coursetags' => 11,
                 'download' => 12,
                 'contextlocking' => 13,
+            ],
+        ];
+        $nodes['navigation'] = [
+            self::TYPE_COURSE => [
+                'courselanding' => 0,
+            ],
+            self::TYPE_CONTAINER => [
+                'participants' => 1,
+            ],
+            self::TYPE_SETTING => [
+                'grades' => 2,
+                'badgesview' => 7,
+                'competencies' => 8,
+            ],
+            self::TYPE_CUSTOM => [
+                'contentbank' => 5,
+                'participants' => 1, // In site home, 'participants' is classified differently.
             ],
         ];
 
@@ -103,6 +121,7 @@ class secondary extends \core\navigation\views\secondary {
                 'questionbank' => 4,
             ],
             self::TYPE_SETTING => [
+                'courselanding' => 0.1,
                 'editsettings' => 0,
                 'review' => 1.1,
                 'manageinstances' => 1.2,
@@ -125,7 +144,7 @@ class secondary extends \core\navigation\views\secondary {
         ];
         $nodes['navigation'] = [
             self::TYPE_COURSE => [
-                'courseview' => 0,
+                'courselanding' => 0,
             ],
             self::TYPE_CONTAINER => [
                 'participants' => 1,
@@ -212,7 +231,7 @@ class secondary extends \core\navigation\views\secondary {
      * @return array
      */
     protected function get_default_course_more_menu_nodes(): array {
-        return ['grades'];
+        return [];
     }
 
     /**
@@ -270,12 +289,20 @@ class secondary extends \core\navigation\views\secondary {
                 if ($this->page->course->format === 'singleactivity') {
                     $this->load_course_navigation();
                     $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
-                    //$this->load_single_activity_course_navigation();
+                    $this->load_single_activity_course_navigation();
                 } else {
                     $this->load_course_navigation();
                     $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
-                    //$this->load_module_navigation($this->page->settingsnav);
-                    //$defaultmoremenunodes = $this->get_default_module_more_menu_nodes();
+                    $modnode = $this->add(
+                        'Activity Menu' ,
+                        null,
+                        navigation_node::TYPE_CONTAINER,
+                        'Activity Menu' ,
+                        'modulemenu'
+                    );
+                    if($modnode){
+                        $this->load_module_navigation($this->page->settingsnav, $modnode);
+                    }                    
                 }
                 break;
             case CONTEXT_COURSECAT:
@@ -444,7 +471,7 @@ class secondary extends \core\navigation\views\secondary {
         // It is important that this is done before we try anything.
         $settingsnav = $this->page->settingsnav;
         $navigation = $this->page->navigation;
-
+        
         if ($course->id == $SITE->id) {
             $firstnodeidentifier = get_string('home'); // The first node in the site course nav is called 'Home'.
             $frontpage = $settingsnav->get('frontpage'); // The site course nodes are children of a dedicated 'frontpage' node.
@@ -462,12 +489,49 @@ class secondary extends \core\navigation\views\secondary {
         }else{
             $nodes = $this->get_default_course_mapping();
         }
-        $nodesordered = $this->get_leaf_nodes($settingsnav, $nodes['settings'] ?? []);
-        $nodesordered += $this->get_leaf_nodes($navigation, $nodes['navigation'] ?? []);
-        $this->add_ordered_nodes($nodesordered, $rootnode);
+
+        $navigation->add('Home',
+            new \moodle_url('/course/view.php', ['id' => $course->id]),
+            navigation_node::TYPE_COURSE,
+            'Home',
+            'courselanding',
+            new \pix_icon('i/home', '')
+        );
+
+
+        $navigationnodesordered = $this->get_leaf_nodes($navigation, $nodes['navigation'] ?? []);
+        $settingsnodesordered = $this->get_leaf_nodes($settingsnav, $nodes['settings'] ?? []);
+        
+        if($apoanav = $settingsnav->find('apoanav', navigation_node::TYPE_CONTAINER)){
+            $apoanav->remove();
+            $this->add_external_nodes_to_secondary($apoanav, $apoanav, $rootnode, true);
+        }
+
+
+        $navigationnode = $this->add(
+            'Navigtion' ,
+            null,
+            navigation_node::TYPE_CONTAINER,
+            'Navigation' ,
+            'coursenavigation'
+        );
+
+        $navigationnode->showchildreninsubmenu = true;
+
+        //$this->add_ordered_nodes($settingsnodesordered, $settingsnode);
+        $this->add_ordered_nodes($navigationnodesordered, $navigationnode);
+        $this->add_ordered_nodes($settingsnodesordered, $navigationnode);
 
         // Try to get any custom nodes defined by plugins, which may include containers.
         if ($courseadminnode) {
+            $toolnode = new navigation_node(
+                'Tools' ,
+                null,
+                navigation_node::TYPE_CONTAINER,
+                'Tools' ,
+                'coursetools'
+            );
+            $toolnode->showchildreninsubmenu = true;
             $expectedcourseadmin = $this->get_expected_course_admin_nodes();
             foreach ($courseadminnode->children as $other) {
                 if (array_search($other->key, $expectedcourseadmin, true) === false) {
@@ -475,7 +539,7 @@ class secondary extends \core\navigation\views\secondary {
                     $recursivenode = $othernode && !$rootnode->get($othernode->key) ? $othernode : $other;
                     // Get the first node and check whether it's been added already.
                     // Also check if the first node is an external link. If it is, add all children.
-                    $this->add_external_nodes_to_secondary($recursivenode, $recursivenode, $rootnode);
+                    $this->add_external_nodes_to_secondary($recursivenode, $recursivenode, $toolnode);
                 }
             }
         }
@@ -487,7 +551,7 @@ class secondary extends \core\navigation\views\secondary {
             if ($actionnode) {
                 // All additional nodes will be available under the 'Course reuse' page.
                 $text = get_string('coursereuse');
-                $rootnode->add($text, $actionnode->action, navigation_node::TYPE_COURSE, null, 'coursereuse',
+                $navigationnode->add($text, $actionnode->action, navigation_node::TYPE_COURSE, null, 'coursereuse',
                     new \pix_icon('t/edit', $text));
             }
         }

@@ -31,7 +31,7 @@ require_once($CFG->dirroot . '/course/lib.php');
 
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
-
+$PAGE->set_include_region_main_settings_in_header_actions(true);
 
 user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
 user_preference_allow_ajax_update('drawer-open-block', PARAM_BOOL);
@@ -60,25 +60,22 @@ if (!$hasblocks) {
 }
 
 
-$courseindex = core_course_drawer();
-if (!$courseindex) {
-    $courseindexopen = false;
-}
-
-
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 $forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
 
 
+$courseindex = '';
+$coursenavigation = '';
 
 $secondarynavigation = false;
 $overflow = '';
 if (is_siteadmin($USER->id)) {
     if ($PAGE->has_secondary_navigation()) {
         $tablistnav = $PAGE->has_tablist_secondary_navigation();
-        $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
+        $moremenu = new \theme_apoa\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
         $secondarynavigation = $moremenu->export_for_template($OUTPUT);
         //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+        $coursenavigation .= $OUTPUT->render_from_template('theme_apoa/flat_navigation', $secondarynavigation);
         $overflowdata =null;
         if (!is_null($overflowdata)) {
             $overflow = $overflowdata->export_for_template($OUTPUT);
@@ -87,9 +84,10 @@ if (is_siteadmin($USER->id)) {
 }else{
     if ($PAGE->has_secondary_navigation()) {
         $tablistnav = $PAGE->has_tablist_secondary_navigation();
-        $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
+        $moremenu = new \theme_apoa\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
         $secondarynavigation = $moremenu->export_for_template($OUTPUT);
         //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
+        $coursenavigation .= $OUTPUT->render_from_template('theme_apoa/flat_navigation', $secondarynavigation);
         $overflowdata=null;
         if (!is_null($overflowdata)) {
             $overflow = $overflowdata->export_for_template($OUTPUT);
@@ -97,6 +95,19 @@ if (is_siteadmin($USER->id)) {
     }
 
 }
+
+
+$courseindex = core_course_drawer();
+if (!$courseindex && !$coursenavigation) {
+    $courseindexopen = false;   
+}
+
+if($coursenavigation){
+    $indexoffset = "indexoffset-" . count($secondarynavigation['flatnavigation']) * 30;
+}
+
+$needdrawer = $coursenavigation || $courseindex;
+
 
 $PAGE->requires->css('/mod/lightboxgallery/assets/skins/sam/gallery-lightbox-skin.css');
 $PAGE->requires->yui_module('moodle-mod_lightboxgallery-lightbox', 'M.mod_lightboxgallery.init');
@@ -131,8 +142,10 @@ $templatecontext = [
     'hasblocks' => $hasblocks,
     'bodyattributes' => $bodyattributes,
     'courseindexopen' => $courseindexopen,
+    'needdrawer' => $needdrawer,
     'blockdraweropen' => $blockdraweropen,
     'courseindex' => $courseindex,
+    'coursenavigation' => $coursenavigation,
     'primarymoremenu' => $primarymenu['moremenu'],
     'secondarymoremenu' => $secondarynavigation ?: false,
     'mobileprimarynav' => $primarymenu['mobileprimarynav'],
@@ -145,6 +158,7 @@ $templatecontext = [
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
     'sidebar' => $sidebaroutput,
+    'indexoffset' => $indexoffset,
 ];
 
 echo $OUTPUT->render_from_template('theme_apoa/page', $templatecontext);

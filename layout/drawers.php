@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/course/lib.php');
 
 // Add block button in editing mode.
 $addblockbutton = $OUTPUT->addblockbutton();
+$PAGE->set_include_region_main_settings_in_header_actions(true);
 
 user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
 user_preference_allow_ajax_update('drawer-open-block', PARAM_BOOL);
@@ -62,10 +63,7 @@ if (!$hasblocks) {
 
 $hasblockscontent = (strpos($blockshtmlcontent, 'data-block=') !== false || !empty($addblockbutton));
 
-$courseindex = core_course_drawer();
-if (!$courseindex) {
-    $courseindexopen = false;
-}
+$courseindex = '';
 
 $bodyattributes = $OUTPUT->body_attributes($extraclasses);
 //$forceblockdraweropen = $OUTPUT->firstview_fakeblocks();
@@ -78,6 +76,7 @@ if (is_siteadmin($USER->id)) {
         $tablistnav = $PAGE->has_tablist_secondary_navigation();
         $moremenu = new \core\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
         $secondarynavigation = $moremenu->export_for_template($OUTPUT);
+        $courseindex .= $OUTPUT->render_from_template('theme_boost/flat_navigation', $secondarynavigation);
         $overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
         if (!is_null($overflowdata)) {
             $overflow = $overflowdata->export_for_template($OUTPUT);
@@ -94,6 +93,11 @@ if (is_siteadmin($USER->id)) {
         }
     }
 
+}
+
+$courseindex .= core_course_drawer();
+if (!$courseindex) {
+    $courseindexopen = false;
 }
 
 $primary = new \theme_apoa\navigation\output\primary($PAGE);

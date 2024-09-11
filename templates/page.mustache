@@ -58,11 +58,13 @@
     {{{ output.standard_top_of_body_html }}}
 
     {{> theme_apoa/navbar }}
-    {{#courseindex}}
+    {{#needdrawer}}
         {{< theme_boost/drawer }}
             {{$id}}theme_boost-drawers-courseindex{{/id}}
-            {{$drawerclasses}}drawer drawer-left {{#courseindexopen}}show{{/courseindexopen}}{{/drawerclasses}}
+            {{$drawerclasses}}drawer drawer-left pt-0 {{#courseindexopen}}show{{/courseindexopen}} {{indexoffset}}{{/drawerclasses}}
             {{$drawercontent}}
+                {{{coursenavigation}}}
+
                 {{{courseindex}}}
             {{/drawercontent}}
             {{$drawerpreferencename}}drawer-open-index{{/drawerpreferencename}}
@@ -70,7 +72,7 @@
             {{$tooltipplacement}}right{{/tooltipplacement}}
             {{$closebuttontext}}{{#str}}closecourseindex, core{{/str}}{{/closebuttontext}}
         {{/ theme_boost/drawer}}
-    {{/courseindex}}
+    {{/needdrawer}}
     {{#hasblocks}}
         {{< theme_boost/drawer }}
             {{$id}}theme_boost-drawers-blocks{{/id}}
@@ -92,7 +94,7 @@
     <div id="page" data-region="mainpage" data-usertour="scroller" class="drawers {{#courseindexopen}}show-drawer-left{{/courseindexopen}} {{#blockdraweropen}}show-drawer-right{{/blockdraweropen}} drag-container px-0">
         <div id="topofscroll" class="main-inner px-0 pt-0 mt-0 mw-100">
             <div class="drawer-toggles d-flex">
-                {{#courseindex}}
+                {{#needdrawer}}
                     <div class="drawer-toggler drawer-left-toggle open-nav d-print-none">
                         <button
                             class="btn icon-no-margin"
@@ -107,7 +109,7 @@
                             {{#pix}} t/index_drawer, moodle {{/pix}}
                         </button>
                     </div>
-                {{/courseindex}}
+                {{/needdrawer}}
                 {{#hasblocks}}
                     <div class="drawer-toggler drawer-right-toggle ml-auto d-print-none">
                         <button

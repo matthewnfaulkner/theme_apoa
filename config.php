@@ -71,7 +71,7 @@ $THEME->layouts = [
     ),
     // Server administration scripts.
     'admin' => array(
-        'file' => 'drawers.php',
+        'file' => 'page.php',
         'regions' => array('side-pre', 'content'),
         'defaultregion' => 'side-pre',
     ),
