@@ -88,7 +88,7 @@ class more_menu implements renderable, templatable {
             if($module_navigation = $this->content->children->find('modulemenu')){
                 if($module_navigation->has_children()) {
                     $modmenu = new stdClass;
-                    $modmenu->title = "Activity Menu";
+                    $modmenu->title = get_string('activitymenuheading', 'theme_apoa');;
                     $modmenu->id = "modmenu";
                     $modmenu->items = [];
                     $modmenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;
@@ -104,7 +104,7 @@ class more_menu implements renderable, templatable {
             if($course_navigation = $this->content->children->find('coursenavigation')){
                 if($course_navigation->has_children()){
                     $coursemenu = new stdClass;
-                    $coursemenu->title = "Course Menu";
+                    $coursemenu->title = get_string('coursemenuheading', 'theme_apoa');
                     $coursemenu->id = "coursemenu";
                     $coursemenu->items = [];
                     $coursemenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;
@@ -121,7 +121,7 @@ class more_menu implements renderable, templatable {
             if($category_navigation = $this->content->children->find('categorynavigation')){
                 if($category_navigation->has_children()){
                     $coursemenu = new stdClass;
-                    $coursemenu->title = "Category Menu";
+                    $coursemenu->title = get_string('categorymenuheading', 'theme_apoa');
                     $coursemenu->id = "categorymenu";
                     $coursemenu->items = [];
                     $coursemenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;

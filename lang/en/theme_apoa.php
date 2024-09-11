@@ -230,3 +230,7 @@ $string['primarynavitems_desc'] = 'The category to add to primary navigation in 
 
 $string['logininstructions'] = 'Login Instructions';
 $string['logininstructions_desc'] = 'Enter Instructions to be displayed on the login page.'; 
+
+$string['categorymenuheading'] = 'Category Menu';
+$string['activitymenuheading'] = 'Activity Menu';
+$string['coursemenuheading'] = 'Action Menu';
