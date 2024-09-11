@@ -136,6 +136,13 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
 
     $subrootcategory = core_course_category::get($parents[1]);
 
+
+    $apoacatnav = $parentnode->add('Apoacatnav',
+    null,
+    navigation_node::TYPE_CONTAINER,
+    'Apoacatnav',
+    'apoacatnav');
+
     $elibraryid = get_config('theme_apoa', 'elibraryid');#
 
     if(!has_capability('moodle/course:update', $context)) {
@@ -145,7 +152,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
         $elibraryid = get_config('theme_apoa', 'elibraryid');
         if ($subrootcategory->id == $elibraryid){
             if($category->depth == 3){
-            $parentnode->add(
+            $apoacatnav->add(
                 'Journal Settings' ,
                 new \moodle_url('/theme/apoa/editelibrary.php', ['id' => $category->id]),
                 navigation_node::TYPE_COURSE,
@@ -156,14 +163,14 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
         }
     }
     if ($subrootcategory->id == $elibraryid){
-        $parentnode->add(
+        $apoacatnav->add(
             'Journal Clubs' ,
             new \moodle_url('/local/journalclub/index.php', ['id' => $category->id]),
             navigation_node::TYPE_COURSE,
             'Journal Clubs' ,
             navigation_node::TYPE_COURSE . 'jc'
         );
-        $parentnode->add(
+        $apoacatnav->add(
             'Search' ,
             new \moodle_url('/local/journalclub/search.php', ['category' => $category->id]),
             navigation_node::TYPE_CATEGORY,
@@ -177,7 +184,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
     $PAGE->set_secondary_active_tab(navigation_node::TYPE_CATEGORY. $parents[2]);
     $component = 'theme_apoa';
 
-    theme_apoa_get_secondary_nav_items($parentnode, $subrootcategory, $component);
+    theme_apoa_get_secondary_nav_items($apoacatnav, $subrootcategory, $component);
 }
 
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {

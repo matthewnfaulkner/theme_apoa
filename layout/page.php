@@ -111,7 +111,7 @@ $needdrawer = $coursenavigation || $courseindex;
 
 $PAGE->requires->css('/mod/lightboxgallery/assets/skins/sam/gallery-lightbox-skin.css');
 $PAGE->requires->yui_module('moodle-mod_lightboxgallery-lightbox', 'M.mod_lightboxgallery.init');
-
+ 
 $primary = new \theme_apoa\navigation\output\primary($PAGE);
 
 $renderer = $PAGE->get_renderer('core');

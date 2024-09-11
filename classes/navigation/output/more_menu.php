@@ -118,6 +118,23 @@ class more_menu implements renderable, templatable {
                 }
                 $this->content->children->remove('coursenavigation');
             }
+            if($category_navigation = $this->content->children->find('categorynavigation')){
+                if($category_navigation->has_children()){
+                    $coursemenu = new stdClass;
+                    $coursemenu->title = "Category Menu";
+                    $coursemenu->id = "categorymenu";
+                    $coursemenu->items = [];
+                    $coursemenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;
+                    foreach($category_navigation->children as $child){
+                        $flatnode = new flat_navigation_node($child, false);
+                        $coursemenu->items[] = $flatnode;
+
+                    }
+                    
+                    $data['flatnavigation'][] = $coursemenu;
+                }
+                $this->content->children->remove('categorynavigation');
+            }
 
             $data['nodecollection'] = $this->content;
         } else {

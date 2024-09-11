@@ -209,10 +209,12 @@ class secondary extends \core\navigation\views\secondary {
     protected function get_default_category_mapping(): array {
         return [
             self::TYPE_SETTING => [
-                'edit' => 1,
-                'permissions' => 2,
-                'roles' => 2.1,
-                'rolecheck' => 2.2,
+                'managecategory' => 1,
+                'edit' => 2,
+                'addsubcat' => 3,
+                'permissions' => 4,
+                'roles' => 4.1,
+                'rolecheck' => 4.2,
             ]
         ];
     }
@@ -308,7 +310,7 @@ class secondary extends \core\navigation\views\secondary {
             case CONTEXT_COURSECAT:
                 $this->headertitle = get_string('categoryheader');
                 $this->load_category_navigation();
-                $defaultmoremenunodes = $this->get_default_category_more_menu_nodes();
+                //$defaultmoremenunodes = $this->get_default_category_more_menu_nodes();
                 break;
             case CONTEXT_SYSTEM:
                 $this->headertitle = get_string('homeheader');
@@ -853,18 +855,37 @@ class secondary extends \core\navigation\views\secondary {
         $nodes = $this->get_default_category_mapping();
         $category = core_course_category::get($this->context->instanceid);
         $rootcat = get_subroot_category($category);
-           
+
+        $navigationnode = $this->add(
+            'Navigtion' ,
+            null,
+            navigation_node::TYPE_CONTAINER,
+            'Navigation' ,
+            'categorynavigation'
+        );
+
+        $navigationnode->showchildreninsubmenu = true;
+        
+        if($apoacatnav = $settingsnav->find('apoacatnav', navigation_node::TYPE_CONTAINER)){
+            $apoacatnav->remove();
+            $this->add_external_nodes_to_secondary($apoacatnav, $apoacatnav, null, true);
+        }
+
         if ($mainnode) {
             $url = new \moodle_url('/course/index.php', ['categoryid' => $rootcat->id]);
             //$this->add('Section Home', $url, self::TYPE_CONTAINER, null, 'categorymain');
 
             // Add the initial nodes.
             $nodesordered = $this->get_leaf_nodes($mainnode, $nodes);
-            $this->add_ordered_nodes($nodesordered);
+
+            foreach($nodesordered as $node){
+                $node->set_show_in_secondary_navigation();
+            }
+            $this->add_ordered_nodes($nodesordered, $navigationnode);
 
             // We have finished inserting the initial structure.
             // Populate the menu with the rest of the nodes available.
-            $this->load_remaining_nodes($mainnode, $nodes);
+            $this->load_remaining_nodes($mainnode, $nodes, $navigationnode);
 
         }
     }
