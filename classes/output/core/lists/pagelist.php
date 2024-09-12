@@ -66,6 +66,10 @@ class theme_apoa_pagelist implements \templatable {
                         break;  
                     }
                 }
+                if(!$img){
+                    $img = $output->get_generated_image_for_id($this->course->id);
+                }
+                
                 $name = substr($course->get_formatted_shortname(), 0, 40);
                 $name = strlen($name) < 40 ? $name : $name . '...';
                 $url = course_get_url($course);
