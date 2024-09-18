@@ -94,6 +94,12 @@ $THEME->layouts = [
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => true, 'langmenu' => true),
     ),
+    // The pagelayout used for reports.
+    'report' => array(
+        'file' => 'page.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+    ),
 ];   
 $topchildren = core_course_category::top()->get_children();
 if (empty($topchildren)) {
