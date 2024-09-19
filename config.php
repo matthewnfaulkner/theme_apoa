@@ -100,6 +100,12 @@ $THEME->layouts = [
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
     ),
+    // Standard layout with blocks.
+    'standard' => array(
+        'file' => 'page.php',
+        'regions' => array('side-pre'),
+        'defaultregion' => 'side-pre',
+    ),
 ];   
 $topchildren = core_course_category::top()->get_children();
 if (empty($topchildren)) {
