@@ -225,8 +225,10 @@ class core_renderer extends \core_renderer {
                     if($cm){
                         $modname = $cm->modname;
                         if($modname == 'elibrary' || $modname == 'pdf' || $modname == 'committee'){
-                            $courseurl = new moodle_url($CFG->wwwroot . '/course/view.php', array('id' => $PAGE->course->id));
-                            redirect($courseurl);
+                            if(!$PAGE->user_is_editing()){
+                                $courseurl = new moodle_url($CFG->wwwroot . '/course/view.php', array('id' => $PAGE->course->id));
+                                redirect($courseurl);
+                            }
                         }
                     }
                 }
