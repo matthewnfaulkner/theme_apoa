@@ -54,6 +54,9 @@ if ($courseindexopen) {
 
 $blockshtml = $OUTPUT->blocks('side-pre');
 
+$isdashboard = $PAGE->pagelayout == 'mydashboard';
+$blockshtmlcontent = $OUTPUT->blocks('content');
+
 $hasblocks = (strpos($blockshtml, 'data-block=') !== false || !empty($addblockbutton));
 if (!$hasblocks) {
     $blockdraweropen = false;
@@ -73,9 +76,9 @@ if (is_siteadmin($USER->id)) {
     if ($PAGE->has_secondary_navigation()) {
         $tablistnav = $PAGE->has_tablist_secondary_navigation();
         $moremenu = new \theme_apoa\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
-        $secondarynavigation = $moremenu->export_for_template($OUTPUT);
-        //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
-        $coursenavigation .= $OUTPUT->render_from_template('theme_apoa/flat_navigation', $secondarynavigation);
+        if($secondarynavigation = $moremenu->export_for_template($OUTPUT)) {
+            $coursenavigation .= $OUTPUT->render_from_template('theme_apoa/flat_navigation', $secondarynavigation);
+        }
         $overflowdata =null;
         if (!is_null($overflowdata)) {
             $overflow = $overflowdata->export_for_template($OUTPUT);
@@ -86,8 +89,9 @@ if (is_siteadmin($USER->id)) {
         $tablistnav = $PAGE->has_tablist_secondary_navigation();
         $moremenu = new \theme_apoa\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
         $secondarynavigation = $moremenu->export_for_template($OUTPUT);
-        //$overflowdata = $PAGE->secondarynav->get_overflow_menu_data();
-        $coursenavigation .= $OUTPUT->render_from_template('theme_apoa/flat_navigation', $secondarynavigation);
+        if($secondarynavigation = $moremenu->export_for_template($OUTPUT)) {
+            $coursenavigation .= $OUTPUT->render_from_template('theme_apoa/flat_navigation', $secondarynavigation);
+        }
         $overflowdata=null;
         if (!is_null($overflowdata)) {
             $overflow = $overflowdata->export_for_template($OUTPUT);
