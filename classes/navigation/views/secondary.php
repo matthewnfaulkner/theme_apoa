@@ -506,7 +506,12 @@ class secondary extends \core\navigation\views\secondary {
         
         if($apoanav = $settingsnav->find('apoanav', navigation_node::TYPE_CONTAINER)){
             $apoanav->remove();
-            $this->add_external_nodes_to_secondary($apoanav, $apoanav, $rootnode, true);
+            foreach ($apoanav->children as $child) {
+                if($child->children->count() > 0) {
+                    $child->showchildreninsubmenu = true;
+                }
+                $this->add_node($child);
+            }
         }
 
 
@@ -868,7 +873,12 @@ class secondary extends \core\navigation\views\secondary {
         
         if($apoacatnav = $settingsnav->find('apoacatnav', navigation_node::TYPE_CONTAINER)){
             $apoacatnav->remove();
-            $this->add_external_nodes_to_secondary($apoacatnav, $apoacatnav, null, true);
+            foreach ($apoacatnav->children as $child) {
+                if($child->children->count() > 0) {
+                    $child->showchildreninsubmenu = true;
+                }
+                $this->add_node($child);
+            }
         }
 
         if ($mainnode) {
