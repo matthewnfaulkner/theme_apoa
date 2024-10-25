@@ -97,7 +97,8 @@ class secondary extends \core\navigation\views\secondary {
             ],
             self::TYPE_CUSTOM => [
                 'contentbank' => 5,
-                'participants' => 1, // In site home, 'participants' is classified differently.
+                'participants' => 1,
+                'editsubscription' => 3 // In site home, 'participants' is classified differently.
             ],
         ];
 
@@ -157,7 +158,8 @@ class secondary extends \core\navigation\views\secondary {
             self::TYPE_CUSTOM => [
                 'contentbank' => 5,
                 'participants' => 1, // In site home, 'participants' is classified differently.
-                'downloadcommittee' => 14
+                'downloadcommittee' => 14,
+                'editsubscription' => 3
             ],
         ];
 
