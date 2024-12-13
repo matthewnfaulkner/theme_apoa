@@ -281,33 +281,27 @@ class secondary extends \core\navigation\views\secondary {
         switch ($context->contextlevel) {
             case CONTEXT_COURSE:
                 $this->headertitle = get_string('courseheader');
-                if ($this->page->course->format === 'singleactivity') {
-                    $this->load_single_activity_course_navigation();
-                } else {
-                    $this->load_course_navigation();
-                    $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
-                }
+
+                $this->load_course_navigation();
+                $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
+                
                 break;
             case CONTEXT_MODULE:
                 $this->headertitle = get_string('activityheader');
-                if ($this->page->course->format === 'singleactivity') {
-                    $this->load_course_navigation();
-                    $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
-                    $this->load_single_activity_course_navigation();
-                } else {
-                    $this->load_course_navigation();
-                    $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
-                    $modnode = $this->add(
-                        'Activity Menu' ,
-                        null,
-                        navigation_node::TYPE_CONTAINER,
-                        'Activity Menu' ,
-                        'modulemenu'
-                    );
-                    if($modnode){
-                        $this->load_module_navigation($this->page->settingsnav, $modnode);
-                    }                    
-                }
+
+                $this->load_course_navigation();
+                $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
+                $modnode = $this->add(
+                    'Activity Menu' ,
+                    null,
+                    navigation_node::TYPE_CONTAINER,
+                    'Activity Menu' ,
+                    'modulemenu'
+                );
+                if($modnode){
+                    $this->load_module_navigation($this->page->settingsnav, $modnode);
+                }                    
+                
                 break;
             case CONTEXT_COURSECAT:
                 $this->headertitle = get_string('categoryheader');

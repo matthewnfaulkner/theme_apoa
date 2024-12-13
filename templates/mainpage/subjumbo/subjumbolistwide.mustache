@@ -1,6 +1,7 @@
 <h4 class="text-center main-page-section-title pt-2 p-1 px-0">
     <a class="section_title main-page-link" href="{{sectionurl}}">{{sectiontitle}}</a>
 </h4>
+<<<<<<< HEAD
 <div class="row w-100 m-0">
     <div class ="col col-4 px-0">
         <div class="nav flex-column nav-pills p-0" id="elibrary-tab" role="tablist" aria-orientation="vertical">
@@ -30,6 +31,31 @@
                 {{/firsttab}}
             
             {{/content}}
+=======
+<div class="row w-100">
+    {{#subcategories}}
+            <div class="col-4">
+                {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidecats}}
+            </div>
+    {{/subcategories}}
+</div>
+<div id="accordion-2" role="tablist">
+    {{#content}}
+        {{#first}}
+            {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwidetop}}
+        {{/first}}
+        {{^first}}
+            {{> theme_apoa/mainpage/subjumbo/subjumbolistitemwide}}
+        {{/first}}
+    {{/content}}
+    <div class="p-0 main-page-sub-list-group-item">
+        <div class="card p-0" style="border-style: none;">
+            <div class="card-body pb-0 pt-2">
+                <p class="mb-1">
+                <a class="main-page-link main-page-more-link" href="{{{sectionurl}}}">Visit the E-Library...</a>
+                </p>
+            </div>
+>>>>>>> d42b13fa60fe610a427edf9081b26bfa3310819b
         </div>
     </div>
 </div>

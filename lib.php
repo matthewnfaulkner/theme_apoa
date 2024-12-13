@@ -88,10 +88,11 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
     $subcategories = $category->get_children();
 
     foreach ($subcategories as $subcategory) {
-    
+
         $nospacename = preg_replace("/[^a-zA-Z]+/", "", $subcategory->name);
         $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
         if ($coursecount = $subcategory->get_courses_count() == 1 && $subcategory->get_children_count() == 0){
+
             if($courses = $subcategory->get_courses($limit = 1)) {
                 $course = reset($courses);
                 $parentnode->add(
@@ -131,6 +132,10 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
 function theme_apoa_extend_navigation_category_settings(navigation_node $parentnode, context_coursecat $context) {
     global $USER, $PAGE;
     
+    if($PAGE->theme->name !== 'apoa'){
+        return;
+    }
+
     $category = core_course_category::get($context->instanceid);
     $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -190,6 +195,10 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
     global $PAGE;
 
+    if($PAGE->theme->name !== 'apoa'){
+        return;
+    }
+    
     $apoanav = $parentnode->add('Apoanav',
     null,
     navigation_node::TYPE_CONTAINER,
