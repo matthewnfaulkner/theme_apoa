@@ -274,7 +274,7 @@ class course_renderer extends \core_course_renderer {
                 $this->page->set_title("$site->shortname: $strcategories");
             } else {
                 $strfulllistofcourses = get_string('fulllistofcourses');
-                $this->page->set_title($coursecat->get_formatted_name() . " | $site->shortname");
+                $this->page->set_title($coursecat->get_formatted_name());
             }
 
             // Print current category description
