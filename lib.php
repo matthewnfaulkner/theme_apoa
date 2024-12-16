@@ -131,6 +131,10 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
 function theme_apoa_extend_navigation_category_settings(navigation_node $parentnode, context_coursecat $context) {
     global $USER, $PAGE;
     
+    if($PAGE->theme->name !== 'apoa'){
+        return;
+    }
+
     $category = core_course_category::get($context->instanceid);
     $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -190,6 +194,10 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
     global $PAGE;
 
+    if($PAGE->theme->name !== 'apoa'){
+        return;
+    }
+    
     $apoanav = $parentnode->add('Apoanav',
     null,
     navigation_node::TYPE_CONTAINER,
