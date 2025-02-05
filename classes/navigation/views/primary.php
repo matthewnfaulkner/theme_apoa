@@ -163,17 +163,6 @@ class primary extends \core\navigation\views\primary {
                         $navnode->key
                     );
             
-            if ($navnode->haschildren){
-                foreach($navnode->children as $navnodechild) {
-                    
-                    $rootnode->add($navnodechild->name, 
-                        new \moodle_url($navnodechild->url), 
-                        $navnodechild->type,
-                        $navnodechild->name, 
-                        $navnodechild->key,
-                );
-                }
-            }
             $rootnode->showchildreninsubmenu = $navnode->showchildreninsubmenu;
         }
     }
