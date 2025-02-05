@@ -25,6 +25,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core_course\reportbuilder\local\entities\course_category;
+
 defined('MOODLE_INTERNAL') || die();
 
 
@@ -77,5 +79,47 @@ class apoa_page extends moodle_page{
         }
         return $this->_primarynav;
     }
+
+
+        /**
+     * This function ensures that the category of the current course has been
+     * loaded, and if not, the function loads it now.
+     *
+     * @return void
+     * @throws coding_exception
+     */
+    protected function ensure_category_loaded() {
+        if (is_array($this->_categories)) {
+            return; // Already done.
+        }
+        if (is_null($this->_course)) {
+            throw new coding_exception('Attempt to get the course category for this page before the course was set.');
+        }
+        if ($this->_course->category == 0) {
+            $ctx = optional_param('ctx', null, PARAM_INT);
+            if($ctx && ($context = context::instance_by_id($ctx, IGNORE_MISSING)) && $context->contextlevel == CONTEXT_COURSECAT){
+                if($category = core_course_category::get($context->instanceid, IGNORE_MISSING)){
+                    $parent_categoryids = array_reverse($category->get_parents());
+                    $this->_categories = [$category->id => $category];
+                    foreach($parent_categoryids as $parent_id) {
+                        if($parent_cat = core_course_category::get($parent_id, IGNORE_MISSING)){
+                            $this->_categories[$parent_id] = $parent_cat;
+                        }
+                    }
+                }
+                else{
+                    $this->_categories = array();
+                }
+               
+            }
+            else{
+                $this->_categories = array();
+            }
+            
+        } else {
+            $this->load_category($this->_course->category);
+        }
+    }
+
 
 }

@@ -88,7 +88,6 @@ if (is_siteadmin($USER->id)) {
     if ($PAGE->has_secondary_navigation()) {
         $tablistnav = $PAGE->has_tablist_secondary_navigation();
         $moremenu = new \theme_apoa\navigation\output\more_menu($PAGE->secondarynav, 'nav-tabs', true, $tablistnav);
-        $secondarynavigation = $moremenu->export_for_template($OUTPUT);
         if($secondarynavigation = $moremenu->export_for_template($OUTPUT)) {
             $coursenavigation .= $OUTPUT->render_from_template('theme_apoa/flat_navigation', $secondarynavigation);
         }
