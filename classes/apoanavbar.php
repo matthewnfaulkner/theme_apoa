@@ -149,6 +149,7 @@ class apoanavbar implements \renderable {
         $sectionskey = get_config('theme_apoa', 'Sectionsid');
         $this->remove($apoakey);
         $this->remove($sectionskey);
+        $this->remove('tags');
         $this->remove_no_link_items($removesections);
 
         // Don't display the navbar if there is only one item. Apparently this is bad UX design.
