@@ -89,6 +89,7 @@ class apoa_page extends moodle_page{
      * @throws coding_exception
      */
     protected function ensure_category_loaded() {
+        global $args;
         if (is_array($this->_categories)) {
             return; // Already done.
         }
@@ -97,6 +98,7 @@ class apoa_page extends moodle_page{
         }
         if ($this->_course->category == 0) {
             $ctx = optional_param('ctx', null, PARAM_INT);
+            $categoryid = $args['categoryid'];
             if($ctx && ($context = context::instance_by_id($ctx, IGNORE_MISSING)) && $context->contextlevel == CONTEXT_COURSECAT){
                 if($category = core_course_category::get($context->instanceid, IGNORE_MISSING)){
                     $parent_categoryids = array_reverse($category->get_parents());
@@ -111,6 +113,9 @@ class apoa_page extends moodle_page{
                     $this->_categories = array();
                 }
                
+            }
+            else if($category) {
+                $this->_categories[$category] = core_course_category::get($category, IGNORE_MISSING);
             }
             else{
                 $this->_categories = array();
