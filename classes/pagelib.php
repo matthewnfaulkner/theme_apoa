@@ -40,7 +40,7 @@ class apoa_page extends moodle_page{
      */
     protected function magic_get_secondarynav() {
         if ($this->_secondarynav === null) {
-            $class = 'theme_apoa\navigation\views\secondary';
+            $class = 'theme_' . $this->theme->name .'\navigation\views\secondary';
             // Try and load a custom class first.
             if (class_exists("mod_{$this->activityname}\\navigation\\views\\secondary")) {
                 $class = "mod_{$this->activityname}\\navigation\\views\\secondary";
@@ -52,7 +52,11 @@ class apoa_page extends moodle_page{
                         DEBUG_DEVELOPER);
                 $class = "mod_{$this->activityname}\\local\\views\\secondary";
             }
-            $class = 'theme_apoa\navigation\views\secondary';
+            $class = 'theme_' . $this->theme->name .'\navigation\views\secondary';
+
+            if(!class_exists($class)) {
+                $class = 'theme_apoa\navigation\views\secondary';
+            }
             $this->_secondarynav = new $class($this);
             $this->_secondarynav->initialise();
         }
@@ -114,8 +118,11 @@ class apoa_page extends moodle_page{
                 }
                
             }
-            else if($category) {
-                $this->_categories[$category] = core_course_category::get($category, IGNORE_MISSING);
+            else if($categoryid) {
+                $this->_categories[$categoryid] = core_course_category::get($categoryid, IGNORE_MISSING);
+            }
+            else if (($context = context::instance_by_id($this->context->id, IGNORE_MISSING)) && $context->contextlevel == CONTEXT_COURSECAT) {
+                $this->_categories[$context->instanceid] = core_course_category::get($context->instanceid, MUST_EXIST);
             }
             else{
                 $this->_categories = array();

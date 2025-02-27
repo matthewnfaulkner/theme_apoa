@@ -53,7 +53,7 @@ $THEME->layouts = [
     ),
     'coursecategory' => array(
         'file' => 'page.php',
-        'regions' => array('side-pre'),
+        'regions' => array('side-pre',),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,)
     ),
