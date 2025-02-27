@@ -34,7 +34,7 @@ class membership implements \templatable , \renderable {
 
     protected function get_content() {
         return array('loginurl' => new moodle_url('login/index.php'),
-                'membershipsurl' => new moodle_url('local/subscriptions/index.php'));
+                'membershipsurl' => new moodle_url('auth/apoa/signup.php'));
     }
     
 }
