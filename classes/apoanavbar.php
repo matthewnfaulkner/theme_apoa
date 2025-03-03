@@ -20,6 +20,7 @@ use core\navigation\views\view;
 use navigation_node;
 use moodle_url;
 use action_link;
+use breadcrumb_navigation_node;
 use lang_string;
 
 /**
@@ -83,6 +84,7 @@ class apoanavbar implements \renderable {
             // Remove 'My courses' and 'Courses' if we are in the course context.
             $this->remove('mycourses');
             $this->remove('courses');
+            $this->remove('courselanding');
             //$this->remove($this->page->course->id);
             $this->get_category_breadcrumb_for_course();
             // Remove the course category breadcrumb node.
@@ -90,7 +92,7 @@ class apoanavbar implements \renderable {
             // Remove the course breadcrumb node.
             $this->remove($this->page->course->id, \breadcrumb_navigation_node::TYPE_COURSE);
             // Remove the navbar nodes that already exist in the secondary navigation menu.
-            $this->remove_items_that_exist_in_navigation($PAGE->secondarynav);
+            //$this->remove_items_that_exist_in_navigation($PAGE->secondarynav);
 
             switch ($this->page->pagetype) {
                 case 'group-groupings':
@@ -358,8 +360,32 @@ class apoanavbar implements \renderable {
         
         $category = \core_course_category::get($this->page->course->category);
         $parents = $category->get_parents();
-        $secondary = $this->page->secondarynav;
-        
+        if($parents) {
+            array_shift($parents);
+            foreach($parents as $parent) {
+                $parentcat = \core_course_category::get($parent);
+                $this->items[] = new breadcrumb_navigation_node(
+                    array(
+                        'text' => $parentcat->name,
+                        'shorttext' => $parentcat->name,
+                        'icon' => null,
+                        'type' => navigation_node::TYPE_CATEGORY,
+                        'key' => navigation_node::TYPE_CATEGORY . $parentcat->name,
+                        'action' => $parentcat->get_view_link(),
+                    )
+                    );
+            }
+        }
+        $this->items[] = new breadcrumb_navigation_node(
+            array(
+                'text' => $category->name,
+                'shorttext' => $category->name,
+                'icon' => null,
+                'type' => navigation_node::TYPE_CATEGORY,
+                'key' => navigation_node::TYPE_CATEGORY . $category->name,
+                'action' => $category->get_view_link(),
+            )
+        );
     }
 }
 
