@@ -44,6 +44,7 @@ $THEME->layouts = [
     'base' => array(
         'file' => 'page.php',
         'regions' => array('content'),
+        'defaultregion' => 'content',
     ),
     'frontpage' => array(
         'file' => 'frontpage.php',
