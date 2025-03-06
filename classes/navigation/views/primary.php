@@ -77,6 +77,8 @@ class primary extends \core\navigation\views\primary {
                 $this->add(get_string('mycourses'), new \moodle_url('/my/courses.php'), self::TYPE_ROOTNODE, null, 'mycourses');
             }
 
+        }else{
+            $this->add(get_string('join', 'theme_apoa'), new \moodle_url('/auth/apoa/signup.php'), self::TYPE_CUSTOM, get_string('join', 'theme_apoa'), 'joinapoa');
         }
 
 

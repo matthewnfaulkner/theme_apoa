@@ -234,3 +234,4 @@ $string['logininstructions_desc'] = 'Enter Instructions to be displayed on the l
 $string['categorymenuheading'] = 'Category Menu';
 $string['activitymenuheading'] = 'Activity Menu';
 $string['coursemenuheading'] = 'Action Menu';
+$string['join'] = 'Join APOA';
