@@ -461,16 +461,33 @@ class course_renderer extends \core_course_renderer {
 
 
         if($coursecat->has_courses()){
-            $landingpage = reset($coursecat->get_courses(['recursive' => false, 'limit' => 1, 'idonly' => true]));
+            $courses = $coursecat->get_courses(['recursive' => false, 'limit' => 25, 'idonly' => false]);
+            $landingpage = array_shift($courses);
             
+            $template = [];
+
             if($landingpage) {
-                $course = get_course($landingpage);
+                $course = get_course($landingpage->id);
                 $format = $course->format;
                 $renderer = $PAGE->get_renderer('format_' . $format);
                 if(!method_exists($renderer, 'display')){
-                    redirect($CFG->wwwroot . "/course/view.php?id=" . $landingpage);
+                    redirect($CFG->wwwroot . "/course/view.php?id=" . $landingpage->id);
                 }
-                    return $renderer->display($course, false);
+                $output .= $renderer->display($course, false);
+
+                foreach($courses as $course) {
+
+                    $template['courses'][] = array(
+                        'name' => $course->get_formatted_fullname(),
+                        'id' => $course->id,
+                        'imgurl' => $this->get_course_image($course),
+                        'url' => new moodle_url('/course/view.php', array('id' => $course->id)),
+                    );
+                }
+
+                $output .= $this->render_from_template('theme_apoa/categorylist',$template);
+
+                return $output;
             }
         }
 
@@ -509,5 +526,27 @@ class course_renderer extends \core_course_renderer {
         return $output;
     }
 
+    
+    function get_course_image(\core_course_list_element $course) {
+
+        global $CFG;
+
+        foreach ($course->get_course_overviewfiles() as $file) {
+            $isimage = $file->is_valid_image();
+            $imgurl = \moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
+                '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
+                $file->get_filearea() . $file->get_filepath() . $file->get_filename(), !$isimage);
+            if ($isimage) {
+                break;
+            }
+        }
+        
+        if(!$imgurl){
+            $imgurl = $this->get_generated_image_for_id($course->id);
+        }
+
+        return $imgurl;
+    }
 }
+
 

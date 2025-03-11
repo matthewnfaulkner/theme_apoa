@@ -71,14 +71,20 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
     }
 }
 
+function theme_apoa_format_name_for_navigation($name) {
+
+    $shortname= strlen($name) > 14 ? substr_replace($name, '...', 14) : $name;
+    
+    return $shortname;
+}
 
 function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_course_category $category, string $component) {
 
-    $courses = $category->get_courses(array('recursive' => false, 'limit' => 10));
+    $courses = $category->get_courses(array('recursive' => false, 'limit' => 25));
 
     foreach($courses as $course){
         $parentnode->add(
-            $course->get_formatted_fullname() ,
+            theme_apoa_format_name_for_navigation($course->get_formatted_fullname()) ,
             new \moodle_url('/course/view.php', ['id' => $course->id]),
             navigation_node::TYPE_COURSE,
             $course->shortname,

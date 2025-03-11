@@ -409,3 +409,30 @@ body.limitedwidth #page.drawers .footer-popover {
     min-width: 600px;
   }
 }
+
+.card-img-top-course{
+  height:100px;
+  width:100px;
+  object-fit: cover;
+}
+
+.coursecatcard-img{
+  transition: transform 0.2s ease-in-out;
+}
+
+.coursecatcard-imgcont{
+  height: 110px;
+  width: 110px;
+}
+
+.stretched-link:hover  .coursecatcard .coursecatcard-imgcont .coursecatcard-img{
+  transform: scale(1.1);
+}
+
+.coursecatcard{
+  transition: transform 0.2s ease-in-out;
+}
+
+.stretched-link:hover  .coursecatcard {
+  background-color: #33666750;
+}

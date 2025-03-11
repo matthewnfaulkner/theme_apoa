@@ -1,0 +1,16 @@
+<div class="row d-flex flex-row">
+    {{#otherlinks}}
+        {{> theme_apoa/coursecard}}
+    {{/otherlinks}}
+    {{#courses}}
+        {{> theme_apoa/coursecard}}
+    {{/courses}}
+    {{#categories}}
+        {{^hascourses}}
+                {{> theme_apoa/coursecard}}
+        {{/hascourses}}
+        {{#hascourses}}
+                {{> theme_apoa/coursecard}}
+        {{/hascourses}}
+    {{/categories}}
+</div>
