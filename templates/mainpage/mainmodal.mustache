@@ -8,6 +8,10 @@
         </button>
       </div>
       <div class="modal-body border-0 card-img-overlay d-flex justify-content-center">
+        {{#mainmodallink}}
+        
+          <a class="stretched-link" href="{{mainmodallink}}"></a>
+        {{/mainmodallink}}
         <img class="card-img rounded-0 main-modal-bg" src="{{mainmodalbg}}" alt="Card image">
         <img class="card-img rounded-0 main-modal-bg-mobile" src="{{mainmodalbgmobile}}" alt="Card image">
         {{{mainmodalcontent}}}

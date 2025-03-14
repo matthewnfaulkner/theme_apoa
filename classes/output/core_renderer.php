@@ -690,6 +690,7 @@ class core_renderer extends \core_renderer {
             'mainmodalbg' => theme_apoa_get_file_from_setting('mainmodalbg'),
             'mainmodalbgmobile' => theme_apoa_get_file_from_setting('mainmodalbgmobile'),
             'mainmodalcontent' => get_config('theme_apoa', 'mainmodalcontent'),
+            'mainmodallink' => get_config('theme_apoa', 'mainmodallink')
 
         ]
         ;

@@ -176,6 +176,12 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');      
 
     $page->add($setting); 
+
+    $setting = new admin_setting_configtext('theme_apoa/mainmodallink',                                                              
+        get_string('mainmodallink', 'theme_apoa'), get_string('mainmodallink_desc', 'theme_apoa'), '', PARAM_RAW);                      
+    $setting->set_updatedcallback('theme_reset_all_caches');    
+
+    $page->add($setting);  
     
     $setting = new admin_setting_confightmleditor('theme_apoa/mainmodalcontent',                                                              
         get_string('mainmodalcontent', 'theme_apoa'), get_string('mainmodalcontent_desc', 'theme_apoa'), '', PARAM_RAW);                      
