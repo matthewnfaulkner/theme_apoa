@@ -942,6 +942,29 @@ class core_renderer extends \core_renderer {
         }
     }
 
+
+    /**
+     * Returns HTML to display a continue button that goes to a particular URL.
+     *
+     * @param string|moodle_url $url The url the button goes to.
+     * @return string the HTML to output.
+     */
+    public function continue_button($url) {
+        if (!($url instanceof moodle_url)) {
+            $url = new moodle_url($url);
+        }
+        
+        if($url->compare(new moodle_url('/login/index.php'), URL_MATCH_BASE)){
+            $button = new \single_button($url, get_string('login'), 'get', \single_button::BUTTON_PRIMARY);
+        }else{
+            $button = new \single_button($url, get_string('continue'), 'get', \single_button::BUTTON_PRIMARY);
+        }
+        
+        $button->class = 'continuebutton';
+
+        return $this->render($button);
+    }
+
 }
     
 
