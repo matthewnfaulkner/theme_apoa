@@ -59,5 +59,25 @@ class mod_lesson_renderer extends \mod_lesson_renderer {
         return $output;
     }
 
-    
+
+    /**
+     * Returns the header for the lesson module
+     *
+     * @param lesson $lesson a lesson object.
+     * @param string $currenttab current tab that is shown.
+     * @param bool   $extraeditbuttons if extra edit buttons should be displayed.
+     * @param int    $lessonpageid id of the lesson page that needs to be displayed.
+     * @param string $extrapagetitle String to appent to the page title.
+     * @return string
+     */
+    public function header($lesson, $cm, $currenttab = '', $extraeditbuttons = false, $lessonpageid = null, $extrapagetitle = null) {
+        global $CFG, $USER;
+
+        if(is_guest($lesson->context, $USER)){
+            $extrapagetitle = '';
+        }
+
+        return parent::header($lesson, $cm, $currenttab, $extraeditbuttons, $lessonpageid, $extrapagetitle);
+    }
+        
 }
