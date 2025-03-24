@@ -38,8 +38,9 @@ class mod_lesson_renderer extends \mod_lesson_renderer {
      * @return string
      */
     public function continue_links(\lesson $lesson, $lastpageseenid) {
-        global $USER;
-        if(is_guest($lesson->context, $USER)){
+
+        //if guest we don't want continue links
+        if(isguestuser()){
             redirect(new \moodle_url('/mod/lesson/view.php', array('id'=> $lesson->cm->id, 'pageid' => $lesson->firstpageid, 'startlastseen'=>'no')));
         }
         global $CFG;
@@ -71,9 +72,9 @@ class mod_lesson_renderer extends \mod_lesson_renderer {
      * @return string
      */
     public function header($lesson, $cm, $currenttab = '', $extraeditbuttons = false, $lessonpageid = null, $extrapagetitle = null) {
-        global $CFG, $USER;
 
-        if(is_guest($lesson->context, $USER)){
+        //if guest we don't need continue information
+        if(isguestuser()){
             $extrapagetitle = '';
         }
 
