@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,20 +12,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * This file contains the moodle_page class. There is normally a single instance
- * of this class in the $PAGE global variable. This class is a central repository
- * of information about the page we are building up to send back to the user.
+ *  Override core moodle_page class.
  *
- * @package core
- * @category page
- * @copyright  1999 onwards Martin Dougiamas  {@link http://moodle.com}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                       
 
-use core_course\reportbuilder\local\entities\course_category;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -53,9 +49,14 @@ class apoa_page extends moodle_page{
                 $class = "mod_{$this->activityname}\\local\\views\\secondary";
             }
             $class = 'theme_' . $this->theme->name .'\navigation\views\secondary';
-
+            
             if(!class_exists($class)) {
-                $class = 'theme_apoa\navigation\views\secondary';
+                foreach($this->theme->parents as $parent) {
+                    $class = 'theme_' . $parent . '\navigation\views\secondary';
+                    if(class_exists($class)){
+                        break;
+                    }
+                }
             }
             $this->_secondarynav = new $class($this);
             $this->_secondarynav->initialise();
@@ -63,6 +64,11 @@ class apoa_page extends moodle_page{
         return $this->_secondarynav;
     }
 
+    /**
+     * Return primary navigation object
+     *
+     * @return void
+     */
     protected function magic_get_primarynav() {
         if ($this->_primarynav === null) {
             $class = 'theme_apoa\navigation\views\primary';
@@ -100,13 +106,19 @@ class apoa_page extends moodle_page{
         if (is_null($this->_course)) {
             throw new coding_exception('Attempt to get the course category for this page before the course was set.');
         }
+        //category not set
         if ($this->_course->category == 0) {
+
+            //check for context in url
             $ctx = optional_param('ctx', null, PARAM_INT);
+
+            //check for category id in args
             $categoryid = $args['categoryid'];
             if($ctx && ($context = context::instance_by_id($ctx, IGNORE_MISSING)) && $context->contextlevel == CONTEXT_COURSECAT){
                 if($category = core_course_category::get($context->instanceid, IGNORE_MISSING)){
                     $parent_categoryids = array_reverse($category->get_parents());
                     $this->_categories = [$category->id => $category];
+                    //add parent categories to categories
                     foreach($parent_categoryids as $parent_id) {
                         if($parent_cat = core_course_category::get($parent_id, IGNORE_MISSING)){
                             $this->_categories[$parent_id] = $parent_cat;
@@ -118,12 +130,15 @@ class apoa_page extends moodle_page{
                 }
                
             }
+            //we have found the category return it
             else if($categoryid) {
                 $this->_categories[$categoryid] = core_course_category::get($categoryid, IGNORE_MISSING);
             }
+            //get via context
             else if (($context = context::instance_by_id($this->context->id, IGNORE_MISSING)) && $context->contextlevel == CONTEXT_COURSECAT) {
                 $this->_categories[$context->instanceid] = core_course_category::get($context->instanceid, MUST_EXIST);
             }
+            //cannot ascertain category
             else{
                 $this->_categories = array();
             }

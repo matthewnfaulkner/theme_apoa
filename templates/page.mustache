@@ -132,11 +132,11 @@
                 {{> theme_apoa/secondarynav}}
             {{/secondarymoremenu}}
             {{{ output.full_header }}}
-            {{{ output.has_active_subscription }}}
-            {{{ output.has_membership_category_approved }}}
+            {{{ output.display_notification_before_main}}}
             {{{ output.load_js}}}
             <div id="page-content" class="pb-3 d-print-block px-4 px-md-0">
                 <div id="region-main-box">
+
                     {{#hasregionmainsettingsmenu}}
                     <div id="region-main-settings-menu" class="d-print-none">
                         <div> {{{ regionmainsettingsmenu }}} </div>
@@ -158,6 +158,7 @@
                         <div class="container main-page-container pt-0 pt-md-1">
                             <div class="row w-100 m-0">
                                 <div class="col col-12 p-0 m-auto">
+                                
                                     {{{ output.main_content }}}
                                 </div>
                             </div>
@@ -174,6 +175,9 @@
                         {{^sidebar}}
                         <div class="container main-page-container pt-0 pt-md-1">
                                 {{{searchblock}}}
+                                {{#headercontent}}
+                                        {{{description}}}
+                                {{/headercontent}}
                                 {{{ output.main_content }}}
                         </div>
                         {{/sidebar}}

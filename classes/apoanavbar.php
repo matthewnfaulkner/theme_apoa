@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ *  Defines tertiary navigation 
+ *
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                       
 
 namespace theme_apoa;
 
@@ -27,7 +35,7 @@ use lang_string;
  * Creates a navbar for apoa that allows easy control of the navbar items.
  *
  * @package    theme_apoa
- * @copyright  2021 Adrian Greeve <adrian@moodle.com>
+ * @copyright  2025 Matthew Faulkner matthewfaulkner@apoaevents.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class apoanavbar implements \renderable {
@@ -354,11 +362,21 @@ class apoanavbar implements \renderable {
         return [$text, $action];
     }
 
+    /**
+     * Get breadcrumb navigation for course
+     *
+     * @return void
+     */
     function get_category_breadcrumb_for_course() {
 
-        global $PAGE;
+        global $USER;
         
         $category = \core_course_category::get($this->page->course->category);
+
+        //nodes already exist for non admin.
+        if(!is_siteadmin($USER)){
+            return;
+        }
         $parents = $category->get_parents();
         if($parents) {
             array_shift($parents);

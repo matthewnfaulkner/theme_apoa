@@ -1,8 +1,17 @@
 # apoa online theme #
 
-TODO Describe the plugin shortly here.
+This theme has been designed for apoaonline.com.
 
-TODO Provide more detailed description here.
+Its designed to obfuscate a lot of the LMS features of moodle.
+Presenting more of a traditional website UI on top of core moodle.
+
+The theme adds a variety of links to the navigation depending on context.
+
+The theme adds a main page. Designed to be a landing page for all users, displaying userful information and links.
+
+The theme extends many of the core renderers and overrides several templates to customise moodle
+so that until a user is enrolled in a course, the website doesn't feel like an LMS.
+
 
 ## Installing via uploaded ZIP file ##
 

@@ -1,11 +1,27 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
-// Every file should have GPL and copyright in the header - we skip it in tutorials but you should not skip it for real.
+/**
+ * Plugin settings are defined here 
+ *
+ * @package     theme_apoa
+ * @copyright   2023 Matthew Faulkner matthewnfaulkner@gmail.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                                            
 
-// This line protects the file from being accessed by a URL directly.                                                               
-
-use core_adminpresets\local\setting\adminpresets_admin_setting_configmultiselect;
-use core_adminpresets\local\setting\adminpresets_admin_setting_configmultiselect_with_loader;
 
 defined('MOODLE_INTERNAL') || die();                                                                                                
                                                                                                                                     
@@ -14,8 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 if ($ADMIN->fulltree) {                                                                                                             
                                                                                                                                     
     // Boost provides a nice setting page which splits settings onto separate tabs. We want to use it here.                         
-    $settings = new theme_boost_admin_settingspage_tabs('themesettingapoa', get_string('configtitle', 'theme_apoa'));             
-                                                                                                                                    
+    $settings = new theme_boost_admin_settingspage_tabs('themesettingapoa', get_string('configtitle', 'theme_apoa'));                                                                                                                                                   
     // Each page is a tab - the first is the "General" tab.                                                                         
     $page = new admin_settingpage('theme_apoa_general', get_string('generalsettings', 'theme_apoa'));                             
                                                                                                                                     
@@ -95,6 +110,11 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);   
 
+    $setting = new admin_setting_configcheckbox('theme_apoa/jumboshowtext', get_string('jumboshowtext', 'theme_apoa'),
+        get_string('jumboshowtext_desc', 'theme_apoa'), '');
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
     $setting = new admin_setting_configtext('theme_apoa/jumbotitle',                                                              
         get_string('jumbotitle', 'theme_apoa'), get_string('jumbotitle_desc', 'theme_apoa'), '', PARAM_RAW);                      
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
@@ -137,6 +157,11 @@ if ($ADMIN->fulltree) {
             array('maxfiles' => 1, 'accepted_types' => array('.jpg', '.png', '.mp4', '.webm')));
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting); 
+
+    $setting = new admin_setting_configcolourpicker('theme_apoa/jumbobgcolor', get_string('jumbobgcolor', 'theme_apoa'),
+        get_string('jumbobgcolor_desc', 'theme_apoa'), '#FFFFFF');
+    $setting->set_updatedcallback('theme_reset_all_caches');
+    $page->add($setting);
 
     $setting = new admin_setting_configstoredfile('theme_apoa/jumbobannerposter', get_string('jumbobannerposter', 'theme_apoa'),
         get_string('jumbobannerposter_desc', 'theme_apoa'), 'jumbobannerposter', 0,
@@ -209,7 +234,7 @@ if ($ADMIN->fulltree) {
 
     $settings->add($page);
 
-    // Advanced settings.                                                                                                           
+    // Resources Settings.                                                                                                           
     $page = new admin_settingpage('theme_apoa_resources', get_string('mainpageresources', 'theme_apoa'));    
 
 
@@ -313,7 +338,7 @@ if ($ADMIN->fulltree) {
 
     $settings->add($page);       
 
-    // Advanced settings.                                                                                                           
+    // Section settings.                                                                                                           
     $page = new admin_settingpage('theme_apoa_sections', get_string('sectionsettings', 'theme_apoa'));
 
     if($sectionsid = get_config('theme_apoa', 'Sectionsid')) {
@@ -334,7 +359,7 @@ if ($ADMIN->fulltree) {
     }
     $settings->add($page);
 
-    // Advanced settings.                                                                                                           
+    // Category settings.                                                                                                           
     $page = new admin_settingpage('theme_apoa_categories', get_string('categorysettings', 'theme_apoa'));
     
     $setting = new admin_setting_configtext('theme_apoa/APOAid', get_string('APOAid', 'theme_apoa'),                           
@@ -365,7 +390,7 @@ if ($ADMIN->fulltree) {
     $settings->add($page); 
  
 
-    // Advanced settings.                                                                                                           
+    // Footer settings.                                                                                                           
     $page = new admin_settingpage('theme_apoa_footer', get_string('footersettings', 'theme_apoa'));
 
     $setting = new admin_setting_configtextarea('theme_apoa/footercontact', get_string('footercontact', 'theme_apoa'),                           

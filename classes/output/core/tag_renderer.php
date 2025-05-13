@@ -1,26 +1,56 @@
 <?php
 
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Overridden core tag renderer.
+ *
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                                        
+
 
 namespace theme_apoa\output\core;
 
 
 defined('MOODLE_INTERNAL') || die;
 
-use moodle_url;
 use html_writer;
-use get_string;
-
 
 require_once($CFG->dirroot . '/tag/classes/renderer.php');
 
 
-use \coursecat_helper as coursecat_helper;
-use \lang_string as lang_string;
-use \core_course_category as core_course_category;
-
 class tag_renderer extends \core_tag_renderer {
 
-
+    /**
+     * Renders the tag index page, default index page overridden with blocks
+     *
+     * @param core_tag_tag $tag
+     * @param \core_tag\output\tagindex[] $entities
+     * @param int $tagareaid
+     * @param bool $exclusivemode if set to true it means that no other entities tagged with this tag
+     *             are displayed on the page and the per-page limit may be bigger
+     * @param int $fromctx context id where the link was displayed, may be used by callbacks
+     *            to display items in the same context first
+     * @param int $ctx context id where to search for records
+     * @param bool $rec search in subcontexts as well
+     * @param int $page 0-based number of page being displayed
+     * @return string
+     */
     public function tag_index_page($tag, $entities, $tagareaid, $exclusivemode, $fromctx, $ctx, $rec, $page){
         $this->page->set_pagetype('tag-index');
         $this->page->blocks->add_region('content');

@@ -1,11 +1,35 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+/**
+ *  Updates the cache with the primary navigation view
+ *
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                       
 namespace theme_apoa\task;
 
 /**
- * An example of a scheduled task.
+ * Class update_primary_nav
+ * 
+ * defines a scheduled task that updates the view of the primary navigation
+ * and adds it to the navigation cache.
  */
-class cron_task extends \core\task\scheduled_task {
+class update_primary_nav extends \core\task\scheduled_task {
 
     use \core\task\logging_trait;
     /**
@@ -24,7 +48,6 @@ class cron_task extends \core\task\scheduled_task {
         // Call your own api
         $cache = \cache::make('theme_apoa', 'navigation_cache');
         $this->log_start("Deleting old cache records.");
-        //$cache->delete('primarynav');
         $this->log_finish("Finished deleting old navigation cache records");
 
         $this->log_start("Generating new navigation records");
@@ -38,13 +61,14 @@ class cron_task extends \core\task\scheduled_task {
 
         $primarynavitemcount = get_config('theme_apoa', 'primarynavcount');
 
+        //get primary nav items from settings
         for ($i = 1; $i <= $primarynavitemcount; $i++) {
             $primarynavitem = get_config('theme_apoa', 'primarynavitems' . $i);
             $includechildren = get_config('theme_apoa', 'primarynavitems' . $i . '_adv');
             
             $category = \core_course_category::get($primarynavitem);
 
-
+            //check if setting includes children categories
             if($includechildren) {
                 $data->{$category->name} = $this->get_cache_struct_for_section($category, true);
             }else {
@@ -57,7 +81,14 @@ class cron_task extends \core\task\scheduled_task {
 
     }
 
-    private function get_cache_struct_for_section($category, $includeChildren) {
+    /**
+     * Construct naviagtion view object to be stored in cache
+     *
+     * @param core_course_category $category the current course category to add a node for
+     * @param bool $includeChildren whether to include children of the category
+     * @return stdClass View of primary nav object.
+     */
+    private function get_cache_struct_for_section(\core_course_category $category, bool $includeChildren) {
     
         $sections = new \stdClass();
         $sections->name = $category->name;
@@ -67,6 +98,7 @@ class cron_task extends \core\task\scheduled_task {
         $sections->children = [];
         $sections->key = \navigation_node::TYPE_CATEGORY . $category->id;
 
+        //get children if required
         if ($includeChildren){
             $subcategories = $category->get_children();
             foreach ($subcategories as $subcategory) {
@@ -87,7 +119,10 @@ class cron_task extends \core\task\scheduled_task {
             }
         }
         $sections->children ? $sections->haschildren = true : $sections->haschildren = false;
+
+        //if children set nodes showchildreninsubmenu to true
         $sections->haschildren ? $sections->showchildreninsubmenu = true : $sections->showchildreninsubmenu = false ;
+
         return $sections;
 
     } 

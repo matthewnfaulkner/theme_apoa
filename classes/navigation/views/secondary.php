@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,7 +12,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ *  Defines view for secondary navigation.
+ *
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                       
 
 namespace theme_apoa\navigation\views;
 
@@ -27,9 +35,9 @@ use settings_navigation;
  * The secondary navigation view is a stripped down tweaked version of the
  * settings_navigation/navigation
  *
- * @package     core
+ * @package     theme
  * @category    navigation
- * @copyright   2021 onwards Peter Dias
+ * @copyright   2025 Matthew Faulkner
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class secondary extends \core\navigation\views\secondary {
@@ -500,6 +508,7 @@ class secondary extends \core\navigation\views\secondary {
         $navigationnodesordered = $this->get_leaf_nodes($navigation, $nodes['navigation'] ?? []);
         $settingsnodesordered = $this->get_leaf_nodes($settingsnav, $nodes['settings'] ?? []);
         
+        //fetch nodes added by theme_apoa_extend_navigation_course and add to nav
         if($apoanav = $settingsnav->find('apoanav', navigation_node::TYPE_CONTAINER)){
             $apoanav->remove();
             foreach ($apoanav->children as $child) {
@@ -510,7 +519,7 @@ class secondary extends \core\navigation\views\secondary {
             }
         }
 
-
+        //create new node for nodes orphaned above
         $navigationnode = $this->add(
             'Navigtion' ,
             null,
@@ -521,7 +530,7 @@ class secondary extends \core\navigation\views\secondary {
 
         $navigationnode->showchildreninsubmenu = true;
 
-        //$this->add_ordered_nodes($settingsnodesordered, $settingsnode);
+        //re add orphaned nodes to our additional container node.
         $this->add_ordered_nodes($navigationnodesordered, $navigationnode);
         $this->add_ordered_nodes($settingsnodesordered, $navigationnode);
 
@@ -705,7 +714,7 @@ class secondary extends \core\navigation\views\secondary {
         }
 
         $issingleactivitycourse = $this->page->course->format === 'singleactivity';
-        $rootnode = $issingleactivitycourse ? $this->find('course', self::TYPE_COURSE) : $this;
+        $rootnode = $this;
         $activenode = $this->find_active_node();
         $incourseadmin = false;
 

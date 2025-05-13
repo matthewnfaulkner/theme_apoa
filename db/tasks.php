@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Task schedule configuration for the plugintype_pluginname plugin.
- *
- * @package   plugintype_pluginname
- * @copyright Year, You Name <your@email.address>
+ * Task schedule configuration for the theme_apoa plguin
+ * 
+ * @package   theme_apoa
+ * @copyright 2024, Matthew Faulkner <matthewfaulkner@apoaevents.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $tasks = [
     [
-        'classname' => 'theme_apoa\task\cron_task',
+        'classname' => 'theme_apoa\task\update_primary_nav',
         'blocking' => 0,
         'minute' => '30',
         'hour' => '*',

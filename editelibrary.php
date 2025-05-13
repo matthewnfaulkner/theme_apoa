@@ -21,8 +21,8 @@
  * Otherwise it creates a new category with default parent from the parent
  * parameter, which may be 0.
  *
- * @package    core_course
- * @copyright  2007 Nicolas Connault
+ * @package    theme_apoa
+ * @copyright  2025 Matthew Faulkner matthewfaulkner@apoaevents.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,6 +30,8 @@ require_once('../../config.php');
 require_once($CFG->dirroot.'/theme/apoa/lib.php');
 
 use \theme_apoa\form\editelibrary_form as editelibrary_form;
+
+
 require_login();
 
 $id = optional_param('id', 0, PARAM_INT);

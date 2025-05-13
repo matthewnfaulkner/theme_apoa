@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,33 +12,42 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ * Defines view for primary navigation
+ *
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                       
 
 namespace theme_apoa\navigation\views;
 
 use navigation_node;
-use stdClass;
-
 /**
  * Class primary.
  *
  * The primary navigation view is a combination of few components - navigation, output->navbar,
  *
- * @package     core
+ * @package     theme_apoa
  * @category    navigation
- * @copyright   2021 onwards Peter Dias
+ * @copyright   2025 Matthew Faulkner
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class primary extends \core\navigation\views\primary {
     /**
      * Initialise the primary navigation node
      */
-
     private \cache $navigation_cache;
 
-
+    /**
+     * Initialise primary
+     *
+     * @return void
+     */
     public function initialise(): void {
-        global $CFG, $USER;
+        global $CFG;
 
         if (during_initial_install() || $this->initialised) {
             return;
@@ -116,7 +125,11 @@ class primary extends \core\navigation\views\primary {
         $this->initialised = true;
     }
 
-
+    /**
+     * Remake primary navigation
+     *
+     * @return void
+     */
     private function get_backup_nav(){
         
 
@@ -153,8 +166,13 @@ class primary extends \core\navigation\views\primary {
         
     }
 
-    
-    private function get_nav_from_cache($navigation_cache_data){
+    /**
+     * Retrive primary nav from the cache
+     *
+     * @param array $navigation_cache_data
+     * @return void
+     */
+    private function get_nav_from_cache(array $navigation_cache_data){
 
         foreach ($navigation_cache_data as $navnode) {
 

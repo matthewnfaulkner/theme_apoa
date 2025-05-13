@@ -18,7 +18,7 @@
  * the forum view.
  *
  * @module     theme_apoa/favourite_toggle
- * @copyright  2019 Peter Dias <peter@moodle.com>
+ * @copyright  2024 Matthew Faulkner <matthewfaulkner@apoaevents.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define([

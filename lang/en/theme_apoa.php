@@ -96,6 +96,10 @@ $string['2025APOACongressAustralia'] = "24th APOA Congress Cairns";
 
 $string['mainpagesettings'] = "Home Page Settings";
 $string['jumbotitle'] = "Jumbotron title";
+$string['jumbobgcolor'] = "Jumbotron Background Colour";
+$string['jumbobgcolor_desc'] = "Select the color for the background of the jumbo tron, pick a color that matches the edges of the banner image.";
+$string['jumboshowtext'] = "Show Jumbotron Text";
+$string['jumboshowtext_desc'] = "Toggles whetehr to display title, description and logo overlay over banner.";
 $string['jumbotitle_desc'] = "The main heading for the home page jumbo tron";
 $string['jumbodescription'] = "Jumbotron subtext";
 $string['jumbodescription_desc'] = "Smaller subtext displayed just below the main heading";
@@ -235,3 +239,28 @@ $string['categorymenuheading'] = 'Category Menu';
 $string['activitymenuheading'] = 'Activity Menu';
 $string['coursemenuheading'] = 'Action Menu';
 $string['join'] = 'Join APOA';
+
+
+$string['mainpagenotification'] = 'Main Page Notification';
+$string['mainpagenotification_desc'] = 'This notification is displayed at the top of the main page for all.';
+$string['jumbovideoflag'] = 'Jumbo Video Enabled';
+$string['jumbovideoflag_desc'] = 'Enable or Disable the jumbo video.';
+
+$string['jumbobannerposter'] = 'Mainpage Jumbo Banner';
+$string['jumbobannerposter_desc'] = 'This image is displayed prominently on the main page jumbo.';
+
+$string['mainmodalsettings'] = 'Main Page Modal Settings';
+$string['mainmodaltoggle'] = 'Toggel Main Page Modal';
+$string['mainmodaltoggle_desc'] = 'Toggle whether the main page modal is displayed or not.';
+
+$string['mainmodalbg'] = 'Main Modal Image';
+$string['mainmodalbg_desc'] = 'Background image of the main page modal. 16:9 aspect ratio.';
+
+$string['mainmodalbgmobile'] = 'Main Modal Image Mobile';
+$string['mainmodalbgmobile_desc'] = 'Background image of the main page modal for mobile, square aspect ratio.';
+
+$string['mainmodallink'] = 'Main Modal Link';
+$string['mainmodallink_desc'] = 'URL to addd a link the to main modal';
+
+$string['viewinappbutton'] = 'View in App Button';
+$string['viewinappbutton_desc'] = 'Toggles a button displayed in the footer when the user is on mobile. Button opents current page in the app.';

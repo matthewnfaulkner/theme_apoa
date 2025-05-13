@@ -1,4 +1,26 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ *  Search Elibrary form.
+ *
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                                             
 
 
 namespace theme_apoa\form;
@@ -7,20 +29,37 @@ use stdClass;
 
 require_once("$CFG->libdir/formslib.php");
 
+/**
+ * Class searchelibrary_form 
+ * 
+ * Form for searching the elibrary for articles
+ */
 class searchelibrary_form extends \moodleform {
 
+    /**
+     * Journal object
+     *
+     * @var stdClass
+     */
     protected stdClass $journal;
 
+    /**
+     * category context
+     *
+     * @var \context_coursecat
+     */
     protected \context_coursecat $context;
 
+
+    /**
+     * Define form fields
+     *
+     * @return void
+     */
     public function definition() {
         $mform = $this->_form;
         
-
-        $categoryid = $this->_customdata['categoryid'];
-        $noresult = $this->_customdata['noresult'];
-
-        
+        $categoryid = $this->_customdata['categoryid'];        
 
         if(isset($this->_customdata['journal'])){
             $this->journal = $this->_customdata['journal'];
@@ -36,19 +75,14 @@ class searchelibrary_form extends \moodleform {
             $options[$journal->id] = $journal->name;
         }
 
-        
-    
 
         $journal_select = $mform->createElement('select', 'journal_select', 'Journal:', $options, array('placeholder' => "Select Journal"));
-
         $mform->setType('journal_select', PARAM_INT);
-
 
         $title = $mform->createElement('text', 'title', 'Title:', array('placeholder' => "Search by title"));
 
 
-        $mform->addGroup([$journal_select, $title], 'title_search_group');
-        //x$mform->addHelpButton('title_search_group', 'pluginname', 'theme_apoa');
+         $mform->addGroup([$journal_select, $title], 'title_search_group');
         $mform->setType('title', PARAM_TEXT);
 
 
@@ -58,11 +92,15 @@ class searchelibrary_form extends \moodleform {
 
         
         $this->add_action_buttons(false, "Search");
-        //$this->add_action_buttons(false, $strsubmit);
 
         $mform->hideif('request', 'noresult', 'eq', 0);
     }
 
+    /**
+     * Extra definitions after data added.
+     *
+     * @return void
+     */
     public function definition_after_data(){
         $mform = $this->_form;
         $mform->addElement('hidden', 'noresult');
@@ -77,11 +115,21 @@ class searchelibrary_form extends \moodleform {
         }
     }
 
+    /**
+     * Public getter for journal param
+     *
+     * @return void
+     */
     public function get_journal(){
         return $this->journal;
     }
 
 
+    /**
+     * Limit number of form submissions
+     *
+     * @return boolean
+     */
     public function has_user_submitted_too_often(){
         global $USER, $DB;
 
@@ -96,7 +144,11 @@ class searchelibrary_form extends \moodleform {
         return false;
     }
 
-
+    /**
+     * Handle errors for no result 
+     *
+     * @return void
+     */
     public function no_result(){
         $this->_form->_errors['url_search_group'] = "We don't currently have that paper.";
         $this->_form->_errors['title_search_group'] = "We don't currently have that paper.";
@@ -109,6 +161,15 @@ class searchelibrary_form extends \moodleform {
         }
     }
 
+    /**
+     *
+     * Server side rules do not work for uploaded files, implement serverside rules here if needed.
+     *
+     * @param array $data array of ("fieldname"=>value) of submitted data
+     * @param array $files array of uploaded files "element_name"=>tmp_file_path
+     * @return array of "element_name"=>"error_description" if there are errors,
+     *         or an empty array if everything is OK (true allowed for backwards compatibility too).
+     */
     public function validation($data, $files) {
         global $DB;
 
@@ -140,7 +201,6 @@ class searchelibrary_form extends \moodleform {
             }
         }
 
-        $journal = $data['title_search_group']['journal_select'];
         $title = $data['title_search_group']['title'];
 
         if ($urlortitle && !$title) {
@@ -148,9 +208,6 @@ class searchelibrary_form extends \moodleform {
         }
 
         return $errors;
-        // Additional validation for the path fiel
-        // Perform any necessary validation for the path field
-
     }
 
 }

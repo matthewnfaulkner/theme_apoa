@@ -18,7 +18,7 @@
  * can be sent for forum.
  *
  * @module     theme_apoa/repository
- * @copyright  2019 Andrew Nicols <andrew@nicols.co.uk>
+ * @copyright  2024 Matthew Faulkner <matthewfaulkner@apoaevents.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define(['core/ajax'], function(Ajax) {

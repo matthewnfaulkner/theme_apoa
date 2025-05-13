@@ -35,43 +35,6 @@ define(['jquery', 'theme_apoa/swiper'], function($, Swiper) {
     isClicked[mySwiper.realIndex] = true;
   });
 
-
-/*$('.sidejumbo-link').on('touchstart', function() {
-  istouchevent = true;
-});
-
-$('.sidejumbo-link').on('touchend', function(event) {
-  istouchevent = false;
-  var linkId = $(this).data('link-id');
-  var linkAddress = $(this).data('link-address');
-  istouchevent = true;
-  console.log(doubletapstart);
-  event.preventDefault();
-  if(Date.now() - doubletapstart < 500){
-    window.location.href = linkAddress;
-  }
-  doubletapstart = Date.now();
-  if (isClicked[linkId] == true) {
-    // Link is not "readied" yet, prevent the default behavior
-    window.location.href = linkAddress;
-  }
-});*/
-
-//var doubletapstart =0;
-
-/*$('.sidejumbo-link').on('click', function() {
-  var linkAddress = $(this).data('link-address');
-    if(Date.now() - doubletapstart < 500){
-      window.location.href = linkAddress;
-    }
-    doubletapstart = Date.now();
-    // Link is not "readied" yet, prevent the default behavior
-    if(!istouchevent){
-      window.location.href = linkAddress;
-    }
-});*/
-
-
   /**
      * Register event listeners for the subscription toggle.
    */

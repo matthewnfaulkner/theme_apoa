@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,13 +12,19 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ *  Defines Primary Navigation renderable
+ *
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                       
 
 namespace theme_apoa\navigation\output;
 
-use renderable;
 use renderer_base;
-use templatable;
 use custom_menu;
 use stdClass;
 
@@ -28,12 +34,13 @@ use stdClass;
  * This file combines primary nav, custom menu, lang menu and
  * usermenu into a standardized format for the frontend
  *
- * @package     core
+ * @package     theme_apoa
  * @category    navigation
- * @copyright   2021 onwards Peter Dias
+ * @copyright   2025 Matthew Faulkner
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class primary extends \core\navigation\output\primary {
+
     /** @var moodle_page $page the moodle page that the navigation belongs to */
     private $page = null;
 
@@ -42,10 +49,7 @@ class primary extends \core\navigation\output\primary {
      * primary constructor.
      * @param \moodle_page $page
      */
-
-    
     public function __construct($page) {
-
         $this->page = $page;
     }
 

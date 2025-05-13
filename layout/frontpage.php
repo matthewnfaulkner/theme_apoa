@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A drawer based layout for the boost theme.
+ * Layout for front page
  *
- * @package   theme_boost
- * @copyright 2021 Bas Brands
+ * @package   theme_apoa
+ * @copyright 2024 Matthew Faulkner <matthewfaulkner@apoavents.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -74,7 +74,10 @@
     }
   }
   
-
+  .main-page-jumbo-main {
+      background-color: $jumbobgcolor!important;
+      filter: brightness(0.95);
+  }
   
   @media (min-width: 576px) {
     .main-page-jumbo-main {
@@ -106,8 +109,8 @@
   @media (min-width: 300px) {
     .main-page-main-image {
       min-height: 300px;
-      object-fit: cover;
-      object-position: right;
+      //object-fit: cover;
+      //object-position: right;
     }
   }
   
@@ -119,7 +122,7 @@
     }
   }
   
-  .main-page-main-image {
+  .main-page-main-image.dim {
     filter: brightness(0.7);
   }
 
@@ -630,6 +633,19 @@
     }
   }
   
+
+  @keyframes shimmer {
+   100%{
+      background-position-x: 100%;
+   }
+   0%{
+    background-position-x: 0%;
+   }
+   50% {
+      background-position-x: 100%
+   }
+  }
+
   .main-page-link-wrapper:hover{
     cursor: pointer;
   }
@@ -642,6 +658,16 @@
     filter: brightness(1)!important;
   }
   
+  .main-page-link-wrapper:hover + .main-page-jumbo-main {
+    filter: brightness(1)!important;
+  }
+
+  .main-page-link-wrapper:hover  + .main-page-jumbo-main .jumbo-overlay {
+    background: linear-gradient(-45deg, #eeeeee00 40%, #fafafa85 50%, #eeeeee00 60%);
+    background-size: 300%;
+    animation: shimmer 2s infinite linear;
+  }
+
   @media (min-width: 1200px) {
     .fit-cover.main-page-course-card-img {
       height: 200px;

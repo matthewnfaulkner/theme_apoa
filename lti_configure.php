@@ -17,8 +17,8 @@
 /**
  * Returns the deep link resource via a POST to the platform.
  *
- * @package     enrol_lti
- * @copyright   2021 Jake Dallimore <jrhdallimore@gmail.com>
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

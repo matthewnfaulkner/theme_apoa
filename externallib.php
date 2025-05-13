@@ -16,20 +16,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * External forum API
+ * External theme_apoa API
  *
- * @package    mod_forum
- * @copyright  2012 Mark Nelson <markn@moodle.com>
+ * @package    theme_apoa
+ * @copyright  2025 Matthew Faulkner matthewfaulkner@apoaevents.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
 require_once("$CFG->libdir/externallib.php");
+require_once('lib.php');
 
-
-use mod_forum\local\exporters\post as post_exporter;
-use mod_forum\local\exporters\discussion as discussion_exporter;
 use theme_apoa\external\exporters\favourite as favourite_exporter;
 use core_external\external_api;
 use core_external\external_function_parameters;
@@ -38,7 +36,28 @@ use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_warnings;
 
+/**
+ * Theme class for external api methods.
+ *
+ * @package    theme_apoa
+ * @copyright  2025 Matthew Faulkner
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class theme_apoa_external extends external_api {
+    
+    /**
+     * Defines the parameters for the toggle_favourite_state method
+     *
+     * @return external_function_parameters
+     */
+    public static function toggle_favourite_state_parameters() {
+        return new external_function_parameters(
+            [
+                'courseid' => new external_value(PARAM_INT, 'The discussion to subscribe or unsubscribe'),
+                'targetstate' => new external_value(PARAM_BOOL, 'The target state')
+            ]
+        );
+    }
 
    /**
      * Toggle the favouriting value for the discussion provided
@@ -47,8 +66,8 @@ class theme_apoa_external extends external_api {
      * @param bool $targetstate The state of the favourite value
      * @return array The exported discussion
      */
-    public static function toggle_favourite_state($courseid, $targetstate) {
-        global $DB, $PAGE, $USER;
+    public static function toggle_favourite_state(int $courseid, bool $targetstate) {
+        global $PAGE, $USER;
 
         $params = self::validate_parameters(self::toggle_favourite_state_parameters(), [
             'courseid' => $courseid,
@@ -66,7 +85,7 @@ class theme_apoa_external extends external_api {
 
         $favouritefunction = $targetstate ? 'create_favourite' : 'delete_favourite';
         if ($isfavourited != (bool) $params['targetstate']) {
-            $favourite = $ufservice->{$favouritefunction}('core_course', 'courses', $courseid, $coursecontext);
+            $ufservice->{$favouritefunction}('core_course', 'courses', $courseid, $coursecontext);
         }
         $data = (object) [
             'id' => $courseid,
@@ -77,43 +96,29 @@ class theme_apoa_external extends external_api {
             'courseid' => $courseid
         ];
         $related = ['context' => $coursecontext];
+        
         $exporter = new favourite_exporter($data, $related);
         
         return $exporter->export($PAGE->get_renderer('core', 'course'));
     }
 
     /**
-     * Returns description of method result value
-     *
-     * @return external_description
-     * @since Moodle 3.0
-     */
-    public static function toggle_favourite_state_returns() {
-        return favourite_exporter::get_read_structure();
-    }
-
-     /**
-     * Defines the parameters for the toggle_favourite_state method
+     * Defines the parameters for the cache_closed method
      *
      * @return external_function_parameters
      */
-    public static function toggle_favourite_state_parameters() {
+    public static function cache_closed_modal_parameters() {
         return new external_function_parameters(
             [
-                'courseid' => new external_value(PARAM_INT, 'The discussion to subscribe or unsubscribe'),
-                'targetstate' => new external_value(PARAM_BOOL, 'The target state')
+                'closemodal' => new external_value(PARAM_BOOL, 'The target state')
             ]
         );
     }
-
-    
-
-       /**
+    /**
      * Toggle the favouriting value for the discussion provided
      *
-     * @param int $discussionid The discussion we need to favourite
-     * @param bool $targetstate The state of the favourite value
-     * @return array The exported discussion
+     * @param int $closemodal The discussion we need to favourite
+     * @return array result of close
      */
     public static function cache_closed_modal($closemodal) {    
 
@@ -143,30 +148,23 @@ class theme_apoa_external extends external_api {
         );
     }
 
-     /**
-     * Defines the parameters for the toggle_favourite_state method
+    /**
+     * Defines the parameters for the get_jumbo_config method
      *
      * @return external_function_parameters
      */
-    public static function cache_closed_modal_parameters() {
-        return new external_function_parameters(
-            [
-                'closemodal' => new external_value(PARAM_BOOL, 'The target state')
-            ]
-        );
+    public static function get_jumbo_config_parameters() {
+        return new external_function_parameters(array());
     }
 
-    
-           /**
-     * Toggle the favouriting value for the discussion provided
+    /**
+     * Get configuration of jumbo for mobile
      *
-     * @param int $discussionid The discussion we need to favourite
-     * @param bool $targetstate The state of the favourite value
-     * @return array The exported discussion
+     * @return array The exported jumbo
      */
     public static function get_jumbo_config() {    
 
-        global $OUTPUT, $DB, $USER, $CFG;
+        global $DB, $USER, $CFG;
 
         require_once($CFG->dirroot . '/theme/apoa/lib.php');
         
@@ -201,10 +199,10 @@ class theme_apoa_external extends external_api {
             'jumbodescription' => get_config($component, 'jumbodescription'),
             'jumbovideoflag' => get_config($component, 'jumbovideoflag'),
             'jumbotag' => get_config($component, 'jumbotag'),
-            'jumbobanner' => get_file_from_setting('jumbobanner'),
-            'jumbobannerposter' => get_file_from_setting('jumbobannerposter'),
-            'jumbovideo' => get_file_from_setting('jumbovideo'),
-            'jumbobannerlogo' => get_file_from_setting('jumbobannerlogo'),
+            'jumbobanner' => theme_apoa_get_file_from_setting('jumbobanner'),
+            'jumbobannerposter' => theme_apoa_get_file_from_setting('jumbobannerposter'),
+            'jumbovideo' => theme_apoa_get_file_from_setting('jumbovideo'),
+            'jumbobannerlogo' => theme_apoa_get_file_from_setting('jumbobannerlogo'),
             'jumbourl' => get_config($component, 'jumbolink'),
             'jumbostartdate' => $startdate,
             'jumboannouncement' => $firstposttext,
@@ -246,36 +244,7 @@ class theme_apoa_external extends external_api {
         );
     }
 
-     /**
-     * Defines the parameters for the toggle_favourite_state method
-     *
-     * @return external_function_parameters
-     */
-    public static function get_jumbo_config_parameters() {
-        return new external_function_parameters(array());
-    }
+    
 
 }
 
-function get_file_from_setting($settingname) {
-
-    $component = 'theme_apoa';
-    $filename = get_config($component, $settingname);
-
-    $fs = get_file_storage();
-    $syscontext = context_system::instance();
-    $files = $fs->get_area_files($syscontext->id, $component, $settingname);
-    $url = '';
-    foreach ($files as $file){
-        if (is_valid_video($file)){
-            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
-            $file->get_filepath(), $file->get_filename(), false)->out();
-        }else if ($file->is_valid_image()) {
-            $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
-            $file->get_filepath(), $file->get_filename(), false)->out();
-        }
-    }
-
-
-    return $url;
-}

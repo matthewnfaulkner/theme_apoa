@@ -14,11 +14,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handle discussion subscription toggling on a discussion list in
- * the forum view.
+ * Handles countdown on frontpage for congress.
  *
- * @module     theme_apoa/favourite_toggle
- * @copyright  2019 Peter Dias <peter@moodle.com>
+ * @module     theme_apoa/countdown
+ * @copyright  2024 Matthew Faulkner <matthewfaulkner@apoaevents.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define(['jquery'], function($){

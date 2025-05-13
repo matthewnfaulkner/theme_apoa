@@ -897,6 +897,49 @@ class core_renderer extends \core_renderer {
         }
     }
 
+    /**
+     * Allows plugins to add a notification just before main body
+     *
+     * @return string
+     */
+    public function display_notification_before_main() {
+        global  $USER;
+        $output = '';
+
+        if(!isloggedin() || isguestuser()){
+            return;
+        }
+
+        // Give subsystems an opportunity to inject extra html content. The callback
+        // must always return a string containing valid html.
+        foreach (\core_component::get_core_subsystems() as $name => $path) {
+            if ($path) {
+                $output .= component_callback($name, 'display_notification_before_main', [], '');
+            }
+        }
+
+        // Give plugins an opportunity to inject extra html content. The callback
+        // must always return a string containing valid html.
+        $pluginswithfunction = get_plugins_with_function('display_notification_before_main', 'lib.php');
+        foreach ($pluginswithfunction as $plugins) {
+            foreach ($plugins as $function) {
+                list($message, $preference) = $function();
+                if(!get_user_preferences($preference)){
+                    if($message !== null) {
+                        $notification = new \theme_apoa\output\notification($message, 'special', true);
+                        $notification->set_extra_classes(['error']);
+                        $notification->set_name_and_user($preference, $USER->id);
+                        $output .= $this->render_from_template($notification->get_template_name(), $notification->export_for_template($this));
+                    }
+                }
+            }
+        }   
+
+        return $output;
+
+    }
+
+    
     public function has_active_subscription(){
         global $CFG, $USER;
     
@@ -963,6 +1006,39 @@ class core_renderer extends \core_renderer {
         $button->class = 'continuebutton';
 
         return $this->render($button);
+    }
+
+
+        /**
+     * Return the moodle_url for an image.
+     *
+     * The exact image location and extension is determined
+     * automatically by searching for gif|png|jpg|jpeg, please
+     * note there can not be diferent images with the different
+     * extension. The imagename is for historical reasons
+     * a relative path name, it may be changed later for core
+     * images. It is recommended to not use subdirectories
+     * in plugin and theme pix directories.
+     *
+     * There are three types of images:
+     * 1/ theme images  - stored in theme/mytheme/pix/,
+     *                    use component 'theme'
+     * 2/ core images   - stored in /pix/,
+     *                    overridden via theme/mytheme/pix_core/
+     * 3/ plugin images - stored in mod/mymodule/pix,
+     *                    overridden via theme/mytheme/pix_plugins/mod/mymodule/,
+     *                    example: image_url('comment', 'mod_glossary')
+     *
+     * @param string $imagename the pathname of the image
+     * @param string $component full plugin name (aka component) or 'theme'
+     * @return moodle_url
+     */
+    public function image_url($imagename, $component = 'moodle') {
+        global $COURSE;
+        if($imagename == 'i/rsssitelogo'){
+            return $this->page->theme->image_url($imagename, $component);
+        }
+        return $this->page->theme->image_url($imagename, $component);
     }
 
 }

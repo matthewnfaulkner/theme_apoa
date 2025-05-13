@@ -252,15 +252,15 @@ class course_list implements \templatable , \renderable {
                 ON c.id = top.itemid)";      
         foreach ($this->subcategories as $subcategory) {
             $id = $subcategory->id;
-            $children = $subcategory->get_all_children_ids();
-            $conditions = join(', ', $children);
-            $query = "(SELECT c.*, ". $id ." AS root 
-                    FROM ". $favquery . " AS c 
-                    WHERE c.category IN (". $conditions .")
-                    ORDER BY count, RAND()
-                    LIMIT 3)";
-            array_push($sql, $query);   
-            $record = $DB->get_records_sql($query);
+            if($children = $subcategory->get_all_children_ids()){
+                $conditions = join(', ', $children);
+                $query = "(SELECT c.*, ". $id ." AS root 
+                        FROM ". $favquery . " AS c 
+                        WHERE c.category IN (". $conditions .")
+                        ORDER BY count, RAND()
+                        LIMIT 3)";
+                array_push($sql, $query);   
+            }
         }
         
         $union = join(' UNION ', $sql);

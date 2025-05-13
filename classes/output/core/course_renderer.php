@@ -460,6 +460,112 @@ class course_renderer extends \core_course_renderer {
         $context = context_coursecat::instance($coursecat->id);
 
 
+        if ($coursecat->id == $elibrary->id){
+            $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
+            $searchbarout['elementsarray'] = $searchbar->export_for_template($this);
+            $render['elibrarysearch'] = $searchbarout['elementsarray'];
+            $render['morecategoriestitle'] = "Our Journals";
+            $render['iselibrary'] = True;
+
+            
+            if($tags = \theme_apoa_tag_tag::guess_by_name('Journal Club')){
+                $tag = reset($tags);
+                $params = ['startlimit' => time(), 'endlimit' => time()];
+                $subquery = "it.startdate < :startlimit AND it.enddate > :endlimit";
+                if($taggedcourses = $tag->get_tagged_items('core', 'course', 0, 1, $subquery, 'startdate', $params)){
+                    $featuredcourse = reset($taggedcourses);
+                }
+            }
+        
+
+            $render['toppages'] = array('subcategorycourses' => [], 
+                                'firsttab' => true, 
+                                'categoryid' => "0", 
+                                'categorytitle' => "Popular Papers",
+                                'categoryurl' => "", 
+                                'hascourses' => false);
+            if(isset($featuredcourse)){
+                $featuredlistitem = new \theme_apoa\output\core\listitems\course_list_item($featuredcourse, 0, true);
+                $featuredrender = $featuredlistitem->export_for_template($this);
+                $render['toppages']['featuredcourse'] = $featuredrender;
+            }
+            else{
+                $render['toppages']['nocoursemessage'] = "No current Journal Clubs";
+                $render['toppages']['previousfuture'] = True;
+                $render['toppages']['previousjournalclubslink'] = new moodle_url('/tag/index.php', array('group' => 'past', 'tag' => 'Journal Club', 'tc' => 0));
+                $render['toppages']['previousjournalclubstext'] = "See Previous Journal Clubs";
+                $render['toppages']['futurejournalclubslink'] = new moodle_url('/tag/index.php', array('group' => 'future', 'tag' => 'Journal Club', 'tc' => 0));
+                $render['toppages']['futurejournalclubstext'] = "See Upcoming Journal Clubs";
+            }
+            $render['toppages']['categorytitle'] = 'Journal Club';
+            $render['toppages']['categoryurl'] = new moodle_url('/tag/index.php', array('tag' => 'Journal Club', 'tc' => 0));
+
+
+            if($coursecat->has_courses()){
+                $render['courses'] = []; 
+                $courses = $coursecat->get_courses(array('recursive' => false, 'sort' => array('shortname' =>  1)));
+    
+                foreach($courses as $course) {
+    
+                    $plugin = enrol_get_plugin('self');
+    
+                    $enrols = enrol_get_instances($course->id, true);
+    
+                    foreach($enrols as $enrol) {
+                        if($enrol->plugin != 'self') {
+                            continue;
+                        }
+                        if($plugin->can_self_enrol($enrol)){
+                            $enrolurl = new \moodle_url('/enrol/index.php', array('id' => $course->id));
+                            break;
+                        }
+                    }
+    
+                    $render['courses'][] = array(
+                        'name' => $course->get_formatted_shortname(),
+                        'id' => $course->id,
+                        'imgurl' => $this->get_course_image($course),
+                        'url' => new moodle_url('/course/view.php', array('id' => $course->id)),
+                        'enrolurl' => $enrolurl,
+                    );
+                }
+            }
+
+
+            if($coursecat->get_children_count()) {
+                $subcategories = $coursecat->get_children();
+                $render['categories'] = [];
+                foreach($subcategories as $subcategory) {
+                    $subcategoryitem = array(
+                        'name' => format_text($subcategory->name),
+                        'desc' => format_text($subcategory->description),
+                        'url' => $subcategory->get_view_link(),
+                        'id' => $subcategory->id,
+                        'imgurl' => $this->get_generated_image_for_id($subcategory->id),
+                        'courses' => []
+                    );
+                        $subcourses = $subcategory->get_courses(array('recursive' => false, 'sort' => array('shortname' =>  1)));
+    
+                        $subcategoryitem['hascourses'] = !empty($subcourses);
+    
+                        foreach($subcourses as $subcourse) {
+                            $subcategoryitem['courses'][] = array(
+                                'name' => $subcourse->get_formatted_shortname(),
+                                'id' => $subcourse->id,
+                                'imgurl' => $this->get_course_image($subcourse),
+                                'url' => new moodle_url('/course/view.php', array('id' => $course->id))
+                            );
+                        
+                    }
+    
+                    $render['categories'][] = $subcategoryitem;
+                }
+                
+            }
+    
+            return $this->render_from_template('theme_apoa/categorylist',$render);
+        }
+
         if($coursecat->has_courses()){
             $courses = $coursecat->get_courses(['recursive' => false, 'limit' => 25, 'idonly' => false]);
             $landingpage = array_shift($courses);
@@ -491,14 +597,7 @@ class course_renderer extends \core_course_renderer {
             }
         }
 
-        if ($coursecat->id == $elibrary->id){
-            $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
-            $searchbarout['elementsarray'] = $searchbar->export_for_template($this);
-            //$output .= $searchbarout['elementsarray'];
-            $render['elibrarysearch'] = $searchbarout['elementsarray'];
-            $render['morecategoriestitle'] = "Our Journals";
-            $render['iselibrary'] = True;
-        }
+
 
 
         $directParent = end($coursecat->get_parents());

@@ -14,17 +14,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handle discussion subscription toggling on a discussion list in
- * the forum view.
+ * Update preferences for user hiding warning notifications
  *
- * @module     theme_apoa/favourite_toggle
- * @copyright  2019 Peter Dias <peter@moodle.com>
+ * @module     theme_apoa/hidewarnings
+ * @copyright  2024 Matthew Faulkner <matthewfaulkner@apoaevents.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define(['core/ajax', 'core/notification'], function(Ajax, Notification){
 
     /**
-     * Register event listeners for the subscription toggle.
+     * Register event listeners for the notification hide
      *
      * @param {string} name Should the default action of the event be prevented
      * @param {int} userid Should the default action of the event be prevented

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file keeps track of upgrades to the feedback module.
+ * This file keeps track of upgrades to the apoa theme.
  *
  * Sometimes, changes between versions involve
  * alterations to database structures and other
@@ -34,8 +34,8 @@
  * Please do not forget to use upgrade_set_timeout()
  * before any action that may take longer time to finish.
  *
- * @package   mod_feedback
- * @copyright Andreas Grabs
+ * @package   theme_apoa
+ * @copyright Matthew Faulkner <matthewfaulkner@apoaevents.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

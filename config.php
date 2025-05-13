@@ -21,10 +21,7 @@
  * @copyright   2023 Matthew Faulkner matthewnfaulkner@gmail.com
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-// Every file should have GPL and copyright in the header - we skip it in tutorials but you should not skip it for real.
-
-// This line protects the file from being accessed by a URL directly.                                                               
+                                                        
 defined('MOODLE_INTERNAL') || die();
 
 // $THEME is defined before this page is included and we can define settings by adding properties to this global object.            
@@ -117,6 +114,6 @@ $THEME->addblockposition = BLOCK_ADDBLOCK_POSITION_FLATNAV;
 $THEME->precsscallback = 'theme_apoa_get_pre_scss';
 $THEME->removedprimarynavitems = ['courses', ''];
 $THEME->scss = function($theme) {
-    return theme_apoa_get_main_scss_content($theme);
+    return theme_apoa_get_pre_scss($theme) . theme_apoa_get_main_scss_content($theme);
 };
 

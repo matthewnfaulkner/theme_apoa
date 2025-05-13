@@ -14,16 +14,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handle discussion subscription toggling on a discussion list in
- * the forum view.
+ * Handle closing of main page modal
  *
- * @module     theme_apoa/favourite_toggle
- * @copyright  2019 Peter Dias <peter@moodle.com>
+ * @module     theme_apoa/mainmodal
+ * @copyright  2024 Matthew Faulkner <matthewfaulkner@apoaevents.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define(['jquery', 'core/ajax'], function($, Ajax){
 
-
+    /**
+     * 
+     * @param {*} loggedin is user logged in
+     */
     var init = function(loggedin){
 
         let modal = $('#mainModal');
@@ -37,6 +39,8 @@ define(['jquery', 'core/ajax'], function($, Ajax){
             };
             modal.modal(options);
         });
+
+        //only update preference if user is logged in.
         if(loggedin) {
         modal.on('hidden.bs.modal', function () {
             return Ajax.call([{

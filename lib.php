@@ -1,19 +1,37 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
-// Every file should have GPL and copyright in the header - we skip it in tutorials but you should not skip it for real.
+/**
+ *  Theme functions.
+ *
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                                             
 
-// This line protects the file from being accessed by a URL directly.                                                               
-
-use core_reportbuilder\local\helpers\user_profile_fields;
 
 defined('MOODLE_INTERNAL') || die();
 
-// We will add callbacks here as we add features to our theme.
 
-define('PRIMARY_CATEGORY_DEPTH', 2);
-define('SECONDARY_CATEGORY_DEPTH', 3);
-
-
+/**
+ * get scss content from various sources
+ *
+ * @param stdClass $theme object of current theme.
+ * @return string fetched scss concatenated into a string.
+ */
 function theme_apoa_get_main_scss_content($theme) {                                                                                
     global $CFG;                                                                                                                    
                                                                                                                                     
@@ -40,13 +58,32 @@ function theme_apoa_get_main_scss_content($theme) {
     return $pre . "\n" . $scss . "\n" . $post . "\n" . $booststudio. "\n"  . $swiper;                                                                                                                  
 }
 
-
+/**
+ * Parse pre scss from theme settings.
+ *
+ * @param stdClass $theme object representing current theme.
+ * @return string settings parsed into valid scss string
+ */
 function theme_apoa_get_pre_scss($theme) {
     // Load the settings from the parent.                                                                                           
     $theme = theme_config::load('boost');                                                                                           
-    // Call the parent themes get_pre_scss function.                                                                                
-    return theme_boost_get_pre_scss($theme);                         
+    // Call the parent themes get_pre_scss function.  
+    $scss = '$jumbobgcolor: '. get_config('theme_apoa', 'jumbobgcolor') . '!default;';
+    return $scss .= theme_boost_get_pre_scss($theme);                         
 }
+
+/**
+ * Serves any files associated with the theme settings.
+ *
+ * @param stdClass $course
+ * @param stdClass $cm
+ * @param context $context
+ * @param string $filearea
+ * @param array $args
+ * @param bool $forcedownload
+ * @param array $options
+ * @return bool
+ */
 
 function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
     if ($context->contextlevel == CONTEXT_SYSTEM && ($filearea === 'logo' || $filearea === 'backgroundimage' ||
@@ -71,12 +108,27 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
     }
 }
 
-function theme_apoa_format_name_for_navigation($name) {
+/**
+ * Limit names of links added to navigation to 14 characters
+ *
+ * @param string $label label of link
+ * @return string shortened label
+ */
+function theme_apoa_format_name_for_navigation(string $label) {
 
-    $shortname= strlen($name) > 14 ? substr_replace($name, '...', 14) : $name;
+    $shortlabel= strlen($label) > 14 ? substr_replace($label, '...', 14) : $label;
     
-    return $shortname;
+    return $shortlabel;
 }
+
+/**
+ * Construct secondary navigation based on current category
+ *
+ * @param navigation_node $parentnode
+ * @param core_course_category $category
+ * @param string $component name of the component
+ * @return void
+ */
 
 function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_course_category $category, string $component) {
 
@@ -99,7 +151,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
         $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
         if ($coursecount = $subcategory->get_courses_count() == 1 && $subcategory->get_children_count() == 0){
 
-            if($courses = $subcategory->get_courses($limit = 1)) {
+            if($courses = $subcategory->get_courses(array('limit' => 1))) {
                 $course = reset($courses);
                 $parentnode->add(
                     $name ,
@@ -135,6 +187,15 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
     }
 }
 
+
+/**
+ * Extend course category navigation with additional nodes
+ *
+ * @param navigation_node $parentnode navigation node to attach new nodes to.
+ * @param \context_coursecat $context context object for category.
+ * @return void
+ */
+
 function theme_apoa_extend_navigation_category_settings(navigation_node $parentnode, context_coursecat $context) {
     global $USER, $PAGE;
     
@@ -156,10 +217,7 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
 
     $elibraryid = get_config('theme_apoa', 'elibraryid');#
 
-    if(!has_capability('moodle/course:update', $context)) {
-        //$parentnode->children = new navigation_node_collection;
-    }
-    else{
+    if(has_capability('moodle/course:update', $context)) {
         $elibraryid = get_config('theme_apoa', 'elibraryid');
         if ($subrootcategory->id == $elibraryid){
             if($category->depth == 3){
@@ -198,6 +256,14 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
     theme_apoa_get_secondary_nav_items($apoacatnav, $subrootcategory, $component);
 }
 
+/**
+ * Extend Course navigation with additional navigation nodes.
+ *
+ * @param navigation_node $parentnode navigation node to attach new nodes to.
+ * @param stdClass $course course object
+ * @param context_course $context context course object
+ * @return void
+ */
 function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdClass $course, context_course $context) {
     global $PAGE;
 
@@ -230,27 +296,15 @@ function theme_apoa_extend_navigation_course(navigation_node $parentnode, stdCla
     
 }
 
-function theme_apoa_extend_navigation(global_navigation $nav) {
-    global $CFG, $DB;
-    $topchildren = core_course_category::top()->get_children();
-    if (empty($topchildren)) {
-        throw new moodle_exception('cannotviewcategory', 'error');
-    }
-    $category = reset($topchildren);
-    $myurl = "Sections|/course/index\n";
-    foreach ($topchildren as $category) {
-        $id = $category->id;
-        $name = $category->name;
-        $myurl .= "-{$name}|/course/index?categoryid={$id}\n";
-    }
-    $CFG->custommenuitems = "";
-};
-
-
+/**
+ * Given a setting name, retrieves file from setting if setting exists in theme.
+ *
+ * @param string $settingname name of the setting to retrieve from
+ * @return string|null url of the retrieved file or null if not found
+ */
 function theme_apoa_get_file_from_setting($settingname) {
 
     $component = 'theme_apoa';
-    $filename = get_config($component, $settingname);
 
     $fs = get_file_storage();
     $syscontext = context_system::instance();
@@ -271,7 +325,12 @@ function theme_apoa_get_file_from_setting($settingname) {
 }
 
 
-
+/**
+ * Returns if file is a valid video file
+ *
+ * @param \stored_file $file the file to check
+ * @return boolean true if file is a video
+ */
 function is_valid_video(\stored_file $file) {
     $mimetype = $file->get_mimetype();
     if (!file_mimetype_in_typegroup($mimetype, 'web_video')) {
@@ -281,41 +340,12 @@ function is_valid_video(\stored_file $file) {
     return true;
 }
 
-function get_category_for_mainpage() {
-    return core_course_category::top();
-}
-
-function get_courses_for_mainpage(string $criteria) {
-
-    return get_courses_for_course_list($criteria);
-
-}
-
-function get_category_for_newsletter() {
-    $settingname = 'newsletterid';
-    $categoryid = get_config('theme_apoa', $settingname);
-    $category = core_course_category::get($categoryid);
-    return $category;
-}
-
-function get_courses_for_newsletter(string $criteria) {
-
-    $settingname = 'newsletterid';
-    $categoryid = get_config('theme_apoa', $settingname);
-    $category = core_course_category::get($categoryid);
-    $options = array('recursive' => 1, 'limit' => 3);
-    $courses = $category->get_courses($options);
-    return $courses;
-
-}
-
-function get_category_for_course_list() {
-    $settingname = 'elibraryid';
-    $categoryid = get_config('theme_apoa', $settingname);
-    $category = core_course_category::get($categoryid);
-    return $category;
-}
-
+/**
+ * Returns courses with tag that matches criteria
+ *
+ * @param string $criteria
+ * @return array[core_course_list_element] list of course list elements
+ */
 function get_courses_for_course_list(string $criteria) {
     $tags = \theme_apoa_tag_tag::guess_by_name($criteria);
     $courses = [];
@@ -329,76 +359,84 @@ function get_courses_for_course_list(string $criteria) {
     return $courses;
 }
 
-
-function get_category_for_elibrary() {
-    $settingname = 'elibraryid';
-    $categoryid = get_config('theme_apoa', $settingname);
-    $category = core_course_category::get($categoryid);
-    return $category;
-}
-
-function get_courses_for_elibrary() {
-    $settingname = 'elibraryid';
-    $categoryid = get_config('theme_apoa', $settingname);
-    $category = core_course_category::get($categoryid);
-    $options = array('recursive' => 1, 'limit' => 3, 'summary' => 1);
-    $courses = $category->get_courses($options);
-    return $courses;
-}
-
+/**
+ * Get parent category one below root of current category
+ *
+ * @param \core_course_category $category current category
+ * @return \core_course_category one below root category
+ */
 function get_subroot_category(\core_course_category $category) {
 
+    //depth of subroot
     $generation = 1;
+
+    //already either root or subroot
     if ($category->depth <= 1) {
         return $category;
     }
     else {
         $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
+
+        //get second value on path
         $rootcategory = \core_course_category::get($category->depth - $generation <= 0 ? reset($parents) : $parents[1]);
         return $rootcategory;
     }
 }
 
+/**
+ * Undocumented function
+ *
+ * @param core_course_category $category category to find parent category of
+ * @param integer $generation depth of parent to find
+ * @return core_course_category parent category that matches depth
+ */
 function get_parent_category_by_generation(\core_course_category $category, int $generation) {
 
-    if ($category->depth <= 1) {
+    //current category already at correct depth or higher.
+    if ($category->depth <= $generation) {
         return $category;
     }
     else {
         $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
+        //get value on path that matches generation
         $rootcategory = \core_course_category::get($category->depth - $generation <= 0 ? reset($parents) : $parents[$category->depth - $generation]);
         return $rootcategory;
     }
 }
 
-function get_category_path(\core_course_category $category) {
-
-    if ($category->depth <= 1) {
-        return [$category->id];
-    }
-    else {
-        $parents = preg_split('@/@', $category->path, -1, PREG_SPLIT_NO_EMPTY);
-        return $parents;
-    }
-}
-    
-function get_journal_link($categoryid){
+/**
+ * Get url of journal
+ *
+ * @param int $categoryid id of category to look for link for
+ * @return string|bool if found url of link, false otherwise
+ */
+function get_journal_link(int $categoryid){
     global $DB;
 
     if($journalhostandpath =  $DB->get_record('theme_apoa_journals', array('category' => $categoryid))){
         $journallink = $journalhostandpath->url . $journalhostandpath->path;     
         return $journallink;     
     }
+
+    //no record
     return false;
 }
 
+/**
+ * Define user preferences for theme
+ *
+ * @return array list of defined user preferences
+ */
 function theme_apoa_user_preferences(){
-    return ['theme_apoa_user_notapproved'=> [
+    return [
+        //hide membership category not approved notification
+        'theme_apoa_user_notapproved'=> [
                 'type' =>   PARAM_INT,
                 'null' => NULL_ALLOWED,
                 'default' => 0,
                 'permissioncallback' => [core_user::class, 'is_current_user'],
         ], 
+        //hide not a subscriber notification
         'theme_apoa_user_nosub' => [
             'type' =>   PARAM_INT,
             'null' => NULL_ALLOWED,

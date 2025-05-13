@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,26 +12,30 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ *  Theme functions.
+ *
+ * @package     theme_apoa
+ * @copyright   2025 Matthew Faulkner matthewfaulkner@apoaevents.com
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */                                       
 
 namespace theme_apoa\navigation\output;
 
 use renderable;
 use renderer_base;
 use templatable;
-use custom_menu;
 use flat_navigation_node;
-use navigation_node_collection;
 use stdClass;
-
-use function PHPUnit\Framework\isEmpty;
 
 /**
  * more menu navigation renderable
  *
- * @package     core
+ * @package     theme_apoa
  * @category    navigation
- * @copyright   2021 onwards Adrian Greeve
+ * @copyright   2025 Matthew Faulkner
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class more_menu implements renderable, templatable {
@@ -84,7 +88,10 @@ class more_menu implements renderable, templatable {
                     $item->haschildren = true;
                 }
             }
+            //array to store nodes for flat navigation
             $data['flatnavigation'] = [];
+
+            //check for module related nodes and add under "activity menu" in flat nav.
             if($module_navigation = $this->content->children->find('modulemenu')){
                 if($module_navigation->has_children()) {
                     $modmenu = new stdClass;
@@ -101,6 +108,8 @@ class more_menu implements renderable, templatable {
                 }
                 $this->content->children->remove('modulemenu');
             }
+
+            //check for course related nodes and add under "Action Menu" in flat nav
             if($course_navigation = $this->content->children->find('coursenavigation')){
                 if($course_navigation->has_children()){
                     $coursemenu = new stdClass;
@@ -118,6 +127,8 @@ class more_menu implements renderable, templatable {
                 }
                 $this->content->children->remove('coursenavigation');
             }
+
+            //Check for category related nodes and add to flat nav under "Category Menu"
             if($category_navigation = $this->content->children->find('categorynavigation')){
                 if($category_navigation->has_children()){
                     $coursemenu = new stdClass;
