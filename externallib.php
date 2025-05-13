@@ -244,7 +244,5 @@ class theme_apoa_external extends external_api {
         );
     }
 
-    
-
 }
 
