@@ -169,10 +169,10 @@ class primary extends \core\navigation\views\primary {
     /**
      * Retrive primary nav from the cache
      *
-     * @param array $navigation_cache_data
+     * @param array|stdClass $navigation_cache_data
      * @return void
      */
-    private function get_nav_from_cache(array $navigation_cache_data){
+    private function get_nav_from_cache($navigation_cache_data){
 
         foreach ($navigation_cache_data as $navnode) {
 
