@@ -268,7 +268,7 @@ $string['viewinappbutton_desc'] = 'Toggles a button displayed in the footer when
 
 $string['linkedinlink']  = "Link to Linkedin";
 $string['linkedinpath']  = "HTML <SVG> for Linkedin Logo";
-$string['facebooklink']  = "Link to Facebook"
+$string['facebooklink']  = "Link to Facebook";
 $string['facebookpath']  = "HTML <SVG> for Facebook Logo";
 $string['twitterlink']   = "Link to Twitter";
 $string['twitterpath']   = "HTML <SVG> for Twitter Logo";
