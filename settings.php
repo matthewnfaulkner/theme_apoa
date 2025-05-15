@@ -409,9 +409,48 @@ if ($ADMIN->fulltree) {
     $page->add($setting);  
 
     $setting = new admin_setting_configtext('theme_apoa/branchapikey', get_string('branchapikey', 'theme_apoa'),                           
-        get_string('branchapikey_desc', 'theme_apoa'), '', PARAM_TEXT);                                                                  
+        '', '', PARAM_TEXT);                                                                  
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);  
+
+    $setting = new admin_setting_configtext('theme_apoa/facebooklink', get_string('facebooklink', 'theme_apoa'),                           
+        '', '', PARAM_URL);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+    $setting = new admin_setting_configtextarea('theme_apoa/facebookpath', get_string('facebookpath', 'theme_apoa'),                           
+        '', '', PARAM_RAW);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configtext('theme_apoa/instagramlink', get_string('instagramlink', 'theme_apoa'),                           
+        '', '', PARAM_URL);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configtextarea('theme_apoa/instagrampath', get_string('instagrampath', 'theme_apoa'),                           
+        '', '', PARAM_RAW);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configtext('theme_apoa/twitterlink', get_string('twitterlink', 'theme_apoa'),                           
+        '', '', PARAM_URL);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configtextarea('theme_apoa/twitterpath', get_string('twitterpath', 'theme_apoa'),                           
+        '', '', PARAM_RAW);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configtext('theme_apoa/linkedinlink', get_string('linkedinlink', 'theme_apoa'),                           
+        '', '', PARAM_URL);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+
+    $setting = new admin_setting_configtextarea('theme_apoa/linkedinpath', get_string('linkedinpath', 'theme_apoa'),                           
+        '', '', PARAM_RAW);                                                                  
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting); 
 
     $settings->add($page); 
 }

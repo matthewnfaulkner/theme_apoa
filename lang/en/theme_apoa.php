@@ -264,3 +264,13 @@ $string['mainmodallink_desc'] = 'URL to addd a link the to main modal';
 
 $string['viewinappbutton'] = 'View in App Button';
 $string['viewinappbutton_desc'] = 'Toggles a button displayed in the footer when the user is on mobile. Button opents current page in the app.';
+
+
+$string['linkedinlink']  = "Link to Linkedin";
+$string['linkedinpath']  = "HTML <SVG> for Linkedin Logo";
+$string['facebooklink']  = "Link to Facebook"
+$string['facebookpath']  = "HTML <SVG> for Facebook Logo";
+$string['twitterlink']   = "Link to Twitter";
+$string['twitterpath']   = "HTML <SVG> for Twitter Logo";
+$string['instagramlink'] = "Link to Instagram";
+$string['instagrampath'] = "HTML <SVG> for Instagram Logo";

@@ -799,6 +799,26 @@ class core_renderer extends \core_renderer {
         return $this->render($menu);
     }
 
+    public function footer_socialmedia() {
+        $socials = ['facebook', 'instagram', 'twitter', 'linkedin'];
+        $template = [];
+        foreach ($socials as $social) {
+            $link = get_config('theme_apoa', $social . 'link');
+            $path = get_config('theme_apoa', $social . 'path');
+
+            if($link === "" || $path === "") {
+                continue;
+            }
+
+            $template[] = array(
+                'sociallink' => $link,
+                'socialpath' => $path
+            ); 
+        }
+
+        return $template;
+    }
+
     public function footer_contact_info() {
 
         $formatoptions = new \stdClass;

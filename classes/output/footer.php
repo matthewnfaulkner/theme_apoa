@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Renderable footer
+ *
+ * @package   theme_apoa
+ * @copyright 2024 Matthew Faulkner <matthewfaulkner@apoaevents.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace theme_apoa\output;
 
 use moodle_page;
@@ -24,14 +32,6 @@ use templatable;
 
 class footer implements renderable, templatable {
 
-    /** @var moodle_page $page the moodle page that the navigation belongs to */
-    private $page = null;
-
-    /** @var array $page the moodle page that the navigation belongs to */
-    private bool $favourited = false;
-
-    private int $courseid;
-
     private string $contact;
     /**
      * primary constructor.
@@ -39,8 +39,6 @@ class footer implements renderable, templatable {
      */
     public function __construct(moodle_page $page) {
         
-        
-
         $this->contact = get_config('theme_apoa', 'footercontact');
 
     }
@@ -53,6 +51,12 @@ class footer implements renderable, templatable {
      */
     public function export_for_template(?renderer_base $output = null) {
 
-        return "";
+        $template = [
+            'facebooklink'  => get_config('theme_apoa', 'facebooklink'),
+            'instagramlink' => get_config('theme_apoa', 'instagramlink'),
+            'twitterlink'   => get_config('theme_apoa', 'twitterlink'),
+            'linkedinlink'  => get_config('theme_apoa', 'linkedinlink'),      
+        ];
+        return $template;
     }
 }
