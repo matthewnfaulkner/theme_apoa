@@ -105,12 +105,7 @@ define(['jquery', 'theme_apoa/swiper'], function($, Swiper) {
         let delta = 30;
         if (diffX < delta && diffY < delta) {
           tapstart = false;
-          //window.location.href = e.currentTarget.getAttribute("data-link-address");
-          //if(Date.now() - doubletapstart < 500){
-            //if(touchedmenuitem == menuItem.id){
-              //window.location.href = e.currentTarget.getAttribute("data-link-address");
-            //}
-          //}
+
           if(touchedmenuitem == menuItem.getAttribute('data-link-id')){
             window.location.href = e.currentTarget.getAttribute("data-link-address");
           }

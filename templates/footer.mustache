@@ -2,7 +2,7 @@
     {{{ output.view_on_mobile }}}
     <div class="container py-4 py-lg-5">
         <div class="row justify-content-center">
-            <div class="col-sm-4 col-md-3 text-center text-lg-left d-flex flex-column">
+            <div class="col-12 col-lg-3 text-center text-lg-left d-flex flex-column">
                 
                 <h3 class="font-weight-bold" style="font-size: 1rem;">Contact and Location</h3>
                 {{{output.footer_contact_info}}}
@@ -14,7 +14,7 @@
                     </div>
                 {{/ output.has_popover_links }}
             </div>
-            <div class="col-sm-4 col-md-3 text-center text-lg-left d-flex flex-column">
+            <div class="col-12  col-lg-3 text-center text-lg-left d-flex flex-column">
                 <h3 class="font-weight-bold" style="font-size: 1rem;">Quick Links</h3>
                 <ul class="list-unstyled m-0">
                 {{#output.footer_quick_links}}
@@ -45,13 +45,18 @@
             </div>
         </div>
         <hr>
-        <div class="d-flex justify-content-between pt-3" style="background: var(--bs-gray-100);">
-            <p class="mb-0">Copyright © 2023 {{sitenamefull}}</p>
-            <ul class="list-inline text-white-50 mb-0">
-                {{#output.footer_socialmedia}}
-                    <li class="list-inline-item"><a href="{{sociallink}}">{{{socialpath}}}</a></li>
-                {{/output.footer_socialmedia}}
-            </ul>
+        <div class="row d-flex justify-content-between pt-3" style="background: var(--bs-gray-100);">
+            <div class="col-12 col-sm-10 pb-2">
+                <p class="mb-0">Copyright © 2023 {{sitenamefull}}</p>
+            </div>
+            <div class="col-12 col-sm-2">
+                <ul class="list-inline text-white-50 mb-0">
+                    {{#output.footer_socialmedia}}
+                        <li class="list-inline-item"><a href="{{sociallink}}">{{{socialpath}}}</a></li>
+                    {{/output.footer_socialmedia}}
+                
+                </ul>
+            </div>
         </div>
     </div>
     <div class="footer-content-debugging footer-dark bg-dark text-light">
