@@ -98,7 +98,7 @@ class apoanavbar implements \renderable {
             // Remove the course category breadcrumb node.
             //$this->remove($this->page->course->category, \breadcrumb_navigation_node::TYPE_CATEGORY);
             // Remove the course breadcrumb node.
-            $this->remove($this->page->course->id, \breadcrumb_navigation_node::TYPE_COURSE);
+            //$this->remove($this->page->course->id, \breadcrumb_navigation_node::TYPE_COURSE);
             // Remove the navbar nodes that already exist in the secondary navigation menu.
             //$this->remove_items_that_exist_in_navigation($PAGE->secondarynav);
 
