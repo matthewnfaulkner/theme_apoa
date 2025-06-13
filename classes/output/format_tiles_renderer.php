@@ -61,7 +61,9 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
                 if(count($modinfo->sections[$sectionnumber]) == 1) {
                     $cmid = reset($modinfo->sections[$sectionnumber]);
                     $cminfo = $modinfo->cms[$cmid];
-                    redirect($cminfo->url);
+                    if(!plugin_supports('mod', $cminfo->modname, FEATURE_NO_VIEW_LINK, false)){
+                        redirect($cminfo->url);
+                    }
                 }
                 $templateable = new \format_tiles\output\course_output($course, false, $sectionnumber, $this);
                 $data = $templateable->export_for_template($this);

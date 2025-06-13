@@ -33,7 +33,7 @@ define(['core/ajax', 'core/notification'], function(Ajax, Notification){
         let parent  = document.querySelector(query);
         let link = parent.querySelector('.dontshowagain');
         const d = new Date();
-        let time = d.getTime();
+        let time = Math.floor(d.getTime()/1000);
         link.addEventListener('click', e =>{
             e.preventDefault();
             let close = parent.querySelector('.close');
