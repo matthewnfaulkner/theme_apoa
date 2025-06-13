@@ -49,8 +49,8 @@ class refresh_warning_preferences extends \core\task\scheduled_task {
      */
     public function execute() {
         
-        //define cutoff as now + 1 month
-        $cutoff = time() + 2629743;
+        //define cutoff as now - 1 month
+        $cutoff = time() - 2629743;
         $this->log_start("Deleting old preferences");
 
         //get functions that that call function
