@@ -59,6 +59,8 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
                 $template = 'format_tiles/multi_section_page';
                 $templateable = new \format_tiles\output\course_output($course, false, null, $this);
                 $data = $templateable->export_for_template($this);
+                            $data['blocks'] = $this->blocks('content');
+            $data['blockcontent'] = $this->custom_block_region('content');
             } else {
                 $template = 'format_tiles/single_section_page';
                 $modinfo = get_fast_modinfo($course);
@@ -73,8 +75,7 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
                 $data = $templateable->export_for_template($this);
                 
             }
-            $data['blocks'] = $this->blocks('content');
-            $data['blockcontent'] = $this->custom_block_region('content');
+
         }
         // We init JS here and not in format.php.
         // This is because in Moodle 4.4+ we may be in this function via section.php and not format.php.
