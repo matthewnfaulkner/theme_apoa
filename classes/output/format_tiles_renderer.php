@@ -49,6 +49,10 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
                 $displayoptions
             );
             $data = $contentoutput->export_for_template($this);
+            $data->blocks = $this->blocks('content');
+            $data->addblockbutton =  $this->addblockbutton();
+            $data->blockcontent = $this->custom_block_region('content');
+            $data->editing = true;
         } else {
             // If user not editing, for now we render the page the old way.
             if (self::display_multiple_section_page((bool)$sectionnumber, false)) {
@@ -67,12 +71,15 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
                 }
                 $templateable = new \format_tiles\output\course_output($course, false, $sectionnumber, $this);
                 $data = $templateable->export_for_template($this);
+                
             }
+            $data['blocks'] = $this->blocks('content');
+            $data['blockcontent'] = $this->custom_block_region('content');
         }
         // We init JS here and not in format.php.
         // This is because in Moodle 4.4+ we may be in this function via section.php and not format.php.
         \format_tiles\local\util::init_js($course, $this->page->context->id, $sectionnumber);
-
+        
         echo $this->render_from_template($template, $data);
     }
 
