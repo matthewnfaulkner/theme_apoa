@@ -49,9 +49,11 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
                 $displayoptions
             );
             $data = $contentoutput->export_for_template($this);
-            $data->blocks = $this->blocks('content');
-            $data->addblockbutton =  $this->addblockbutton();
-            $data->blockcontent = $this->custom_block_region('content');
+            $data->pretileaddblockbutton =  $this->addblockbutton('content');
+            $data->pretileblockcontent = $this->custom_block_region('content');
+
+            $data->posttileaddblockbutton =  $this->addblockbutton('posttilecontent');
+            $data->posttileblockcontent = $this->custom_block_region('posttilecontent');
             $data->editing = true;
         } else {
             // If user not editing, for now we render the page the old way.
@@ -59,8 +61,9 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
                 $template = 'format_tiles/multi_section_page';
                 $templateable = new \format_tiles\output\course_output($course, false, null, $this);
                 $data = $templateable->export_for_template($this);
-                            $data['blocks'] = $this->blocks('content');
-            $data['blockcontent'] = $this->custom_block_region('content');
+                $data['pretileblockcontent'] = $this->custom_block_region('content');
+
+                $data['postileblockcontent'] = $this->custom_block_region('posttilecontent');
             } else {
                 $template = 'format_tiles/single_section_page';
                 $modinfo = get_fast_modinfo($course);

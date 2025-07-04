@@ -185,8 +185,8 @@
             {{/ format_tiles/local/content/section }}
         {{/initialsection}}
         {{#editing}}
-            {{{addblockbutton}}}
-            {{{blockcontent}}}
+            {{{pretileaddblockbutton}}}
+            {{{preblockcontent}}}
         {{/editing}}
         {{#sections}}
             {{$ format_tiles/local/content/section }}
@@ -222,7 +222,12 @@
             {{/ core_courseformat/local/content/bulkedittools}}
         {{/bulkedittools}}
     {{/ismoodle41minus}}
+     {{#editing}}
+            {{{posttileaddblockbutton}}}
+            {{{posttileblockcontent}}}
+        {{/editing}}
 </div>
+
 {{#js}}
     require(['core_courseformat/local/content'], function(component) {
     component.init('course-format-{{uniqid}}', {}, {{sectionreturn}});

@@ -46,12 +46,15 @@ class block_rss_client_renderer extends \block_rss_client\output\renderer {
     public function render_block(\templatable $block) {
         $data = $block->export_for_template($this);
 
+        $first = true;
         foreach($data['feeds'] as $key => $feeds) {
             if(empty($feeds['items'])){
                 $data['feeds'][$key] = [];
+            }else{
+                $data['feeds'][$key]['first'] = $first;
+                $first = false;
             }
         }
-        $data['feeds'][0]['first'] = true;
         
         return $this->render_from_template('block_rss_client/block', $data);
     }

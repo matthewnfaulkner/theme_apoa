@@ -60,7 +60,8 @@ class jumbo implements \templatable , \renderable {
             }
         }
         $jumbomain = [
-            'jumbotext' => get_config($component, 'jumboshowtext'),
+            'jumboshowtext' => get_config($component, 'jumboshowtext'),
+            'jumboshowlogo' => get_config($component, 'jumboshowlogo'),
             'jumbotitle' => get_config($component, 'jumbotitle'),
             'jumbodescription' => get_config($component, 'jumbodescription'),
             'jumbovideoflag' => get_config($component, 'jumbovideoflag'),

@@ -1,11 +1,11 @@
 <a class="stretched-link main-page-link-wrapper" href="{{{jumbourl}}}"></a>
 <div class="card main-page-jumbo-main border-0 pr-lg-1">
-    <video src="{{jumbobanner}}" class="main-page-jumbo-video main-page-main-image {{#jumboshowtext}}dim{{/jumboshowtext}} d-block" width="" height="315" autoplay="" muted="" loop="" poster="{{jumbobannerposter}}">
+    <video src="{{jumbobanner}}" class="main-page-jumbo-video main-page-main-image {{#jumboshowtext}}{{/jumboshowtext}} d-block" width="" height="315" autoplay="" muted="" loop="" poster="{{jumbobannerposter}}">
     </video>
 
-    <div class="card-img-overlay justify-content-start align-items-center d-flex flex-column jumbo-overlay">
-        {{#jumboshowtext}}
+    <div class="card-img-overlay justify-content-start align-items-center d-flex flex-column jumbo-overlay p-2">
             <h1 class="d-flex main-page-jumbo-title-cont main-page-link align-items-center w-100 justify-content-end m-1">
+                {{#jumboshowlogo}}
                 <p class="d-flex align-items-center w-100 text-white m-0">
                     <img class="float-left main-page-jumbo-logo" src="{{jumbobannerlogo}}">
                     <span class="main-page-sub-card-text px-2 main-page-jumbo-title-logo-text">
@@ -13,23 +13,27 @@
                             Asia Pacific Othopaedic Association
                     </span>
                 </p>
-                <span class="float-right main-page-jumbo-title d-flex flex-column card-text-over-picture p-2">
-                    <span class="main-page-link text-right">
+                {{/jumboshowlogo}}
+                {{#jumboshowtext}}
+                <span class="float-right main-page-jumbo-title d-flex flex-column card-text-over-picture p-2 {{#jumboshowlogo}}text-right{{/jumboshowlogo}}">
+                    <span class="main-page-link ">
                         {{jumbotitle}}
                     </span>
-                    <span class="br text-right main-page-link main-page-sub-card-text">
+                    <span class="br main-page-link main-page-sub-card-text">
                         {{jumbodescription}}
                     </span>
-                    <span class="br text-right main-page-sub-card-text">
+                    <span class="br main-page-sub-card-text">
                         <small class="main-page-link-sub">
                             {{jumbotag}}
                         </small>
                     </span>
-                    <span class="br text-right main-page-sub-card-text">
-                        <small id="jumbotimestart" class="">
-                            {{#userdate}}{{jumbostartdate}}, {{#str}} strftimedate, core_langconfig {{/str}}{{/userdate}}
-                        </small>
-                    </span>
+                    {{#jumbostartdate}}
+                        <span class="br text-right main-page-sub-card-text">
+                            <small id="jumbotimestart" class="">
+                                {{#userdate}}{{jumbostartdate}}, {{#str}} strftimedate, core_langconfig {{/str}}{{/userdate}}
+                            </small>
+                        </span>
+                    {{/jumbostartdate}}
                     {{^jumbovideoflag}}
                         {{#jumboannouncement}}
                             <div class="my-2" style="background:#fae808; z-index:4">
@@ -43,16 +47,15 @@
                     {{/jumbovideoflag}}
 
                 </span>
-            
+                {{/jumboshowtext}}
             </h1>
-        {{/jumboshowtext}}
         {{#jumbovideoflag}}
         <div class="w-100 d-flex justify-content-end">
             <video class="main-page-jumbo-video main-page-jumbo-sub-video" width="560" height="315" poster="{{jumboSubPlaceholder}}" loop="" muted="" controls="">
                 <source src="{{jumbovideo}}" type="video/webm">
             </video>
         </div>
-        <div class="row text-center text-white align-content-center m-1 d-flex countdown" style="left:15%!important">
+        <div class="row text-center text-white align-content-center m-1 d-flex d-none countdown" style="left:15%!important">
         
             <div class="col-6 px-1" style="width: 140px">
                 <div class="row m-0 justify-content-center">
@@ -86,7 +89,7 @@
 
         {{/jumbovideoflag}}
         {{^jumbovideoflag}}
-        <div class="row text-center text-white align-content-center m-1 d-flex countdown">
+        <div class="row text-center text-white align-content-center m-1 d-flex d-none countdown">
         
             <div class="col-3 px-1" style="width: 140px">
                 <div class="countdowncont">

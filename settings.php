@@ -110,11 +110,17 @@ if ($ADMIN->fulltree) {
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);   
 
+
     $setting = new admin_setting_configcheckbox('theme_apoa/jumboshowtext', get_string('jumboshowtext', 'theme_apoa'),
         get_string('jumboshowtext_desc', 'theme_apoa'), '');
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting);  
 
+    $setting = new admin_setting_configcheckbox('theme_apoa/jumboshowlogo', get_string('jumboshowlogo', 'theme_apoa'),
+    get_string('jumboshowlogo_desc', 'theme_apoa'), '');
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting);  
+    
     $setting = new admin_setting_configtext('theme_apoa/jumbotitle',                                                              
         get_string('jumbotitle', 'theme_apoa'), get_string('jumbotitle_desc', 'theme_apoa'), '', PARAM_RAW);                      
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        

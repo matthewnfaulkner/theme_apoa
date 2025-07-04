@@ -11,16 +11,14 @@ use theme_apoa_tag_tag;
 class theme_apoa_pagelist implements \templatable {
 
 
-    
-
     protected stdClass $course;
 
     protected array $courses;
 
     protected \core_course_category $coursecat;
 
-    public function __construct(stdClass $COURSE) {
-        $this->course = $COURSE;
+    public function __construct( $course) {
+        $this->course = $course;
         $this->courses = array();
         $this->coursecat = \core_course_category::get($this->course->category);
         $subroot = get_subroot_category($this->coursecat);

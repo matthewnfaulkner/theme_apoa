@@ -68,7 +68,10 @@ function theme_apoa_get_pre_scss($theme) {
     // Load the settings from the parent.                                                                                           
     $theme = theme_config::load('boost');                                                                                           
     // Call the parent themes get_pre_scss function.  
-    $scss = '$jumbobgcolor: '. get_config('theme_apoa', 'jumbobgcolor') . '!default;';
+    if($jumbobgcolor = get_config('theme_apoa', 'jumbobgcolor')){
+         $scss = '$jumbobgcolor: '. $jumbobgcolor . '!default;';
+    }
+   
     return $scss .= theme_boost_get_pre_scss($theme);                         
 }
 

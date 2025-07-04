@@ -63,7 +63,7 @@ $THEME->layouts = [
     ),
     'course' => array(
         'file' => 'page.php',
-        'regions' => array('side-pre', 'content', 'subscriptions'),
+        'regions' => array('side-pre', 'content', 'subscriptions', 'posttilecontent'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => false,)
     ),
