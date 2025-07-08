@@ -445,12 +445,25 @@ body.limitedwidth #page.drawers .footer-popover {
   color: black!important;
 }
 
+.tcell.sticky-col{
+    position: sticky;
+    background-color: inherit;
+    left: 0;
+    z-index: 1;
+}
+
+
 .tcell a{
   color: black!important;
 }
 
 .tcell:hover{
   filter: brightness(1.0);
+}
+
+.ttime{
+    background-color: aliceblue!important;
+    filter: brightness(1.0);
 }
 
 .ttrauma{
