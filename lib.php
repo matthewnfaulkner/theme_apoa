@@ -55,6 +55,7 @@ function theme_apoa_get_main_scss_content($theme) {
     $post = file_get_contents($CFG->dirroot . '/theme/apoa/scss/post.scss');
     $booststudio = file_get_contents($CFG->dirroot . '/theme/apoa/scss/bootstudio.scss');
     $swiper = file_get_contents($CFG->dirroot . '/theme/apoa/scss/swiper.scss');
+    
     return $pre . "\n" . $scss . "\n" . $post . "\n" . $booststudio. "\n"  . $swiper;                                                                                                                  
 }
 
@@ -99,7 +100,7 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
     }else if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'jumbobanner' || $filearea === 'jumbobannerlogo' || 
     preg_replace('/[0-9]+/', '', $filearea) === 'sectionlogo' || $filearea === 'resources' || $filearea === 'jumbobannerposter' || $filearea === 'jumbovideo' ||
-    $filearea === 'about' || $filearea == 'mainmodalbg' || $filearea == 'mainmodalbgmobile'){
+    $filearea === 'about' || $filearea == 'mainmodalbg' || $filearea == 'mainmodalbgmobile'|| $filearea == 'mobilecss'){
         $theme = theme_config::load('apoa');
         // By default, theme files must be cache-able by both browsers and proxies.
         if (!array_key_exists('cacheability', $options)) {

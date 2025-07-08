@@ -61,11 +61,19 @@ if ($ADMIN->fulltree) {
     // Preset files setting.                                                                                                        
     $name = 'theme_apoa/presetfiles';                                                                                              
     $title = get_string('presetfiles','theme_apoa');                                                                               
-    $description = get_string('presetfiles_desc', 'theme_poa');                                                                   
+    $description = get_string('presetfiles_desc', 'theme_apoa');                                                                   
                                                                                                                                     
     $setting = new admin_setting_configstoredfile($name, $title, $description, 'preset', 0,                                         
         array('maxfiles' => 20, 'accepted_types' => array('.scss')));                                                               
     $page->add($setting);     
+
+        // Preset files setting.                                                                                                        
+    $name = 'theme_apoa/mobilecss';                                                                                              
+    $title = get_string('mobilecss','theme_apoa');                                                                               
+    $description = get_string('mobilecss_desc', 'theme_poa');    
+    $setting = new admin_setting_configstoredfile($name, $title, $description, 'mobilecss', 0,                                         
+        array('maxfiles' => 1, 'accepted_types' => array('.css')));                                                               
+    $page->add($setting);   
 
     // Variable $brand-color.                                                                                                       
     // We use an empty default value because the default colour should come from the preset.                                        

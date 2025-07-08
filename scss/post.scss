@@ -436,3 +436,111 @@ body.limitedwidth #page.drawers .footer-popover {
 .stretched-link:hover  .coursecatcard {
   background-color: #33666750;
 }
+
+
+//table styling
+
+.tcell{
+  filter: brightness(0.8);
+  color: black!important;
+}
+
+.tcell .a{
+  color: black!important;
+}
+
+.tcell:hover{
+  filter: brightness(1.0);
+}
+
+.ttrauma{
+  background-color: rgb(245 137 5 / 30%);
+}
+
+.tspine{
+  background-color: rgb(64 2 100 / 23%);
+}
+
+.tknee{
+  background-color: rgb(105 128 1 / 25%)
+}
+
+.tfoot-ankle{
+  background-color: rgb(187 39 39 / 30%);
+}
+
+.tpaeds{
+  background-color: rgb(7 170 34 / 25%);
+}
+
+.thand{
+  background-color: rgb(7 146 238 / 36%);
+}
+
+.tosteo{
+  background-color: rgb(159 243 4 / 26%);
+}
+
+.tmaster{
+  background-color: rgb(0 217 255 / 17%);
+}
+
+.tplenary{
+  background-color: rgb(235 1 118 / 25%);
+}
+
+.tregen{
+  background-color: bisque;
+}
+
+.tsess{
+  background-color: rgb(245 137 5 / 30%);
+}
+
+.tlunch{
+  background-color: yellow;
+}
+
+.tinfection{
+  background-color: rgb(195 4 243 / 22%);
+}
+
+.tsports{
+  background-color: rgb(3 226 40 / 22%);
+}
+
+.thip{
+  background-color: rgb(128 128 128 / 44%);
+}
+
+.tgeneral{
+  background-color: rgba(77, 128, 133, 0.329);
+}
+
+.tresearch{
+  background-color: rgb(81 23 240 / 28%);
+}
+
+.ttech{
+  background-color: rgb(215, 250, 220);
+}
+
+.tysf{
+  background-color: rgb(18 59 59 / 25%);
+}
+
+.tinclusion{
+  background-color: rgb(171 14 202 / 25%);
+}
+
+.twaves{
+  background-color: rgb(255 208 0 / 24%);
+}
+
+.toncology{
+  background-color: rgb(106 142 35 / 16%);
+}
+
+.tmisc{
+  background-color: rgb(0 255 255 / 17%);
+}
