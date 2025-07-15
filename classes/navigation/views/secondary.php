@@ -289,7 +289,6 @@ class secondary extends \core\navigation\views\secondary {
         switch ($context->contextlevel) {
             case CONTEXT_COURSE:
                 $this->headertitle = get_string('courseheader');
-
                 $this->load_course_navigation();
                 $defaultmoremenunodes = $this->get_default_course_more_menu_nodes();
                 
