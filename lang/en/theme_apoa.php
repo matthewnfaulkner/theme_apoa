@@ -276,3 +276,7 @@ $string['twitterlink']   = "Link to Twitter";
 $string['twitterpath']   = "HTML <SVG> for Twitter Logo";
 $string['instagramlink'] = "Link to Instagram";
 $string['instagrampath'] = "HTML <SVG> for Instagram Logo";
+
+$string['refresh_warning_preferences'] = "Check and refresh expire user preferences related to displaying membership warnings.";
+$string['main_page_cache'] = "Update cache more Home Page content";
+$string['populate_navigation'] = "Populates Primary Navigation";
