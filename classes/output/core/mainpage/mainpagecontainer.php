@@ -54,19 +54,19 @@ class mainpagecontainer implements \templatable , \renderable {
         
         switch ($this->sectionname){
             case 'jumbo':
-                return 'main-page-container container-fluid';
+                return '';
             case 'subjumbo':
                 return 'container main-page-container my-0';
             case 'events':
-                return 'main-page-container container-fluid';
+                return 'container main-page-container container-fluid';
             case 'about':
-                return 'main-page-container';
+                return 'container main-page-container';
             case 'sections':
-                return 'text-primary main-page-container px-5 ';
+                return 'container text-primary main-page-container px-5 ';
             case 'membership':
-                return 'py-4 py-xl-5 bg-primary d-flex flex-row justify-content-center mw-100';
+                return 'container py-4 py-xl-5 bg-primary d-flex flex-row justify-content-center mw-100';
             case 'resources':
-                return 'py-4 py-xl-5 main-page-container flex-column d-flex justify-content-center align-items-center px-sm-5';
+                return 'container py-4 py-xl-5 main-page-container flex-column d-flex justify-content-center align-items-center px-sm-5';
             default:
                 return '';
         }

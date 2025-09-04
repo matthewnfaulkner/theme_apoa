@@ -100,7 +100,7 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
         return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
     }else if ($context->contextlevel == CONTEXT_SYSTEM && $filearea === 'jumbobanner' || $filearea === 'jumbobannerlogo' || 
     preg_replace('/[0-9]+/', '', $filearea) === 'sectionlogo' || $filearea === 'resources' || $filearea === 'jumbobannerposter' || $filearea === 'jumbovideo' ||
-    $filearea === 'about' || $filearea == 'mainmodalbg' || $filearea == 'mainmodalbgmobile'|| $filearea == 'mobilecss'){
+    $filearea === 'about' || $filearea == 'mainmodalbg' || $filearea == 'mainmodalbgmobile'|| $filearea == 'mobilecss' || $filearea == 'slidebgs'){
         $theme = theme_config::load('apoa');
         // By default, theme files must be cache-able by both browsers and proxies.
         if (!array_key_exists('cacheability', $options)) {
@@ -320,6 +320,34 @@ function theme_apoa_get_file_from_setting($settingname) {
             $file->get_filepath(), $file->get_filename(), false)->out();
         }else if ($file->is_valid_image()) {
             $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
+            $file->get_filepath(), $file->get_filename(), false)->out();
+        }
+    }
+
+
+    return $url;
+}
+
+/**
+ * Given a setting name, retrieves file from setting if setting exists in theme.
+ *
+ * @param string $settingname name of the setting to retrieve from
+ * @return array url of the retrieved files
+ */
+function theme_apoa_get_files_from_setting($settingname) {
+
+    $component = 'theme_apoa';
+
+    $fs = get_file_storage();
+    $syscontext = context_system::instance();
+    $files = $fs->get_area_files($syscontext->id, $component, $settingname);
+    $urls = [];
+    foreach ($files as $file){
+        if (is_valid_video($file)){
+            $url[] = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
+            $file->get_filepath(), $file->get_filename(), false)->out();
+        }else if ($file->is_valid_image()) {
+            $url[] = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(),
             $file->get_filepath(), $file->get_filename(), false)->out();
         }
     }

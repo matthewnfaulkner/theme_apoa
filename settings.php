@@ -23,7 +23,9 @@
  */                                                            
 
 
-defined('MOODLE_INTERNAL') || die();                                                                                                
+defined('MOODLE_INTERNAL') || die();          
+
+require_once('lib.php');
                                                                                                                                     
 // This is used for performance, we don't need to know about these settings on every page in Moodle, only when                      
 // we are looking at the admin settings pages.                                                                                      
@@ -70,7 +72,7 @@ if ($ADMIN->fulltree) {
         // Preset files setting.                                                                                                        
     $name = 'theme_apoa/mobilecss';                                                                                              
     $title = get_string('mobilecss','theme_apoa');                                                                               
-    $description = get_string('mobilecss_desc', 'theme_poa');    
+    $description = get_string('mobilecss_desc', 'theme_apoa');    
     $setting = new admin_setting_configstoredfile($name, $title, $description, 'mobilecss', 0,                                         
         array('maxfiles' => 1, 'accepted_types' => array('.css')));                                                               
     $page->add($setting);   
@@ -465,6 +467,39 @@ if ($ADMIN->fulltree) {
         '', '', PARAM_RAW);                                                                  
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting); 
+
+    $settings->add($page); 
+    
+
+    $page = new admin_settingpage('theme_apoa_slider', get_string('slidersettings', 'theme_apoa'));
+                                                                                                                                                                                                                                       
+
+    $sliderange = array_combine(range(1, 5), range(1, 5));
+    $setting = new admin_setting_configselect('theme_apoa/slidecount', get_string('slidecount', 'theme_apoa'),
+        get_string('slidecount_desc', 'theme_apoa'), 1, $sliderange);
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+    $page->add($setting); 
+    $slides = get_config('theme_apoa', 'slidecount');
+
+    $setting = new admin_setting_configstoredfile('theme_apoa/slidebgs', get_string('slideimg', 'theme_apoa'),
+        get_string('slideimg_desc', 'theme_apoa'), 'slidebgs', 0,
+            array('maxfiles' => 20, 'accepted_types' => array('.jpg', '.png', '.jpeg')));
+    $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+        $page->add($setting); 
+
+    if($files = theme_apoa_get_files_from_setting('slidebgs')){
+        $setting = new admin_setting_heading('slidebgslabel', "File urls", implode("\n", $files));
+        $page->add($setting); 
+    }
+    
+    for ($x = 1; $x <= $slides; $x++) {
+
+    
+        $setting = new admin_setting_confightmleditor('theme_apoa/slide'. $x, get_string('slide', 'theme_apoa', $x),
+        get_string('slide_desc', 'theme_apoa'), '');
+        $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
+        $page->add($setting); 
+    }
 
     $settings->add($page); 
 }

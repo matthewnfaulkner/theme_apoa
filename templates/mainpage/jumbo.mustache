@@ -1,15 +1,15 @@
-<div class="row mx-0">
-    <div id="jumbo" class="col col-lg-8 col-sm-12 col-12 main-page-col">
+<div class="row mx-0 justify-content-center">
+    <div id="jumbo" class="col col-sm-12 col-12 main-page-col">
         {{#jumbomain}}
             <div>
                 {{>theme_apoa/mainpage/jumbo/jumbomain}}
             </div>
         {{/jumbomain}}
-        {{#sidejumbo}}
+        {{^sidejumbo}}
             {{> theme_apoa/mainpage/jumbo/jumbomodal}}
         {{/sidejumbo}}
     </div>
-    <div class="col col-lg-4 col-sm-12 col-12 main-page-col main-page-sec-col bg-white">
+    <div id="sidejumbo" class="col col-sm-12 col-12 main-page-col bg-white">
             {{#sidejumbo}}
                 {{{blocks.get_blocks}}}     
             {{/sidejumbo}}

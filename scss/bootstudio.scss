@@ -1,6 +1,13 @@
 #page {
     margin-top: 60px;
+}
+
+@media (min-width: 768px) {
+  #page {
+    margin-top: 90px;
   }
+}
+
   
   .navbar-main {
     height: 60px;
@@ -73,6 +80,12 @@
       padding-right: 3em;
     }
   }
+
+  @media (min-width: 768px) {
+    #sidejumbo {
+      max-width: 80vw;
+    }
+  }
   
   .main-page-jumbo-main {
       background-color: $jumbobgcolor!important;
@@ -89,26 +102,26 @@
   @media (min-width: 1200px) {
     .main-page-jumbo-main {
       border-radius: 12px;
-      min-height: 400px;
+      min-height: 68vh;
     }
   }
   
   @media (min-width: 300px) {
     .main-page-jumbo-main {
-      max-height: 300px;
+      max-height: 50vh;
       min-width: 100%;
       border-radius: 0px;
     }
   }
-  @media (min-width: 962px) {
+  @media (min-width: 768px) {
     .main-page-jumbo-main {
-      max-height: 400px;
+      max-height: 68vh;
     }
   }
   
   @media (min-width: 300px) {
     .main-page-main-image {
-      min-height: 300px;
+      min-height: 50vh;
       //object-fit: cover;
       //object-position: right;
     }
@@ -117,7 +130,7 @@
   @media (min-width: 962px) {
     .main-page-main-image {
       min-height: 400px;
-      max-height: 400px;
+      max-height: 68vh;
       border-radius: 0;
     }
   }

@@ -1,6 +1,6 @@
-<div id="jumbomodal" class="w-100  hide" style="position: absolute;overflow: hidden; z-index: 6">
-    <div class="simple-slider" style="/*height: 100%;*/">
-        <div class="swiper-container" style="/*height: 100%;*/">
+<div id="jumbomodal" class="w-100 show" style="position: absolute;overflow: hidden; z-index: 6">
+    <div class="simple-slider">
+        <div class="swiper-container">
             <div class="swiper-wrapper">
                 {{#blocks}}
                     {{#indexes}}
@@ -12,28 +12,136 @@
                     </div>
                     {{/indexes}}
                 {{/blocks}}
+
             </div>
-            <svg id="closemodal" class="bi bi-x-circle float-right position-absolute m-2" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="top: 0;right: 0;color: rgb(255,255,255);z-index: 10;height: 40px;width: 40px;">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
-                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
-            </svg>
+
         </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
     </div>
 </div>
-{{#js}}
-    require(['theme_apoa/simple-image-zoom'], function(Zoom) {
-    Zoom.expand({ 
-        zoomMaxWidth: 'initial',
-        zoomMaxHeight: '80%',
-        overlayColor: 'var(--primary)', 
-        overlayOpacity: '1',
-        iconShow: true,
-        iconSize: '45px',
-        iconImg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAqVJREFUeNq8VjuLGlEUnhlHNz5BsnkYXdwQNWCxVoFUWlhJCotgI4LiP5AUlpZiEfwBgljZSBohpaCpUgUkIEELH1EkJCH4fo1jzpE7wZjRnXElB84uc+d6vjnnfOe7l95sNjRFUfeJX1DntQX4T3QWAUaj0XU0GnU3Go2Xk8nESNP0nRE0Gs0vu93+MZvNftDr9RQNGT0PBAKvqtXqa3jPwjN3DiCMBc65XK53hULhPYPlwkzIiyWA8PD/HL7EmCT2BQJR0+nUiOjU+Y0jsbdZ/GNQPobjOCXP88zuOsMwPDinUCjWp9QRA1O7fUGQZrP5Yn/zcDhc+/3+z71ebywVAGNvPxL/7Dd/PxO0wWDAx2Kxr+12ey4nEyE2I/UHUC6q3+8jWTanNEsykE6nY4LB4APIVkmG/O5AQrrQC65SqUyF9VAoZEylUk8BTHEykNA0ArRutVqLZDLZDYfDXyKRSEt4V6vVZrhdLhAqw43D4XiLqkEGbUtvtVqtBDlaA53XYKzX6720WCyqXC7Xh379UQ8y4McSmdbr9TfsgdLx8/l8gQTYzgDLrsrl8jeBFAgMWZq63e6yVCr9QGAsp1arVcxms5UYOCODpjw6EgHK+SSRSFxlMplnbrf70Wq1Uvt8vsfFYvEGZpA9OLBiQ3sM0+l0qoUHKOU1EOahzWZTmc1mFGXFUSCpio09i8fjzeVyySALcc3j8WjESLX78Yxs9sDAAtgqn89/H4/HvBRVOAmIfCltMplUQAp5oirXrFbrvXQ6fWUwGBiR0vKS1fs263Q6Mzg5P4kdIzgKYurNyiHCjsCupZ5Jf5EBLxKnlvG21pDYW6AF3lbIUa4ia1tHKdp9FvMjezAWR2IvUOsud69bwhkvtXeH9uxdt1r0/7pA/hZgACO4VuIsr37kAAAAAElFTkSuQmC',
-        iconPos: {right: 0, bottom: 0 },
-        iconToggleOnly: true,
-        dynamicLoading: false,
-        dynamicInterval: 200
-    });
-});
-{{/js}}
+<div id="slide-0" class="swiper-slide h-100"  data-src="" data-control-id="0">
+                <a class="stretched-link main-page-link-wrapper" href="{{{jumbourl}}}"></a>
+                    <div class="card main-page-jumbo-main border-0 pr-lg-1 h-100">
+                        <video src="{{jumbobanner}}" class="main-page-jumbo-video main-page-main-image {{#jumboshowtext}}{{/jumboshowtext}} d-block h-100"  autoplay="" muted="" loop="" poster="{{jumbobannerposter}}">
+                        </video>
+
+                        <div class="card-img-overlay justify-content-start align-items-center d-flex flex-column jumbo-overlay p-2">
+                                <h1 class="d-flex main-page-jumbo-title-cont main-page-link align-items-center w-100 justify-content-end m-1">
+                                    {{#jumboshowlogo}}
+                                    <p class="d-flex align-items-center w-100 text-white m-0">
+                                        <img class="float-left main-page-jumbo-logo" src="{{jumbobannerlogo}}">
+                                        <span class="main-page-sub-card-text px-2 main-page-jumbo-title-logo-text">
+                                                <small>Welcome to the</small><br>
+                                                Asia Pacific Othopaedic Association
+                                        </span>
+                                    </p>
+                                    {{/jumboshowlogo}}
+                                    {{#jumboshowtext}}
+                                    <span class="float-right main-page-jumbo-title d-flex flex-column card-text-over-picture p-2 {{#jumboshowlogo}}text-right{{/jumboshowlogo}}">
+                                        <span class="main-page-link ">
+                                            {{jumbotitle}}
+                                        </span>
+                                        <span class="br main-page-link main-page-sub-card-text">
+                                            {{jumbodescription}}
+                                        </span>
+                                        <span class="br main-page-sub-card-text">
+                                            <small class="main-page-link-sub">
+                                                {{jumbotag}}
+                                            </small>
+                                        </span>
+                                        {{#jumbostartdate}}
+                                            <span class="br text-right main-page-sub-card-text">
+                                                <small id="jumbotimestart" class="">
+                                                    {{#userdate}}{{jumbostartdate}}, {{#str}} strftimedate, core_langconfig {{/str}}{{/userdate}}
+                                                </small>
+                                            </span>
+                                        {{/jumbostartdate}}
+                                        {{^jumbovideoflag}}
+                                            {{#jumboannouncement}}
+                                                <div class="my-2" style="background:#fae808; z-index:4">
+                                                    <a href="{{{announcementlink}}}" >
+                                                        <h5 class="px-1 text-accent pb-0">Latest News:</h5>
+                                                        <h5 class="px-1 text-dark">{{jumboannouncement}}</h5>
+                                                        <h6><small class="px-1">Read more...</small></p>
+                                                    </a>
+                                                </div>
+                                            {{/jumboannouncement}}
+                                        {{/jumbovideoflag}}
+
+                                    </span>
+                                    {{/jumboshowtext}}
+                                </h1>
+                            {{#jumbovideoflag}}
+                            <div class="w-100 d-flex justify-content-end">
+                                <video class="main-page-jumbo-video main-page-jumbo-sub-video" width="560" height="315" poster="{{jumboSubPlaceholder}}" loop="" muted="" controls="">
+                                    <source src="{{jumbovideo}}" type="video/webm">
+                                </video>
+                            </div>
+                            <div class="row text-center text-white align-content-center m-1 d-flex d-none countdown" style="left:15%!important">
+                            
+                                <div class="col-6 px-1" style="width: 140px">
+                                    <div class="row m-0 justify-content-center">
+                                        <div class="countdowncont ">
+                                            <h1 id="jumbocountdowndays" class="mb-0"></h3>
+                                            <p class="mb-0" style="font-size: 60%">{{#str}}days, core{{/str}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row m-0 justify-content-center">
+                                        <div class="countdowncont">
+                                            <h1 id="jumbocountdownminutes" class="mb-0"></h3>
+                                            <p class="mb-0" style="font-size: 60%">{{#str}}minutes, core{{/str}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 px-1">
+                                    <div class="row m-0 justify-content-center">
+                                        <div class="countdowncont">
+                                            <h1 id="jumbocountdownhours" class="mb-0"></h3>
+                                            <p class="mb-0" style="font-size: 60%">{{#str}}hours, core{{/str}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row m-0 justify-content-center">
+                                        <div class="countdowncont">
+                                            <h1 id="jumbocountdownseconds" class="mb-0"></h3>
+                                            <p class="mb-0" style="font-size: 60%">{{#str}}seconds, core{{/str}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{/jumbovideoflag}}
+                            {{^jumbovideoflag}}
+                            <div class="row text-center text-white align-content-center m-1 d-flex d-none countdown">
+                            
+                                <div class="col-3 px-1" style="width: 140px">
+                                    <div class="countdowncont">
+                                        <h1 id="jumbocountdowndays" class="mb-0"></h3>
+                                        <p class="mb-0" style="font-size: 60%">{{#str}}days, core{{/str}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-3 px-1">
+                                    <div class="countdowncont">
+                                        <h1 id="jumbocountdownhours" class="mb-0"></h3>
+                                        <p class="mb-0" style="font-size: 60%">{{#str}}hours, core{{/str}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-3 px-1">
+                                    <div class="countdowncont">
+                                        <h1 id="jumbocountdownminutes" class="mb-0"></h3>
+                                        <p class="mb-0" style="font-size: 60%">{{#str}}minutes, core{{/str}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-3 px-1">
+                                    <div class="countdowncont">
+                                        <h1 id="jumbocountdownseconds" class="mb-0"></h3>
+                                        <p class="mb-0" style="font-size: 60%">{{#str}}seconds, core{{/str}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/jumbovideoflag}}
+                        </div>
+
+                    </div>
+            </div>

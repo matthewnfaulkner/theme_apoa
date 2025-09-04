@@ -59,6 +59,17 @@ class jumbo implements \templatable , \renderable {
                 }
             }
         }
+
+        $slidecount = get_config('theme_apoa', 'slidecount');
+        $slides = [];
+        for($x = 1; $x <= $slidecount; $x++) {
+            $slides[] = array(
+                'index' => $x,
+                //'slidebg' => theme_apoa_get_file_from_setting('slidebg' . $x+1),
+                'slidecontent' => get_config('theme_apoa', 'slide' . $x)
+            );
+        }
+
         $jumbomain = [
             'jumboshowtext' => get_config($component, 'jumboshowtext'),
             'jumboshowlogo' => get_config($component, 'jumboshowlogo'),
@@ -73,7 +84,8 @@ class jumbo implements \templatable , \renderable {
             'jumbourl' => $url,
             'jumbostartdate' => $startdate,
             'jumboannouncement' => $firstposttext,
-            'announcementlink' => $announcementlink
+            'announcementlink' => $announcementlink,
+            'jumboslides' => $slides
         ];
         //$jumboside = new \theme_apoa\output\core\lists\course_list('course_list', 'sidejumbo');
 

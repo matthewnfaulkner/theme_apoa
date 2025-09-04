@@ -34,7 +34,20 @@ img.committeeicon{
 }
 
 .navbar.fixed-top{
-    position: absolute!important;
+    //position: absolute!important;
+}
+
+@media (min-width: 768px) {
+  .navbar.fixed-top{
+    height: 91px;
+  
+  .primary-navigation {
+    margin-top: 15px;
+  }
+  .primary-navigation .navigation .nav-link{
+    height: 60px;
+  }
+}
 }
 
 .site-name{
