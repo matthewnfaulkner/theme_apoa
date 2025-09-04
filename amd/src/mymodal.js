@@ -8,7 +8,10 @@ define(['jquery', 'theme_apoa/swiper-bundle'], function($, Swiper) {
       var isClicked = {};
       //var istouchevent = false;
       var mySwiper = new Swiper('.swiper-container', {
-
+         autoplay: {
+          delay: 4000,
+          disableOnInteraction: false
+        },
         effect: "creative",
         creativeEffect: {
         prev: {

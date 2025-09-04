@@ -1,13 +1,26 @@
 #page {
     margin-top: 60px;
 }
+#page.drawers {
+    margin-top: 60px;
+}
+
 
 @media (min-width: 768px) {
   #page {
     margin-top: 90px;
   }
+  #page.drawers {
+    margin-top: 90px;
+}
 }
 
+@media (min-width: 992px) {
+    .drawer-left, .drawer-right {
+        top: 90px;
+        height: calc(100vh - 90px);
+    }
+}
   
   .navbar-main {
     height: 60px;
