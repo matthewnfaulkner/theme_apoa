@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();          
 
-require_once('lib.php');
+require_once($CFG->dirroot . '/theme/apoa/lib.php');
                                                                                                                                     
 // This is used for performance, we don't need to know about these settings on every page in Moodle, only when                      
 // we are looking at the admin settings pages.                                                                                      
