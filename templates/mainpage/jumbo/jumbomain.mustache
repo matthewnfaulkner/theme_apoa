@@ -4,8 +4,10 @@
             
             {{#jumboslides}}
                 <div id="slide-{{index}}" class="swiper-slide" style="height: 100%;" data-src="" data-control-id="{{index}}"  style="height: 68vh">
-                    <a class="stretched-link main-page-link-wrapper" href=""></a>
-                        {{{slidecontent}}}
+                    {{#slidelink}}
+                        <a class="stretched-link main-page-link-wrapper" href="{{slidelink}}"></a>
+                    {{/slidelink}}
+                    {{{slidecontent}}}
                 </div>
             {{/jumboslides}}
         </div>

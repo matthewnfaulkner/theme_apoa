@@ -61,7 +61,10 @@ define(['jquery'], function($){
         // Select the element with class name "countdown"
         const countdownElement = document.querySelector('.countdown');
         // Remove the class "d-none" from the selected element
-        countdownElement.classList.remove('d-none');
+        if (countdownElement) {
+            countdownElement.classList.remove('d-none');
+        }
+
         // Update the count down every 1 second
         var x = setInterval(function() {
             getCountdown();

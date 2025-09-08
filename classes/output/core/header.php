@@ -78,7 +78,7 @@ class header implements renderable, templatable {
         $data = [
             'title' => $title,
             'imgurl' => $this->imgurl,
-            'linkurl' => $this->url,
+            'linkurl' => $this->url, 
         ];
 
         return $data;

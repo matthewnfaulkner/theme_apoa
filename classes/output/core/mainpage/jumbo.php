@@ -66,7 +66,8 @@ class jumbo implements \templatable , \renderable {
             $slides[] = array(
                 'index' => $x,
                 //'slidebg' => theme_apoa_get_file_from_setting('slidebg' . $x+1),
-                'slidecontent' => get_config('theme_apoa', 'slide' . $x)
+                'slidecontent' => get_config('theme_apoa', 'slide' . $x),
+                'slidelink' => get_config('theme_apoa', 'slidelink' . $x)
             );
         }
 
