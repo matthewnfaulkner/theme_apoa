@@ -74,7 +74,7 @@ class header implements renderable, templatable {
         }
         if(strpos($title, '[') !== false){
             $title = $this->title;
-        }
+        } 
         $data = [
             'title' => $title,
             'imgurl' => $this->imgurl,
