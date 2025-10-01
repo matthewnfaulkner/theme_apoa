@@ -90,6 +90,9 @@ class secondary extends \core\navigation\views\secondary {
                 'download' => 12,
                 'contextlocking' => 13,
             ],
+            self::TYPE_COURSE => [
+                'myconsents' => 14 
+            ]
         ];
         $nodes['navigation'] = [
             self::TYPE_COURSE => [
@@ -106,7 +109,8 @@ class secondary extends \core\navigation\views\secondary {
             self::TYPE_CUSTOM => [
                 'contentbank' => 5,
                 'participants' => 1,
-                'editsubscription' => 3 // In site home, 'participants' is classified differently.
+                'editsubscription' => 3,
+                // In site home, 'participants' is classified differently.
             ],
         ];
 
@@ -150,6 +154,9 @@ class secondary extends \core\navigation\views\secondary {
                 'download' => 12,
                 'contextlocking' => 13,
             ],
+            self::TYPE_COURSE => [
+                'myconsents' => 14 
+            ]
         ];
         $nodes['navigation'] = [
             self::TYPE_COURSE => [
@@ -167,7 +174,7 @@ class secondary extends \core\navigation\views\secondary {
                 'contentbank' => 5,
                 'participants' => 1, // In site home, 'participants' is classified differently.
                 'downloadcommittee' => 14,
-                'editsubscription' => 3
+                'editsubscription' => 3,
             ],
         ];
 

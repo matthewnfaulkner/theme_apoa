@@ -283,7 +283,8 @@ $string['populate_navigation'] = "Populates Primary Navigation";
 
 $string['slidelink'] = 'Slide Link';
 $string['slide'] = 'Slide {$a}';
-$string['slidebgs'] = 'Slide Images.';
+$string['slidebgs'] = 'Slide Images';
 $string['slidebgs_desc'] = 'Upload images here to use on the slides.';
 $string['slidecount'] = 'Number of Slides';
 $string['slidebgslist'] = 'URLs of uploaded Files.';
+$string['slidersettings'] = 'Slider Settings';

@@ -18,7 +18,7 @@ namespace theme_apoa\output;
 
 use cm_info;
 use core_courseformat\output\section_renderer;
-
+use theme_apoa\output\format_tiles\format_tiles_course_output as course_output;
 /**
  * Basic renderer for tiles format.
  * @package format_tiles
@@ -59,21 +59,13 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
             // If user not editing, for now we render the page the old way.
             if (self::display_multiple_section_page((bool)$sectionnumber, false)) {
                 $template = 'format_tiles/multi_section_page';
-                $templateable = new \format_tiles\output\course_output($course, false, null, $this);
+                $templateable = new course_output($course, false, null, $this);
                 $data = $templateable->export_for_template($this);
                 $data['pretileblockcontent'] = $this->custom_block_region('content');
 
                 $data['postileblockcontent'] = $this->custom_block_region('posttilecontent');
             } else {
                 $template = 'format_tiles/single_section_page';
-                $modinfo = get_fast_modinfo($course);
-                if(count($modinfo->sections[$sectionnumber]) == 1) {
-                    $cmid = reset($modinfo->sections[$sectionnumber]);
-                    $cminfo = $modinfo->cms[$cmid];
-                    if(!plugin_supports('mod', $cminfo->modname, FEATURE_NO_VIEW_LINK, false)){
-                        redirect($cminfo->url);
-                    }
-                }
                 $templateable = new \format_tiles\output\course_output($course, false, $sectionnumber, $this);
                 $data = $templateable->export_for_template($this);
                 
