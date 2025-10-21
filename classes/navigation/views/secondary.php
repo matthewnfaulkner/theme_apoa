@@ -155,6 +155,7 @@ class secondary extends \core\navigation\views\secondary {
                 'contextlocking' => 13,
             ],
             self::TYPE_COURSE => [
+                'viewallconsents' => 15,
                 'myconsents' => 14 
             ]
         ];
