@@ -332,7 +332,7 @@ class course_renderer extends \core_course_renderer {
                     $output .= $this->render_subcategory($chelper, $coursecat);
                 }
                 else {
-                    $output .= $this->render_root_cat($chelper, $coursecat);
+                    $output .= $this->render_subcategory($chelper, $coursecat);
                 }
             }
             else if ($coursecat->has_courses()) {
@@ -553,7 +553,7 @@ class course_renderer extends \core_course_renderer {
                                 'name' => $subcourse->get_formatted_shortname(),
                                 'id' => $subcourse->id,
                                 'imgurl' => $this->get_course_image($subcourse),
-                                'url' => new moodle_url('/course/view.php', array('id' => $course->id))
+                                'url' => new moodle_url('/course/view.php', array('id' => $subcourse->id))
                             );
                         
                     }
@@ -591,10 +591,43 @@ class course_renderer extends \core_course_renderer {
                     );
                 }
 
-                $output .= $this->render_from_template('theme_apoa/categorylist',$template);
 
-                return $output;
             }
+
+            if($coursecat->get_children_count()) {
+                $subcategories = $coursecat->get_children();
+                $template['categories'] = [];
+                foreach($subcategories as $subcategory) {
+                    $subcategoryitem = array(
+                        'name' => format_text($subcategory->name, FORMAT_MOODLE, array('filter' => false)),
+                        'desc' => format_text($subcategory->name, FORMAT_MOODLE, array('filter' => false)),
+                        'url' => $subcategory->get_view_link(),
+                        'id' => $subcategory->id,
+                        'imgurl' => $this->get_generated_image_for_id($subcategory->id),
+                        'courses' => []
+                    );
+                        $subcourses = $subcategory->get_courses(array('recursive' => false, 'sort' => array('shortname' =>  1)));
+    
+                        $subcategoryitem['hascourses'] = !empty($subcourses);
+    
+                        foreach($subcourses as $subcourse) {
+                            $subcategoryitem['courses'][] = array(
+                                'name' => $subcourse->get_formatted_shortname(),
+                                'id' => $subcourse->id,
+                                'imgurl' => $this->get_course_image($subcourse),
+                                'url' => new moodle_url('/course/view.php', array('id' => $subcourse->id))
+                            );
+                        
+                    }
+    
+                    $template['categories'][] = $subcategoryitem;
+                }
+                
+            }
+
+            $output .= $this->render_from_template('theme_apoa/categorylist',$template);
+
+            return $output;
         }
 
 
