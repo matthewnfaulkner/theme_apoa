@@ -179,10 +179,12 @@
         </div>
     {{/cansignup}}
         {{#hasinstructions}}
+        {{#instructions}}
         <div class="login-divider"></div>
         <div class="login-instructions">
             {{{instructions}}}
         </div>
+        {{/instructions}}
     {{/hasinstructions}}
     {{#canloginasguest}}
         <div class="login-divider"></div>
