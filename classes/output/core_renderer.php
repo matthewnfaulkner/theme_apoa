@@ -432,7 +432,7 @@ class core_renderer extends \core_renderer {
      */
     public function render_login(\core_auth\output\login $form) {
         global $CFG, $SITE;
-        
+
         $context = $form->export_for_template($this);
         $authplugin = signup_is_enabled();
         if($authplugin->multipath){

@@ -62,7 +62,6 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
                 $templateable = new course_output($course, false, null, $this);
                 $data = $templateable->export_for_template($this);
                 $data['pretileblockcontent'] = $this->custom_block_region('content');
-
                 $data['postileblockcontent'] = $this->custom_block_region('posttilecontent');
             } else {
                 $template = 'format_tiles/single_section_page';

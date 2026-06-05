@@ -579,3 +579,222 @@ body.limitedwidth #page.drawers .footer-popover {
 a .main-page-announcements-card-text-cont:hover{
   text-decoration: underline;
 }
+
+// Login form
+.login-container {
+  width: 100%;
+}
+
+.loginform {
+  max-width: 420px;
+  width: 100%;
+  margin: auto;
+
+  .login-logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+
+    img {
+      max-height: 80px;
+      width: auto;
+    }
+  }
+
+  .login-heading-main {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 1.75rem;
+  }
+
+  .login-form {
+    .form-group {
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .form-control {
+      border: 1.5px solid #d1d8d8;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background-color: #f8fafa;
+      height: auto;
+
+      &:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(51, 102, 103, 0.15);
+        background-color: #fff;
+        outline: none;
+      }
+
+      &::placeholder {
+        color: #9aadad;
+      }
+    }
+  }
+
+  .login-form-submit {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+
+    .btn-primary {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      letter-spacing: 0.02em;
+      transition: background-color 0.2s, transform 0.1s;
+
+      &:hover,
+      &:focus {
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .login-form-forgotpassword {
+    text-align: center;
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+
+    a {
+      font-size: 0.875rem;
+      color: var(--primary);
+      text-decoration: none;
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .login-divider {
+    border-top: 1px solid #e3eaea;
+    margin: 1.25rem 0;
+  }
+
+  .login-identityproviders {
+    text-align: center;
+  }
+
+  .login-identityprovider-btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    border: 1.5px solid #d1d8d8;
+    background: #fff;
+    color: var(--primary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: border-color 0.2s, background-color 0.2s;
+
+    &:hover {
+      border-color: var(--primary);
+      background-color: #f0f6f6;
+    }
+  }
+
+  .login-instructions {
+    background-color: #f0f6f6;
+    border-left: 3px solid var(--primary);
+    border-radius: 0 8px 8px 0;
+    padding: 0.875rem 1rem;
+    font-size: 0.9rem;
+    color: var(--primary);
+
+    .login-heading {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+  }
+
+  .login-signup {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    .btn-signup {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      letter-spacing: 0.02em;
+      text-align: center;
+      background-color: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      transition: background-color 0.2s, transform 0.1s;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        background-color: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+        transform: translateY(-1px);
+        text-decoration: none;
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .login-maintenance,
+  .alert-danger {
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .d-flex {
+    .btn-secondary {
+      border-radius: 8px;
+      font-size: 0.85rem;
+      border-color: #d1d8d8;
+      color: var(--primary);
+
+      &:hover {
+        border-color: var(--primary);
+        background-color: #f0f6f6;
+      }
+    }
+  }
+
+  .login-languagemenu {
+    font-size: 0.875rem;
+  }
+
+  #guestlogin .btn-secondary {
+    border-radius: 8px;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    background: transparent;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover {
+      background-color: var(--accent);
+      color: #fff;
+    }
+  }
+}
+

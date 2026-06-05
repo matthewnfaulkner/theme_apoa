@@ -93,6 +93,7 @@
     }
 }}
 
+
 <div class="loginform">
     {{#logourl}}
         <div id="loginlogo" class="login-logo">
@@ -101,7 +102,7 @@
         </div>
     {{/logourl}}
     {{^logourl}}
-        <h1 class="login-heading mb-4">{{#str}} loginto, core, {{sitename}} {{/str}}</h1>
+        <h1 class="login-heading-main">{{#str}} loginto, core, {{sitename}} {{/str}}</h1>
     {{/logourl}}
     {{#maintenance}}
         <div class="alert alert-danger login-maintenance">
@@ -161,29 +162,31 @@
             {{/identityproviders}}
         </div>
     {{/hasidentityproviders}}
-    {{#hasinstructions}}
-        <div class="login-divider"></div>
-        <div class="login-instructions {{#cansignup}}mb-3{{/cansignup}} text-primary border-accent p-3 bg-gray rounded">
-            <h2 class="login-heading">{{#str}}firsttime{{/str}}</h2>
-            {{{instructions}}}
-        </div>
-    {{/hasinstructions}}
+
     {{#cansignup}}
-         <div class="login-signup d-flex">
+        <div class="login-divider"></div>
+        <div class="login-signup d-flex flex-column">
         {{#signuppaths}}
-                <div class="col">
-                    <a class="btn btn-secondary" href="{{signupurl}}">{{signuptitle}}</a>
-                    <small class="text-primary d-block">{{signupdesc}}</small>
+                <div class="col text-center p-0">
+                 <h5 class="login-heading text-primary">{{#str}}firsttime{{/str}}</h5>
+                    <a class="btn-signup btn-outline" href="{{signupurl}}">{{signuptitle}}</a>
+                    <small class="text-primary d-block mt-2">{{signupdesc}}</small>
                 </div>
         {{/signuppaths}}
         {{^signuppaths}}
-                <a class="btn btn-secondary" href="{{signupurl}}">{{#str}}startsignup{{/str}}</a>
+                <a class="btn-signup" href="{{signupurl}}">{{#str}}startsignup{{/str}}</a>
         {{/signuppaths}}
         </div>
     {{/cansignup}}
+        {{#hasinstructions}}
+        <div class="login-divider"></div>
+        <div class="login-instructions">
+            {{{instructions}}}
+        </div>
+    {{/hasinstructions}}
     {{#canloginasguest}}
         <div class="login-divider"></div>
-        <h2 class="login-heading">{{#str}}someallowguest,theme_apoa{{/str}}</h2>
+        <h2 class="login-heading" style="font-size:0.9rem;font-weight:600;color:#336667;margin-bottom:0.75rem;">{{#str}}someallowguest,theme_apoa{{/str}}</h2>
         <form action="{{loginurl}}" method="post" id="guestlogin">
             <input type="hidden" name="logintoken" value="{{logintoken}}">
             <input type="hidden" name="username" value="guest" />
@@ -192,14 +195,14 @@
         </form>
     {{/canloginasguest}}
     <div class="login-divider"></div>
-    <div class="d-flex">
+    <div class="d-flex align-items-center">
         {{#languagemenu}}
             <div class="login-languagemenu">
                 {{>core/action_menu}}
             </div>
             <div class="divider border-left align-self-center mx-3"></div>
         {{/languagemenu}}
-        <button type="button" class="btn btn-secondary" {{!
+        <button type="button" class="btn btn-secondary btn-sm" {{!
         }} data-modal="alert"{{!
         }} data-modal-title-str='["cookiesenabled", "core"]' {{!
         }} data-modal-content-str='["cookiesenabled_help_html", "core"]'{{!

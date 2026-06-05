@@ -135,7 +135,7 @@ class apoa_page extends moodle_page{
                 $this->_categories[$categoryid] = core_course_category::get($categoryid, IGNORE_MISSING);
             }
             //get via context
-            else if (($context = context::instance_by_id($this->context->id, IGNORE_MISSING)) && $context->contextlevel == CONTEXT_COURSECAT) {
+            else if ($this->context->id && ($context = context::instance_by_id($this->context->id, IGNORE_MISSING)) && $context->contextlevel == CONTEXT_COURSECAT) {
                 $this->_categories[$context->instanceid] = core_course_category::get($context->instanceid, MUST_EXIST);
             }
             //cannot ascertain category
