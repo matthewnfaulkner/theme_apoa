@@ -798,3 +798,283 @@ a .main-page-announcements-card-text-cont:hover{
   }
 }
 
+
+//mod_checklist
+ol.checklist {
+    margin: 0;
+    padding: 0;
+
+    ol.checklist {
+        margin-top: 0;
+    }
+
+    li {
+        list-style-type: none;
+        padding: 8px 12px;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        .itemuserdate,
+        .itemteacherdate,
+        .itemteachername {
+            background-color: #ebfbee;
+            border: 0.5px solid #8ce99a;
+            border-radius: 6px;
+            font-size: 11px;
+            padding: 2px 6px;
+            position: absolute;
+            width: 9em;
+            z-index: 100;
+        }
+
+        .itemuserdate { left: 75%; }
+        .itemteacherdate { left: 60%; }
+        .itemteachername { left: 45%; }
+    }
+
+    label {
+        display: inline;
+    }
+
+    .useritem {
+        font-style: italic;
+        color: #6c8ebf;
+    }
+
+    .note {
+        font-style: normal;
+        color: #adb5bd;
+        font-size: 12px;
+        padding-left: 24px;
+    }
+
+    .itemoptional {
+        font-style: normal;
+        color: #adb5bd;
+    }
+
+    .itemheading {
+        font-weight: 600;
+        font-size: 12px;
+        color: #495057;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        display: block;
+        padding: 14px 12px 4px;
+        border-bottom: none;
+    }
+
+    .itemblack {
+        color: #212529;
+
+        &.itemoptional { color: #ced4da; }
+    }
+
+    .itemred {
+        color: #e03131;
+
+        &.itemoptional { color: #ffa8a8; }
+    }
+
+    .itemorange {
+        color: #e67700;
+
+        &.itemoptional { color: #ffd8a8; }
+    }
+
+    .itemgreen {
+        color: #2f9e44;
+
+        &.itemoptional { color: #8ce99a; }
+    }
+
+    .itempurple {
+        color: #7048e8;
+
+        &.itemoptional { color: #b197fc; }
+    }
+
+    .teachercomment {
+        display: block;
+        color: #495057;
+        background-color: #fff9db;
+        border: none;
+        border-left: 3px solid #ffd43b;
+        border-radius: 0 6px 6px 0;
+        margin: 4px 0 4px 24px;
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .studentcomment {
+        display: block;
+        color: #495057;
+        background-color: #ebfbee;
+        border: none;
+        border-left: 3px solid #40c057;
+        border-radius: 0 6px 6px 0;
+        margin: 4px 0 4px 24px;
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .itemauto {
+        background-color: #e8f4f8;
+        border-radius: 6px;
+
+        &.itemdisabled {
+            text-decoration: line-through;
+            background-color: #f1f3f5;
+            color: #adb5bd;
+        }
+    }
+}
+
+.checklist-itemdue {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    color: #2f9e44;
+}
+
+.checklist-itemoverdue {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    color: #e03131;
+}
+
+.checklist_progress_bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0;
+}
+
+.checklist_progress_heading {
+    font-size: 12px;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    width: auto;
+    white-space: nowrap;
+}
+
+.checklist_progress_outer {
+    border: none;
+    background-color: #f1f3f5;
+    border-radius: 20px;
+    height: 8px;
+    width: 300px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: none;
+}
+
+.checklist_progress_inner {
+    background-color: #2f9e44;
+    background-image: none;
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    z-index: 10;
+}
+
+.checklist_progress_anim {
+    background-color: #8ce99a;
+    background-image: none;
+    height: 8px;
+    border-radius: 20px;
+    box-shadow: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    display: block;
+}
+
+.checklist_progress_percent {
+    padding-left: 0;
+    font-size: 12px;
+    color: #868e96;
+}
+
+.checklistreport {
+    .header { background-color: #f8f9fa; }
+    .head0 { font-weight: 600; }
+    .head1 { font-weight: 400; }
+    .head2 { font-weight: 400; color: #868e96; }
+
+    .cell {
+        &.reportheading { background-color: #212529; color: #fff; }
+        &.level0 { background-color: #f1f3f5; }
+        &.level1 { background-color: #e9ecef; }
+        &.level2 { background-color: #dee2e6; }
+        &.level0-checked { background-color: #ebfbee; }
+        &.level1-checked { background-color: #d3f9d8; }
+        &.level2-checked { background-color: #b2f2bb; }
+        &.level0-unchecked { background-color: #fff5f5; }
+        &.level1-unchecked { background-color: #ffe3e3; }
+        &.level2-unchecked { background-color: #ffc9c9; }
+    }
+}
+
+p.checklistwarning {
+    margin-top: 1em;
+    color: #c92a2a;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.checklist-groupingname {
+    color: #ced4da;
+    font-size: 12px;
+}
+
+.checklistimportexport {
+    text-align: right;
+    width: 90%;
+}
+
+.jsenabled #checklistsavechecks {
+    display: none;
+}
+
+#checklistspinner {
+    display: none;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 16px;
+    height: 16px;
+    background-image: url([[pix:i/loading_small]]);
+}
+
+.checklistspinnerstudent {
+    display: none;
+    top: 5px;
+    margin-left: 5px;
+    width: 16px;
+    height: 16px;
+    background-image: url([[pix:i/loading_small]]);
+}
+
+.checklistbox {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+//mod_checklist end
