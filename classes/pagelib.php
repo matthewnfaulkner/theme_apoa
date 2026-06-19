@@ -148,5 +148,15 @@ class apoa_page extends moodle_page{
         }
     }
 
-
+        /**
+     * Check if the secondary navigation should be rendered.
+     *
+     * @return bool
+     */
+    public function has_secondary_navigation(): bool {
+        if ($this->context->contextlevel === CONTEXT_MODULE && $this->cm->modname === 'feedback') {
+            return false;
+        }
+        return $this->_hassecondarynavigation;
+    }
 }
