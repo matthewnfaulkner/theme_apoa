@@ -148,7 +148,7 @@ class theme_apoa_external extends external_api {
         );
     }
 
-    /**
+   /**
      * Defines the parameters for the get_jumbo_config method
      *
      * @return external_function_parameters
@@ -194,16 +194,18 @@ class theme_apoa_external extends external_api {
             }
         }
 
+        $slidecount = get_config($component, 'slidecount');
+        $slides = [];
+        for ($x = 1; $x <= $slidecount; $x++) {
+            $slides[] = [
+                'index' => $x,
+                'slidecontent' => (string) get_config($component, 'slide' . $x),
+                'slidelink' => (string) get_config($component, 'slidelink' . $x),
+            ];
+        }
+
         $result['config'] = [
-            'jumbotitle' => get_config($component, 'jumbotitle'),
-            'jumbodescription' => get_config($component, 'jumbodescription'),
-            'jumbovideoflag' => get_config($component, 'jumbovideoflag'),
-            'jumbotag' => get_config($component, 'jumbotag'),
-            'jumbobanner' => theme_apoa_get_file_from_setting('jumbobanner'),
-            'jumbobannerposter' => theme_apoa_get_file_from_setting('jumbobannerposter'),
-            'jumbovideo' => theme_apoa_get_file_from_setting('jumbovideo'),
-            'jumbobannerlogo' => theme_apoa_get_file_from_setting('jumbobannerlogo'),
-            'jumbourl' => get_config($component, 'jumbolink'),
+            'slides' => $slides,
             'jumbostartdate' => $startdate,
             'jumboannouncement' => $firstposttext,
             'announcementlink' => $announcementlink? $announcementlink->out(): "",
@@ -225,19 +227,18 @@ class theme_apoa_external extends external_api {
     public static function get_jumbo_config_returns() {
         return new external_single_structure(array(
             'config' => new external_single_structure(array(
-                'jumbotitle' => new external_value(PARAM_TEXT, 'Title of Jumbo'),
-                'jumbodescription' => new external_value(PARAM_TEXT, 'Description of Jumbo'),
-                'jumbovideoflag' => new external_value(PARAM_BOOL, 'Flag to show video or not'),
-                'jumbotag' => new external_value(PARAM_TEXT, 'Tag of Jumbo'),
-                'jumbobanner' => new external_value(PARAM_URL, 'URL of Jumbo banner image'),
-                'jumbobannerposter' => new external_value(PARAM_URL, 'URL of Jumbo banner image if video fails to load'),
-                'jumbovideo' => new external_value(PARAM_URL, 'URL of Jumbo banner video'),
-                'jumbobannerlogo' => new external_value(PARAM_URL, 'URL of site logo'),
-                'jumbourl' => new external_value(PARAM_URL, 'URL of Jumbo link'),
-                'jumbostartdate' => new external_value(PARAM_INT, 'Start date of Jumbo'),
-                'jumboannouncement' => new external_value(PARAM_TEXT, 'first announcment text'),
+                'slides' => new external_multiple_structure(
+                    new external_single_structure(array(
+                        'index' => new external_value(PARAM_INT, 'Slide position, starting at 1'),
+                        'slidecontent' => new external_value(PARAM_RAW, 'Raw HTML content of the slide'),
+                        'slidelink' => new external_value(PARAM_URL, 'URL the slide links to', VALUE_OPTIONAL),
+                    )),
+                    'List of jumbo slider slides'
+                ),
+                'jumbostartdate' => new external_value(PARAM_INT, 'Start date of Jumbo', VALUE_OPTIONAL),
+                'jumboannouncement' => new external_value(PARAM_TEXT, 'first announcment text', VALUE_OPTIONAL),
                 'announcementlink' => new external_value(PARAM_URL, 'URL announcmentes forum'),
-                'announcementid' => new external_value(PARAM_INT, 'id of announcements'),
+                'announcementid' => new external_value(PARAM_INT, 'id of announcements', VALUE_OPTIONAL),
             )),
             'warnings' => new external_warnings(),
             )
