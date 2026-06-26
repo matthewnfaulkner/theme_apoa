@@ -1089,7 +1089,7 @@ p.checklistwarning {
 .mdl-align a:hover{
   background-color: white;
   color: black;
-  border: --var($primary) solid;
+  border: var(--primary) solid;
   text-decoration: none;
 }
 
@@ -1180,18 +1180,4 @@ p.checklistwarning {
   }
 }
 
-.mdl-align a{
-  background-color: var(--bs-primary);
-  color: white;
-  padding: 10px 10px 10px 10px;
-  text-align: center;
-  border-radius: 0.5em;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
 
-.mdl-align a:hover{
-  background-color: white;
-  color: black;
-  border: var(--bs-primary) solid;
-  text-decoration: none;
-}
