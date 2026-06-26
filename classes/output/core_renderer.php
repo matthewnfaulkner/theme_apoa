@@ -1061,6 +1061,108 @@ class core_renderer extends \core_renderer {
         return $this->page->theme->image_url($imagename, $component);
     }
 
+       /**
+     * Produces the html that represents this rating in the UI as a Reddit-style upvote/downvote widget.
+     *
+     * @param rating $rating the page object on which this rating will appear
+     * @return string
+     */
+    function render_rating(rating $rating) {
+        if ($rating->settings->aggregationmethod == RATING_AGGREGATE_NONE) {
+            return null;
+        }
+
+        $ratingmanager = new rating_manager();
+        $ratingmanager->initialise_rating_javascript($this->page);
+
+        $scaleitems    = $rating->settings->scale->scaleitems;
+        $scalevalues   = array_keys($scaleitems);
+        $maxvalue      = !empty($scalevalues) ? max($scalevalues) : 1;
+        $minvalue      = !empty($scalevalues) ? min($scalevalues) : 1;
+        $hasmultiple   = count($scalevalues) > 1;
+        $currentrating = isset($rating->rating) ? (int)$rating->rating : RATING_UNSET_RATING;
+        $upvoteactive  = ($currentrating === $maxvalue);
+        $downvoteactive = ($hasmultiple && $currentrating === $minvalue);
+        $canrate       = $rating->user_can_rate();
+        $canview       = $rating->user_can_view_aggregate();
+
+        $viewallurl = false;
+        if ($canview && $rating->settings->permissions->viewall && $rating->settings->pluginpermissions->viewall) {
+            $viewallurl = $rating->get_view_ratings_url()->out(false);
+        }
+
+        $paramsJson = '';
+        if ($canrate) {
+            $rateurl = $rating->get_rate_url();
+            $params  = array_filter($rateurl->params(), fn($k) => $k !== 'rating', ARRAY_FILTER_USE_KEY);
+            $paramsJson = json_encode($params);
+        }
+
+        $v1 = trim((string)($scaleitems[$minvalue] ?? ''));
+        $v2 = trim((string)($scaleitems[$maxvalue] ?? ''));
+        $scaledataJson = json_encode([
+            'minkey'      => $minvalue,
+            'maxkey'      => $maxvalue,
+            'minlabel'    => is_numeric($v1) ? (float)$v1 : $v1,
+            'maxlabel'    => is_numeric($v2) ? (float)$v2 : $v2,
+            'isnumeric'   => is_numeric($v1) && is_numeric($v2),
+            'aggregation' => (int)$rating->settings->aggregationmethod,
+        ]);
+
+        $ctx = [
+            'canrate'        => $canrate,
+            'readonly'       => !$canrate && $canview,
+            'scoreid'        => 'ratingaggregate' . $rating->itemid,
+            'score'          => $canview ? $this->vote_net_score($rating, $scaleitems, $minvalue, $maxvalue, $hasmultiple) : '',
+            'viewallurl'     => $viewallurl,
+            'upvotevalue'    => $upvoteactive ? RATING_UNSET_RATING : $maxvalue,
+            'upvoteactive'   => $upvoteactive,
+            'hasdownvote'    => $hasmultiple,
+            'downvotevalue'  => $downvoteactive ? RATING_UNSET_RATING : $minvalue,
+            'downvoteactive' => $downvoteactive,
+            'ratestr'        => get_string('rate', 'rating'),
+            'paramsJson'     => $paramsJson,
+            'scaledataJson'  => $scaledataJson,
+        ];
+
+        $this->page->requires->js_call_amd('theme_apoa/rating_vote', 'init');
+
+        return $this->render_from_template('theme_apoa/rating_vote_widget', $ctx);
+    }
+
+    /**
+     * Returns a formatted net score string for a 2-item numeric scale (e.g. -1 / +1).
+     *
+     * Moodle's SUM aggregate sums the 1-based scale keys, not the label values.
+     * For a scale where key 1 = "-1" and key 2 = "1", the raw SUM for 3 upvotes + 1 downvote
+     * is 7 (2+2+2+1), not +2. This method converts using the linear map between keys and values.
+     *
+     * Falls back to Moodle's default aggregate string for non-numeric or non-SUM scales.
+     */
+    private function vote_net_score(rating $rating, array $scaleitems, int $minvalue, int $maxvalue, bool $hasmultiple): string {
+        if (
+            $hasmultiple &&
+            count($scaleitems) === 2 &&
+            $rating->settings->aggregationmethod == RATING_AGGREGATE_SUM
+        ) {
+            if ($rating->count == 0) {
+                return '0';
+            }
+            $v1 = trim((string)$scaleitems[$minvalue]);
+            $v2 = trim((string)$scaleitems[$maxvalue]);
+            if (is_numeric($v1) && is_numeric($v2)) {
+                // Convert raw key-sum to value-sum via linear interpolation:
+                // net = raw_sum * (v2 - v1) / (k2 - k1) + count * (v1*k2 - v2*k1) / (k2 - k1)
+                $dk  = $maxvalue - $minvalue;
+                $net = (float)$rating->aggregate * ((float)$v2 - (float)$v1) / $dk
+                     + $rating->count * ((float)$v1 * $maxvalue - (float)$v2 * $minvalue) / $dk;
+                $net = (int)round($net);
+                return ($net > 0 ? '+' : '') . $net;
+            }
+        }
+        return $rating->count > 0 ? $rating->get_aggregate_string() : '0';
+    }
+
 }
     
 
