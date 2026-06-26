@@ -20,8 +20,8 @@ use core_course_category;
 use moodle_url;
 use html_writer;
 use get_string;
-
-
+use rating;
+use rating_manager;
 defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/local/subscriptions/lib.php');
