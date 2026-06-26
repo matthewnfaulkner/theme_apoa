@@ -1,0 +1,38 @@
+{{#canrate}}
+<div class="vote-widget"
+     data-region="vote-widget"
+     data-params="{{paramsJson}}"
+     data-scaledata="{{scaledataJson}}"
+>
+    <button
+        type="button"
+        data-action="vote"
+        data-rating="{{upvotevalue}}"
+        class="vote-btn upvote-btn{{#upvoteactive}} vote-active{{/upvoteactive}}"
+        title="{{ratestr}}"
+    >▲</button>
+    <span class="vote-score-wrapper">
+        {{#viewallurl}}<a href="{{.}}" class="vote-score-link">{{/viewallurl}}
+        <span id="{{scoreid}}" class="ratingaggregate vote-score">{{score}}</span>
+        {{#viewallurl}}</a>{{/viewallurl}}
+    </span>
+    {{#hasdownvote}}
+    <button
+        type="button"
+        data-action="vote"
+        data-rating="{{downvotevalue}}"
+        class="vote-btn downvote-btn{{#downvoteactive}} vote-active{{/downvoteactive}}"
+        title="{{ratestr}}"
+    >▼</button>
+    {{/hasdownvote}}
+</div>
+{{/canrate}}
+{{#readonly}}
+<div class="vote-widget vote-readonly">
+    <span class="vote-score-wrapper">
+        {{#viewallurl}}<a href="{{.}}" class="vote-score-link">{{/viewallurl}}
+        <span id="{{scoreid}} h1" class="ratingaggregate vote-score">{{score}}</span>
+        {{#viewallurl}}</a>{{/viewallurl}}
+    </span>
+</div>
+{{/readonly}}
