@@ -1181,3 +1181,189 @@ p.checklistwarning {
 }
 
 
+//shopping cart item
+
+.sc-item {
+    --sc-thumb: 56px;
+    list-style: none;
+    margin: 0;
+    --sc-gap: 0.75rem;
+    container-type: inline-size;
+    container-name: sc-item;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--gray-300, #dee2e6);
+}
+
+.sc-item:last-child {
+    border-bottom: 0;
+}
+
+.sc-item .sc-item__grid {
+    display: grid;
+    grid-template-columns: var(--sc-thumb) minmax(0, 1fr) auto;
+    grid-template-areas:
+        "media body aside"
+        "desc  desc desc";
+    column-gap: var(--sc-gap);
+    row-gap: 0.5rem;
+    align-items: center;
+}
+
+/* --- Thumbnail ------------------------------------------------------------ */
+
+.sc-item .sc-item__media {
+    grid-area: media;
+    width: var(--sc-thumb);
+    height: var(--sc-thumb);
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background-color: var(--gray-100, #f8f9fa);
+    align-self: start;
+}
+
+/* Overrides any older fixed width/height rules on .sc-cart-item-image. */
+.sc-item .sc-item__media .sc-cart-item-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    object-fit: cover;          /* fills the square, crops non-square images */
+    object-position: center;
+}
+
+/* Fallback cart icon: show it whole, not cropped, with some breathing room. */
+.sc-item .sc-item__media .sc-cart-item-image--placeholder {
+    object-fit: contain;
+    padding: 20%;
+    opacity: 0.6;
+}
+
+/* --- Name and meta -------------------------------------------------------- */
+
+.sc-item .sc-item__body {
+    grid-area: body;
+    min-width: 0;               /* lets long names wrap instead of pushing the price */
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.sc-item .sc-item__title .itemname {
+    font-weight: 600;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.sc-item .sc-item__title .number_of_items,
+.sc-item .sc-item__meta {
+    font-size: 0.8125rem;
+    color: var(--secondary, #6c757d);
+}
+
+.sc-item .multipliable_buttons {
+    display: inline-flex;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.sc-item .multipliable_buttons i {
+    cursor: pointer;
+}
+
+/* --- Price and actions ---------------------------------------------------- */
+
+.sc-item .sc-item__aside {
+    grid-area: aside;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+    text-align: right;
+    white-space: nowrap;
+    align-self: start;
+}
+
+.sc-item .sc-item__price {
+    font-weight: 600;
+}
+
+.sc-item .sc-item__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.sc-item .sc-item__actions:empty {
+    display: none;
+}
+
+.sc-item .item-button i,
+.sc-item .item-button .delete-button {
+    cursor: pointer;
+    padding: 0.25rem;
+    background: none;
+    border: 0;
+    color: var(--secondary, #6c757d);
+    line-height: 1;
+}
+
+.sc-item .item-button i:hover,
+.sc-item .item-button .delete-button:hover {
+    color: var(--danger, #ca3120);
+}
+
+/* --- Description ---------------------------------------------------------- */
+
+.sc-item .sc-item__description {
+    grid-area: desc;
+    font-size: 0.875rem;
+    min-width: 0;
+}
+
+.sc-item .sc-item__description:empty {
+    display: none;
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+
+/* Roomy containers (checkout page, desktop): bigger thumbnail. */
+@container sc-item (min-width: 480px) {
+    .sc-item .sc-item__grid {
+        --sc-thumb: 80px;
+        column-gap: 1rem;
+    }
+    .sc-item .sc-item__media,
+    .sc-item .sc-item__aside {
+        align-self: center;
+    }
+    .sc-item .sc-item__description {
+        grid-column: 2 / -1;    /* indent under the text, not under the image */
+    }
+}
+
+/* Very narrow (small phones, tight dropdowns): price drops under the name. */
+@container sc-item (max-width: 320px) {
+    .sc-item .sc-item__grid {
+        --sc-thumb: 48px;
+        grid-template-columns: var(--sc-thumb) minmax(0, 1fr);
+        grid-template-areas:
+            "media body"
+            "media aside"
+            "desc  desc";
+        row-gap: 0.25rem;
+    }
+    .sc-item .sc-item__aside {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        width: 100%;
+    }
+}
