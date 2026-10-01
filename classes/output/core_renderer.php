@@ -570,6 +570,11 @@ class core_renderer extends \core_renderer {
     public function main_page_content() {
         
         global $PAGE;
+
+        // The slider preview renders its own single slide in the main content.
+        if ($this->page->pagetype === 'theme-apoa-preview-slider') {
+            return '';
+        }
         $PAGE->requires->js_call_amd('theme_apoa/mymodal', 'init');
         $PAGE->requires->js_call_amd('theme_apoa/tablistcycle', 'init');
 
@@ -680,6 +685,10 @@ class core_renderer extends \core_renderer {
     public function main_page_modal() {
         
         global $PAGE, $SESSION;
+
+        if ($this->page->pagetype === 'theme-apoa-preview-slider') {
+            return '';
+        }
 
         if (!isset($SESSION->mainmodalclosed)){
             $PAGE->requires->js_call_amd('theme_apoa/mainmodal', 'init', array(true));

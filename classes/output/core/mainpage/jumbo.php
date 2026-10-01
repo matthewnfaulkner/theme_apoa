@@ -60,16 +60,7 @@ class jumbo implements \templatable , \renderable {
             }
         }
 
-        $slidecount = get_config('theme_apoa', 'slidecount');
-        $slides = [];
-        for($x = 1; $x <= $slidecount; $x++) {
-            $slides[] = array(
-                'index' => $x,
-                //'slidebg' => theme_apoa_get_file_from_setting('slidebg' . $x+1),
-                'slidecontent' => get_config('theme_apoa', 'slide' . $x),
-                'slidelink' => get_config('theme_apoa', 'slidelink' . $x)
-            );
-        }
+        $slides = theme_apoa_get_slides();
 
         $jumbomain = [
             'jumboshowtext' => get_config($component, 'jumboshowtext'),

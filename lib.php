@@ -356,6 +356,55 @@ function theme_apoa_get_files_from_setting($settingname) {
     return $url;
 }
 
+/**
+ * Returns the slide numbers in display order, sorted by their position setting.
+ *
+ * Slides with the same position keep their slide number order.
+ *
+ * @return int[] slide numbers, first displayed slide first
+ */
+function theme_apoa_get_slide_order() {
+
+    $component = 'theme_apoa';
+
+    $slidecount = (int) get_config($component, 'slidecount');
+    $orders = [];
+    for ($x = 1; $x <= $slidecount; $x++) {
+        $order = get_config($component, 'slideorder' . $x);
+        $orders[$x] = $order !== false && $order !== '' ? (int) $order : $x;
+    }
+
+    $slidenumbers = array_keys($orders);
+    usort($slidenumbers, function($a, $b) use ($orders) {
+        return [$orders[$a], $a] <=> [$orders[$b], $b];
+    });
+
+    return $slidenumbers;
+}
+
+/**
+ * Returns the configured main page slides in display order.
+ *
+ * The returned 'index' is the display position, starting at 1.
+ *
+ * @return array list of slides with index, slidecontent and slidelink
+ */
+function theme_apoa_get_slides() {
+
+    $component = 'theme_apoa';
+
+    $slides = [];
+    foreach (theme_apoa_get_slide_order() as $position => $x) {
+        $slides[] = [
+            'index' => $position + 1,
+            'slidecontent' => (string) get_config($component, 'slide' . $x),
+            'slidelink' => (string) get_config($component, 'slidelink' . $x),
+        ];
+    }
+
+    return $slides;
+}
+
 
 /**
  * Returns if file is a valid video file

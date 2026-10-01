@@ -194,15 +194,7 @@ class theme_apoa_external extends external_api {
             }
         }
 
-        $slidecount = get_config($component, 'slidecount');
-        $slides = [];
-        for ($x = 1; $x <= $slidecount; $x++) {
-            $slides[] = [
-                'index' => $x,
-                'slidecontent' => (string) get_config($component, 'slide' . $x),
-                'slidelink' => (string) get_config($component, 'slidelink' . $x),
-            ];
-        }
+        $slides = theme_apoa_get_slides();
 
         $result['config'] = [
             'slides' => $slides,

@@ -1,21 +1,4 @@
-<div class="simple-slider">
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            
-            {{#jumboslides}}
-                <div id="slide-{{index}}" class="swiper-slide" style="height: 100%;" data-src="" data-control-id="{{index}}"  style="height: 68vh">
-                    {{#slidelink}}
-                        <a class="stretched-link main-page-link-wrapper" href="{{slidelink}}"></a>
-                    {{/slidelink}}
-                    {{{slidecontent}}}
-                </div>
-            {{/jumboslides}}
-        </div>
-        <div class="swiper-pagination"></div>
-    </div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-</div>
+{{>theme_apoa/mainpage/jumbo/jumboslider}}
 
 
 

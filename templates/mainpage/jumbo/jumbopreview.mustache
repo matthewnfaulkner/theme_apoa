@@ -1,0 +1,21 @@
+{{!
+    @template theme_apoa/mainpage/jumbo/jumbopreview
+
+    A single slide in the main page jumbo position, with empty space below,
+    used by preview_slider.php.
+
+    Example context (json):
+    {
+        "jumboslides": [{"index": 1, "slidecontent": "<p>Slide</p>", "slidelink": "https://example.com"}]
+    }
+}}
+<div class="p-0">
+    <div class="row mx-0 justify-content-center">
+        <div id="jumbo" class="col col-sm-12 col-12 main-page-col">
+            <div>
+                {{>theme_apoa/mainpage/jumbo/jumboslider}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="theme-apoa-preview-spacer" style="height: 100vh;"></div>

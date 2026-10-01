@@ -474,12 +474,13 @@ if ($ADMIN->fulltree) {
     $page = new admin_settingpage('theme_apoa_slider', get_string('slidersettings', 'theme_apoa'));
                                                                                                                                                                                                                                        
 
-    $sliderange = array_combine(range(1, 5), range(1, 5));
+    $sliderange = array_combine(range(1, 20), range(1, 20));
     $setting = new admin_setting_configselect('theme_apoa/slidecount', get_string('slidecount', 'theme_apoa'),
         '', 1, $sliderange);
     $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
     $page->add($setting); 
-    $slides = get_config('theme_apoa', 'slidecount');
+    $slides = (int) get_config('theme_apoa', 'slidecount');
+    $positionrange = $slides ? array_combine(range(1, $slides), range(1, $slides)) : [];
 
     $setting = new admin_setting_configstoredfile('theme_apoa/slidebgs', get_string('slidebgs', 'theme_apoa'),
         get_string('slidebgs_desc', 'theme_apoa'), 'slidebgs', 0,
@@ -492,11 +493,15 @@ if ($ADMIN->fulltree) {
         $page->add($setting); 
     }
     
-    for ($x = 1; $x <= $slides; $x++) {
+    foreach (theme_apoa_get_slide_order() as $position => $x) {
 
         
-        $setting = new admin_setting_confightmleditor('theme_apoa/slide'. $x, get_string('slide', 'theme_apoa', $x),
-        '', '', PARAM_RAW, '60', '20');
+        $previewurl = new moodle_url('/theme/apoa/preview_slider.php', ['slide' => $x]);
+        $previewbutton = html_writer::link($previewurl, get_string('slidepreviewbutton', 'theme_apoa'),
+                ['class' => 'btn btn-secondary mt-2', 'target' => '_blank', 'rel' => 'noopener']);
+
+        $setting = new admin_setting_confightmleditor('theme_apoa/slide'. $x, get_string('slide', 'theme_apoa', $position + 1),
+        $previewbutton, '', PARAM_RAW, '60', '20');
         $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
         $page->add($setting); 
 
@@ -505,8 +510,20 @@ if ($ADMIN->fulltree) {
         $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
         $page->add($setting);  
 
+        $setting = new admin_setting_configselect('theme_apoa/slideorder' . $x, get_string('slideorder', 'theme_apoa'),
+                get_string('slideorder_desc', 'theme_apoa'), $x, $positionrange);
+        $setting->set_updatedcallback('theme_reset_all_caches');
+        $page->add($setting);
+
+        $setting = new admin_setting_configcheckbox('theme_apoa/slidedelete' . $x, get_string('slidedelete', 'theme_apoa'),
+                get_string('slidedelete_desc', 'theme_apoa'), 0);
+        $page->add($setting);
+
         
     }
+
+    // Must be added last: it tidies up the slides after all the settings above are saved.
+    $page->add(new \theme_apoa\admin\setting_slidecleanup('theme_apoa/slidecleanup'));
 
     $settings->add($page); 
 }
