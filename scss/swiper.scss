@@ -1316,6 +1316,12 @@ button.swiper-pagination-bullet {
 }
 
 
+/* Show the slider pagination at the top of the slide */
+.simple-slider {
+  --swiper-pagination-top: 8px;
+  --swiper-pagination-bottom: auto;
+}
+
 .swiper-pagination-bullet {
   width: 10px;
   height: 10px;
