@@ -500,7 +500,12 @@ if ($ADMIN->fulltree) {
         $previewbutton = html_writer::link($previewurl, get_string('slidepreviewbutton', 'theme_apoa'),
                 ['class' => 'btn btn-secondary mt-2', 'target' => '_blank', 'rel' => 'noopener']);
 
-        $setting = new admin_setting_confightmleditor('theme_apoa/slide'. $x, get_string('slide', 'theme_apoa', $position + 1),
+        $slidename = get_string('slide', 'theme_apoa', $position + 1);
+        if (get_config('theme_apoa', 'slidehidden' . $x)) {
+            $slidename = get_string('slidehiddenname', 'theme_apoa', $slidename);
+        }
+
+        $setting = new admin_setting_confightmleditor('theme_apoa/slide'. $x, $slidename,
         $previewbutton, '', PARAM_RAW, '60', '20');
         $setting->set_updatedcallback('theme_reset_all_caches');                                                                        
         $page->add($setting); 
@@ -512,6 +517,11 @@ if ($ADMIN->fulltree) {
 
         $setting = new admin_setting_configselect('theme_apoa/slideorder' . $x, get_string('slideorder', 'theme_apoa'),
                 get_string('slideorder_desc', 'theme_apoa'), $x, $positionrange);
+        $setting->set_updatedcallback('theme_reset_all_caches');
+        $page->add($setting);
+
+        $setting = new admin_setting_configcheckbox('theme_apoa/slidehidden' . $x, get_string('slidehidden', 'theme_apoa'),
+                get_string('slidehidden_desc', 'theme_apoa'), 0);
         $setting->set_updatedcallback('theme_reset_all_caches');
         $page->add($setting);
 

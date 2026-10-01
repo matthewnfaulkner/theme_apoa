@@ -383,9 +383,9 @@ function theme_apoa_get_slide_order() {
 }
 
 /**
- * Returns the configured main page slides in display order.
+ * Returns the visible main page slides in display order.
  *
- * The returned 'index' is the display position, starting at 1.
+ * Hidden slides are left out. The returned 'index' is the display position, starting at 1.
  *
  * @return array list of slides with index, slidecontent and slidelink
  */
@@ -394,9 +394,12 @@ function theme_apoa_get_slides() {
     $component = 'theme_apoa';
 
     $slides = [];
-    foreach (theme_apoa_get_slide_order() as $position => $x) {
+    foreach (theme_apoa_get_slide_order() as $x) {
+        if (get_config($component, 'slidehidden' . $x)) {
+            continue;
+        }
         $slides[] = [
-            'index' => $position + 1,
+            'index' => count($slides) + 1,
             'slidecontent' => (string) get_config($component, 'slide' . $x),
             'slidelink' => (string) get_config($component, 'slidelink' . $x),
         ];

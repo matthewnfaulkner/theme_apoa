@@ -24,7 +24,7 @@ require_once($CFG->libdir . '/adminlib.php');
  * Hidden admin setting that tidies up the main page slides after the slider page is saved.
  *
  * Moodle writes settings in page order, so this must be the last setting added to the
- * slider page. By then every slide's content, link, position and delete flag has been saved.
+ * slider page. By then every slide's content, link, position, hidden and delete flag has been saved.
  * It removes slides flagged for deletion and renumbers the rest 1..n in display order,
  * so slide numbers, positions and headings all match.
  *
@@ -81,12 +81,13 @@ class setting_slidecleanup extends \admin_setting {
             $kept[] = [
                 'slide' => (string) get_config($component, 'slide' . $x),
                 'slidelink' => (string) get_config($component, 'slidelink' . $x),
+                'slidehidden' => (int) get_config($component, 'slidehidden' . $x),
             ];
         }
 
         // Always keep at least one slide so the slider and count select stay valid.
         if (!$kept) {
-            $kept[] = ['slide' => '', 'slidelink' => ''];
+            $kept[] = ['slide' => '', 'slidelink' => '', 'slidehidden' => 0];
         }
 
         foreach ($kept as $index => $slide) {
@@ -94,6 +95,7 @@ class setting_slidecleanup extends \admin_setting {
             set_config('slide' . $x, $slide['slide'], $component);
             set_config('slidelink' . $x, $slide['slidelink'], $component);
             set_config('slideorder' . $x, $x, $component);
+            set_config('slidehidden' . $x, $slide['slidehidden'], $component);
             set_config('slidedelete' . $x, 0, $component);
         }
 
@@ -101,6 +103,7 @@ class setting_slidecleanup extends \admin_setting {
             unset_config('slide' . $x, $component);
             unset_config('slidelink' . $x, $component);
             unset_config('slideorder' . $x, $component);
+            unset_config('slidehidden' . $x, $component);
             unset_config('slidedelete' . $x, $component);
         }
 
