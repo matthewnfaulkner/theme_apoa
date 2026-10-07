@@ -97,7 +97,7 @@ img.committeeicon{
     margin: 8px;
     border-radius: 50%;
     border: 6px solid #fff;
-    border-color: var(--primary) transparent var(--primary) transparent;
+    border-color: var(--bs-primary) transparent var(--bs-primary) transparent;
     animation: lds-dual-ring 1.2s linear infinite;
   }
   @keyframes lds-dual-ring {
@@ -216,7 +216,7 @@ top: 0%;
   
    
   //[data-flexitour="step-backdrop"]{
-    //color: var(--primary)!important;
+    //color: var(--bs-primary)!important;
   //}
 
 
@@ -304,7 +304,7 @@ top: 0%;
 }
 
 .sectionname{
-  color: var(--primary)!important;
+  color: var(--bs-primary)!important;
 }
 
 .activity-item{
@@ -362,7 +362,7 @@ body.limitedwidth #page.drawers .footer-popover {
 }
 
 .course-navigation-link:hover{
-  background-color: var(--primary)!important;
+  background-color: var(--bs-primary)!important;
   color: white!important;
 }
 
@@ -603,7 +603,7 @@ a .main-page-announcements-card-text-cont:hover{
   .login-heading-main {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--primary);
+    color: var(--bs-primary);
     text-align: center;
     margin-bottom: 1.75rem;
   }
@@ -624,7 +624,7 @@ a .main-page-announcements-card-text-cont:hover{
       height: auto;
 
       &:focus {
-        border-color: var(--primary);
+        border-color: var(--bs-primary);
         box-shadow: 0 0 0 3px rgba(51, 102, 103, 0.15);
         background-color: #fff;
         outline: none;
@@ -667,7 +667,7 @@ a .main-page-announcements-card-text-cont:hover{
 
     a {
       font-size: 0.875rem;
-      color: var(--primary);
+      color: var(--bs-primary);
       text-decoration: none;
       opacity: 0.8;
 
@@ -693,7 +693,7 @@ a .main-page-announcements-card-text-cont:hover{
     border-radius: 8px;
     border: 1.5px solid #d1d8d8;
     background: #fff;
-    color: var(--primary);
+    color: var(--bs-primary);
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -702,23 +702,23 @@ a .main-page-announcements-card-text-cont:hover{
     transition: border-color 0.2s, background-color 0.2s;
 
     &:hover {
-      border-color: var(--primary);
+      border-color: var(--bs-primary);
       background-color: #f0f6f6;
     }
   }
 
   .login-instructions {
     background-color: #f0f6f6;
-    border-left: 3px solid var(--primary);
+    border-left: 3px solid var(--bs-primary);
     border-radius: 0 8px 8px 0;
     padding: 0.875rem 1rem;
     font-size: 0.9rem;
-    color: var(--primary);
+    color: var(--bs-primary);
 
     .login-heading {
       font-size: 0.9rem;
       font-weight: 600;
-      color: var(--primary);
+      color: var(--bs-primary);
       margin-bottom: 0.4rem;
     }
   }
@@ -770,10 +770,10 @@ a .main-page-announcements-card-text-cont:hover{
       border-radius: 8px;
       font-size: 0.85rem;
       border-color: #d1d8d8;
-      color: var(--primary);
+      color: var(--bs-primary);
 
       &:hover {
-        border-color: var(--primary);
+        border-color: var(--bs-primary);
         background-color: #f0f6f6;
       }
     }
@@ -1089,7 +1089,7 @@ p.checklistwarning {
 .mdl-align a:hover{
   background-color: white;
   color: black;
-  border: 1px solid var(--primary);
+  border: 1px solid var(--bs-primary);
   text-decoration: none;
 }
 

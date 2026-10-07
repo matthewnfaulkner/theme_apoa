@@ -226,18 +226,18 @@
   
   .accordion-heading:hover {
     text-decoration: none;
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
   }
   
   .accordion-heading {
-    color: var(--primary);
+    color: var(--bs-primary);
   }
   
   .main-page-calendar-item {
   }
   
   .main-page-calendar-date {
-    background-color: var(--primary);
+    background-color: var(--bs-primary);
     color: white;
     padding-left: 1em;
     padding-right: 1em;
@@ -410,10 +410,10 @@
   }
   
   .main-page-section-title {
-    /*background: linear-gradient(-90deg, var(--primary) 40%, white 85%);*/
+    /*background: linear-gradient(-90deg, var(--bs-primary) 40%, white 85%);*/
     -webkit-margin-start: 0.2rem;
-    background: var(--primary);
-    color: var(--white);
+    background: var(--bs-primary);
+    color: var(--bs-white);
 
     margin-left: 0px;
     margin-right: 0px;
@@ -431,7 +431,7 @@
   }
   
   .main-page-link-sub:hover {
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
     /*text-decoration: underline;*/
     cursor: pointer;
   }
@@ -484,7 +484,7 @@
   }
   
   .main-page-announcements-title {
-    color: var(--primary);
+    color: var(--bs-primary);
   }
   
   .main-page-announcements-card-cont {
@@ -504,7 +504,7 @@
   }
   
   .main-page-section-title.main-page-link:hover {
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
     text-decoration: underline;
     cursor: pointer;
   }
@@ -588,12 +588,12 @@
   }
   
   .main-page-link-wrapper:hover + .main-page-card .main-page-link {
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
     /*text-decoration: underline;*/
   }
 
   .main-page-link-wrapper:hover + .main-page-announcements-card-text-cont .main-page-card .main-page-announcements-title .main-page-link {
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
     /*text-decoration: underline;*/
   }
   
@@ -602,12 +602,12 @@
   }
   
   .main-page-link-wrapper:hover + .card .main-page-link {
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
     //text-decoration: underline;
   }
   
   .main-page-link-wrapper:hover .main-page-link-wrapper {
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
     /*text-decoration: underline;*/
   }
   
@@ -701,27 +701,27 @@
   }
   
   .main-page-link-wrapper:hover + .main-page-announcements-card .main-page-link {
-    color: var(--secondary);
+    color: var(--bs-secondary);
     text-decoration: underline;
   }
   
   .main-page-link-wrapper:hover + .card-body .main-page-link {
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
     text-decoration: underline;
   }
   
   .main-page-link-wrapper:hover + .card-img-overlay .main-page-link {
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
     text-decoration: underline;
   }
   
   .main-page-link-wrapper:hover + .card-body .main-page-link {
-    color: var(--secondary)!important;
+    color: var(--bs-secondary)!important;
     text-decoration: underline;
   }
   
   .main-page-link-wrapper:hover + .main-page-announcements-card .main-page-link {
-    color: var(--secondary);
+    color: var(--bs-secondary);
     text-decoration: underline;
   }
   
@@ -767,7 +767,7 @@
   }
   
   .main-page-link:hover {
-    color: var(--secondary);
+    color: var(--bs-secondary);
     cursor: pointer;
     text-decoration: underline;
   }
@@ -778,7 +778,7 @@
   }
   
   .page-title {
-    color: var(--primary);
+    color: var(--bs-primary);
   }
   
   @media (min-width: 992px) {
@@ -788,11 +788,11 @@
   }
   
   .page-date-text {
-    color: var(--primary);
+    color: var(--bs-primary);
   }
   
   .page-desc {
-    color: var(--primary);
+    color: var(--bs-primary);
   }
   
   .about-pres-image {
@@ -865,7 +865,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 0px;
-    color: var(--white);
+    color: var(--bs-white);
   }
   
   @media (min-width: 300px) {
@@ -947,7 +947,7 @@
   }
 
   .secondary-nav-cont{
-    border-top: 0px solid var(--primary);
+    border-top: 0px solid var(--bs-primary);
 
   }
 
@@ -995,7 +995,7 @@
 
   .apoa-nav .nav-link.active{
     border-color: white!important;
-    color: var(--secondary) !important;
+    color: var(--bs-secondary) !important;
   }
 
   .apoa-nav .nav-link.active:hover{
@@ -1004,7 +1004,7 @@
   }
 
   .apoa-nav .dropdown-item{
-    color: var(--primary)!important
+    color: var(--bs-primary)!important
   }
 
   // Moodle 5.3 renders the secondary navigation with the React Nav component: a
@@ -1035,12 +1035,12 @@
     .mds-nav-pill.active,
     .mds-nav-pill--selected,
     .mds-nav-pill--selected:visited {
-      color: var(--secondary) !important;
+      color: var(--bs-secondary) !important;
       background: none;
 
       &::before,
       .mds-nav-pill__indicator {
-        background-color: var(--secondary);
+        background-color: var(--bs-secondary);
       }
     }
 
@@ -1120,13 +1120,13 @@
  
 
   .main-page-section-title a{
-    background: var(--primary);
-    color: var(--white);
+    background: var(--bs-primary);
+    color: var(--bs-white);
     text-align: right!important;
   }
 
   .main-page-pill.active{
-    background-color: var(--primary)!important;
+    background-color: var(--bs-primary)!important;
   }
 
   .main-page-pill{
@@ -1174,7 +1174,7 @@
   .boost-label {
     width: 110px;
     font-size: 0;
-    color: var(--primary);
+    color: var(--bs-primary);
     background: white;
     display: inline-block;
     height: 100%;
