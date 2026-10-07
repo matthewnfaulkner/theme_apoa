@@ -1367,3 +1367,22 @@ p.checklistwarning {
         width: 100%;
     }
 }
+
+// Bootstrap 4 gave every grid column position: relative, and apoa's .stretched-link cards rely on it
+// to keep the link inside its column. Bootstrap 5 (Moodle 5.x) dropped it, so restore it here.
+.col,
+.col-auto {
+    position: relative;
+}
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    .col#{$infix},
+    .col#{$infix}-auto {
+        position: relative;
+    }
+    @for $i from 1 through $grid-columns {
+        .col#{$infix}-#{$i} {
+            position: relative;
+        }
+    }
+}
