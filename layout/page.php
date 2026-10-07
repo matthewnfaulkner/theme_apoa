@@ -132,7 +132,8 @@ $primarymenu = $primary->export_for_template($renderer);
 
 
 if ($COURSE->format == 'apoapage') {
-    // Class name doesn't match its file, so the autoloader can't find it.
+    // These class names don't match their files, so the autoloader can't find them.
+    require_once(__DIR__ . '/../classes/output/core/tag.php');
     require_once(__DIR__ . '/../classes/output/core/lists/pagelist.php');
     $sidebar = new \theme_apoa\output\core\lists\theme_apoa_pagelist($COURSE);
     $sidebaroutput = $sidebar->export_for_template($renderer);
