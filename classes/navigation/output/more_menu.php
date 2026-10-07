@@ -24,9 +24,7 @@
 
 namespace theme_apoa\navigation\output;
 
-use renderable;
 use renderer_base;
-use templatable;
 use stdClass;
 
 /**
@@ -37,7 +35,7 @@ use stdClass;
  * @copyright   2025 Matthew Faulkner
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class more_menu implements renderable, templatable {
+class more_menu extends \core\navigation\output\more_menu {
 
     protected $content;
     protected $navbarstyle;
@@ -145,6 +143,14 @@ class more_menu implements renderable, templatable {
                 }
                 $this->content->children->remove('categorynavigation');
             }
+
+            // core/secondarymoremenu is rendered by React from these props, built from what is left
+            // once the module, course and category menus have moved into the flat navigation.
+            $navlabel = !empty($this->content->headertitle) ? $this->content->headertitle : null;
+            if ($navlabel !== null) {
+                $data['navlabel'] = $navlabel;
+            }
+            $data['reactprops'] = $this->export_react_props($this->content->children, $navlabel);
 
             $data['nodecollection'] = $this->content;
         } else {
