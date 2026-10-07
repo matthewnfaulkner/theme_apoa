@@ -1007,6 +1007,55 @@
     color: var(--primary)!important
   }
 
+  // Moodle 5.3 renders the secondary navigation with the React Nav component: a
+  // .secondarynav-tabbar container (no .moremenu class) holding design-system .mds-nav-pill links.
+  // Re-apply the rules above to that markup.
+  .secondary-navigation.apoa-nav .navigation.secondarynav-tabbar {
+    background: none;
+    border-bottom: none;
+    max-width: 100%;
+    margin: auto;
+
+    .more-nav {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .mds-nav-pill,
+    .mds-nav-pill:visited {
+      color: white;
+      background: none;
+    }
+
+    .mds-nav-pill:hover {
+      color: white !important;
+      background: none;
+    }
+
+    .mds-nav-pill.active,
+    .mds-nav-pill--selected,
+    .mds-nav-pill--selected:visited {
+      color: var(--secondary) !important;
+      background: none;
+
+      &::before,
+      .mds-nav-pill__indicator {
+        background-color: var(--secondary);
+      }
+    }
+
+    .mds-nav-pill.active:hover,
+    .mds-nav-pill--selected:hover {
+      color: white !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .secondary-navigation.apoa-nav .navigation.secondarynav-tabbar {
+      max-width: 85%;
+    }
+  }
+
 
   .secondary-nav-logo-cont{
     display: none;
