@@ -843,7 +843,8 @@
   }
 
   @media (min-width: 1200px) {
-    .navbar.fixed-top {
+    // Keep the fixed bar full width and constrain its content instead.
+    .navbar.fixed-top > .container-fluid {
       padding-left: calc(10em)!important;
       padding-right: calc(10em)!important;
       max-width:1600px;
