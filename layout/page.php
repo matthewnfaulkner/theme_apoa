@@ -33,8 +33,6 @@ require_once($CFG->dirroot . '/course/lib.php');
 $addblockbutton = $OUTPUT->addblockbutton();
 $PAGE->set_include_region_main_settings_in_header_actions(true);
 
-user_preference_allow_ajax_update('drawer-open-index', PARAM_BOOL);
-user_preference_allow_ajax_update('drawer-open-block', PARAM_BOOL);
 
 if (isloggedin()) {
     $courseindexopen = (get_user_preferences('drawer-open-index', true) == true);
