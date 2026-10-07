@@ -64,15 +64,21 @@ class primary extends \core\navigation\output\primary {
             $output = $this->page->get_renderer('core');
         }
 
-        $menudata = (object) array_merge($this->get_primary_nav(), $this->get_custom_menu($output));
+        $primarynav = array_merge($this->get_primary_nav(), $this->get_custom_menu($output));
+        $menudata = (object) $primarynav;
         $moremenu = new \theme_apoa\navigation\output\more_menu($menudata, 'navbar-nav', false);
+        $moremenudata = $moremenu->export_for_template($output);
+        if (!empty($moremenudata)) {
+            // core/primarymoremenu is rendered by React from these props.
+            $moremenudata['reactprops'] = $this->export_react_props($primarynav, $moremenudata);
+        }
         $mobileprimarynav = array_merge($this->get_primary_nav(), $this->get_custom_menu($output));
 
         $languagemenu = new \core\output\language_menu($this->page);
 
         return [
             'mobileprimarynav' => $mobileprimarynav,
-            'moremenu' => $moremenu->export_for_template($output),
+            'moremenu' => $moremenudata,
             'lang' => !isloggedin() || isguestuser() ? $languagemenu->export_for_template($output) : [],
             'user' => $this->get_user_menu($output),
         ];
