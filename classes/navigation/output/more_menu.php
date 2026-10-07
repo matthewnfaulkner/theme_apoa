@@ -27,7 +27,6 @@ namespace theme_apoa\navigation\output;
 use renderable;
 use renderer_base;
 use templatable;
-use flat_navigation_node;
 use stdClass;
 
 /**
@@ -100,7 +99,7 @@ class more_menu implements renderable, templatable {
                     $modmenu->items = [];
                     $modmenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;
                     foreach($module_navigation->children as $child){
-                        $flatnode = new flat_navigation_node($child, false);
+                        $flatnode = $child;
                         $modmenu->items[] = $flatnode;
 
                     }
@@ -118,7 +117,7 @@ class more_menu implements renderable, templatable {
                     $coursemenu->items = [];
                     $coursemenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;
                     foreach($course_navigation->children as $child){
-                        $flatnode = new flat_navigation_node($child, false);
+                        $flatnode = $child;
                         $coursemenu->items[] = $flatnode;
 
                     }
@@ -137,7 +136,7 @@ class more_menu implements renderable, templatable {
                     $coursemenu->items = [];
                     $coursemenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;
                     foreach($category_navigation->children as $child){
-                        $flatnode = new flat_navigation_node($child, false);
+                        $flatnode = $child;
                         $coursemenu->items[] = $flatnode;
 
                     }
