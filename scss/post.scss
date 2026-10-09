@@ -738,15 +738,15 @@ a .main-page-announcements-card-text-cont:hover{
       letter-spacing: 0.02em;
       text-align: center;
       background-color: transparent;
-      border: 2px solid var(--accent);
-      color: var(--accent);
+      border: 2px solid var(--bs-accent);
+      color: var(--bs-accent);
       transition: background-color 0.2s, transform 0.1s;
       text-decoration: none;
 
       &:hover,
       &:focus {
-        background-color: var(--accent);
-        border-color: var(--accent);
+        background-color: var(--bs-accent);
+        border-color: var(--bs-accent);
         color: #fff;
         transform: translateY(-1px);
         text-decoration: none;
@@ -785,14 +785,14 @@ a .main-page-announcements-card-text-cont:hover{
 
   #guestlogin .btn-secondary {
     border-radius: 8px;
-    border: 1.5px solid var(--accent);
-    color: var(--accent);
+    border: 1.5px solid var(--bs-accent);
+    color: var(--bs-accent);
     background: transparent;
     font-weight: 500;
     transition: background-color 0.2s, color 0.2s;
 
     &:hover {
-      background-color: var(--accent);
+      background-color: var(--bs-accent);
       color: #fff;
     }
   }
