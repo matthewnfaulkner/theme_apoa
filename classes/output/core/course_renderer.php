@@ -461,9 +461,6 @@ class course_renderer extends \core_course_renderer {
 
 
         if ($coursecat->id == $elibrary->id){
-            $searchbar = new \theme_apoa\output\search_elibrary_bar($coursecat);
-            $searchbarout['elementsarray'] = $searchbar->export_for_template($this);
-            $render['elibrarysearch'] = $searchbarout['elementsarray'];
             $render['morecategoriestitle'] = "Our Journals";
             $render['iselibrary'] = True;
 

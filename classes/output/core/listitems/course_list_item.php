@@ -50,14 +50,7 @@ class course_list_item implements \templatable , \renderable {
         $coursecat = \core_course_category::get($this->course->category);
 
         if($tag = reset(\theme_apoa_tag_tag::get_item_tags('core', 'course', $this->course->id))) {
-            if($this->iselibrary){
-                $elibraryid = get_config('theme_apoa', 'elibraryid');
-                $params = array('tc' => $tag->tagcollid,
-                'tag' => $tag->rawname, 'category' => $elibraryid);
-                $tagurl = new moodle_url('/local/journalclub/search.php', $params);
-            }else{
-                $tagurl = $tag->get_view_url();
-            }
+            $tagurl = $tag->get_view_url();
             
             $tagname = $tag->get_display_name();
         }

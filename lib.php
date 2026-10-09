@@ -235,22 +235,6 @@ function theme_apoa_extend_navigation_category_settings(navigation_node $parentn
             }
         }
     }
-    if ($subrootcategory->id == $elibraryid){
-        $apoacatnav->add(
-            'Journal Clubs' ,
-            new \moodle_url('/local/journalclub/index.php', ['id' => $category->id]),
-            navigation_node::TYPE_COURSE,
-            'Journal Clubs' ,
-            navigation_node::TYPE_COURSE . 'jc'
-        );
-        $apoacatnav->add(
-            'Search' ,
-            new \moodle_url('/local/journalclub/search.php', ['category' => $category->id]),
-            navigation_node::TYPE_CATEGORY,
-            'Search' ,
-            navigation_node::TYPE_CATEGORY . 'js'
-        );
-    }
     $category = core_course_category::get($context->instanceid);
  
     $PAGE->set_primary_active_tab(navigation_node::TYPE_CATEGORY. $subrootcategory->id);
