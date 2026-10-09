@@ -15,10 +15,30 @@
 }
 }
 
+// The navbar is 91px tall from md up, but Boost positions the drawers for a 60px navbar.
+$apoa-navbar-height: 91px;
+$apoa-drawer-anchored-top-offset: calc(#{$apoa-navbar-height} + #{$drawer-anchored-top-gap} - #{$drawer-anchored-header-padding});
+
+@media (min-width: 768px) {
+    .drawer.drawer-left, .drawer.drawer-right {
+        top: $apoa-navbar-height;
+        height: calc(100vh - #{$apoa-navbar-height});
+    }
+}
+
 @media (min-width: 992px) {
-    .drawer-left, .drawer-right {
-        top: 90px;
-        height: calc(100vh - 90px);
+    .pagelayout-standard,
+    body.limitedwidth {
+        .drawer.drawer-left,
+        .drawer.drawer-right {
+            top: $apoa-drawer-anchored-top-offset;
+            height: auto;
+            max-height: calc(100vh - #{$apoa-drawer-anchored-top-offset} - #{$drawer-anchored-bottom-gap} - var(--sticky-footer-total-height, 0px));
+        }
+
+        .drawer-toggles .drawer-toggler {
+            top: calc(#{$apoa-navbar-height} + #{$drawer-anchored-top-gap});
+        }
     }
 }
   
