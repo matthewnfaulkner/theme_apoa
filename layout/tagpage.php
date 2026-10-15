@@ -102,8 +102,7 @@ if (is_siteadmin($USER->id)) {
 
 }
 
-$PAGE->requires->css('/mod/lightboxgallery/assets/skins/sam/gallery-lightbox-skin.css');
-$PAGE->requires->yui_module('moodle-mod_lightboxgallery-lightbox', 'M.mod_lightboxgallery.init');
+$PAGE->requires->js_call_amd('mod_lightboxgallery/lightbox', 'init');
 
 
 
