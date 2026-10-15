@@ -23,8 +23,7 @@ define(['jquery'], function($) {
         const targetpane = $(targetpaneid);
 
         delayTimeout = setTimeout(() => {
-            targetpane.tab('show');
-            $(this).tab('show');
+            showTab($(this));
             navLinks.removeClass('active');
             $(this).addClass('active');
             targetpane.addClass('active');
@@ -34,7 +33,7 @@ define(['jquery'], function($) {
 
 
         // Start cycling through tabs
-        const interval = setInterval(tabCycle, intervalTime);
+        let interval = setInterval(tabCycle, intervalTime);
 
         // Handle hover events
         if (!('ontouchstart' in window || navigator.msMaxTouchPoints)) {
@@ -58,14 +57,26 @@ define(['jquery'], function($) {
             );
         }
         /**
- * Register event listeners for the subscription toggle.
- *
- */
+         * Show a tab and its pane (Bootstrap 5 has no jQuery $(...).tab()).
+         *
+         * @param {jQuery} link The tab's nav link.
+         */
+        function showTab(link) {
+            const pane = $(link.attr('href'));
+            navLinks.removeClass('active').attr('aria-selected', 'false');
+            link.addClass('active').attr('aria-selected', 'true');
+            tabPanes.removeClass('active show');
+            pane.addClass('active show');
+        }
+
+        /**
+         * Move to the next tab unless the user is hovering over the tabs.
+         */
         function tabCycle(){
             if (!isHovered) {
                 const nextTab = activeTab.next('a').length ? activeTab.next('a') : $('#elibrary-tab').find(':first');
                 activeTab.removeClass('active');
-                nextTab.tab('show');
+                showTab(nextTab);
                 activeTab = nextTab;
             }
         }

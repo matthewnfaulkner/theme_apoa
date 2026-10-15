@@ -14,49 +14,49 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Handle closing of main page modal
+ * Show the main page modal and remember when it is closed.
+ *
+ * Moodle 5 uses Bootstrap 5, which no longer has jQuery's $(...).modal(), so the modal is
+ * opened through Bootstrap's data API instead.
  *
  * @module     theme_apoa/mainmodal
- * @copyright  2024 Matthew Faulkner <matthewfaulkner@apoaevents.com
+ * @copyright  2024 Matthew Faulkner <matthewfaulkner@apoaevents.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['jquery', 'core/ajax'], function($, Ajax){
+define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notification) {
 
     /**
-     * 
-     * @param {*} loggedin is user logged in
+     * @param {boolean} loggedin is user logged in
      */
-    var init = function(loggedin){
+    var init = function(loggedin) {
+        $(function() {
+            var modal = document.getElementById('mainModal');
+            if (!modal) {
+                return; // The main modal is switched off in the theme settings.
+            }
 
-        let modal = $('#mainModal');
+            var trigger = document.createElement('button');
+            trigger.type = 'button';
+            trigger.hidden = true;
+            trigger.setAttribute('data-bs-toggle', 'modal');
+            trigger.setAttribute('data-bs-target', '#mainModal');
+            document.body.appendChild(trigger);
+            trigger.click();
+            trigger.remove();
 
-        $(document).ready(function(){
-            let options = {
-                'backdrop' : true,
-                'keyboard' : true,
-                'focus'    : true,
-                'show'     :true,
-            };
-            modal.modal(options);
+            // Only update the preference if the user is logged in.
+            if (loggedin) {
+                modal.addEventListener('hidden.bs.modal', function() {
+                    Ajax.call([{
+                        methodname: 'theme_apoa_cache_closed_modal',
+                        args: {closemodal: true}
+                    }])[0].fail(Notification.exception);
+                }, {once: true});
+            }
         });
-
-        //only update preference if user is logged in.
-        if(loggedin) {
-        modal.on('hidden.bs.modal', function () {
-            return Ajax.call([{
-                methodname: 'theme_apoa_cache_closed_modal',
-                args: {
-                    closemodal: true,
-                }
-            }])[0].done(function(response){
-                return response.success;
-            }).fail(function(){
-                Notification.exception(new Error('Failed to cache close modal'));
-            });
-          });
-        }
     };
-    return{
+
+    return {
         init: init
     };
 });
