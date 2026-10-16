@@ -35,7 +35,7 @@ class format_tiles_renderer extends \format_tiles\output\renderer {
     public function render_content() {
         $format = course_get_format($this->page->course->id);
         $course = $format->get_course();
-        $sectionnumber = $format->get_section_number();
+        $sectionnumber = $format->get_sectionnum();
         if ($this->page->user_is_editing()) {
             // If user is editing, we render the page the new way.
             // We will use this for non editing as well in a later version, but not yet.
