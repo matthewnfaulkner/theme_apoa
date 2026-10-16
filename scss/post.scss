@@ -276,15 +276,38 @@ top: 0%;
 }
 
 
+// Bootstrap 5 removed .card-columns; lay the landing page cards out as a grid instead.
 .card-columns {
-  @include media-breakpoint-only(sm) {
-    column-count: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  > * {
+    margin: 0;
+    min-width: 0;
   }
-  @include media-breakpoint-only(md) {
-    column-count: 2;
+}
+
+// Front page "Popular Resources" blocks: a grid of cards (the flex row no longer wraps evenly).
+#block-region-resources {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  > .block {
+    margin: 0 !important;
+    min-width: 0;
+    width: auto;
   }
-  @include media-breakpoint-only(lg) {
-    column-count: 3;
+}
+
+// Front page section cards: no card background, and long titles wrap instead of overflowing.
+#sectionscontainer {
+  .card {
+    --bs-card-bg: transparent;
+    background-color: transparent;
+  }
+  .card-title {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 }
 
