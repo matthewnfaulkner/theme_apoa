@@ -2,6 +2,8 @@ $primary: #336667 !default;
 $secondary: #D4D29E !default; 
 $accent: #cb1e6f !default;
 $course-content-maxwidth: 90%;
+// Moodle 5's default preset makes the page background light grey ($gray-100); APOA uses white.
+$body-bg: #ffffff !default;
 $theme-colors: (
   "accent": #cb1e6f
 );
