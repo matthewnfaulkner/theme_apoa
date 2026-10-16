@@ -1445,3 +1445,9 @@ p.checklistwarning {
         @include border-radius();
     }
 }
+
+// Moodle 5 design token for "subtle" surfaces (activity cards, activity chooser, some admin
+// panels) is light grey (#f8f9fa). APOA uses white. Light mode only; dark mode keeps its own.
+:root:not([data-bs-theme="dark"]) {
+  --mds-bg-surface-subtle: #ffffff;
+}
