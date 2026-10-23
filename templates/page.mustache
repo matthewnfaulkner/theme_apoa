@@ -185,8 +185,12 @@
                         <div class="container main-page-container pt-0 pt-md-1">
                                 {{{searchblock}}}
                                 {{#headercontent}}
-                                    <div class="activity-description" id="intro">
-                                        {{{description}}}
+                                    {{! data-for: Moodle 5 starts core_courseformat/local/content/activity_header on every
+                                        activity page and needs this element to attach to. }}
+                                    <div data-for="page-activity-header">
+                                        <div class="activity-description" id="intro">
+                                            {{{description}}}
+                                        </div>
                                     </div>
                                 {{/headercontent}}
                                 {{{ output.main_content }}}
