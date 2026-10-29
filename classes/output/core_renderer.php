@@ -285,7 +285,7 @@ class core_renderer extends \core_renderer {
                             'buttontype' => 'message',
                             'title' => get_string('message', 'message'),
                             'url' => new moodle_url('/message/index.php', array('id' => $user->id)),
-                            'image' => 'message',
+                            'image' => 't/message',
                             'linkattributes' => \core_message\helper::messageuser_link_params($user->id),
                             'page' => $this->page
                         )
@@ -295,7 +295,7 @@ class core_renderer extends \core_renderer {
                         $iscontact = \core_message\api::is_contact($USER->id, $user->id);
                         $contacttitle = $iscontact ? 'removefromyourcontacts' : 'addtoyourcontacts';
                         $contacturlaction = $iscontact ? 'removecontact' : 'addcontact';
-                        $contactimage = $iscontact ? 'removecontact' : 'addcontact';
+                        $contactimage = $iscontact ? 't/removecontact' : 't/addcontact';
                         $userbuttons['togglecontact'] = array(
                                 'buttontype' => 'togglecontact',
                                 'title' => get_string($contacttitle, 'message'),
@@ -388,7 +388,7 @@ class core_renderer extends \core_renderer {
                             'buttontype' => 'message',
                             'title' => get_string('message', 'message'),
                             'url' => new moodle_url('/message/index.php', array('id' => $user->id)),
-                            'image' => 'message',
+                            'image' => 't/message',
                             'linkattributes' => \core_message\helper::messageuser_link_params($user->id),
                             'page' => $this->page
                         )
@@ -398,7 +398,7 @@ class core_renderer extends \core_renderer {
                         $iscontact = \core_message\api::is_contact($USER->id, $user->id);
                         $contacttitle = $iscontact ? 'removefromyourcontacts' : 'addtoyourcontacts';
                         $contacturlaction = $iscontact ? 'removecontact' : 'addcontact';
-                        $contactimage = $iscontact ? 'removecontact' : 'addcontact';
+                        $contactimage = $iscontact ? 't/removecontact' : 't/addcontact';
                         $userbuttons['togglecontact'] = array(
                                 'buttontype' => 'togglecontact',
                                 'title' => get_string($contacttitle, 'message'),
