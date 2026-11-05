@@ -95,15 +95,12 @@ class primary extends \core\navigation\output\primary {
             $childnodes = [];
  
             foreach($node->children as $child){
-                $newchild = new \stdClass();
-                $newchild->title = $child->get_title();
-                $newchild->url = $child->action();
-                $newchild->text = $child->text;
-                $newchild->icon = $child->icon;
-                $newchild->isactive = $child->isactive;
-                $newchild->key = $child->key;
-                $childnodes[] = $newchild;
-                
+                $childnodes[] = $this->dropdown_item($child, 1);
+
+                //dropdowns only go one level deep, so a child's own children follow it, indented (see export_node_for_react)
+                foreach($child->children as $grandchild){
+                    $childnodes[] = $this->dropdown_item($grandchild, 2);
+                }
             }
             $nodeObject = new \stdClass();
             $nodeObject->title = $node->get_title();
@@ -122,6 +119,49 @@ class primary extends \core\navigation\output\primary {
         }
 
         return $nodes;
+    }
+
+    /**
+     * Standardize a dropdown item of the primary nav
+     *
+     * @param \navigation_node $node
+     * @param int $depth 1 for a child of a primary nav item, 2 for a child of that
+     * @return \stdClass
+     */
+    protected function dropdown_item(\navigation_node $node, int $depth){
+        $item = new \stdClass();
+        $item->title = $node->get_title();
+        $item->url = $node->action();
+        $item->text = $node->text;
+        $item->icon = $node->icon;
+        $item->isactive = $node->isactive;
+        $item->key = $node->key;
+        $item->depth = $depth;
+        //a child with its own children shown below it is a heading
+        $item->isheading = $depth == 1 && $node->children->count() > 0;
+
+        return $item;
+    }
+
+    /**
+     * Flatten a standardised menu item for React, marking dropdown item depth so it can be styled.
+     *
+     * The Nav component drops a class attribute, so these are data attributes.
+     *
+     * @param array $node
+     * @param int $index
+     * @return array
+     */
+    protected function export_node_for_react(array $node, int $index): array {
+        $item = parent::export_node_for_react($node, $index);
+        if (!empty($node['depth'])) {
+            $item['attributes'][] = ['name' => 'data-apoa-depth', 'value' => $node['depth']];
+        }
+        if (!empty($node['isheading'])) {
+            $item['attributes'][] = ['name' => 'data-apoa-heading', 'value' => 1];
+        }
+
+        return $item;
     }
 
     protected function navigation_node_to_std(\navigation_node $node){

@@ -80,7 +80,7 @@ class frontpage_cache_helper {
     public function get_block_region_resources()  {
         global $OUTPUT;
         $content = $OUTPUT->addblockbutton($this->region);
-        $content .= $OUTPUT->blocks('resources', ['d-flex', 'flex-column', 'flex-md-row', 'flex-wrap', 'w-100', 'justify-content-center']);
+        $content .= $OUTPUT->blocks('resources', ['w-100']);
         return $content;
     }
 }

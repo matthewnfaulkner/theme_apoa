@@ -131,71 +131,45 @@ class primary extends \core\navigation\views\primary {
      * @return void
      */
     private function get_backup_nav(){
-        
-
-        $primarynavitemcount = get_config('theme_apoa', 'primarynavcount');
-
-        for ($i = 1; $i <= $primarynavitemcount; $i++) {
-            $primarynavitem = get_config('theme_apoa', 'primarynavitems' . $i);
-            $includechildren = get_config('theme_apoa', 'primarynavitems' . $i . '_adv');
-            
-            $category = \core_course_category::get($primarynavitem);
-
-            $node = $this->add($category->name, new \moodle_url("/course/index.php?categoryid={$category->id}"), self::TYPE_CATEGORY,
-                                $category->name, navigation_node::TYPE_CATEGORY . $category->id);
-
-            if($includechildren) {
-                $children = $category->get_children();
-
-                foreach ($children as $child) {
-                    if($sectionlink = get_config('theme_apoa', 'sectionlink' . $child->id)){
-                        $sectionlink = new \moodle_url($sectionlink);
-                    }
-                    else{
-                        $sectionlink = new \moodle_url("/course/index.php?categoryid={$child->id}");
-                    }
-                    $node->add($child->name, $sectionlink, self::TYPE_CATEGORY,
-                    $child->name, navigation_node::TYPE_CATEGORY . $child->id);
-                }
-                $node->showchildreninsubmenu = true;
-            }
-            
-        }
-
-        return;
-        
+        $this->get_nav_from_cache(\theme_apoa\navigation\primary_nav_data::get());
     }
 
     /**
      * Retrive primary nav from the cache
      *
-     * @param array|stdClass $navigation_cache_data
+     * @param array|stdClass $navigation_cache_data see \theme_apoa\navigation\primary_nav_data
      * @return void
      */
     private function get_nav_from_cache($navigation_cache_data){
 
         foreach ($navigation_cache_data as $navnode) {
-
-            $rootnode = $this->add($navnode->name, 
-                        new \moodle_url($navnode->url), 
-                        $navnode->type,
-                        $navnode->name,
-                        $navnode->key
-                    );
-            
-            if ($navnode->haschildren){
-                foreach($navnode->children as $navnodechild) {
-                    
-                    $rootnode->add($navnodechild->name, 
-                        new \moodle_url($navnodechild->url), 
-                        $navnodechild->type,
-                        $navnodechild->name, 
-                        $navnodechild->key,
-                );
-                }
-            }
-            $rootnode->showchildreninsubmenu = $navnode->showchildreninsubmenu;
+            $this->add_nav_node_from_cache($this, $navnode);
         }
+    }
+
+    /**
+     * Add a cached nav item, and its children, to a node
+     *
+     * @param navigation_node $parent
+     * @param \stdClass $navnode
+     * @return void
+     */
+    private function add_nav_node_from_cache(navigation_node $parent, \stdClass $navnode){
+
+        $node = $parent->add($navnode->name,
+                    new \moodle_url($navnode->url),
+                    $navnode->type,
+                    $navnode->name,
+                    $navnode->key
+                );
+
+        // Children cached before nested items were added have no haschildren.
+        if (!empty($navnode->haschildren)){
+            foreach($navnode->children as $navnodechild) {
+                $this->add_nav_node_from_cache($node, $navnodechild);
+            }
+        }
+        $node->showchildreninsubmenu = !empty($navnode->showchildreninsubmenu);
     }
 
 

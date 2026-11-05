@@ -240,117 +240,29 @@ class course_renderer extends \core_course_renderer {
      * @param int|stdClass|core_course_category $category
      */
     public function course_category($category) {
-        global $CFG, $USER, $PAGE;
-
-        
-        $usertop = core_course_category::user_top();
+        global $OUTPUT;
 
         if (empty($category)) {
-            $coursecat = $usertop;
+            $coursecat = core_course_category::user_top();
         } else if (is_object($category) && $category instanceof core_course_category) {
             $coursecat = $category;
         } else {
             $coursecat = core_course_category::get(is_object($category) ? $category->id : $category);
         }
 
-        $parent = $coursecat->get_parent_coursecat();
-
-
-        if (!$parent->depth == core_course_category::top()->depth && !is_siteadmin($USER) && False){
-            redirect(new moodle_url('/course/index.php?categoryid=' . $parent->id));
+        $site = get_site();
+        if (core_course_category::is_simple_site()) {
+            $this->page->set_title("$site->shortname: " . get_string('fulllistofcourses'));
+        } else if (!$coursecat->id || !$coursecat->is_uservisible()) {
+            $this->page->set_title("$site->shortname: " . get_string('categories'));
+        } else {
+            $this->page->set_title($coursecat->get_formatted_name());
         }
-        else{
 
-            $site = get_site();
-            //$actionbar = new \core_course\output\category_action_bar($this->page, $coursecat);
-            //$output = $this->render_from_template('core_course/category_actionbar', $actionbar->export_for_template($this));
-            $output = "";
-            if (core_course_category::is_simple_site()) {
-                // There is only one category in the system, do not display link to it.
-                $strfulllistofcourses = get_string('fulllistofcourses');
-                $this->page->set_title("$site->shortname: $strfulllistofcourses");
-            } else if (!$coursecat->id || !$coursecat->is_uservisible()) {
-                $strcategories = get_string('categories');
-                $this->page->set_title("$site->shortname: $strcategories");
-            } else {
-                $strfulllistofcourses = get_string('fulllistofcourses');
-                $this->page->set_title($coursecat->get_formatted_name());
-            }
-
-            // Print current category description
-            $chelper = new coursecat_helper();
-            
-            // Prepare parameters for courses and categories lists in the tree
-            $chelper->set_show_courses(self::COURSECAT_SHOW_COURSES_AUTO)
-                    ->set_attributes(array('class' => 'category-browse category-browse-'.$coursecat->id));
-            
-            $coursedisplayoptions = array();
-            $catdisplayoptions = array();
-            $browse = optional_param('browse', null, PARAM_ALPHA);
-            $perpage = optional_param('perpage', $CFG->coursesperpage, PARAM_INT);
-            $page = optional_param('page', 0, PARAM_INT);
-            $baseurl = new moodle_url('/course/index.php');
-            if ($coursecat->id) {
-                $baseurl->param('categoryid', $coursecat->id);
-            }
-            if ($perpage != $CFG->coursesperpage) {
-                $baseurl->param('perpage', $perpage);
-            }
-            $coursedisplayoptions['limit'] = $perpage;
-            $catdisplayoptions['limit'] = $perpage;
-            if ($browse === 'courses' || !$coursecat->get_children_count()) {
-                $coursedisplayoptions['offset'] = $page * $perpage;
-                $coursedisplayoptions['paginationurl'] = new moodle_url($baseurl, array('browse' => 'courses'));
-                $catdisplayoptions['nodisplay'] = true;
-                $catdisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'categories'));
-                $catdisplayoptions['viewmoretext'] = new lang_string('viewallsubcategories');
-            } else if ($browse === 'categories' || !$coursecat->get_courses_count()) {
-                $coursedisplayoptions['nodisplay'] = true;
-                $catdisplayoptions['offset'] = $page * $perpage;
-                $catdisplayoptions['paginationurl'] = new moodle_url($baseurl, array('browse' => 'categories'));
-                $coursedisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'courses'));
-                $coursedisplayoptions['viewmoretext'] = new lang_string('viewallcourses');
-            } else {
-                // we have a category that has both subcategories and courses, display pagination separately
-                $coursedisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'courses', 'page' => 1));
-                $catdisplayoptions['viewmoreurl'] = new moodle_url($baseurl, array('browse' => 'categories', 'page' => 1));
-            }
-            $chelper->set_courses_display_options($coursedisplayoptions)->set_categories_display_options($catdisplayoptions);
-
-            // Display course category tree.
-            if ($coursecat->depth == 1) {
-                $output .= $this->render_root_cat($chelper, $coursecat);
-            }
-            if ($coursecat->depth == 2) {
-                $apoaid = get_config('theme_apoa', 'APOAid');
-
-                $path = explode('/', $coursecat->path);
-                $root = $path[1];
-
-
-                if($apoaid === $root){
-                    $output .= $this->render_subcategory($chelper, $coursecat);
-                }
-                else {
-                    $output .= $this->render_subcategory($chelper, $coursecat);
-                }
-            }
-            else if ($coursecat->has_courses()) {
-                if($coursecat->get_courses_count() == 1){
-                    $course = reset($coursecat->get_courses());
-                    redirect($CFG->wwwroot . "/course/view.php?id=" . $course->id);
-                };
-                $output .= $this->render_course_cat($chelper, $coursecat);
-            }
-            else if ($coursecat->has_children()) {
-                $output .= $this->render_subcategory($chelper, $coursecat);
-            }else{
-                $output .= $this->render_course_cat($chelper, $coursecat);
-            }
-
-
-            return $output;
-        }
+        // A category page is just its blocks (the coursecategory layout's content region). course/index.php
+        // calls this before the header, so the blocks aren't loaded yet.
+        $this->page->blocks->load_blocks();
+        return $OUTPUT->addblockbutton('content') . $OUTPUT->blocks('content');
     }
 
     protected function render_course_cat(coursecat_helper $chelper, core_course_category $coursecat){

@@ -55,8 +55,9 @@ function theme_apoa_get_main_scss_content($theme) {
     $post = file_get_contents($CFG->dirroot . '/theme/apoa/scss/post.scss');
     $booststudio = file_get_contents($CFG->dirroot . '/theme/apoa/scss/bootstudio.scss');
     $swiper = file_get_contents($CFG->dirroot . '/theme/apoa/scss/swiper.scss');
-    
-    return $pre . "\n" . $scss . "\n" . $post . "\n" . $booststudio. "\n"  . $swiper;                                                                                                                  
+    $animations = file_get_contents($CFG->dirroot . '/theme/apoa/scss/animations.scss');
+
+    return $pre . "\n" . $scss . "\n" . $post . "\n" . $booststudio. "\n"  . $swiper . "\n" . $animations;                                                                                                                  
 }
 
 /**
@@ -113,14 +114,14 @@ function theme_apoa_pluginfile($course, $cm, $context, $filearea, $args, $forced
 }
 
 /**
- * Limit names of links added to navigation to 14 characters
+ * Limit names of links added to navigation to 28 characters
  *
  * @param string $label label of link
  * @return string shortened label
  */
 function theme_apoa_format_name_for_navigation(string $label) {
 
-    $shortlabel= strlen($label) > 14 ? substr_replace($label, '...', 14) : $label;
+    $shortlabel = core_text::strlen($label) > 28 ? core_text::substr($label, 0, 28) . '...' : $label;
     
     return $shortlabel;
 }
@@ -140,7 +141,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
 
     foreach($courses as $course){
         $parentnode->add(
-            theme_apoa_format_name_for_navigation($course->get_formatted_fullname()) ,
+            theme_apoa_format_name_for_navigation($course->get_formatted_shortname()) ,
             new \moodle_url('/course/view.php', ['id' => $course->id]),
             navigation_node::TYPE_COURSE,
             $course->shortname,
@@ -174,6 +175,16 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
                 $name,
                 navigation_node::TYPE_CATEGORY . $subcategory->id 
             );
+            $subcourses = $subcategory->get_courses(array('recursive' => false, 'limit' => 25));
+            foreach ($subcourses as $subcourse){
+                $newnode->add(
+                    theme_apoa_format_name_for_navigation($subcourse->get_formatted_shortname()),
+                    new \moodle_url('/course/view.php', ['id' => $subcourse->id]),
+                    navigation_node::TYPE_COURSE,
+                    $subcourse->shortname,
+                    navigation_node::TYPE_COURSE . $subcourse->id
+                );
+            }
             $subsubcategories = $subcategory->get_children();
             foreach ($subsubcategories as $subsubcategory){
                 $newnode->add(
@@ -184,7 +195,7 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
                     navigation_node::TYPE_CATEGORY .$subsubcategory->id 
                 );
             }
-            if(count($subsubcategories) > 1){
+            if(count($subcourses) + count($subsubcategories) > 1){
                 $newnode->showchildreninsubmenu = true;
             }
         }

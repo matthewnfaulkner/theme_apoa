@@ -85,6 +85,17 @@ class more_menu extends \core\navigation\output\more_menu {
                     $item->haschildren = true;
                 }
             }
+            //move local_customcleanurl's "Define custom URL" node into the flat nav menu for this page
+            if($customurlnode = $this->content->children->get('local_customcleanurl')){
+                foreach(['modulemenu', 'coursenavigation', 'categorynavigation'] as $menukey){
+                    if($menunode = $this->content->children->get($menukey)){
+                        $customurlnode->remove();
+                        $menunode->add_node($customurlnode);
+                        break;
+                    }
+                }
+            }
+
             //array to store nodes for flat navigation
             $data['flatnavigation'] = [];
 
