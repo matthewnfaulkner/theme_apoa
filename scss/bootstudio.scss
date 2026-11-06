@@ -114,12 +114,6 @@ $apoa-drawer-anchored-top-offset: calc(#{$apoa-navbar-height} + #{$drawer-anchor
     }
   }
 
-  @media (min-width: 768px) {
-    #sidejumbo {
-      max-width: 80vw;
-    }
-  }
-  
   .main-page-jumbo-main {
       background-color: $jumbobgcolor!important;
       filter: brightness(0.95);
@@ -1077,6 +1071,19 @@ $apoa-drawer-anchored-top-offset: calc(#{$apoa-navbar-height} + #{$drawer-anchor
     }
   }
 
+  // Let long secondary nav labels (up to 28 characters) wrap onto two lines, centred both ways.
+  // The max-width is what makes them wrap; otherwise the overflow script moves them into "More".
+  .secondary-navigation.apoa-nav .moremenu .nav-link,
+  .secondary-navigation.apoa-nav .navigation.secondarynav-tabbar .mds-nav-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 12rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
+  }
+
 
   .secondary-nav-logo-cont{
     display: none;
@@ -1173,6 +1180,80 @@ $apoa-drawer-anchored-top-offset: calc(#{$apoa-navbar-height} + #{$drawer-anchor
 
   .primary-navigation .navigation .nav-link.active{
     color: $primary;
+  }
+
+  // Primary nav dropdowns: a subcategory with its own items listed below it is a heading, and its
+  // items are indented under it (see theme_apoa\navigation\output\primary::export_node_for_react).
+  .primary-navigation .dropdown-item[data-apoa-heading] {
+    font-weight: bold;
+  }
+
+  // No visible box: the dropdown blends into the navbar (bg-body) and its labels are indented under the
+  // menu button.
+  .primary-navigation .dropdown-menu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: var(--bs-body-bg);
+  }
+
+  // ":is(*, :has(...))" matches every menu but makes these as specific as core's
+  // ".more-nav .dropdown-menu:has(.dropdown-item.active) .dropdown-item" (moremenu.scss), which otherwise
+  // drops the indent of every item in a menu holding the active page.
+  .primary-navigation .dropdown-menu:is(*, :has(.dropdown-item.active)) .dropdown-item {
+    border-radius: 0;
+    padding-left: 1.75rem;
+  }
+
+  .primary-navigation .dropdown-menu:is(*, :has(.dropdown-item.active)) .dropdown-item[data-apoa-depth="2"] {
+    padding-left: 3rem;
+    font-size: 0.9em;
+  }
+
+  // In the "More" dropdown a menu item's own items open in place below it, so they go one step further in.
+  .primary-navigation .dropdown-submenu > .dropdown-menu:is(*, :has(.dropdown-item.active)) .dropdown-item {
+    padding-left: 3rem;
+  }
+
+  .primary-navigation .dropdown-submenu > .dropdown-menu:is(*, :has(.dropdown-item.active)) .dropdown-item[data-apoa-depth="2"] {
+    padding-left: 4.25rem;
+  }
+
+  // Core shades these grey (moremenu.scss); match the rest of the dropdown, keeping its hover/focus colour.
+  .primary-navigation .dropdownmoremenu > .dropdown-menu .dropdown-submenu > .dropdown-menu .dropdown-item:not(:hover):not(:focus) {
+    background-color: transparent;
+  }
+
+  // Primary nav dropdowns mark the active item with a dot instead of core's tick.
+  .primary-navigation .dropdown-item[aria-current="page"]::before,
+  .primary-navigation .dropdown-item[aria-current="true"]::before,
+  .primary-navigation .dropdown-item.active::before {
+    content: "";
+    font: inherit;
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-top: -0.2rem;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+
+  // Next to the text of an indented item.
+  .primary-navigation .dropdown-item[data-apoa-depth="2"][aria-current="page"]::before,
+  .primary-navigation .dropdown-item[data-apoa-depth="2"].active::before {
+    left: 2.15rem;
+  }
+
+  .primary-navigation .dropdown-submenu > .dropdown-menu .dropdown-item[aria-current="page"]::before,
+  .primary-navigation .dropdown-submenu > .dropdown-menu .dropdown-item.active::before {
+    left: 2.15rem;
+  }
+
+  .primary-navigation .dropdown-submenu > .dropdown-menu .dropdown-item[data-apoa-depth="2"][aria-current="page"]::before,
+  .primary-navigation .dropdown-submenu > .dropdown-menu .dropdown-item[data-apoa-depth="2"].active::before {
+    left: 3.4rem;
   }
 
   .boost-label input {

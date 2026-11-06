@@ -67,6 +67,19 @@ img.committeeicon{
     display: none;
 }
 
+// When the full site name wraps on small screens, it takes the squeeze rather than the log in link
+// or user menu.
+.navbar .navbar-brand {
+    min-width: 0;
+}
+
+#usernavigation {
+    flex-shrink: 0;
+    .login {
+        white-space: nowrap;
+    }
+}
+
 .site-name.short{
     display: block;
 }
@@ -284,18 +297,6 @@ top: 0%;
   > * {
     margin: 0;
     min-width: 0;
-  }
-}
-
-// Front page "Popular Resources" blocks: a grid of cards (the flex row no longer wraps evenly).
-#block-region-resources {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  > .block {
-    margin: 0 !important;
-    min-width: 0;
-    width: auto;
   }
 }
 
@@ -1450,4 +1451,54 @@ p.checklistwarning {
 // panels) is light grey (#f8f9fa). APOA uses white. Light mode only; dark mode keeps its own.
 :root:not([data-bs-theme="dark"]) {
   --mds-bg-surface-subtle: #ffffff;
+}
+
+// block_categorycoursecards (theme template): rows of up to 3 cards (2 on tablets, 1 on phones), an unfilled last
+// row centred, cards in a row the same height.
+.apoa-coursecards {
+  --apoa-coursecards-columns: 3;
+  --apoa-coursecards-gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: var(--apoa-coursecards-gap);
+
+  @include media-breakpoint-down(lg) {
+    --apoa-coursecards-columns: 2;
+  }
+  @include media-breakpoint-down(sm) {
+    --apoa-coursecards-columns: 1;
+  }
+}
+
+// No square outline around the whole block, only the rounded cards.
+.block.block_categorycoursecards {
+  border: 0;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.apoa-coursecards-card {
+  flex: 0 0 calc((100% - (var(--apoa-coursecards-columns) - 1) * var(--apoa-coursecards-gap)) / var(--apoa-coursecards-columns));
+  min-width: 0;
+  overflow: hidden;
+  // The theme squares every .card (bootstudio.scss).
+  border-radius: $border-radius-lg !important;
+
+  &:hover .apoa-coursecards-image {
+    filter: brightness(0.9);
+  }
+  &:hover .card-title {
+    text-decoration: underline;
+  }
+}
+
+.apoa-coursecards-image {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: filter 0.15s ease-in-out;
+}
+
+.apoa-coursecards-summary {
+  overflow-wrap: anywhere;
 }

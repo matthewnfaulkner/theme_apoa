@@ -1,0 +1,34 @@
+{{!
+    @template block_categorycoursecards/course_cards
+
+    theme_apoa: course cards in centred rows (an unfilled last row is centred), rounded, with the course
+    summary when the block fetches one. Styles in scss/post.scss.
+
+    Example context (json):
+    {
+        "courses": [
+            {
+                "url": "/course/view.php?id=2",
+                "imageurl": "/pluginfile.php/123/course/overviewfiles/course.jpg",
+                "fullname": "Example course",
+                "summary": "Example summary",
+                "dimmed": false
+            }
+        ]
+    }
+}}
+<div class="apoa-coursecards">
+    {{#courses}}
+        <article class="card shadow-sm apoa-coursecards-card{{#dimmed}} dimmed_text{{/dimmed}}">
+            <img src="{{{imageurl}}}" alt="" class="card-img-top apoa-coursecards-image">
+            <div class="card-body d-flex flex-column">
+                <h3 class="h5 card-title mb-2">
+                    <a href="{{{url}}}" class="stretched-link text-reset text-decoration-none{{#dimmed}} dimmed{{/dimmed}}">{{{fullname}}}</a>
+                </h3>
+                {{#summary}}
+                    <p class="card-text text-muted mb-0 apoa-coursecards-summary">{{{summary}}}</p>
+                {{/summary}}
+            </div>
+        </article>
+    {{/courses}}
+</div>
