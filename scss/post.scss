@@ -21,7 +21,7 @@ body.mediumwidth #page.drawers .footer-popover {
 
 .committeeiconcontainer{
     width: 100px;
-    height: 120px;
+    aspect-ratio: 3 / 4;
 }
 
 .committee{
@@ -35,7 +35,6 @@ img.committeeicon{
     object-fit: cover;
     object-position: top;
     height:100%;
-    border-radius: 5%;
 }
 
 .navbar.fixed-top{
@@ -1501,4 +1500,26 @@ p.checklistwarning {
 
 .apoa-coursecards-summary {
   overflow-wrap: anywhere;
+}
+
+// Core context header (e.g. /admin) rendered in the secondary nav header row:
+// centre the title and give it breathing room. Category headers use
+// theme_apoa/header and are unaffected.
+.apoa-context-header-row {
+  align-items: center;
+
+  > .page-context-header {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0;
+    padding: 0.5rem 1rem;
+
+    .page-header-headings {
+      text-align: center;
+
+      h1, h2 {
+        margin-bottom: 0;
+      }
+    }
+  }
 }
