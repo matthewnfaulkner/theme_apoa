@@ -15,9 +15,16 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template mod_forum/forum_discussion_post
+    @template mod_forum/forum_discussion_post_social_list
 
-    Template to render a single post from a discussion.
+    APOA: one discussion in the social forum list, as a Bootstrap 5 card.
+
+    - The subject is a stretched-link, so the whole card opens the discussion.
+    - Interactive bits (votes, tags, unread link, preview toggle, preview body) sit
+      above the stretched link (position-relative z-2) so they keep working.
+    - The first post's message, attachments and actions live in a collapsed preview.
+    - Pinned discussions get a subtle primary border/background and a badge
+      ("pinned" is added in mod_forum\local\factories\renderer, APOA change).
 
     Classes required for JS:
     * none
@@ -27,64 +34,66 @@
 
     Example context (json):
     {
+        "id": 1,
+        "discussionid": 1,
+        "subject": "Journal Club 01 - Knee",
+        "pinned": true,
+        "discussionrepliescount": 3,
+        "isreplyplural": true,
+        "urls": {"discuss": "#"}
     }
 }}
-
 <article
     id="p{{id}}"
-    class="forum-post-container mb-2"
+    class="apoa-social-post card position-relative {{#pinned}}apoa-social-post--pinned{{/pinned}} {{#unread}}unread{{/unread}}"
     data-post-id="{{id}}"
     data-region="post"
-    data-target="{{id}}-target"
-    tabindex="0"
-    aria-labelledby="post-header-{{id}}-{{uniqid}}"
-    aria-describedby="post-content-{{id}}"
+    data-content="forum-post"
+    aria-labelledby="apoa-social-subject-{{id}}"
 >
-    {{! The firstpost and starter classes below aren't used for anything other than to identify the first post in behat. }}
-    <div
-        class="border p-2 mb-2 forumpost focus-target {{#unread}}unread{{/unread}} {{#firstpost}}firstpost starter{{/firstpost}}"
-        aria-label='{{#str}} postbyuser, mod_forum, {"post": "{{subject}}", "user": "{{author.fullname}}"} {{/str}}'
-        data-post-id="{{id}}" data-content="forum-post" data-region-content="forum-post-core"
-    >
-        {{#isfirstunread}}<a id="unread" aria-hidden="true"></a>{{/isfirstunread}}
+    <div class="card-body d-flex gap-3">
+        {{^isdeleted}}
+            {{#html.rating}}
+                <div class="post-vote-column apoa-social-post__vote d-flex flex-column align-items-center align-self-center position-relative z-2">
+                    {{{.}}}
+                </div>
+            {{/html.rating}}
+        {{/isdeleted}}
 
-        {{! Header row: vote widget + avatar + title/meta }}
-        <div class="d-flex align-items-start mb-2">
-            {{^isdeleted}}
-            <div class="post-vote-column d-flex flex-column align-items-center me-2">
-                {{#html.rating}}{{{.}}}{{/html.rating}}
-            </div>
-            {{/isdeleted}}
-
-            <header id="post-header-{{id}}-{{uniqid}}" class="flex-grow-1 min-w-0 header d-flex">
+        <div class="flex-grow-1 min-w-0">
+            {{! Header: avatar, subject (stretched link), author/date. }}
+            <div class="d-flex align-items-start gap-2">
                 {{^isdeleted}}
                     {{#author}}
-                        <div class="me-2" style="width: 45px;">
-                            {{#urls.profileimage}}
-                                <img
-                                    class="rounded-circle w-100"
-                                    src="{{{.}}}"
-                                    alt="{{#str}} pictureof, core, {{author.fullname}} {{/str}}"
-                                    aria-hidden="true"
-                                    title="{{#str}} pictureof, core, {{author.fullname}} {{/str}}"
-                                >
-                            {{/urls.profileimage}}
-                        </div>
+                        {{#urls.profileimage}}
+                            <img
+                                class="apoa-social-post__avatar rounded-circle flex-shrink-0"
+                                src="{{{.}}}"
+                                alt=""
+                                aria-hidden="true"
+                            >
+                        {{/urls.profileimage}}
                     {{/author}}
                 {{/isdeleted}}
-                <div class="d-flex flex-column min-w-0">
-                    {{#parentauthorname}}
-                        <span class="visually-hidden">{{#str}} inreplyto, mod_forum, {{.}} {{/str}}</span>
-                    {{/parentauthorname}}
-                    {{$subjectheading}}
-                        <h3 {{!
-                            }}class="h6 fw-bold mb-0" {{!
-                            }}data-region-content="forum-post-core-subject" {{!
-                            }}data-reply-subject="{{replysubject}}" {{!
-                            }}>{{$subject}}{{{subject}}}{{/subject}}</h3>
-                    {{/subjectheading}}
+                <div class="min-w-0">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        {{#pinned}}
+                            <span class="apoa-social-post__pinbadge badge text-bg-accent">
+                                {{#pix}}i/pinned, mod_forum{{/pix}}{{#str}}discussionpinned, mod_forum{{/str}}
+                            </span>
+                        {{/pinned}}
+                        <h3 class="apoa-social-post__title fw-bold mb-0 text-break">
+                            <a
+                                id="apoa-social-subject-{{id}}"
+                                class="stretched-link text-reset text-decoration-none"
+                                href="{{urls.discuss}}"
+                                data-region-content="forum-post-core-subject"
+                                data-reply-subject="{{replysubject}}"
+                            >{{{subject}}}</a>
+                        </h3>
+                    </div>
                     {{^isdeleted}}
-                        <div class="mb-3" tabindex="-1">
+                        <div class="small text-body-secondary mt-1">
                             {{#html.authorsubheading}}{{{.}}}{{/html.authorsubheading}}
                             {{^html.authorsubheading}}
                                 {{< core/time_element }}
@@ -95,69 +104,75 @@
                             {{/html.authorsubheading}}
                         </div>
                     {{/isdeleted}}
-                    {{#isprivatereply}}
-                        <div class="privatereplyinfo">
-                        {{#str}}postisprivatereply, forum{{/str}}
-                        </div>
-                    {{/isprivatereply}}
-                    {{#hasreplycount}}
-                        <span class="visually-hidden">{{#str}} numberofreplies, mod_forum, {{replycount}} {{/str}}</span>
-                    {{/hasreplycount}}
-
                 </div>
-            </header>
-        </div>
+            </div>
 
-        {{! Body row: full width, no vote column offset }}
-        <div class="d-flex body-content-container">
             {{^isdeleted}}
-                {{#author}}
-                    <div class="me-2 author-groups-container" style="width: 45px; flex-shrink: 0">
-                        {{#groups}}
-                            {{#urls.group}}
-                                {{#urls.image}}
-                                    <a href="{{urls.group}}" role="button" aria-label='{{#str}} memberofgroup, group, {{name}}{{/str}}'>
-                                        <img
-                                             class="rounded-circle w-100"
-                                             src="{{{.}}}"
-                                             alt="{{#str}} pictureof, core, {{name}} {{/str}}"
-                                             aria-hidden="true"
-                                             title="{{#str}} pictureof, core, {{name}} {{/str}}"
-                                        >
-                                    </a>
-                                {{/urls.image}}
-                            {{/urls.group}}
-                            {{^urls.group}}
-                                {{#urls.image}}
-                                    <img class="rounded-circle w-100"
-                                        src="{{{.}}}"
-                                        alt="{{#str}} pictureof, core, {{name}} {{/str}}"
-                                        title="{{#str}} pictureof, core, {{name}} {{/str}}"
-                                    >
-                                {{/urls.image}}
-                            {{/urls.group}}
-                        {{/groups}}
+                {{! APOA: tags link to this forum's search (search.php?id=courseid&tags[]=name), not the core tag page. }}
+                {{#tags.0}}
+                    <div class="apoa-taglist position-relative z-2">
+                        <div class="tag_list">
+                            <b>{{#str}} tags, core {{/str}}:</b>
+                            <ul class="inline-list">
+                                {{#tags}}
+                                    <li>
+                                        <a href="{{config.wwwroot}}/mod/forum/search.php?id={{courseid}}&amp;tags%5B%5D={{displayname}}"
+                                           class="badge bg-info text-white {{#isstandard}}standardtag{{/isstandard}}">
+                                            {{#flag}}<span class="flagged-tag">{{displayname}}</span>{{/flag}}
+                                            {{^flag}}{{displayname}}{{/flag}}
+                                        </a>
+                                    </li>
+                                {{/tags}}
+                            </ul>
+                        </div>
                     </div>
-                {{/author}}
+                {{/tags.0}}
             {{/isdeleted}}
 
-            <div class="no-overflow w-100 content-alignment-container">
-                    <div id="post-content-{{id}}" class="post-content-container d-inline-block text-truncate" style="max-height: 30px">
-                        {{{message}}}
-                    </div>
+            {{! Meta row: reply/unread counts and the preview toggle. }}
+            <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+                <span class="badge rounded-pill text-bg-light border">
+                    {{#isreplyplural}}{{#str}} repliesmany, forum, {{discussionrepliescount}} {{/str}}{{/isreplyplural}}{{^isreplyplural}}{{#str}} repliesone, forum, {{discussionrepliescount}} {{/str}}{{/isreplyplural}}
+                </span>
+                {{#discussionunreadscount}}
+                    <a class="badge rounded-pill text-bg-accent text-decoration-none position-relative z-2" href="{{urls.discuss}}#unread">
+                        {{#isunreadplural}}{{#str}} unreadpostsnumber, mod_forum, {{discussionunreadscount}} {{/str}}{{/isunreadplural}}{{^isunreadplural}}{{#str}} unreadpostsone, mod_forum {{/str}}{{/isunreadplural}}
+                    </a>
+                {{/discussionunreadscount}}
+                {{^isdeleted}}
+                    <button
+                        type="button"
+                        class="apoa-social-post__toggle btn btn-sm btn-outline-secondary ms-auto position-relative z-2 collapsed"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#apoa-social-preview-{{id}}"
+                        aria-expanded="false"
+                        aria-controls="apoa-social-preview-{{id}}"
+                    >
+                        {{#str}} preview, core {{/str}}
+                        <span class="apoa-social-post__chevron" aria-hidden="true">{{#pix}} t/expanded, core {{/pix}}</span>
+                    </button>
+                {{/isdeleted}}
+            </div>
 
-                    {{^isdeleted}}
+            {{! Collapsed preview of the first post. }}
+            {{^isdeleted}}
+                <div id="apoa-social-preview-{{id}}" class="collapse position-relative z-2">
+                    <div class="apoa-social-post__preview border-top mt-3 pt-3">
+                        <div id="post-content-{{id}}" class="post-content-container no-overflow">
+                            {{{message}}}
+                        </div>
+
                         {{#haswordcount}}
                             <p class="fst-italic mb-0"><small>{{#str}} numwords, core, {{wordcount}} {{/str}}</small></p>
                         {{/haswordcount}}
 
                         {{#attachments}}
                             {{#isimage}}
-                                <div class="attachedimages">
+                                <div class="attachedimages mt-2">
                                     <img
+                                        class="img-fluid"
                                         src="{{{url}}}"
                                         alt="{{#str}} attachmentname, mod_forum, {{filename}} {{/str}}"
-                                        style="max-width: 100%"
                                     >
                                     {{#urls.export}}
                                         <a href="{{{.}}}" title="{{#str}} addtoportfolio, core_portfolio {{/str}}">
@@ -169,38 +184,8 @@
                                     {{/html.plagiarism}}
                                 </div>
                             {{/isimage}}
-                        {{/attachments}}
-
-                        <style>
-                            .apoa-taglist .tag_list b { display: none; }
-                            .apoa-taglist .tag_list .inline-list {
-                                display: flex;
-                                flex-wrap: wrap;
-                                gap: .35rem;
-                                padding: 0;
-                                margin: .5rem 0 0;
-                                list-style: none;
-                            }
-                            .apoa-taglist .tag_list .inline-list li { margin: 0; }
-                            .apoa-taglist .tag_list .inline-list a.badge {
-                                font-size: 1.0rem;
-                                font-weight: 600;
-                                padding: .4em 1em;
-                                border-radius: 0rem;
-                                background-color: $primary;
-                                color: #fff !important;
-                                text-decoration: none;
-                                letter-spacing: .03em;
-                                transition: background-color .15s;
-                            }
-                            .apoa-taglist .tag_list .inline-list a.badge:hover {
-                                background-color: #005fa3 !important;
-                            }
-                        </style>
-                        <div class="apoa-taglist">{{{html.taglist}}}</div>
-                        {{#attachments}}
                             {{^isimage}}
-                                <div>
+                                <div class="mt-2">
                                     <a
                                         href="{{{url}}}"
                                         aria-label="{{#str}} attachmentname, mod_forum, {{filename}} {{/str}}"
@@ -220,153 +205,41 @@
                         {{/attachments}}
 
                         {{^readonly}}
-                            <div class="d-flex flex-wrap">
-                                {{$actions}}
-                                    <div
-                                        class="post-actions d-flex align-self-end justify-content-end flex-wrap ms-auto p-1"
-                                        data-region="post-actions-container"
-                                        role="menubar"
-                                        aria-label='{{#str}} postbyuser, mod_forum, {"post": "{{subject}}", "user": "{{author.fullname}}"} {{/str}}'
-                                        aria-controls="p{{id}}"
-                                    >
-                                        {{#capabilities}}
-                                            {{#view}}
-                                                <a
-                                                    data-region="post-action"
-                                                    href="{{{urls.view}}}"
-                                                    class="btn btn-link"
-                                                    title="{{#str}} permanentlinktopost, mod_forum {{/str}}"
-                                                    aria-label="{{#str}} permanentlinktopost, mod_forum {{/str}}"
-                                                    role="menuitem"
-                                                >
-                                                    {{#str}} permalink, mod_forum {{/str}}
-                                                </a>
-                                            {{/view}}
-                                            {{#controlreadstatus}}
-                                                {{#unread}}
-                                                    <a
-                                                        data-region="post-action"
-                                                        href="{{{urls.markasread}}}"
-                                                        class="btn btn-link"
-                                                        role="menuitem"
-                                                    >
-                                                        {{#str}} markread, mod_forum {{/str}}
-                                                    </a>
-                                                {{/unread}}
-                                                {{^unread}}
-                                                    <a
-                                                        data-region="post-action"
-                                                        href="{{{urls.markasunread}}}"
-                                                        class="btn btn-link"
-                                                        role="menuitem"
-                                                    >
-                                                        {{#str}} markunread, mod_forum {{/str}}
-                                                    </a>
-                                                {{/unread}}
-                                            {{/controlreadstatus}}
-                                            {{#urls.viewparent}}
-                                                <a
-                                                    data-region="post-action"
-                                                    href="{{{.}}}"
-                                                    class="btn btn-link"
-                                                    title="{{#str}} permanentlinktoparentpost, mod_forum {{/str}}"
-                                                    aria-label="{{#str}} permanentlinktoparentpost, mod_forum {{/str}}"
-                                                    role="menuitem"
-                                                >
-                                                    {{#str}} parent, mod_forum {{/str}}
-                                                </a>
-                                            {{/urls.viewparent}}
-                                            {{#edit}}
-                                                <a
-                                                    data-region="post-action"
-                                                    href="{{{urls.edit}}}"
-                                                    class="btn btn-link"
-                                                    role="menuitem"
-                                                >
-                                                    {{#str}} edit, mod_forum {{/str}}
-                                                </a>
-                                            {{/edit}}
-                                            {{#split}}
-                                                <a
-                                                    data-region="post-action"
-                                                    href="{{{urls.split}}}"
-                                                    class="btn btn-link"
-                                                    role="menuitem"
-                                                >
-                                                    {{#str}} prune, mod_forum {{/str}}
-                                                </a>
-                                            {{/split}}
-                                            {{#delete}}
-                                                <a
-                                                    data-region="post-action"
-                                                    href="{{{urls.delete}}}"
-                                                    class="btn btn-link"
-                                                    role="menuitem"
-                                                >
-                                                    {{#str}} delete, mod_forum {{/str}}
-                                                </a>
-                                            {{/delete}}
-                                            {{#reply}}
-                                                {{$replyoutput}}
-                                                    <a
-                                                        data-region="post-action"
-                                                        href="{{{urls.reply}}}"
-                                                        class="btn btn-link"
-                                                        data-post-id="{{id}}"
-                                                        data-action="collapsible-link"
-                                                        data-can-reply-privately="{{canreplyprivately}}"
-                                                        title="{{#str}} reply, mod_forum {{/str}}"
-                                                        role="menuitem"
-                                                    >
-                                                        {{#str}} reply, mod_forum {{/str}}
-                                                    </a>
-                                                {{/replyoutput}}
-                                            {{/reply}}
-                                            {{^reply}}
-                                                {{#selfenrol}}
-                                                    {{$replyoutput}}
-                                                        <a
-                                                            href="{{{urls.reply}}}"
-                                                            class="btn btn-link"
-                                                            data-post-id="{{id}}"
-                                                            data-can-reply-privately="{{canreplyprivately}}"
-                                                            title="{{#str}} reply, mod_forum {{/str}}"
-                                                            role="menuitem"
-                                                        >
-                                                            {{#str}} reply, mod_forum {{/str}}
-                                                        </a>
-                                                    {{/replyoutput}}
-                                                {{/selfenrol}}
-                                            {{/reply}}
-                                            {{#export}}
-                                                <a
-                                                    data-region="post-action"
-                                                    href="{{{urls.export}}}"
-                                                    class="btn btn-link"
-                                                    role="menuitem"
-                                                >
-                                                    {{#str}} addtoportfolio, core_portfolio {{/str}}
-                                                </a>
-                                            {{/export}}
-                                        {{/capabilities}}
-                                    </div>
-                                {{/actions}}
-                            </div>
+                            {{#capabilities}}
+                                <div
+                                    class="post-actions d-flex flex-wrap justify-content-end gap-1 mt-2"
+                                    data-region="post-actions-container"
+                                    role="menubar"
+                                    aria-label='{{#str}} postbyuser, mod_forum, {"post": "{{subject}}", "user": "{{author.fullname}}"} {{/str}}'
+                                    aria-controls="p{{id}}"
+                                >
+                                    {{#view}}
+                                        <a data-region="post-action" href="{{{urls.view}}}" class="btn btn-sm btn-link" role="menuitem"
+                                            title="{{#str}} permanentlinktopost, mod_forum {{/str}}">
+                                            {{#str}} permalink, mod_forum {{/str}}
+                                        </a>
+                                    {{/view}}
+                                    {{#edit}}
+                                        <a data-region="post-action" href="{{{urls.edit}}}" class="btn btn-sm btn-link" role="menuitem">
+                                            {{#str}} edit, mod_forum {{/str}}
+                                        </a>
+                                    {{/edit}}
+                                    {{#delete}}
+                                        <a data-region="post-action" href="{{{urls.delete}}}" class="btn btn-sm btn-link" role="menuitem">
+                                            {{#str}} delete, mod_forum {{/str}}
+                                        </a>
+                                    {{/delete}}
+                                    {{#export}}
+                                        <a data-region="post-action" href="{{{urls.export}}}" class="btn btn-sm btn-link" role="menuitem">
+                                            {{#str}} addtoportfolio, core_portfolio {{/str}}
+                                        </a>
+                                    {{/export}}
+                                </div>
+                            {{/capabilities}}
                         {{/readonly}}
-
-                        {{$footer}}{{/footer}}
-                    {{/isdeleted}}
+                    </div>
                 </div>
-            </div>
-    </div>
-
-    {{$replies}}
-        <div data-region="replies-container">
-            {{#hasreplies}}
-                {{#replies}}
-                    {{> mod_forum/forum_discussion_post }}
-                {{/replies}}
-            {{/hasreplies}}
+            {{/isdeleted}}
         </div>
-    {{/replies}}
+    </div>
 </article>

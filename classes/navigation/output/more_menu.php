@@ -155,6 +155,22 @@ class more_menu extends \core\navigation\output\more_menu {
                 $this->content->children->remove('categorynavigation');
             }
 
+            // Admin page nodes (LibreChat agent links) go under "Admin Menu" in flat nav.
+            if ($admin_navigation = $this->content->children->find('adminnavigation')) {
+                if ($admin_navigation->has_children()) {
+                    $adminmenu = new stdClass;
+                    $adminmenu->title = get_string('adminmenuheading', 'theme_apoa');
+                    $adminmenu->id = "adminmenu";
+                    $adminmenu->items = [];
+                    $adminmenu->offset = 'menuoffset-' . count($data['flatnavigation']) * 30;
+                    foreach ($admin_navigation->children as $child) {
+                        $adminmenu->items[] = $child;
+                    }
+                    $data['flatnavigation'][] = $adminmenu;
+                }
+                $this->content->children->remove('adminnavigation');
+            }
+
             // core/secondarymoremenu is rendered by React from these props, built from what is left
             // once the module, course and category menus have moved into the flat navigation.
             $navlabel = !empty($this->content->headertitle) ? $this->content->headertitle : null;

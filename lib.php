@@ -127,6 +127,17 @@ function theme_apoa_format_name_for_navigation(string $label) {
 }
 
 /**
+ * A course's short name for a nav label: filtered but not HTML-escaped, as the nav escapes its labels
+ * (get_formatted_shortname() escapes too, so "&" showed as "&amp;").
+ *
+ * @param core_course_list_element|stdClass $course
+ * @return string
+ */
+function theme_apoa_course_nav_name($course): string {
+    return format_string($course->shortname, true, ['context' => context_course::instance($course->id), 'escape' => false]);
+}
+
+/**
  * Construct secondary navigation based on current category
  *
  * @param navigation_node $parentnode
@@ -137,36 +148,41 @@ function theme_apoa_format_name_for_navigation(string $label) {
 
 function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_course_category $category, string $component) {
 
-    $courses = $category->get_courses(array('recursive' => false, 'limit' => 25));
+    // Hidden courses and categories are left out for everyone, including those who can see them.
+    $visible = fn($item) => $item->visible;
+
+    $courses = array_filter($category->get_courses(array('recursive' => false, 'limit' => 25)), $visible);
 
     foreach($courses as $course){
         $parentnode->add(
-            theme_apoa_format_name_for_navigation($course->get_formatted_shortname()) ,
+            theme_apoa_format_name_for_navigation(theme_apoa_course_nav_name($course)) ,
             new \moodle_url('/course/view.php', ['id' => $course->id]),
             navigation_node::TYPE_COURSE,
             $course->shortname,
             navigation_node::TYPE_COURSE . $course->id 
         );
     }
-    $subcategories = $category->get_children();
+    $subcategories = array_filter($category->get_children(), $visible);
 
     foreach ($subcategories as $subcategory) {
 
         $nospacename = preg_replace("/[^a-zA-Z]+/", "", $subcategory->name);
         $name  = strpos(get_string($nospacename, $component), '[') ?  get_string($nospacename, $component) : $subcategory->name;
-        if ($coursecount = $subcategory->get_courses_count() == 1 && $subcategory->get_children_count() == 0){
+        $subcourses = array_filter($subcategory->get_courses(array('recursive' => false, 'limit' => 25)), $visible);
+        $subsubcategories = array_filter($subcategory->get_children(), $visible);
 
-            if($courses = $subcategory->get_courses(array('limit' => 1))) {
-                $course = reset($courses);
-                $parentnode->add(
-                    $name ,
-                    new \moodle_url('/course/view.php', ['id' => $course->id]),
-                    navigation_node::TYPE_COURSE,
-                    $name ,
-                    navigation_node::TYPE_COURSE . $course->id 
-                );
-            }
-            
+        if (!$subcourses && !$subsubcategories) {
+            continue;
+        }
+        if (count($subcourses) == 1 && !$subsubcategories){
+            $course = reset($subcourses);
+            $parentnode->add(
+                $name ,
+                new \moodle_url('/course/view.php', ['id' => $course->id]),
+                navigation_node::TYPE_COURSE,
+                $name ,
+                navigation_node::TYPE_COURSE . $course->id 
+            );
         }else {
             $newnode = $parentnode->add(
                 $name ,
@@ -175,17 +191,15 @@ function theme_apoa_get_secondary_nav_items(navigation_node $parentnode, core_co
                 $name,
                 navigation_node::TYPE_CATEGORY . $subcategory->id 
             );
-            $subcourses = $subcategory->get_courses(array('recursive' => false, 'limit' => 25));
             foreach ($subcourses as $subcourse){
                 $newnode->add(
-                    theme_apoa_format_name_for_navigation($subcourse->get_formatted_shortname()),
+                    theme_apoa_format_name_for_navigation(theme_apoa_course_nav_name($subcourse)),
                     new \moodle_url('/course/view.php', ['id' => $subcourse->id]),
                     navigation_node::TYPE_COURSE,
                     $subcourse->shortname,
                     navigation_node::TYPE_COURSE . $subcourse->id
                 );
             }
-            $subsubcategories = $subcategory->get_children();
             foreach ($subsubcategories as $subsubcategory){
                 $newnode->add(
                     $subsubcategory->name,

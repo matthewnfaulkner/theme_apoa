@@ -554,6 +554,11 @@ class secondary extends \core\navigation\views\secondary {
             $toolnode->showchildreninsubmenu = true;
             $expectedcourseadmin = $this->get_expected_course_admin_nodes();
             foreach ($courseadminnode->children as $other) {
+                // LibreChat agent links go straight into the course side menu.
+                if (str_starts_with((string)$other->key, 'local_librechatagents_')) {
+                    $navigationnode->add_node(clone $other);
+                    continue;
+                }
                 if (array_search($other->key, $expectedcourseadmin, true) === false) {
                     $othernode = $this->get_first_action_for_node($other);
                     $recursivenode = $othernode && !$rootnode->get($othernode->key) ? $othernode : $other;
@@ -927,6 +932,22 @@ class secondary extends \core\navigation\views\secondary {
         // tab. Note this value refers to being present on the page itself, before a search has been performed.
         $isadminsearchpage = $PAGE->url->compare(new \moodle_url('/admin/search.php', ['query' => '']), URL_MATCH_PARAMS);
         if ($node) {
+            // LibreChat agent links go into their own container, shown as the "Admin Menu" in the side menu.
+            $agentnodes = [];
+            foreach ($node->children as $child) {
+                if (str_starts_with((string)$child->key, 'local_librechatagents_')) {
+                    $agentnodes[] = $child;
+                }
+            }
+            if ($agentnodes) {
+                $adminnavigation = $this->add('Admin Menu', null, navigation_node::TYPE_CONTAINER, 'Admin Menu',
+                    'adminnavigation');
+                foreach ($agentnodes as $agentnode) {
+                    $node->children->remove($agentnode->key, $agentnode->type);
+                    $adminnavigation->add_node(clone $agentnode);
+                }
+            }
+
             $siteadminnode = $this->add(get_string('general'), "#link$node->key", null, null, 'siteadminnode');
             if ($isadminsearchpage) {
                 $siteadminnode->action = false;

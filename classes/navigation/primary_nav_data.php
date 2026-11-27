@@ -162,7 +162,9 @@ class primary_nav_data {
      */
     protected static function course_item(\core_course_list_element $course): \stdClass {
         $item = new \stdClass();
-        $item->name = $course->get_formatted_shortname();
+        // Not HTML-escaped: the nav escapes its labels.
+        $item->name = format_string($course->shortname, true,
+            ['context' => \context_course::instance($course->id), 'escape' => false]);
         $item->url = "/course/view.php?id={$course->id}";
         $item->type = navigation_node::TYPE_COURSE;
         $item->id = $course->id;
