@@ -1203,6 +1203,153 @@ p.checklistwarning {
   }
 }
 
+// APOA social forum list (mod_forum/forum_discussion_post_social_list).
+.apoa-social-post {
+  border-radius: 1rem;
+  border-color: $gray-200;
+  box-shadow: 0 .125rem .5rem rgba($black, .05);
+  transition: box-shadow .2s ease-in-out, border-color .2s ease-in-out, transform .2s ease-in-out;
+
+  > .card-body {
+    padding: 1.25rem 1.5rem;
+  }
+
+  &:hover,
+  &:focus-within {
+    border-color: $primary;
+    box-shadow: 0 .5rem 1.25rem rgba($primary, .18);
+    transform: translateY(-2px);
+  }
+
+  .apoa-social-post__title {
+    font-size: 1.6rem;
+    line-height: 1.25;
+    color: $primary;
+  }
+
+  &:hover .apoa-social-post__title {
+    color: shade-color($primary, 20%);
+  }
+
+  // Pinned: accent colour edge bar, warm tint and accent border.
+  &--pinned {
+    border: 2px solid $accent;
+    border-left-width: 6px;
+    background: linear-gradient(135deg, tint-color($accent, 88%) 0%, tint-color($accent, 96%) 60%, $white 100%);
+    box-shadow: 0 .5rem 1.25rem rgba($accent, .15);
+
+    &:hover,
+    &:focus-within {
+      border-color: $accent;
+      box-shadow: 0 .75rem 1.5rem rgba($accent, .25);
+    }
+  }
+
+  .apoa-social-post__pinbadge {
+    font-size: .8rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: .4em .75em;
+    border-radius: 50rem;
+
+    .icon {
+      color: inherit;
+      margin-right: .3rem;
+    }
+  }
+
+  .apoa-social-post__toggle {
+    border-radius: 50rem;
+  }
+
+  // Vote widget in a floating bubble.
+  .apoa-social-post__vote {
+    width: auto;
+    min-width: 3rem;
+    padding: .35rem .25rem;
+    background-color: $white;
+    border: 1px solid $gray-200;
+    border-radius: 50rem;
+    box-shadow: 0 .25rem .75rem rgba($black, .12);
+    transition: box-shadow .2s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 .4rem 1rem rgba($black, .18);
+    }
+  }
+
+  .apoa-social-post__preview {
+    border-color: $gray-200 !important;
+  }
+
+  .apoa-social-post__avatar {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+  }
+
+  .apoa-social-post__chevron .icon {
+    margin: 0 0 0 .25rem;
+    transition: transform .2s ease-in-out;
+  }
+
+  .apoa-social-post__toggle.collapsed .apoa-social-post__chevron .icon {
+    transform: rotate(-90deg);
+  }
+
+  // Tag row sits above the stretched link: let clicks fall through the empty
+  // space to the card, but keep the tag links themselves clickable.
+  .apoa-taglist {
+    pointer-events: none;
+
+    a {
+      pointer-events: auto;
+    }
+  }
+
+  // The preview is not part of the clickable card area: show a normal cursor.
+  .collapse,
+  .collapsing {
+    cursor: auto;
+  }
+}
+
+// Tag badges on forum posts (was an inline <style> in the template).
+.apoa-taglist .tag_list {
+  b {
+    display: none;
+  }
+
+  .inline-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    padding: 0;
+    margin: .5rem 0 0;
+    list-style: none;
+
+    li {
+      margin: 0;
+    }
+
+    a.badge {
+      font-size: 1rem;
+      font-weight: 600;
+      padding: .4em 1em;
+      border-radius: 0;
+      background-color: $primary;
+      color: #fff !important;
+      text-decoration: none;
+      letter-spacing: .03em;
+      transition: background-color .15s;
+
+      &:hover {
+        background-color: shade-color($primary, 25%) !important;
+      }
+    }
+  }
+}
+
 
 //shopping cart item
 
@@ -1521,5 +1668,23 @@ p.checklistwarning {
         margin-bottom: 0;
       }
     }
+  }
+}
+
+// Embedded questions (filter_embedquestion iframe): drop the info box on
+// the side and the blue question background.
+body#page-filter-embedquestion-showquestion .que {
+  display: block;
+
+  .info {
+    display: none;
+  }
+
+  .formulation {
+    background: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    color: var(--bs-body-color);
   }
 }

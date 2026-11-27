@@ -17,7 +17,8 @@
 {{!
     @template mod_forum/social_discussion_list
 
-    Template which defines a forum post for sending in a single-post HTML email.
+    APOA: social forum discussion list. Each discussion's first post is rendered as a
+    clickable Bootstrap 5 card (mod_forum/forum_discussion_post_social_list).
 
     Classes required for JS:
     * none
@@ -34,39 +35,10 @@
         {{#str}}addanewdiscussion, forum{{/str}}
     {{/discussion_create_text}}
     {{$discussion_list_output}}
-       {{#posts}}
-           <div class="row g-0 align-items-stretch mb-2">
-                   {{< mod_forum/forum_discussion_post_social_list }}
-                   {{$subjectheading}}
-                                <a {{!
-                                    }}class="h2 fw-bold mb-0" {{!
-                                    }}data-region-content="forum-post-core-subject" {{!
-                                    }}data-reply-subject="{{replysubject}}" {{!
-                                    }} href="{{urls.discuss}}">{{$subject}}{{{subject}}}{{/subject}}</a>
-                            {{/subjectheading}}
-                       {{$footer}}
-                            <div class="link text-end pb-1 mr-2">
-                            ({{#isreplyplural}}{{#str}} repliesmany, forum, {{discussionrepliescount}} {{/str}}{{/isreplyplural}}{{^isreplyplural}}{{#str}} repliesone, forum, {{discussionrepliescount}} {{/str}}{{/isreplyplural}}
-                               {{#discussionunreadscount}}
-                               <span class="sep">/</span>
-                               <span class="unread">
-                                    <a href="{{urls.discuss}}#unread">{{#isunreadplural}}{{#str}} unreadpostsnumber, mod_forum, {{discussionunreadscount}} {{/str}}{{/isunreadplural}}{{^isunreadplural}}{{#str}} unreadpostsone, mod_forum {{/str}}{{/isunreadplural}}
-                                    </a>
-                                </span>
-                               {{/discussionunreadscount}})
-                            </div>
-                           <div class="link text-end">
-                               <a href="{{urls.discuss}}" class="btn btn-outline-accent btn-lg font-weight-bolder "
-                                  aria-label="{{#str}} discusstopicname, forum, {{subject}} {{/str}}">
-                                   {{#str}}discussthistopic, forum{{/str}}
-                               </a>&nbsp;
-                               
-                           </div>
-                           
-                       {{/footer}}
-                       {{$replyoutput}}{{/replyoutput}}
-                   {{/ mod_forum/forum_discussion_post_social_list }}
-           </div>
-       {{/posts}}
+        <div class="apoa-social-list d-flex flex-column gap-3">
+            {{#posts}}
+                {{> mod_forum/forum_discussion_post_social_list }}
+            {{/posts}}
+        </div>
     {{/discussion_list_output}}
 {{/ mod_forum/discussion_list }}
